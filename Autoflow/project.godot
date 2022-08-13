@@ -13,6 +13,10 @@ config_version=4
 config/name="Autoflow"
 config/icon="res://setting/icon.png"
 
+[autoload]
+
+G="*res://lib/G.gd"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
