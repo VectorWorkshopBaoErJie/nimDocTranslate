@@ -506,6 +506,8 @@ Now the following holds::
 {==+==}
 现在以下内容成立:
 {==+==}
+
+{==+==}
   ord(north) == 0
   ord(east) == 1
   ord(south) == 2
@@ -1452,11 +1454,14 @@ introduce new object roots apart from `system.RootObj`.
   ```
 {==+==}
 
-{==+==}
-元组和对象的赋值操作符复制每个组件。`这里<manual.html#procedures-type-bound-operations>`_描述了覆盖这种复制行为的方法。
-{==+==}
-{==+==}
 
+{==+==}
+The assignment operator for tuples and objects copies each component.
+The methods to override this copying behavior are described `here
+<manual.html#procedures-type-bound-operations>`_.
+{==+==}
+元组和对象的赋值操作符复制每个组件。` 这里<manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
+{==+==}
 
 {==+==}
 Object construction
@@ -1505,8 +1510,10 @@ an `object` type or a `ref object` type:
 {==+==}
 
 {==+==}
-请注意，与元组不同，对象需要字段名称及其值。 对于 `ref object` 类型， `system.new` 是隐式调用的。
+Note that, unlike tuples, objects require the field names along with their values.
+For a `ref object` type `system.new` is invoked implicitly.
 {==+==}
+请注意，与元组不同，对象需要字段名称及其值。 对于 `ref object` 类型， `system.new` 是隐式调用的。
 {==+==}
 
 
@@ -1737,8 +1744,9 @@ cast uncheckedAssign
 {==+==}
 
 {==+==}
-case对象的一些限制可以通过 `{.cast(uncheckedAssign).}` 禁用:
+Some restrictions for case objects can be disabled via a `{.cast(uncheckedAssign).}` section:
 {==+==}
+case对象的一些限制可以通过 `{.cast(uncheckedAssign).}` 禁用:
 {==+==}
 
 {==+==}
@@ -1804,7 +1812,9 @@ Set type
 集合类型
 {==+==}
 
+{-----}
 .. include:: sets_fragment.txt
+{-----}
 
 {==+==}
 Reference and pointer types
