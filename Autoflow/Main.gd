@@ -5,6 +5,7 @@ var targetDoc_path=G.dir_current_parent()+"TargetDoc/"
 
 const TL_file= preload("res://class/translation_library_file.gd")
 
+
 var TL_files=[]
 
 func _ready():
@@ -22,11 +23,18 @@ func test():
 
     ## 对翻译库的文档进行标记格式验证。
     for i in TL_files:
-        print(i.count_Add_Mark())
+        var mark_num=i.count_Add_Mark()
+        if mark_num % 3 ==0:
+            print(i.file_name+"文件标记3整除余数检查通过。")
+        else:
+            print(i.file_name+"文件标记3整除余数检查失败。","余数为：",mark_num % 3)
+            return 
         pass
-    
+                
     ## 提取标记监测，提取为翻译词条对象，验证翻译词条
-    
+    for i in TL_files:
+        print("词条数量为：",i.get_TL_entrys())
+        pass
     ## 对翻译词条的原文进行是否存在性监测
     
     ## 注入后提取未翻译部分翻译库的补充翻译部分
