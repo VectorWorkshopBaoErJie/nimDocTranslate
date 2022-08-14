@@ -1,5 +1,6 @@
 extends Node
 
+## 遍历目录，获得文件列表
 func dir_contents(path,files:Array):
     var dir = Directory.new()
     if dir.open(path) == OK:
@@ -19,7 +20,16 @@ func dir_contents(path,files:Array):
     else:
         print("尝试访问路径时出错。")
 
-
+## 获得当前项目的父级目录
+func dir_current_parent():
+    var pathA=ProjectSettings.globalize_path("res://")
+    var pathB=pathA.split("/")
+    var new_path=""
+    if pathB.size()>2:
+        for i in range(0,pathB.size()-2):
+            new_path+=pathB[i]+"/";
+    return new_path
+    
 #func 按照逗号分隔出字符的前半部分(字符串:String,分隔符号):
 #    if 字符串=="":
 #        return ""

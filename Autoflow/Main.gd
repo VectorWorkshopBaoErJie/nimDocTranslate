@@ -1,7 +1,7 @@
 extends Node2D
 
-var translationLibrary_path="F:/develop/nimDocTranslate/TranslationLibrary/"
-var targetDoc_path="F:/develop/nimDocTranslate/TargetDoc/"
+var translationLibrary_path=G.dir_current_parent()+"/TranslationLibrary/"
+var targetDoc_path=G.dir_current_parent()+"TargetDoc/"
 
 const TL_file= preload("res://class/translation_library_file.gd")
 
@@ -9,9 +9,9 @@ var TL_files=[]
 
 func _ready():
     ## 开始相关测试监测
-    test()
-    pass
     
+    test()
+
 func test():
     ## 读取翻译库文档
     var all_files=[] ## 文档数组
@@ -19,12 +19,11 @@ func test():
     for i in all_files:
         var content=G.load_file(i["目录"]+i["文件"])
         TL_files.append(TL_file.new(content,i["文件"],i["目录"]))
-        pass
-    
-    print(TL_files)
-    
+
     ## 对翻译库的文档进行标记格式验证。
-    
+    for i in TL_files:
+        print(i.count_Add_Mark())
+        pass
     
     ## 提取标记监测，提取为翻译词条对象，验证翻译词条
     

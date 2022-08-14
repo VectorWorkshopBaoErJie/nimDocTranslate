@@ -1587,6 +1587,8 @@ reorderings that have been passed to named parameters:
 {==+==}
 然而，"求值顺序" 的概念只有在代码被规范化之后才适用。规范化涉及到模板的扩展和参数的重新排序，这些参数已经被传递给了命名参数。
 {==+==}
+
+{==+==}
   ```nim  test = "nim c $1"
   var s = ""
 
