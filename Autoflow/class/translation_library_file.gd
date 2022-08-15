@@ -24,7 +24,7 @@ func count_Add_Mark():
 ## 获得翻译词条
 func get_TL_entrys():
     var regex = RegEx.new()
-    regex.compile("\\{==\\+==\\}\\n(?<source>[\\s\\S]*?)\\n\\{==\\+==\\}\\n(?<translation>[\\s\\S]*?)\\{==\\+==\\}")
+    regex.compile("\\{==\\+==\\}\\n(?<source>[\\s\\S]*?)\\n\\{==\\+==\\}\\n(?<translation>[\\s\\S]*?)\\n\\{==\\+==\\}")
     var results = regex.search_all(content)
     for i in results:
         var tl_entry=TL_entry.new(i.get_string("source"),i.get_string("translation"))
