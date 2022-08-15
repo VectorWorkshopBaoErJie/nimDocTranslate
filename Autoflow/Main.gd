@@ -5,8 +5,8 @@ var targetDoc_path=G.dir_current_parent()+"TargetDoc/"
 
 const TL_file= preload("res://class/translation_library_file.gd")
 
-
-var TL_files=[]
+var TL_files=[]   ## 翻译库文件的集合
+var TL_entrys=[]  ## 合并后的翻译词条对的数组
 
 func _ready():
     ## 开始相关测试监测
@@ -33,10 +33,18 @@ func test():
                 
     ## 提取标记监测，提取为翻译词条对象，验证翻译词条
     for i in TL_files:
-        print("词条数量为：",i.get_TL_entrys())
+        TL_entrys.append_array(i.get_TL_entrys())
+
         pass
+        
+    print("当前所提取到的翻译词条数量为：",TL_entrys.size())
     ## 对翻译词条的原文进行是否存在性监测
-    
+    var tar_doc_file=G.load_file(targetDoc_path+"manual20220810.md")
+    for i in TL_entrys:
+        if tar_doc_file.find(i.source_text)==-1:
+            print("以下是未检测发现不存的原文词条")
+            print(i.source_text)
+        pass
     ## 注入后提取未翻译部分翻译库的补充翻译部分
     
     ## 循环以上流程生成完整文档。
