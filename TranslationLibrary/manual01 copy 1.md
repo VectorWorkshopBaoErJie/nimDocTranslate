@@ -144,7 +144,7 @@ variable's type is called `static type`:idx:, the location's type is called
 `dynamic type`:idx:. If the static type is not the same as the dynamic type,
 it is a super-type or subtype of the dynamic type.
 {==+==}
-Nim代码是特定的计算单元，作用于称为 `locations`:idx: 组件组成的内存。变量本质上是地址的名称，每个变量和地址都有特定的 `type`:idx: ，变量的类型被称为 `static type`:idx: ，地址的类型被称为 `dynamic type`:idx: 。如果静态类型与动态类型不同，它就是动态类型的超类或子类。
+Nim代码是特定的计算单元，作用于称为 `locations`:idx: 地址部分构成的内存。变量本质上是地址的名称，每个变量和地址都有特定的 `type`:idx: ，变量的类型被称为 `static type`:idx: ，地址的类型被称为 `dynamic type`:idx: 。如果静态类型与动态类型不同，它就是动态类型的超类或子类。
 {==+==}
 
 
