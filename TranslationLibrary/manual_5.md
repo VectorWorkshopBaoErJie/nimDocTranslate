@@ -72,7 +72,8 @@ starts with the prefix `m` per convention.
 {==+==}
 
 {==+==}
-Later versions of Nim can be more precise about the borrowing rule with a syntax like:
+Later versions of Nim can be more precise about the borrowing rule with
+a syntax like:
 {==+==}
 未来的Nim在借用规则上将会更加准确，比如下面的语句
 {==+==}
