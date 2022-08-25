@@ -27,7 +27,7 @@ Nim手册
 > end-user to one/some of the other players, but the total amount seems to remain
 > pretty much constant for a given task. -- Ran
 {==+==}
-> "复杂性" 如同 "能量"：终端用户把它转嫁给其他参与者，但一个给定任务总量似乎没变。 -- Ran
+> "复杂性" 如同 "能量"：终端用户把它转嫁给其他参与者，但一个给定任务的总量似乎没变。 -- Ran
 {==+==}
 
 {==+==}

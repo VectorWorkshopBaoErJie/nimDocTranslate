@@ -8,7 +8,7 @@ Case 语句
 {==+==}
 Example:
 {==+==}
-例如
+例如:
 {==+==}
 
 {==+==}
@@ -1001,7 +1001,7 @@ The addr operator
 -----------------
 {==+==}
 addr操作符
-{==+==} 
+{==+==}
 
 {==+==}
 The `addr` operator returns the address of an l-value. If the type of the
@@ -1394,7 +1394,7 @@ Properties
 ----------
 {==+==}
 属性
-{==+==} 
+{==+==}
 
 {==+==}
 Nim has no need for *get-properties*: Ordinary get-procedures that are called

@@ -3,7 +3,7 @@
 Mixing GC'ed memory with `ptr`
 --------------------------------
 {==+==}
-Mixing GC'ed memory with `ptr`
+混合GC内存和 `ptr`
 --------------------------------
 {==+==}
 
@@ -13,12 +13,11 @@ traced references, strings, or sequences: in order to free everything properly,
 the built-in procedure `reset` has to be called before freeing the untraced
 memory manually:
 {==+==}
-特别要注意的是，如果一个untraced对象包含一个traced对象(如traced引用，字符串，或序列)。
-为了使得所有的东西正确释放，在释放untraced内存之前，内置程序`reset`要被手动调用
+特别要注意的是，如果一个未被跟踪的对象包含跟踪的对象，如跟踪引用，字符串，或序列：为了使得所有对象正确释放，
+在释放未被跟踪的内存之前，要手动调用内置过程 `reset` :
 {==+==}
 
 {==+==}
-
   ```nim
   type
     Data = tuple[x, y: int, s: string]
@@ -36,7 +35,6 @@ memory manually:
   dealloc(d)
   ```
 {==+==}
-
   ```nim
   type
     Data = tuple[x, y: int, s: string]
@@ -47,10 +45,10 @@ memory manually:
   # 在垃圾回收(GC)堆上创建一个新的字符串:
   d.s = "abc"
 
-  # 告诉GC这个字符串不再被需要:
+  # 告诉GC不再需要这个字符串:
   reset(d.s)
 
-  # free the memory:
+  # 释放内存:
   dealloc(d)
   ```
 {==+==}
@@ -65,10 +63,8 @@ pointer) as if it would have the type `ptr Data`. Casting should only be
 done if it is unavoidable: it breaks type safety and bugs can lead to
 mysterious crashes.
 {==+==}
-如果不调用`reset`，`d.s`字符串分配的内存就永远不会被释放。这个例子对于底层编程来说，
-也展示了两个重要的特性：`sizeof`程序返回一个类型或值的字节大小。`cast`操作符可以避开类型系统：
-编译器强制将`alloc0`(会返回一个未定义类型的指针)的结果认定为`ptr Data`的类型。转换只有在不可避免的情况下进行，
-因为它会使类型变得不安全，bugs会带来不可预知的崩溃。
+如果不调用`reset`，就永远不会释放分配给`d.s`字符串的内存。这个例子从编程底层来说，表现出两个重要的特性：`sizeof` 过程返回一个类型或值的字节大小。`cast`操作符可以避开类型系统：
+编译器强制将`alloc0`(会返回一个未定义类型的指针)的结果认定为`ptr Data`的类型。只有在不可避免的情况下才需要进行转换，因为它破坏了类型安全，bug可能导致未知的崩溃。
 {==+==}
 
 
@@ -78,31 +74,29 @@ The example only works because the memory is initialized to zero
 binary zero which the string assignment can handle. One needs to know low-level
 details like this when mixing garbage-collected data with unmanaged memory.
 {==+==}
-**注意**: 示例仅在内存初始化为0时有效(`alloc0`而不是`alloc`)，`d.s`因为被初始化为
-字符串可以处理的二进制0。当GC数据和未管理内存混在一起的时候，需要了解该底层细节。
+当把垃圾收集的数据和非管理的内存混合在一起时，我们需要了解这样的低级细节。这个例子之所以有效，是因为内存被初始化为零（`alloc0`会这样做，而不是`alloc`）。`d.s`因此被初始化为二进制的零，从而字符串赋值可以处理。
 {==+==}
 
 {==+==}
 .. XXX finalizers for traced objects
 {==+==}
 .. XXX 终结器，用于跟踪对象
-{==+==}  
+{==+==}
 
 {==+==}
 Procedural type
 ---------------
 {==+==}
-函数类型
+过程类型
 ---------------
-{==+==}  
+{==+==}
 
 {==+==}
 A procedural type is internally a pointer to a procedure. `nil` is
 an allowed value for a variable of a procedural type.
 {==+==}
-过程类型是一个指向函数的内部指针。对于一个过程类型变量来说，赋值`nil`是被允许的。
----------------
-{==+==}  
+过程类型是一个指向过程的内部指针。对于一个过程类型的变量来说，允许被赋值`nil`。
+{==+==}
 
 {==+==}
 Examples:
@@ -139,7 +133,7 @@ Examples:
   proc forEach(c: proc (x: int) {.cdecl.}) =
     ...
 
-  forEach(printItem)  # 这个将不会被编译，因为调用惯例不同
+  forEach(printItem)  # 这个将不会被编译，因为调用约定不同
   ```
 
 
@@ -148,16 +142,15 @@ Examples:
     OnMouseMove = proc (x, y: int) {.closure.}
 
   proc onMouseMove(mouseX, mouseY: int) =
-    # 有默认的调用惯例
+    # 有默认的调用约定
     echo "x: ", mouseX, " y: ", mouseY
 
   proc setOnMouseMove(mouseMoveEvent: OnMouseMove) = discard
 
-  # ok, 'onMouseMove' 可以兼容，有默认的调用惯例
-  # to 'closure':
+  # 好的, 'onMouseMove' 有默认的调用约定 可以兼容 'closure':
   setOnMouseMove(onMouseMove)
   ```
-{==+==}  
+{==+==}
 
 {==+==}
 A subtle issue with procedural types is that the calling convention of the
@@ -166,14 +159,14 @@ compatible if they have the same calling convention. As a special extension,
 a procedure of the calling convention `nimcall` can be passed to a parameter
 that expects a proc of the calling convention `closure`.
 {==+==}
-对于过程类型来说有个复杂的问题是，过程的调用惯例影响该类型的兼容性：当过程类型有相同调用惯例时，(这些过程类型)才会兼容。做为特殊的扩展，nimcall调用规范的过程可以在要求传入closure时传入。
-{==+==}  
+过程类型的一个细微问题是，过程的调用约定会影响类型的兼容性：过程类型只有在调用约定相同的情况下才兼容。特殊的扩展是，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
+{==+==}
 
 {==+==}
 Nim supports these `calling conventions`:idx:\:
 {==+==}
-Nim支持下列`调用惯例`:idx:\:
-{==+==}  
+Nim支持下列 `calling conventions`:idx:\:
+{==+==}
 
 {==+==}
 `nimcall`:idx:
@@ -181,8 +174,8 @@ Nim支持下列`调用惯例`:idx:\:
     same as `fastcall`, but only for C compilers that support `fastcall`.
 {==+==}
 `nimcall`:idx:
-  是默认用于Nim**程序**的惯例。它和`fastcall`一样，但是只有C编译器支持`fastcall`。
-{==+==}  
+    是默认用于Nim **proc** 的惯例。它和`fastcall`一样，但是只有C编译器支持`fastcall`。
+{==+==}
 
 {==+==}
 `closure`:idx:
@@ -193,8 +186,8 @@ Nim支持下列`调用惯例`:idx:\:
     and another one for the pointer to implicitly passed environment.
 {==+==}
 `closure`:idx:
-  对于缺少任意编译指示注解的**过程类型**，是一个默认的调用惯例。它表明这个程序有一个隐藏的隐式参数(一个*environment*)。拥有调用惯例`closure`的函数变量占两个机器字:一个是用于函数指针，另一个用于隐式传递环境的指针。
-{==+==}  
+    对于缺少任意编译指示注解的过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐藏的隐式参数(一个*environment*)。拥有调用约定`closure`的函数变量占两个机器字:一个是用于函数指针，另一个用于隐式传递环境指针。
+{==+==}
 
 {==+==}
 `stdcall`:idx:
@@ -202,8 +195,8 @@ Nim支持下列`调用惯例`:idx:\:
     procedure is declared with the `__stdcall` keyword.
 {==+==}
 `stdcall`:idx:
-  这个是微软指定的标准惯例。声明`__stdcall`关键字生成C程序。
-{==+==}  
+    这是微软指定的标准惯例。声明`__stdcall`关键字生成C程序。
+{==+==}
 
 {==+==}
 `cdecl`:idx:
@@ -212,8 +205,8 @@ Nim支持下列`调用惯例`:idx:\:
     the `__cdecl` keyword.
 {==+==}
 `cdecl`:idx:
-  cdecl惯例意味着程序将使用和C编译器一样的惯例。在Windows下生成C程序是声明`__cdecl`关键字。
-{==+==}  
+    cdecl惯例意味着程序将使用和C编译器一样的惯例。在Windows下生成C程序是声明`__cdecl`关键字。
+{==+==}
 
 {==+==}
 `safecall`:idx:
@@ -223,8 +216,8 @@ Nim支持下列`调用惯例`:idx:\:
     hardware stack.
 {==+==}
 `safecall`:idx:
-  微软指定的安全调用惯例。生成C程序是用`__safecall`关键字声明。`安全`这个词是指所有的硬件寄存器将会推入硬件堆栈。
-{==+==}  
+    微软指定的安全调用约定。生成C程序是用`__safecall`关键字声明。 *safe* 这个词是指会将所有的硬件寄存器压入硬件堆栈。
+{==+==}
 
 {==+==}
 `inline`:idx:
@@ -235,8 +228,8 @@ Nim支持下列`调用惯例`:idx:\:
     it may inline procedures that are not marked as `inline`.
 {==+==}
 `inline`:idx:
-  inline惯例一位这调用者不应调用该程序，而是直接内联它的代码。注意，Nim不会内联，会带给C编译器做；它生成`__inline`程序。对编译器来说这只是一个只是：编译器完全可以忽略它，编译器也可能内联程序即使没有被标记为`inline`。
-{==+==}  
+    inline内联惯例意味着调用者不应该调用过程，而是直接内联其代码。请注意，Nim并不直接内联，而是把这个问题留给C编译器。它生成了`__inline`过程，这只是给编译器的一个提示：编译器可以完全忽略它，也可以内联那些没有标记为`inline`的过程。
+{==+==}
 
 {==+==}
 `fastcall`:idx:
@@ -244,8 +237,8 @@ Nim支持下列`调用惯例`:idx:\:
     the C `__fastcall` means.
 {==+==}
 `fastcall`:idx:
-  FastCall对不同的C编译器意味这不同的东西。无论C`__fastcall`意味着什么都可以得到。
-{==+==}  
+    FastCall意味着对于不同的C编译器有所不同。意味着得获得C`__fastcall`表示。
+{==+==}
 
 {==+==}
 `thiscall`:idx:
@@ -253,8 +246,8 @@ Nim支持下列`调用惯例`:idx:\:
     C++ class member functions on the x86 architecture.
 {==+==}
 `thiscall`:idx:
-  这是微软指定的thiscall调用惯例，被用于X86架构C++类成员函数中。
-{==+==}  
+    这是微软指定的thiscall调用约定，被用于X86架构C++类成员函数中。
+{==+==}
 
 {==+==}
 `syscall`:idx:
@@ -262,8 +255,8 @@ Nim支持下列`调用惯例`:idx:\:
     interrupts.
 {==+==}
 `syscall`:idx:
-  在C中syscall惯例和`__syscall`是一样的。它用于打断。
-{==+==}  
+    在C中syscall惯例和 `__syscall`:c: 是一样的。它用于中断。
+{==+==}
 
 {==+==}
 `noconv`:idx:
@@ -273,14 +266,14 @@ Nim支持下列`调用惯例`:idx:\:
     improve speed.
 {==+==}
 `noconv`:idx:
-  生成的C代码将不会有任何的显示调用惯例，因此会使用C编译的默认调用惯例。这个是需要的，因为Nim默认会对程序使用`falsecall`调用惯例来提升速度。
-{==+==}  
+    生成的C代码将不会有任何的显示调用约定，因此会使用C编译的默认调用约定。这个是需要的，因为Nim默认会对过程使用`falsecall`调用约定来提升速度。
+{==+==}
 
 {==+==}
 Most calling conventions exist only for the Windows 32-bit platform.
 {==+==}
-大多数调用惯例只存在于32位Windows平台。
-{==+==}  
+大多数调用约定只存在于32位Windows平台。
+{==+==}
 
 {==+==}
 The default calling convention is `nimcall`, unless it is an inner proc (a
@@ -288,8 +281,8 @@ proc inside of a proc). For an inner proc an analysis is performed whether it
 accesses its environment. If it does so, it has the calling convention
 `closure`, otherwise it has the calling convention `nimcall`.
 {==+==}
-默认调用惯例是`nimcall`，除非它是一个内部的程序(一个程序在另一个程序里面)。对于一个内部程序，无论它是否访问他得到环境，都会执行分析。如果它做了，它则有`closure`的调用惯例，否则它有`nimcall`的调用惯例。
-{==+==}  
+默认的调用约定是 `nimcall` ，除非它是一个内部过程（一个过程中的过程）。对于一个内部过程，将分析它是否访问其环境。如果它访问了环境，就采用`closure`的调用约定，否则就采用`nimcall`的调用约定。
+{==+==}
 
 {==+==}
 Distinct type
@@ -297,7 +290,7 @@ Distinct type
 {==+==}
 Distinct类型
 -------------
-{==+==}  
+{==+==}
 
 {==+==}
 A `distinct` type is a new type derived from a `base type`:idx: that is
@@ -307,34 +300,34 @@ and its base type. Explicit type conversions from a distinct type to its
 base type and vice versa are allowed. See also `distinctBase` to get the
 reverse operation.
 {==+==}
-`distinct`类型是一个新类型源于`base type`:idx:它与它的基础类型不兼容。特别的是，它**不**暗示它与其基类型之间的子类型关系是不同类型的基本属性。从distinct类型到它的显式类型转换允许使用基本类型，反之亦然。另请参阅 `distinctBase` 以获取反向操作。
-{==+==}  
+`distinct`类型是一个新类型源于 `base type`:idx: 它与它的基础类型不兼容。特别的是，它**不**暗示它与其基类型之间的子类型关系是不同类型的基本属性。从distinct类型到它的显式类型转换允许使用基本类型，反之亦然。另请参阅 `distinctBase` 以获取反向操作。
+{==+==}
 
 {==+==}
 A distinct type is an ordinal type if its base type is an ordinal type.
 {==+==}
 如果一个distinct类型的基类型是序数类型，则distinct类型也为序数类型。
-{==+==}  
+{==+==}
 
 {==+==}
 ### Modeling currencies
 {==+==}
 ### 模拟货币
-{==+==} 
+{==+==}
 
 {==+==}
 A distinct type can be used to model different physical `units`:idx: with a
 numerical base type, for example. The following example models currencies.
 {==+==}
 distinct类型可用于建模不同的物理“单位”:idx:例如，具有数字基本类型。 以下示例模拟货币。
-{==+==} 
+{==+==}
 
 {==+==}
 Different currencies should not be mixed in monetary calculations. Distinct
 types are a perfect tool to model different currencies:
 {==+==}
 在货币计算中不应混用不同的货币。Distinct类型是一个模拟不同货币的完美工具：
-{==+==} 
+{==+==}
 
 {==+==}
 ```nim
@@ -362,7 +355,7 @@ types are a perfect tool to model different currencies:
   echo d + 12
   # 错误: 一个无单位的数字不可以与`Dollar`相加
   ```
-{==+==} 
+{==+==}
 
 {==+==}
 Unfortunately, `d + 12.Dollar` is not allowed either,
@@ -370,7 +363,7 @@ because `+` is defined for `int` (among others), not for `Dollar`. So
 a `+` for dollars needs to be defined:
 {==+==}
 不幸的是,`d + 12.Dollar`也是不被允许的，因为`+`被`int`(以及其他)定义，并非`Dollat`。所以对于`Dollar`的`+`需要被这样定义：
-{==+==} 
+{==+==}
 
 {==+==}
   ```nim
@@ -382,14 +375,14 @@ a `+` for dollars needs to be defined:
   proc `+` (x, y: Dollar): Dollar =
     result = Dollar(int(x) + int(y))
   ```
-{==+==} 
+{==+==}
 
 {==+==}
 It does not make sense to multiply a dollar with a dollar, but with a
 number without unit; and the same holds for division:
 {==+==}
 将一美元乘以一美元是没有意义的，但是可以乘以一个没有单位的数字；除法也一样：
-{==+==} 
+{==+==}
 
 {==+==}
   ```nim
@@ -411,7 +404,7 @@ number without unit; and the same holds for division:
 
   proc `div` ...
   ```
-{==+==} 
+{==+==}
 
 {==+==}
 This quickly gets tedious. The implementations are trivial and the compiler
@@ -421,7 +414,7 @@ The pragma `borrow`:idx: has been designed to solve this problem; in principle,
 it generates the above trivial implementations:
 {==+==}
 这很快就会变得乏味.实现很简单，编译器不应该生成所有这些代码只是为了稍后优化它 - 毕竟美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示`borrow`:idx: 旨在解决这个问题； 原则上，它会生成上述简单的实现：
-{==+==} 
+{==+==}
 
 {==+==}
   ```nim
@@ -435,14 +428,14 @@ it generates the above trivial implementations:
   proc `*` (x: int, y: Dollar): Dollar {.borrow.}
   proc `div` (x: Dollar, y: int): Dollar {.borrow.}
   ```
-{==+==} 
+{==+==}
 
 {==+==}
 But it seems all this boilerplate code needs to be repeated for the `Euro`
 currency. This can be solved with templates_.
 {==+==}
 但似乎所有的上述样板在`Euro`货币都要重复一遍。这个可以使用templates_来解决。
-{==+==} 
+{==+==}
 
 {==+==}
 
@@ -508,14 +501,14 @@ currency. This can be solved with templates_.
   defineCurrency(Dollar, int)
   defineCurrency(Euro, int)
   ```
-{==+==} 
+{==+==}
 
 {==+==}
 The borrow pragma can also be used to annotate the distinct type to allow
 certain builtin operations to be lifted:
 {==+==}
 borrow语法也可用于注释distinct类型以运行提升某些内置操作。
-{==+==} 
+{==+==}
 
 {==+==}
   ```nim
