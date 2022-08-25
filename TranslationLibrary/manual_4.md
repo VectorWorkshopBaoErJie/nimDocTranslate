@@ -206,6 +206,7 @@ When statement
 --------------
 {==+==}
 When 语句
+--------------
 {==+==}
 
 {==+==}
@@ -259,6 +260,7 @@ When nimvm statement
 --------------------
 {==+==}
 When nimvm 语句
+--------------------
 {==+==}
 
 {==+==}
@@ -331,6 +333,7 @@ Return statement
 ----------------
 {==+==}
 Return 语句
+----------------
 {==+==}
 
 {==+==}
@@ -388,6 +391,7 @@ Yield statement
 ---------------
 {==+==}
 Yield 语句
+---------------
 {==+==}
 
 {==+==}
@@ -419,6 +423,7 @@ Block statement
 ---------------
 {==+==}
 Block 语句
+---------------
 {==+==}
 
 {==+==}
@@ -465,6 +470,7 @@ Break statement
 ---------------
 {==+==}
 Break 语句
+---------------
 {==+==}
 
 {==+==}
@@ -492,6 +498,7 @@ While statement
 ---------------
 {==+==}
 While 语句
+---------------
 {==+==}
 
 {==+==}
@@ -524,6 +531,7 @@ Continue statement
 ------------------
 {==+==}
 Continue 语句
+------------------
 {==+==}
 
 {==+==}
@@ -564,6 +572,7 @@ Assembler statement
 -------------------
 {==+==}
 汇编语句
+-------------------
 {==+==}
 
 {==+==}
@@ -650,6 +659,7 @@ Using statement
 ---------------
 {==+==}
 Using语句
+---------------
 {==+==}
 
 {==+==}
@@ -713,21 +723,21 @@ name `c` should default to type `Context`, `n` should default to
 The `using` section uses the same indentation based grouping syntax as
 a `var` or `let` section.
 {==+==}
- `using`  部分使用相同的基于缩进的分组语法作为 `var` 或 `let` 部分
+ `using`  部分使用相同的基于缩进的分组语法作为 `var` 或 `let` 部分。
 {==+==}
 
 {==+==}
 Note that `using` is not applied for `template` since the untyped template
 parameters default to the type `system.untyped`.
 {==+==}
-注意, `using` 不适用于 `template` ,因为无类型模板参数默认为类型 `system.untyped` .
+注意, `using` 不适用于 `template` ,因为无类型模板参数默认为类型 `system.untyped` 。
 {==+==}
 
 {==+==}
 Mixing parameters that should use the `using` declaration with parameters
 that are explicitly typed is possible and requires a semicolon between them.
 {==+==}
-应该使用 `using` 声明和显式类型的参数混合参数,它们之间需要分号
+应该使用 `using` 声明和显式类型的参数混合参数,它们之间需要分号。
 {==+==}
 
 {==+==}
@@ -735,6 +745,7 @@ If expression
 -------------
 {==+==}
 If 表达式
+-------------
 {==+==}
 
 {==+==}
@@ -756,7 +767,7 @@ Example:
 An if expression always results in a value, so the `else` part is
 required. `Elif` parts are also allowed.
 {==+==}
-if表达式总是会产生一个值, 所以 `else` 部分是必需的. `Elif` 部分也可以使用
+if表达式总是会产生一个值, 所以 `else` 部分是必需的. `Elif` 部分也可以使用。
 {==+==}
 
 {==+==}
@@ -769,7 +780,7 @@ When表达式
 {==+==}
 Just like an `if` expression, but corresponding to the `when` statement.
 {==+==}
-和`if`表达式相似,但对应的是 `when` 语句
+和`if`表达式相似,但对应的是 `when` 语句。
 {==+==}
 
 {==+==}
@@ -777,6 +788,7 @@ Case expression
 ---------------
 {==+==}
 Case表达式
+---------------
 {==+==}
 
 {==+==}
@@ -802,7 +814,7 @@ As seen in the above example, the case expression can also introduce side
 effects. When multiple statements are given for a branch, Nim will use
 the last expression as the result value.
 {==+==}
-如上例所示, case表达式也可以引入副作用. 当为分支给出多个语句时, Nim将使用最后一个表达式作为结果值.
+如上例所示, case表达式也可以引入副作用. 当为分支给出多个语句时, Nim将使用最后一个表达式作为结果值。
 {==+==}
 
 {==+==}
@@ -810,6 +822,7 @@ Block expression
 ----------------
 {==+==}
 Block表达式
+----------------
 {==+==}
 
 {==+==}
@@ -818,7 +831,7 @@ that uses the last expression under the block as the value.
 It is similar to the statement list expression, but the statement list expression
 does not open a new block scope.
 {==+==}
- `block` 表达式几乎和block语句相同, 但它是一个表达式, 它使用block的最后一个表达式作为值. 它类似于语句列表表达式, 但语句列表表达式不会创建新的block作用域.
+ `block` 表达式几乎和block语句相同, 但它是一个表达式, 它使用block的最后一个表达式作为值. 它类似于语句列表表达式, 但语句列表表达式不会创建新的block作用域。
 {==+==}
 
 {-----}
@@ -836,6 +849,7 @@ Table constructor
 -----------------
 {==+==}
 表构造函数
+-----------------
 {==+==}
 
 {==+==}
@@ -866,7 +880,7 @@ which is `{}`) which is thus another way to write the empty array
 constructor `[]`. This slightly unusual way of supporting tables
 has lots of advantages:
 {==+==}
-空表可以写成 `{:}` (与 `{}`的空集相反),这是另一种写为空数组构造函数`[]`的方法. 这种略微不同寻常的书写表的方式有很多优点
+空表可以写成 `{:}` (与 `{}`的空集相反),这是另一种写为空数组构造函数`[]`的方法. 这种略微不同寻常的书写表的方式有很多优点：
 {==+==}
 
 {==+==}
@@ -891,6 +905,7 @@ Type conversions
 ----------------
 {==+==}
 类型转换
+----------------
 {==+==}
 
 {==+==}
@@ -899,7 +914,7 @@ type name replaces the procedure name. A type conversion is always
 safe in the sense that a failure to convert a type to another
 results in an exception (if it cannot be determined statically).
 {==+==}
-从语法上来说,类型转换*类似于过程调用, 但是类型名替换过程名. 类型转换总是安全的, 因为将类型转换为另一个类型失败会导致异常(如果无法静态确定).
+从语法上来说,类型转换*类似于过程调用, 但是类型名替换过程名. 类型转换总是安全的, 因为将类型转换为另一个类型失败会导致异常(如果无法静态确定)。
 {==+==}
 
 {==+==}
@@ -907,7 +922,7 @@ Ordinary procs are often preferred over type conversions in Nim: For instance,
 `$` is the `toString` operator by convention and `toFloat` and `toInt`
 can be used to convert from floating-point to integer or vice versa.
 {==+==}
-普通的procs通常比Nim中的类型转换更受欢迎: 例如, `$` 是 `toString` 运算符, 而`toFloat`和 `toInt` 可用于从浮点转换为整数, 反之亦然.
+普通的procs通常比Nim中的类型转换更受欢迎: 例如, `$` 是 `toString` 运算符, 而`toFloat`和 `toInt` 可用于从浮点转换为整数, 反之亦然。
 {==+==}
 
 {==+==}
@@ -932,7 +947,7 @@ type conversions to unsigned integers and between unsigned integers. The
 rationale for this is mostly better interoperability with the C Programming
 language when algorithms are ported from C to Nim.
 {==+==}
-由于对无符号数的操作会自动换行且不会检查,因此到无符号整数的类型转换以及无符号整数之间的类型转换也是如此.这样做的基本原理是, 当算法从C移植到Nim时, 可以更好地与C编程语言进行互操作
+由于对无符号数的操作会自动换行且不会检查,因此到无符号整数的类型转换以及无符号整数之间的类型转换也是如此.这样做的基本原理是, 当算法从C移植到Nim时, 可以更好地与C编程语言进行互操作。
 {==+==}
 
 {==+==}
@@ -956,6 +971,7 @@ Type casts
 ----------
 {==+==}
 类型强转
+----------
 {==+==}
 
 {==+==}
@@ -1001,6 +1017,7 @@ The addr operator
 -----------------
 {==+==}
 addr操作符
+-----------------
 {==+==}
 
 {==+==}
@@ -1036,6 +1053,7 @@ The unsafeAddr operator
 -----------------------
 {==+==}
 unsafeAddr操作符
+-----------------------
 {==+==}
 
 {==+==}
@@ -1056,6 +1074,7 @@ Procedures
 ==========
 {==+==}
 过程
+==========
 {==+==}
 
 {==+==}
@@ -1300,6 +1319,7 @@ Export marker
 -------------
 {==+==}
 导出标记
+-------------
 {==+==}
 
 {==+==}
@@ -1329,6 +1349,7 @@ Method call syntax
 ------------------
 {==+==}
 方法调用语法
+------------------
 {==+==}
 
 {==+==}
@@ -1359,7 +1380,6 @@ to supply any type of first argument for procedures:
 {==+==}
 Another way to look at the method call syntax is that it provides the missing
 postfix notation.
-{==+==}
 {==+==}
 查看方法调用语法的另一种方法是它提供了缺少的后缀表示法.
 {==+==}
@@ -1394,6 +1414,7 @@ Properties
 ----------
 {==+==}
 属性
+----------
 {==+==}
 
 {==+==}
@@ -1499,10 +1520,10 @@ Command invocation syntax
 -------------------------
 {==+==}
 命令调用语法
+-------------------------
 {==+==}
 
 {==+==}
-
 Routines can be invoked without the `()` if the call is syntactically
 a statement. This command invocation syntax also works for
 expressions, but then only a single argument may follow. This restriction
@@ -1554,6 +1575,7 @@ Closures
 --------
 {==+==}
 闭包
+--------
 {==+==}
 
 {==+==}
@@ -1566,8 +1588,7 @@ the closure and its enclosing scope (i.e. any modifications made to them are
 visible in both places). The closure environment may be allocated on the heap
 or on the stack if the compiler determines that this would be safe.
 {==+==}
-过程可以出现在模块的顶层,也可以出现在其他作用域中, 在这种情况下, 它们称为嵌套过程. 嵌套的过程可以从其封闭的作用域访问局部变量, 这就变成了一个闭包. 任何捕获的变量都存储在闭包（它的环境）的隐藏附加参数中, 并且它们通过闭包及其封闭作用域的引用来访问（即, 对它们进行的任何修改在两个地方都是可见的）.
-如果编译器确定这是安全的, 则可以在堆上或堆栈上分配闭包环境.
+过程可以出现在模块的顶层,也可以出现在其他作用域中, 在这种情况下, 它们称为嵌套过程. 嵌套的过程可以从其封闭的作用域访问局部变量, 这就变成了一个闭包. 任何捕获的变量都存储在闭包（它的环境）的隐藏附加参数中, 并且它们通过闭包及其封闭作用域的引用来访问（即, 对它们进行的任何修改在两个地方都是可见的）.如果编译器确定这是安全的, 则可以在堆上或堆栈上分配闭包环境.
 {==+==}
 
 {==+==}
@@ -1590,6 +1611,7 @@ Anonymous procedures
 --------------------
 {==+==}
 匿名过程
+--------------------
 {==+==}
 
 {==+==}
@@ -1623,6 +1645,7 @@ Do notation
 -----------
 {==+==}
 Do 标记
+-----------
 {==+==}
 
 {==+==}
@@ -1704,6 +1727,7 @@ Func
 ----
 {==+==}
 函数
+----
 {==+==}
 
 {==+==}
@@ -1737,6 +1761,7 @@ Routines
 --------
 {==+==}
 例程
+--------
 {==+==}
 
 {==+==}
@@ -1750,6 +1775,7 @@ Type bound operators
 --------------------
 {==+==}
 类型绑定操作符
+--------------------
 {==+==}
 
 {==+==}
@@ -1848,6 +1874,7 @@ Nonoverloadable builtins
 ------------------------
 {==+==}
 Nonoverloadable 内置命令
+------------------------
 {==+==}
 
 {==+==}
@@ -1881,7 +1908,9 @@ Var parameters
 --------------
 {==+==}
 Var 参数
+--------------
 {==+==}
+
 {==+==}
 The type of a parameter may be prefixed with the `var` keyword:
 {==+==}

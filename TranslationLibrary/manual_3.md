@@ -438,7 +438,6 @@ currency. This can be solved with templates_.
 {==+==}
 
 {==+==}
-
   ```nim  test = "nim c $1"
   template additive(typ: typedesc) =
     proc `+` *(x, y: typ): typ {.borrow.}
@@ -470,7 +469,6 @@ currency. This can be solved with templates_.
   defineCurrency(Euro, int)
   ```
 {==+==}
-
   ```nim  test = "nim c $1"
   template additive(typ: typedesc) =
     proc `+` *(x, y: typ): typ {.borrow.}
@@ -680,7 +678,6 @@ modules like `db_sqlite <db_sqlite.html>`_.
 由于 `"".SQL`被转换为 `SQL("")`，因此美观的 `SQL` 字符串文字不需要新的语法。假定的 `SQL` 类型实际上作为 `SqlQuery 类型 <db_common.html#SqlQuery>`_ 的模块存在于库中，例如 `db_sqlite <db_sqlite.html>`_。
 {==+==}
 
-
 {==+==}
 Auto type
 ---------
@@ -713,7 +710,6 @@ For parameters it currently creates implicitly generic routines:
 {==+==}
 
 {==+==}
-
   ```nim
   proc foo(a, b: auto) = discard
   ```
@@ -812,7 +808,6 @@ If `A` is a subtype of `B` and `A` and `B` are `object` types then:
 **Note**: In later versions of the language the subtype relation might
 be changed to *require* the pointer indirection in order to prevent
 "object slicing".
-
 {==+==}
 **注意**：在该语言的更高版本中，子类型关系可能会更改为*要求*指针间接，以防止“object slicing”。
 {==+==}
@@ -972,7 +967,6 @@ The convertible relation can be relaxed by a user-defined type
 {==+==}
 
 {==+==}
-
   ```nim
   converter toInt(x: char): int = result = ord(x)
 
@@ -988,7 +982,6 @@ The convertible relation can be relaxed by a user-defined type
   echo x # => 97
   ```
 {==+==}
-
   ```nim
   converter toInt(x: char): int = result = ord(x)
 
@@ -1117,7 +1110,6 @@ Some examples:
   var z: range[0..4] = 0
   takesInt(z) # "T"
   ```
-
 {==+==}
   ```nim
   proc takesInt(x: int) = echo "int"
@@ -1132,7 +1124,6 @@ Some examples:
   var z: range[0..4] = 0
   takesInt(z) # "T"
   ```
-
 {==+==}
 
 {==+==}
@@ -1364,7 +1355,7 @@ Varargs matching
 {==+==}
 See `Varargs <#types-varargs>`_.
 {==+==}
-参阅`Varargs <#types-varargs>`_.
+参阅 `Varargs <#types-varargs>`_.
 {==+==}
 
 {==+==}
@@ -1482,7 +1473,9 @@ available. Let `p` be an overloaded symbol. These contexts are:
   type. Analogous rules exist for array/set/tuple constructors.
 - In a declaration like `x: T = p` when `T` is a `proc` type.
 {==+==}
-当 `q` 的相应形式参数是 `proc` 类型时，在函数调用 `q(..., p, ...)` 中。 如果 `q` 本身被重载，则必须考虑 `q` 和 `p` 的每种解释的笛卡尔积。
+- 当 `q` 的相应形式参数是 `proc` 类型时，在函数调用 `q(..., p, ...)` 中。 如果 `q` 本身被重载，则必须考虑 `q` 和 `p` 的每种解释的笛卡尔积。
+- In an object constructor `Obj(..., field: p, ...)` when `field` is a `proc` type. Analogous rules exist for array/set/tuple constructors.
+- In a declaration like `x: T = p` when `T` is a `proc` type.
 {==+==}
 
 {==+==}
@@ -1585,6 +1578,7 @@ Discard statement
 -----------------
 {==+==}
 Discard语句
+-----------------
 {==+==}
 
 {==+==}
@@ -2194,7 +2188,6 @@ Example:
 {==+==}
 
 {==+==}
-
   ```nim
   var name = readLine(stdin)
 
@@ -2205,9 +2198,7 @@ Example:
   else:
     echo "Boring name..."
   ```
-
 {==+==}
-
   ```nim
   var name = readLine(stdin)
 
@@ -2218,7 +2209,6 @@ Example:
   else:
     echo "Boring name..."
   ```
-
 {==+==}
 
 {==+==}

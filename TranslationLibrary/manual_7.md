@@ -109,13 +109,12 @@ Expands to:
 展开成：
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   for item in items([1, 2, 3]):
     echo item
   ```
-{==+==}
-{==+==}
+{-----}
 
 {==+==}
 Another example:
@@ -331,8 +330,7 @@ For the purposes of code generation, all static params are treated as
 generic params - the proc will be compiled separately for each unique
 supplied value (or combination of values).
 {==+==}
-为了代码生成，所有的静态参数都被视为泛型参数——每遇到一种新的输入参数（或者参数的组合），
-函数就会被编译一次。
+为了代码生成，所有的静态参数都被视为泛型参数——每遇到一种新的输入参数（或者参数的组合），函数就会被编译一次。
 {==+==}
 
 {==+==}
@@ -487,21 +485,14 @@ Once bound, type params can appear in the rest of the proc signature:
 一旦绑定，类型参数就可以在函数签名剩余部分里出现：
 {==+==}
 
-{==+==}
+{-----}
   ```nim  test = "nim c $1"
   template declareVariableWithType(T: typedesc, value: T) =
     var x: T = value
 
   declareVariableWithType int, 42
   ```
-{==+==}
-  ```nim  test = "nim c $1"
-  template declareVariableWithType(T: typedesc, value: T) =
-    var x: T = value
-
-  declareVariableWithType int, 42
-  ```
-{==+==}
+{-----}
 
 {==+==}
 Overload resolution can be further influenced by constraining the set
@@ -719,7 +710,6 @@ This is best illustrated by an example:
     # added T1 to A's interface symbol table
     result = x + 1
   ```
-
 {==+==}
   ```nim
   # 模块 A
@@ -742,7 +732,6 @@ This is best illustrated by an example:
     # 编译器已把 T1 添加到 A 的接口符号表，所以这么写没问题
     result = x + 1
   ```
-
 {==+==}
 
 {==+==}
@@ -890,15 +879,11 @@ in subdirectories:
 使用 `path/to/module` 或者 `"path/to/module"` 这些写法来引用子目录里的模块：
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   import lib/pure/os, "lib/pure/times"
   ```
-{==+==}
-  ```nim
-  import lib/pure/os, "lib/pure/times"
-  ```
-{==+==}
+{-----}
 
 {==+==}
 Note that the module name is still `strutils` and not `lib/pure/strutils`,
@@ -907,33 +892,24 @@ thus one **cannot** do:
 注意模块名仍然是 `strutils` 而不是 `lib/pure/strutils`，所以**不能**这么干：
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   import lib/pure/strutils
   echo lib/pure/strutils.toUpperAscii("abc")
   ```
-{==+==}
-  ```nim
-  import lib/pure/strutils
-  echo lib/pure/strutils.toUpperAscii("abc")
-  ```
-{==+==}
+{-----}
 
 {==+==}
 Likewise, the following does not make sense as the name is `strutils` already:
 {==+==}
-与之类似，因为模块名已经就是 `strutils` 了，所以下面的代码是不合理的，
+与之类似，因为模块名已经就是 `strutils` 了，所以下面的代码是不合理的:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   import lib/pure/strutils as strutils
   ```
-{==+==}
-  ```nim
-  import lib/pure/strutils as strutils
-  ```
-{==+==}
+{-----}
 
 {==+==}
 Collective imports from a directory
@@ -1012,7 +988,7 @@ From import statement
 ---------------------
 {==+==}
 From import 语句
----------------
+---------------------
 {==+==}
 
 {==+==}
@@ -1050,7 +1026,6 @@ in `module`.
 {==+==}
 
 {==+==}
-
 Export statement
 ----------------
 {==+==}
@@ -1307,7 +1282,7 @@ Nim 编译器会输出不同类型的消息：提示（`hint`:idx:），警告�
 Pragmas
 =======
 {==+==}
-编译指示（Pragmas）
+编译指示
 ================
 {==+==}
 
@@ -1337,21 +1312,14 @@ The deprecated pragma is used to mark a symbol as deprecated:
 deprecated 编译指示用来标记某符号已废弃：
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   proc p() {.deprecated.}
   var x {.deprecated.}: char
   ```
-{==+==}
-  ```nim
-  proc p() {.deprecated.}
-  var x {.deprecated.}: char
-  ```
-{==+==}
-  ```nim
-  proc p() {.deprecated.}
-  var x {.deprecated.}: char
-  ```
+{-----}
+
+
 {==+==}
 This pragma can also take in an optional warning string to relay to developers.
 
@@ -1465,7 +1433,6 @@ but accessed at runtime:
 
   doAssert nameToProc[2][1]() == "baz"
   ```
-{==+==}
 {==+==}
 
 {==+==}
@@ -1966,8 +1933,7 @@ immediate 编译指示
 The immediate pragma is obsolete. See `Typed vs untyped parameters
 <#templates-typed-vs-untyped-parameters>`_.
 {==+==}
-`immediate` 编译指示已经淘汰。参考 `有类型 vs 无类型参数
-<#templates-typed-vs-untyped-parameters>`_.
+`immediate` 编译指示已经淘汰。参考 `有类型 vs 无类型参数 <#templates-typed-vs-untyped-parameters>`_ .
 {==+==}
 
 {==+==}
@@ -2043,7 +2009,6 @@ Example:
   {.checks: off, optimization: speed.}
   # compile without runtime checks and optimize for speed
   ```
-
 {==+==}
 例如：
 
@@ -2051,7 +2016,6 @@ Example:
   {.checks: off, optimization: speed.}
   # 关闭运行时检查，优化执行速度
   ```
-
 {==+==}
 
 {==+==}
@@ -2070,7 +2034,6 @@ but are used to override the settings temporarily. Example:
 {==+==}
 
 {==+==}
-
   ```nim
   {.push checks: off.}
   # compile this section without runtime checks as it is
@@ -2079,7 +2042,6 @@ but are used to override the settings temporarily. Example:
   {.pop.} # restore old settings
   ```
 {==+==}
-
   ```nim
   {.push checks: off.}
   # 由于这一段代码对于执行速度非常关键，所以不做运行时检查

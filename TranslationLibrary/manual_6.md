@@ -142,6 +142,7 @@ Effects pragma
 --------------
 {==+==}
 作用编译标志
+--------------
 {==+==}
 
 {==+==}
@@ -176,6 +177,7 @@ Generics
 ========
 {==+==}
 泛型
+========
 {==+==}
 
 {==+==}
@@ -317,6 +319,7 @@ Is operator
 -----------
 {==+==}
 `is` 操作符
+-----------
 {==+==}
 
 {==+==}
@@ -467,7 +470,7 @@ runtime type dynamism, unlike object variants or methods.
 {==+==}
 As an example, the following would not compile:
 {==+==}
-例如，以下代码将无法通过编译。
+例如，以下代码将无法通过编译:
 {==+==}
 
 {==+==}
@@ -514,6 +517,7 @@ Implicit generics
 -----------------
 {==+==}
 隐式泛型
+-----------------
 {==+==}
 
 {==+==}
@@ -608,7 +612,7 @@ the dot syntax:
 {==+==}
 Here are more examples that illustrate implicit generics:
 {==+==}
-这里有说明隐式泛型的更多例子
+这里有说明隐式泛型的更多例子:
 {==+==}
 
 {==+==}
@@ -751,6 +755,7 @@ Generic inference restrictions
 ------------------------------
 {==+==}
 泛型推断局限
+------------------------------
 {==+==}
 
 {==+==}
@@ -811,7 +816,7 @@ Symbol lookup in generics
 {==+==}
 ### Open and Closed symbols
 {==+==}
-开放和封闭符号
+### 开放和封闭符号
 {==+==}
 
 {==+==}
@@ -859,6 +864,7 @@ Mixin statement
 ---------------
 {==+==}
 Mixin语句
+---------------
 {==+==}
 
 {==+==}
@@ -1074,7 +1080,7 @@ the semantic pass of the compiler.
 {==+==}
 The syntax to *invoke* a template is the same as calling a procedure.
 {==+==}
-调用模板的语法和调用过程的语法是相同的
+调用模板的语法和调用过程的语法是相同的。
 {==+==}
 
 {==+==}
@@ -1247,7 +1253,7 @@ following the special `:` syntax:
 In the example, the two `writeLine` statements are bound to the `actions`
 parameter.
 {==+==}
-在这个例子中，这两行`writeLine` 语句被绑定到了模板的 `actions`参数
+在这个例子中，这两行`writeLine` 语句被绑定到了模板的 `actions`参数。
 {==+==}
 
 {==+==}
@@ -1441,6 +1447,7 @@ Lookup rules for template parameters
 ------------------------------------
 {==+==}
 模板参数中的查找规则
+------------------------------------
 {==+==}
 
 {==+==}
@@ -1488,7 +1495,7 @@ shadowed by the same argument name even when fully qualified:
 {==+==}
 But the global symbol can properly be captured by a `bind` statement:
 {==+==}
-但是全局符号可以通过`bind` 语句适时地捕获。
+但是全局符号可以通过`bind` 语句适时地捕获:
 {==+==}
 
 {==+==}
@@ -1539,7 +1546,7 @@ Hygiene in templates
 Per default, templates are `hygienic`:idx:\: Local identifiers declared in a
 template cannot be accessed in the instantiation context:
 {==+==}
-默认地，模板是卫生的`hygienic`:idx:。模板中的本地标识符被声明后，无法在模板实例所处的上下文中访问。
+默认地，模板是卫生的`hygienic`:idx:。模板中的本地标识符被声明后，无法在模板实例所处的上下文中访问:
 {==+==}
 
 {==+==}
@@ -1671,14 +1678,14 @@ The reason for this is that code like
 {==+==}
 should work as expected.
 {==+==}
-以上代码将按预期工作
+以上代码将按预期工作。
 {==+==}
 
 {==+==}
 However, this means that the method call syntax is not available for
 `gensym`'ed symbols:
 {==+==}
-而这意味着被`gensym`标记的符号无法应用方法调用语义
+而这意味着被`gensym`标记的符号无法应用方法调用语义:
 {==+==}
 
 {==+==}
@@ -1821,7 +1828,7 @@ twice:
 While macros enable advanced compile-time code transformations, they
 cannot change Nim's syntax.
 {==+==}
-虽然宏支持编译时的代码转换，但它们无法更改 Nim 的语法
+虽然宏支持编译时的代码转换，但它们无法更改 Nim 的语法。
 {==+==}
 
 {==+==}
@@ -1837,10 +1844,10 @@ programming construct that remains expressive. So the "check list" is:
 (3) Else: Use a template, if possible.
 (4) Else: Use a macro.
 {==+==}
-（1）首先尽可能使用普通的过程和迭代器。
-（2）其次尽可能使用泛型过程和迭代器。
-（3）再次尽可能使用模板。
-（4）最后才考虑使用宏。
+(1) 首先尽可能使用普通的过程和迭代器。
+(2) 其次尽可能使用泛型过程和迭代器。
+(3) 再次尽可能使用模板。
+(4) 最后才考虑使用宏。
 {==+==}
 
 {==+==}
@@ -1855,7 +1862,7 @@ Debug例子
 The following example implements a powerful `debug` command that accepts a
 variable number of arguments:
 {==+==}
-以下例子展现了通过接受可变数量参数的有效`debug`命令
+以下例子展现了通过接受可变数量参数的有效`debug`命令:
 {==+==}
 
 {==+==}
@@ -2035,7 +2042,7 @@ However, the symbols `write`, `writeLine` and `stdout` are already bound
 and are not looked up again. As the example shows, `bindSym` does work with
 overloaded symbols implicitly.
 {==+==}
-但是，符号 `write`，`writeLine` 和`stdout` 已经绑定，且不会再次查找。如示例所示，`bindSym` 确实可以隐式地处理重载符号
+但是，符号 `write`，`writeLine` 和`stdout` 已经绑定，且不会再次查找。如示例所示，`bindSym` 确实可以隐式地处理重载符号。
 {==+==}
 
 {==+==}
