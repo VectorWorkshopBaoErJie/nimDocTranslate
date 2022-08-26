@@ -3,7 +3,7 @@ experimental pragma
 -------------------
 {==+==}
 expermimental 的编译指示
--------------------
+------------------------
 {==+==}
 
 {==+==}
@@ -77,7 +77,7 @@ This section describes additional pragmas that the current Nim implementation
 supports but which should not be seen as part of the language specification.
 {==+==}
 实现特定的编译指示
-===============================
+==================
 
 本节介绍当前Nim实现 所支持的额外的编译指示，但不应将其视为语言说明的一部分。
 {==+==}
@@ -90,7 +90,7 @@ The `bitsize` pragma is for object field members. It declares the field as
 a bitfield in C/C++.
 {==+==}
 Bitsize 编译指示
---------------
+----------------
 
 `bitsize` 是对象字段成员的编译指示。 这表明该字段为 是C/C++中的一个位域。
 {==+==}
@@ -131,7 +131,7 @@ declaration are ignored. Alignments that are weaker than the
 alignment requirement of the type are ignored.
 {==+==}
 Align 编译指示
-------------
+--------------
 
 `align`:idx: 编译指示是针对变量和对象字段成员的。 它 用于修改所声明的实体的字节对齐要求。 参数必须是 2 的幂。 有效的非 0 对齐的编译标记同时存在声明的时候，弱的编译标记 会被忽略。 与类型的 对齐要求相比较弱的对齐编译标记的声明也会被忽略。
 {==+==}
@@ -180,7 +180,7 @@ compile time. (This is also why the name `noalias` was chosen instead of a more
 verbose name like `unsafeAssumeNoAlias`.)
 {==+==}
 Noalias 编译指示
---------------
+----------------
 
 从 Nim 编译器版本 1.4 ，有一个 `.noalias` 注解用于变量 和参数。 它被直接映射到 C/C++ 的 `restrict`:c: 关键字，并表示 底部指向内存中的一个独特位置， 此位置不存在其他别名。 *unchecked*遵守此别名限制。 如果违反了 限制，后端优化器可以自由地编译代码。 这是一个 **不安全的** 语言功能。
 
@@ -197,7 +197,7 @@ in C/C++).
 **Note**: This pragma will not exist for the LLVM backend.
 {==+==}
 Volatile 编译指示
----------------
+-----------------
 `volatile` 编译指示仅用于变量。 它宣布变量为 `volatile`:c:, 不论 C/C++ 中 volatile 代表什么含义 (其语义在 C/C+++中是没有明确定义的)。
 
 **注意**: LLVM 后端不存在这种编译指示。
@@ -212,7 +212,7 @@ It tells Nim that it should not generate a declaration for the symbol in
 the C code. For example:
 {==+==}
 nodecl 编译指示
--------------
+---------------
 `nodell` 编译指示可以应用于几乎任何符号（变量，程序， 类型等）。 有时在与 C 的相互操作上很有用： <0>nodell</0> 编译指示会告诉 Nim, 不要生成在 C 代码中的符号的声明。 例如：
 {==+==}
 
@@ -242,7 +242,7 @@ applied to almost any symbol and specifies that it should not be declared
 and instead, the generated code should contain an `#include`:c:\:
 {==+==}
 Header 编译指示
--------------
+---------------
 `header` 编译指示和 `nodecl` 编译指示非常相似:几乎可以在任何符号和不应声明的 specifies 上应用，与之替代的是，生成代码会包含一个 `#include`:c:\:
 {==+==}
 
@@ -274,7 +274,7 @@ The `incompleteStruct` pragma tells the compiler to not use the
 underlying C `struct`:c: in a `sizeof` expression:
 {==+==}
 IncompleteStruct 编译指示
------------------------
+-------------------------
 `incompleteStruct` 编译指示告诉编译器不要使用 底层 C 的`结构`:c: 在 `sizeof` 表达式中：
 {==+==}
 
@@ -293,7 +293,7 @@ The `compile` pragma can be used to compile and link a C/C++ source file
 with the project:
 {==+==}
 Compile 编译指示
---------------
+----------------
 `compile` 编译指示可以将一个 C/C++ 源文件用于编译和链接到项目：
 {==+==}
 
@@ -336,7 +336,7 @@ Link pragma
 The `link` pragma can be used to link an additional file with the project:
 {==+==}
 Link 编译指示
------------
+-------------
 `link` 编译指示可以用来将附加文件与项目链接：
 {==+==}
 
@@ -353,7 +353,7 @@ The `passc` pragma can be used to pass additional parameters to the C
 compiler like one would use the command-line switch `--passc`:option:\:
 {==+==}
 passc 编译指示
-------------
+--------------
 `passc` 编译指示可以用来传递额外参数到 C 编译器，就像命令行使用的 `--passc`:option:\：
 {==+==}
 
@@ -385,7 +385,7 @@ compiler, but only for the C/C++ file that is produced from the Nim module
 the pragma resides in:
 {==+==}
 localPassC 编译指示
------------------
+-------------------
 `localPassC` 编译指示可以用来传递附加参数到 C 编译器。 但仅适用于 Nim 模块包含该编译指示生成的 C/C++ 文件 ：
 {==+==}
 
@@ -404,7 +404,7 @@ The `passl` pragma can be used to pass additional parameters to the linker
 like one would be using the command-line switch `--passl`:option:\:
 {==+==}
 passl 编译指示
-------------
+--------------
 `passc` 编译指示可以用来传递额外参数到 C 链接器，就像在命令行使用的 `--passc`:option:\：
 {==+==}
 
@@ -439,7 +439,7 @@ extremely useful for interfacing with `C++`:idx: or `Objective C`:idx: code.
 Example:
 {==+==}
 Emit 编译指示
------------
+-------------
 `emit` 编译指示可以用于直接影响 编译器的代码生成器的输出。 然后，该代码不可移植到其他代码 生成器/后端 非常不鼓励这种用法 然而在以下情况会尤其有用： 当使用 `C++`:idx: 的接口化或者 `Objective C`:idx: 代码的时候。
 
 示例：
@@ -523,7 +523,7 @@ about the `importcpp` pragma pattern language. It is not necessary
 to know all the details described here.
 {==+==}
 ImportCpp 编译指示
-----------------
+------------------
 
 **注意**: `c2nim <https://github.com/nim-lang/c2nim/blob/master/doc/c2nim.rst>`_ 可以解析大量 C++ 的子集并知道 关于` importCpp ` 编译指示的模式语言。 不需要 知道这里描述的所有细节。
 {==+==}
@@ -898,7 +898,7 @@ symbols in general. The generated code then uses the Javascript method
 calling syntax: ``obj.method(arg)``.
 {==+==}
 ImportJs 编译指示
----------------
+-----------------
 
 类似于 `importcpp pragma for C++ <#implementation-specific-pragmas-importcpp-pragma>`_, `importjs` 编译指示可以用来导入 JavaScript 的方法或者符号。 生成的代码会使用 Javascript 方法 调用语法： `obj.method(arg)`
 
@@ -915,7 +915,7 @@ In addition with the `header` and `emit` pragmas this
 allows *sloppy* interfacing with libraries written in Objective C:
 {==+==}
 ImportObjC 编译指示
------------------
+-------------------
 类似于 `importc pragma for C
 <#foreign-function-interface-importc-pragma>`_, `importobjc` 编译指示可以用来导入 `Objective C`:idx: 的方法。 生成的代码会使用 Objective C 的方法 调用语法： `[obj method param1: arg]`。 结合 `header` 和 `emit` 编译标记，这允许 *sloppy* 接口使用 Objective C 的库:
 
@@ -973,7 +973,7 @@ CodegenDecl pragma
 ------------------
 {==+==}
 CodegenDecl 编译指示
-------------------
+--------------------
 {==+==}
 
 {==+==}
@@ -1053,7 +1053,7 @@ work properly (in particular regarding constructor and destructor) for
 `.threadvar` variables. This requires `--tlsEmulation:off`:option:.
 {==+==}
 `cppNonPod` 编译指示
-------------------
+--------------------
 
 `.cppNonPod` 编译指示应该用于非POD `importcpp` 类型，以便他们 ` threadvar` 变量正常工作(尤其是对构造器和析构器而言) 。 这需要 `--tlsEmulation:off`:option:。
 {==+==}
@@ -1078,7 +1078,7 @@ The implementation currently provides the following possible options (various
 others may be added later).
 {==+==}
 编译时定义的编译指示
----------------------------
+--------------------
 
 这里列出的编译指示可以用于在编译时间接受 的 `-d/--define`:option: 选项的可选值。
 
@@ -1097,7 +1097,7 @@ pragma             description
 {==+==}
 
 =================  ============================================ 
-编译指示             描述 
+编译指示           描述 
 =================  ============================================ 
 `intdefine`:idx:   编译时定义读取为整数类型 
 `strdefine`:idx:   编译时定义读取为 string 类型 
@@ -1139,7 +1139,7 @@ User-defined pragmas
 ====================
 {==+==}
 用户自定义的编译指示：
-====================
+=====================
 {==+==}
 
 {==+==}
@@ -1154,7 +1154,7 @@ They cannot be imported from a module.
 Example:
 {==+==}
 pragma 编译指示
--------------
+---------------
 
 `pragma` 编译指示可以用来声明用户自定义的编译指示。 这是 有用的，因为Nim的模板和宏不会影响编译指示。 用户定义的编译指示与所有其他符号有不同的模块作用域。 它们不能从模块中导入。
 
@@ -1189,8 +1189,8 @@ It is possible to define custom typed pragmas. Custom pragmas do not affect
 code generation directly, but their presence can be detected by macros.
 Custom pragmas are defined using templates annotated with pragma `pragma`:
 {==+==}
-自定义注解：
-------------------
+自定义注解
+----------
 这可以定义自定义类型的编译指示。 自定义编译指示不会直接影响 代码生成，但可以被宏检测到。 使用编译指示 `pragma`: 注解模板来定义自定义编译指示。
 {==+==}
 
@@ -1298,7 +1298,7 @@ Macro pragmas
 -------------
 {==+==}
 宏编译指示
--------------
+----------
 {==+==}
 
 {==+==}
@@ -1380,7 +1380,7 @@ parts that scale to other future backends (like the LLVM/JavaScript backends)
 are documented here.
 {==+==}
 外部函数接口
-==========================
+============
 
 Nim 的 `FFI`:idx: (外部函数接口) 很广泛，只有 一部分将会扩展到其他后端(如LLVM/JavaScript 后端) 会在这里被记录。
 {==+==}
@@ -1394,7 +1394,7 @@ the argument is missing, the C name is the Nim identifier *exactly as
 spelled*:
 {==+==}
 Importc 编译指示
---------------
+----------------
 `importc` 编译指示提供了从 C 中导入proc 或变量 的手段。 可选参数需要是包含 C 标识符的字符串。 参数缺失，C 的名字就会和Nim标识符*完全一样*:
 {==+==}
 
@@ -1452,7 +1452,7 @@ Exportc pragma
 --------------
 {==+==}
 Exportc 编译指示
---------------
+----------------
 {==+==}
 
 {==+==}
@@ -1509,7 +1509,7 @@ Like `exportc` or `importc`, the `extern` pragma affects name
 mangling. The string literal passed to `extern` can be a format string:
 {==+==}
 Extern 编译指示
--------------
+---------------
 像 `exportc` 或 `importc`一样, `extern` 编译指示会影响名称混淆。 传递到 `extern` 可以是一个格式化的字符串：
 {==+==}
 
@@ -1532,7 +1532,7 @@ Bycopy pragma
 -------------
 {==+==}
 Bycopy 编译指示
--------------
+---------------
 {==+==}
 
 {==+==}
@@ -1561,7 +1561,7 @@ Byref pragma
 ------------
 {==+==}
 Byref 编译指示
-------------
+--------------
 {==+==}
 
 {==+==}
@@ -1580,7 +1580,7 @@ after the last specified parameter. Nim string values will be converted to C
 strings automatically:
 {==+==}
 Varargs 编译指示
---------------
+----------------
 `varargs` 编译指示只能应用于程序 (和程序 类型)。 它会告诉Nim, 在最后一个指定的参数之后, proc 还可以接受一个变量作为参数。 Nim 字符串值将会自动转换为 C 的 字符串：
 {==+==}
 
@@ -1606,7 +1606,7 @@ checked.
 should scan unions conservatively.
 {==+==}
 Union 编译指示
-------------
+--------------
 `Union` 编译指示可以应用于任意 `object` 类型。 这意味着一个对象字段的所有 都会在内存中被覆盖。 这在生成的 C/C++ 代码中产生了 `union`:c: 而不是 `struct`:c:。 对象声明 不能使用继承或任何 GC 过但目前未检查的内存。
 
 **未来的方向**：应该允许 GC 回收过的内存，而GC 应该保守地扫描 union 共用体。
@@ -1625,7 +1625,7 @@ defined, and it should not be used with GC'ed memory (ref's).
 a static error. Usage with inheritance should be defined and documented.
 {==+==}
 Packed 编译指示
--------------
+---------------
 `packed` 编译指示可以应用于任意 `object` 类型。 它能确保 一个对象的字段在内存中连续打包。 它非常有用， 在用于存储来自/到网络或硬件驱动程序的数据包或消息是，以及 与C的互操作性上。组合 packed 编译指示和继承是不被定义的 定义，也不应与 GC 的内存（引用的）一起使用。
 
 **未来方向**: 在packed 编译指示中使用 GC'ed 内存将导致 静态错误。 继承的用法应加以定义和文档记录。
