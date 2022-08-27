@@ -1,6 +1,6 @@
-==========
+==============
 Nim手册
-==========
+==============
 
 :作者: Andreas Rumpf, Zahary Karadjov
 :版本: |nimversion|
@@ -10,10 +10,11 @@ Nim手册
 .. contents::
 
 
-> "复杂性" 如同 "能量"：终端用户把它转嫁给其他参与者，但一个给定任务总量似乎没变。 -- Ran
+> "复杂性" 如同 "能量"：终端用户把它转嫁给其他参与者，但一个给定任务的总量似乎没变。 -- Ran
 
 
 关于手册
+===============
 
 **注意**: 当前手册还是草案! Nim的一些功能需要更加准确的描述。手册也在不断推进，以成为标准规范。
 
@@ -36,10 +37,7 @@ Nim手册
 
   ifStmt = 'if' expr ':' stmts ('elif' expr ':' stmts)* ('else' stmts)?
 
-The binary `^*` operator is used as a shorthand for 0 or more occurrences
-separated by its second argument; likewise `^+` means 1 or more
-occurrences: `a ^+ b` is short for `a (b a)*`
-and `a ^* b` is short for `(a (b a)*)?`. 示例：:
+二进制的 `^*` 运算符表示为0或更多，由第二个参数分开；`^+` 表示着1或更多。 `a ^+ b` 是 `a (b a)*`的简写， `a ^* b` 则是 `(a (b a)*)?` 的简写。 例如::
 
   arrayConstructor = '[' expr ^* ',' ']'
 
@@ -49,9 +47,9 @@ Nim的其他如作用域规则或运行时语义，使用非标准描述。
 
 
 定义
-===========
+========
 
-Nim代码是特定的计算单元，作用于称为 `locations`:idx: 组件组成的内存。变量本质上是地址的名称，每个变量和地址都有特定的 `type`:idx: ，变量的类型被称为 `static type`:idx: ，地址的类型被称为 `dynamic type`:idx: 。如果静态类型与动态类型不同，它就是动态类型的超类或子类。
+Nim代码是特定的计算单元，作用于称为 `locations`:idx: 地址部分构成的内存。变量本质上是地址的名称，每个变量和地址都有特定的 `type`:idx: ，变量的类型被称为 `static type`:idx: ，地址的类型被称为 `dynamic type`:idx: 。如果静态类型与动态类型不同，它就是动态类型的超类或子类。
 
  `identifier`:idx: 是变量、类型、过程等的名称声明符号，一个声明所适用的程序区域被称为该声明的 `scope`:idx: ，作用域可以嵌套，一个标识符的含义由标识符所声明的最小包围作用域决定，除非重载解析规则另有建议。
 
@@ -86,6 +84,7 @@ Nim `program`:idx: 由一个或多个包含Nim代码的文本 `source files`:idx
 
 
 词法分析
+================
 
 编码
 --------
@@ -94,7 +93,7 @@ Nim `program`:idx: 由一个或多个包含Nim代码的文本 `source files`:idx
 
 
 缩进
------------
+--------
 
 Nim的标准语法描述了 `indentation sensitive`:idx: 缩进敏感的语言，这表示所有的控制结构可以通过缩进来识别，缩进只包括空格，不允许使用制表符。
 
@@ -132,7 +131,7 @@ Nim的标准语法描述了 `indentation sensitive`:idx: 缩进敏感的语言�
 
 
 多行注释
-------------------
+----------------
 
 从0.13.0版本的语言开始，Nim支持多行注释。如下：
 
@@ -162,7 +161,7 @@ Nim的标准语法描述了 `indentation sensitive`:idx: 缩进敏感的语言�
 
 
 标识符和关键字
-----------------------
+----------------------------
 
 Nim中的标识符可以是任何字母、数字和下划线的组成字符串，但有以下限制:
 
@@ -187,7 +186,7 @@ Nim中的标识符可以是任何字母、数字和下划线的组成字符串�
 
 
 标识符相等
--------------------
+--------------------
 
 如果以下算法返回真，则认为两个标识符相等:
 
@@ -209,7 +208,7 @@ Nim曾经是一种完全 `style-insensitive`:idx: 大小写不敏感的语言，
 
 
 作为标识符的关键词
------------------------
+------------------------------------
 
 如果一个关键词被括在反撇号里，它就失去了关键词的属性，变成了一个普通的标识符。
 
@@ -237,15 +236,15 @@ Examples
 
 
 字符串字面值
----------------
+------------------------
 
 语法中的终端符号: `STR_LIT`.
 
 字符串可以用配对的双引号来分隔，可以包含以下的 `escape sequences`:idx:\ 转义字符: 
 
-==================         ===================================================
-  转义字符                  含义
-==================         ===================================================
+==================         ==============================================================================
+  转义字符                 含义
+==================         ==============================================================================
   ``\p``                   平台特定的换行符:Windows上的CRLF, Unix上的LF
   ``\r``, ``\c``           `carriage return`:idx: 回车
   ``\n``, ``\l``           `line feed`:idx: 换行(通常叫创建新行 `newline`:idx:)
@@ -266,14 +265,14 @@ Examples
                            只允许四个十六进制数字
   ``\u`` {H+}              `unicode codepoint`:idx:; unicode字码元素
                            包含在 `{}` 中的所有十六进制数字都用于字码元素
-==================         ===================================================
+==================         ==============================================================================
 
 
 Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此操作可能会将第一个二进制零解释为终止符。
 
 
 三重引用字符串字面值
------------------------------
+----------------------------------------
 
 语法中的终端符号: `TRIPLESTR_LIT`.
 
@@ -283,13 +282,13 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
   """"long string within quotes""""
   ```
 
-生成：:
+产生::
 
   "long string within quotes"
 
 
 原始字符串
--------------------
+--------------------
 
 语法中的终端符号: `RSTR_LIT`。
 
@@ -305,7 +304,7 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
   r"a""b"
   ```
 
-生成：:
+产生::
 
   a"b
 
@@ -313,7 +312,7 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
 
 
 广义的原始字符串字面值
--------------------------------
+--------------------------------------------
 
 语法中的终端符号: `GENERALIZED_STR_LIT`,
 `GENERALIZED_TRIPLESTR_LIT`.
@@ -324,12 +323,12 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
 
 
 字符字面值
-------------------
+--------------------
 
 字符串用单引号 `''` 括起来，可以包含与字符串相同的转义字符 - 但有一种例外：不允许与平台有关的 `newline`:idx: (``\p``)，因为它可能比一个字符宽（它可能是一对CR/LF）。下面是有效的 `escape sequences`:idx: 字符字面值。
 
 ==================         ===================================================
-  转义字符                  含义
+  转义字符                 含义
 ==================         ===================================================
   ``\r``, ``\c``           `carriage return`:idx: 回车
   ``\n``, ``\l``           `line feed`:idx: 换行(通常叫创建新行 `newline`:idx:)
@@ -360,7 +359,7 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
 
 
 数值字面值
-----------------
+--------------------
 
 数值字面值具有这种形式::
 
@@ -435,9 +434,9 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
 
 预定义的类型后缀有：
 
-=================    =========================
-  类型后缀            产生的字面值类型
-=================    =========================
+=================    ====================================================
+  类型后缀           产生的字面值类型
+=================    ====================================================
   `'i8`              int8
   `'i16`             int16
   `'i32`             int32
@@ -451,7 +450,7 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
   `'d`               float64
   `'f32`             float32
   `'f64`             float64
-=================    =========================
+=================    ====================================================
 
 浮点数字面值也可以采用二进制、八进制或十六进制的标记:
 `0B0_10001110100_0000101001000111101011101111111011000101001101001001'f64`
@@ -489,7 +488,7 @@ Nim中的字符串可以包含任意8-bit值，甚至嵌入零，然而，某此
 
 
 运算符
----------
+------------
 
 Nim允许用户定义运算符。运算符可以是以下字符的任意组合::
 
@@ -510,7 +509,7 @@ Nim允许用户定义运算符。运算符可以是以下字符的任意组合::
 
 
 其他标记
-------------
+----------------
 
 以下字符串表示其他标记::
 
@@ -521,7 +520,7 @@ Nim允许用户定义运算符。运算符可以是以下字符的任意组合::
 
 
 句法
-======
+========
 
 本节列出了Nim的标准句法。语法分析器如何处理缩进的问题已经在 `Lexical Analysis`_ 一节中描述过了。
 
@@ -530,7 +529,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 
 
 结合律
--------------
+------------
 
 第一个字符为 `^` 的二元运算符是右结合，所有其他二元运算符是左结合。
 
@@ -543,7 +542,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
   ```
 
 优先级
-----------
+------------
 
 一元运算符总是比任何二元运算符结合性更强： `$a + b` 是 `($a) + b` 而不是 `$(a + b)` 。
 
@@ -559,21 +558,21 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 否则，优先级由第一个字符决定。
 
 
-================  =======================================================  ==================  ===============
-优先级             运算符                                                    第一个字符          终端符号
-================  =======================================================  ==================  ===============
- 10 (最高)                                                                  `$  ^`             OP10
-  9               `*    /    div   mod   shl  shr  %`                      `*  %  \  /`        OP9
-  8               `+    -`                                                 `+  -  ~  |`        OP8
-  7               `&`                                                      `&`                 OP7
-  6               `..`                                                     `.`                 OP6
-  5               `==  <= < >= > !=  in notin is isnot not of as from`     `=  <  >  !`        OP5
-  4               `and`                                                                        OP4
-  3               `or xor`                                                                     OP3
-  2                                                                        `@  :  ?`           OP2
-  1               *赋值运算符* (如 `+=`, `*=`)                                                  OP1
-  0 (最低)        *箭头运算符* (like `->`, `=>`)                                                OP0
-================  =======================================================  ==================  ===============
+================  =======================================================  =========================  ====================
+优先级            运算符                                                   第一个字符                 终端符号
+================  =======================================================  =========================  ====================
+ 10 (最高)                                                                 `$  ^`                     OP10
+  9               `*    /    div   mod   shl  shr  %`                      `*  %  \  /`               OP9
+  8               `+    -`                                                 `+  -  ~  |`               OP8
+  7               `&`                                                      `&`                        OP7
+  6               `..`                                                     `.`                        OP6
+  5               `==  <= < >= > !=  in notin is isnot not of as from`     `=  <  >  !`               OP5
+  4               `and`                                                                               OP4
+  3               `or xor`                                                                            OP3
+  2                                                                        `@  :  ?`                  OP2
+  1               *赋值运算符* (如 `+=`, `*=`)                                                        OP1
+  0 (最低)        *箭头运算符* (like `->`, `=>`)                                                      OP0
+================  =======================================================  =========================  ====================
 
 
 一个运算符是否被用作前缀运算符，也会受到前面的空格影响（这个解析变化是在0.13.0版本中引入的）。
@@ -594,7 +593,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
   echo (1, 2) # 传递元组(1, 2)给echo
 
 点类运算符
-------------------
+--------------------
 
 语法中的终端符号: `DOTLIKEOP` 。
 
@@ -602,7 +601,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 
 
 语法
--------
+--------
 
 语法的起始符号是 `module` 。
 
@@ -612,6 +611,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 
 
 求值顺序
+===================
 
 求值顺序严格从左到右，由内到外，这是大多数其他强类型编程语言的典型做法:
 
@@ -688,7 +688,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 
 
 常量和常量表达式
-==================================
+================================
 
 `constant`:idx: 是一个与常量表达式的值绑定的符号。常量表达式被限制为只依赖于以下类别的值和运算，因为这些值和运算要么被内置在语言中，要么在对常量表达式进行语义分析之前被声明和求值。
 
@@ -734,7 +734,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 
 
 对编译时执行的限制
-======================================
+====================================
 
 编译时执行的Nim代码不能使用以下语言特性:
 
@@ -750,7 +750,7 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 
 
 类型
-=====
+========
 
 在语义分析中是已知的，所有的表达式都有一个类型。Nim是静态类型语言。可以声明新的类型，这实质上是定义了一个标识符，用来表示这个自定义类型。
 
@@ -766,41 +766,41 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 
 
 序数类型
+----------------
 序数类型有以下特征：
 
-- 序数类型是可数和有序的。这种属性允许使用如`inc`, `ord`, `dec` 等函数来操作已定义的序数类型
-- 序数类型具有最小可能值，可以通过`low(type)`获取。
-  尝试从最小值继续减小会产生panic或静态错误。
-- 序数值具有最大可能值，可以通过`high(type)`获取。
-  尝试从最大值继续增大会产生panic或静态错误。
+- 序数类型是可数的和有序的。因而允许使用如 `inc`, `ord`, `dec` 等函数，来操作已定义的序数类型。
+- 序数类型具有最小可使用值，可以通过`low(type)`获取。 尝试从最小值继续减小，会产生panic或静态错误。
+- 序数类型具有最大可使用值，可以通过`high(type)`获取。  尝试从最大值继续增大，会产生panic或静态错误。
 
-整数，bool，字符和枚举类型（以及这些类型的子范围）属于序数类型。
+整数、bool、字符和枚举类型（以及这些类型的子范围）属于序数类型。
 
 如果基类型是序数类型，则distinct类型是序数类型。
 
 
 预定义整数类型
+----------------------------
 这些整数类型是预定义的：
 
 `int`
-  通用有符号整数类型。它的大小取决于平台，并且与指针大小相同。如果一个类型后缀的数的字面值在`low(int32)..high(int32)`范围内，则它是这种类型，否则它的类型就是`int64`.
+  通用有符号整数类型。它的大小取决于平台，并且与指针大小相同。如果一个没有类型后缀的整数字面值在 `low(int32)...high(int32)` 的范围内，则它是这种类型，否则为 `int64` 类型.
 
 `int`\ XX
-  使用XX位额外标记的有符号整数使用这种命名。（比如int16是16位宽整数）当前实现的支持有`int8`, `int16`, `int32`, `int64`。这些类型的字面值后缀为'iXX。
+  使用XX位额外标记的有符号整数使用这种命名。（比如int16是16位宽整数）当前支持实现有 `int8`, `int16`, `int32`, `int64` 。这些类型的字面值后缀为'iXX。
 
 `uint`
-  通用的 `无符号整型` 。它的大小取决于平台，并且与指针大小相同。 类型后缀为`'u`的整数字面值就是这种类型。
+  通用的 `无符号整型` 。它的大小取决于平台，并且与指针大小相同。 类型后缀为 `'u` 的整数字面值就是这种类型。
 
 `uint`\ XX
-  使用XX位额外标记的无符号整数使用这种命名。（比如uint16是16位宽的无符号整数）当前实现的支持有`uint8`, `uint16`, `uint32`, `uint64`。这些类型的字面值具有后缀 'uXX 。 无符号操作被全面封装; 不会导致上溢或下溢。
+  使用XX位额外标记的无符号整数使用这种命名。（比如uint16是16位宽的无符号整数）当前支持的实现有`uint8`, `uint16`, `uint32`, `uint64`。这些类型的字面值具有后缀 'uXX 。 无符号操作会环绕; 不会导致上溢或下溢错误。
 
 
-除了有符号和无符号整数的常用算术运算符(`+ - *`等)之外， 还有些操作符可以处理*有符号*整数但将他们的参数视为*无符号*: 它们主要用于之后的版本与缺少无符号整数类型的旧版本语言进行兼容。 有符号整数的这些无符号运算约定使用 `%` 作为后缀:
+除了有符号和无符号整数的常用算术运算符( `+ - *` 等)之外， 还有些运算符可以处理 *有符号* 整数但将他们的参数视为 *无符号* : 它们主要用于之后的版本与缺少无符号整数类型的旧版本语言进行兼容。 有符号整数的这些无符号运算约定使用 `%` 作为后缀:
 
 
-======================   ======================================================
-操作符                    含义
-======================   ======================================================
+======================   ===========================================================================================
+操作符                   含义
+======================   ===========================================================================================
 `a +% b`                 无符号整型加法
 `a -% b`                 无符号整型减法
 `a *% b`                 无符号整型乘法
@@ -812,11 +812,11 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
 `toU8(a)`                将`a`视为无符号数值，并将它转成8位无符号整数（但仍是`int8`类型）
 `toU16(a)`               将`a`视为无符号数值，并将它转成8位无符号整数（但仍是`int16`类型）
 `toU32(a)`               将`a`视为无符号数值，并将它转成8位无符号整数（但仍是`int32`类型）
-======================   ======================================================
+======================   ===========================================================================================
 
-`自动类型转换`会在使用不同类型的整型的表达式中执行：较小的类型转换为较大的类型。
+不同类型的整型的表达式中，会执行`自动类型转换`：较小的类型转换为较大的类型。
 
-`缩小类型转换`将较大的类型转换为较小的类型。(比如`int32 -> int16`) `扩展类型转换`将较小的类型转换为较大的类型。（比如`int16 -> int32`) Nim中只有扩展类型转型是 *隐式的*:
+`缩小类型转换`将较大的类型转换为较小的类型(比如`int32 -> int16`) ，`扩展类型转换`将较小的类型转换为较大的类型（比如`int16 -> int32`) ，Nim中仅有扩展类型转型是 *隐式的*:
 
   ```nim
   var myInt16 = 5i16
@@ -826,15 +826,14 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
   myInt16 + 2i32   # 为`int32`类型
   ```
 
-然而，如果字面值适合这个较小的类型并且这样的转换比其他隐式转换更好，那么`int`字面值可以隐式转换为较小的整数类型。因而`myInt16 + 34` 结果是`int16`类型。
+然而，如果字面值适合这个较小的类型，并且这样的转换比其他隐式转换更好，那么`int`字面值可以隐式转换为较小的整数类型，因而`myInt16 + 34` 结果是`int16`类型。
 
-有关详细信息，请参阅`Convertible relation
-<#type-relations-convertible-relation>`_.
+有关详细信息，请阅读参考 `Convertible relation <#type-relations-convertible-relation>`_ 。
 
 
 子范围类型
---------------
-子范围类型是序数或浮点类型（基本类型）的值范围。
+--------------------
+子范围类型是序数或浮点类型（基类型）的取值范围。
 要定义子范围类型，必须指定其限制值，即类型的最低值和最高值。例如：
 
   ```nim
@@ -845,33 +844,35 @@ Nim允许用户定义的运算符。二元运算符有11个不同的优先级。
   ```
 
 
-`Subrange` 是整数的子范围，只能保存0到5的值。`PositiveFloat` 定义了包含所有正浮点数的子范围。NaN不属于任何浮点类型的子范围。将任何其他值分配给类型为`Subrange`会产生panic（如果可以在语义分析期间确定，则为静态错误）。允许从基本类型到其子类型之一的分配，反之亦然。
+`Subrange` 是整数的子范围，只能保存0到5的值。`PositiveFloat` 定义了包含所有正浮点数的子范围。
+NaN不属于任何浮点类型的子范围。将任何其他值分配给类型为`Subrange`会产生panic（如果可以在语义分析期间确认，则为静态错误）。
+允许从基本类型到其子类型之一的分配，反之亦然。
 
-子范围类型与其基类型具有相同的大小（子范围示例中的`int` ）。
+子范围类型与其基类型具有相同的大小（子范围示例中的 `int` ）。
 
 
 预定义浮点类型
---------------------------------
+----------------------------
 
 以下浮点类型是预定义的：
 
 `float`
-  通用浮点类型;它的大小曾经是平台相关的，但现在它总是映射到 `float64` 。一般应该使用这种类型。
+  通用浮点类型; 它的大小曾经是平台相关的，但现在它总是映射到 `float64` 。一般应该使用这种类型。
 
 `float`\ XX
-  使用XX位额外标记的浮点数可以使用这种命名。（例如：`float64`是64位宽的浮点数）当前支持`float32`和`float64`。 这些类型的字面值具有后缀 'fXX。
+  使用XX位附加标记的浮点数可以使用这种命名（例如：`float64`是64位宽的浮点数），当前支持`float32`和`float64`。 这些类型的字面值具有后缀 'fXX。
 
 
-可以在具有不同类型浮点数的表达式中执行自动类型转换：详见`Convertible relation
-<#type-relations-convertible-relation>`_ 。 在浮点类型上执行的算术遵循IEEE标准。 整数类型不会自动转换为浮点类型，反之亦然。
+可以在具有不同类型浮点数的表达式中执行自动类型转换：详见`Convertible relation<#type-relations-convertible-relation>`_ 。 
+在浮点类型上执行的算术遵循IEEE标准。 整数类型不会自动转换为浮点类型，反之亦然。
 
 IEEE标准定义了五种类型的浮点异常：
 
-* 无效: 使用数学上无效的操作数的操作, 例如 0.0/0.0, sqrt(-1.0), 和log(-37.8).
+* 无效: 使用数学上无效的操作数操作, 例如 0.0/0.0, sqrt(-1.0), 和log(-37.8).
 * 除以零：除数为零，且被除数是有限的非零数，例如1.0 / 0.0。
-* 溢出：操作产生的结果超出范围，例如MAXDOUBLE + 0.0000000000001e308。
+* 溢出：操作产生的结果超出范围，例如，MAXDOUBLE + 0.0000000000001e308。
 * 下溢：操作产生的结果太小而无法表示为正常数字，例如，MINDOUBLE * MINDOUBLE。
-* 不精确：操作产生的结果无法用无限精度表示，例如，输入中的2.0 / 3.0，log(1.1)和0.1。
+* 不精确：操作产生的结果无法用无限精度表示，例如，输入中的 2.0 / 3.0，log(1.1) 和 0.1。
 
 IEEE异常在执行期间被忽略或映射到Nim异常: `FloatInvalidOpDefect`, `FloatDivByZeroDefect`, `FloatOverflowDefect`, `FloatUnderflowDefect`, 和 `FloatInexactDefect` 。 这些异常继承自 `FloatingPointDefect` 基类。
 
@@ -885,24 +886,23 @@ Nim提供了编译指示 `nanChecks`和`infChecks`控制是否忽略IEEE异常�
   echo a / b # 引发 FloatOverflowDefect
   ```
 
-在当前的实现中， `FloatDivByZeroError` 和 `FloatInexactError` 永远不会被引发。 `FloatOverflowError` 取代了 `FloatDivByZeroError` 。 另有 floatChecks 编译指示用作 `nanChecks` 和 `infChecks` 的快捷方式。 `floatChecks` 默认关闭。
+在当前的实现中，绝不会引发 `FloatDivByZeroError` 和 `FloatInexactError` 。 `FloatOverflowError` 取代了 `FloatDivByZeroError` 。 
+另有 floatChecks 编译指示用作 `nanChecks` 和 `infChecks` 的便捷方式。 `floatChecks` 默认关闭。
 
-只有 `+`, `-`, `*`, `/` 这些操作符受`floatChecks`编译指示影响
+只有 `+`, `-`, `*`, `/` 这些运算符会受`floatChecks`编译指示影响。
 
-在语义分析期间，应始终使用最大精度来评估浮点指针值。这表示在常量展开期间，表达式`0.09'f32 + 0.01'f32 == 0.09'f64 + 0.01'f64` 求值为真。
+在语义分析期间，应始终使用最大精度来评估浮点数，这表示在常量展开期间，表达式  `0.09'f32 + 0.01'f32 == 0.09'f64 + 0.01'f64` 的值为真。
 
 
 布尔类型
-------------
-布尔类型在Nim中命名为 `bool` 并且可以是两个预定义值(`true`和`false`)之一。`while`,`if`, `elif`, `when`中的语句应为`bool`类型.
+----------------
+布尔类型在Nim中命名为 `bool` ，值为预定义(`true`和`false`)之一。`while`,`if`, `elif`, `when` 中的状态需为 `bool` 类型.
 
-这种情况成立:
+这种情况成立::
 
   ord(false) == 0 and ord(true) == 1
 
-The operators `not, and, or, xor, <, <=, >, >=, !=, ==` are defined
-for the bool type. The `and` and `or` operators perform short-cut
-evaluation. 示例：
+为布尔类型定义了运算符 `not, and, or, xor, <, <=, >, >=, !=, ==` 。 `and` 和 `or` 运算符进行短路求值。例如:
 
   ```nim
   while p != nil and p.name != "xyz":
@@ -915,18 +915,17 @@ bool类型的大小是一个字节。
 
 
 字符类型
---------------
-字符类型在Nim中被命名为`char`。它的大小为一个字节。因此，它不能表示UTF-8字符，而只能是UTF-8字符的一部分。
+----------------
+字符类型在Nim中被命名为 `char` 。它的大小为一个字节。因此，它不能表示UTF-8字符，而只能是UTF-8字符的一部分。
 
-`Rune` 类型用于Unicode字符，它可以表示任何Unicode字符。`Rune` 在 `unicode module <unicode.html>`_ 中声明。
+`Rune` 类型用于Unicode字符，它可以表示任意Unicode字符。`Rune` 声明在 `unicode module <unicode.html>`_ 中。
 
 
 
 
 枚举类型
------------------
-Enumeration types define a new type whose values consist of the ones
-specified. The values are ordered. 示例：
+----------------
+枚举类型定义了一个其值由指定的值组成的新类型，这些值是有序的。例如：
 
   ```nim
   type
@@ -935,7 +934,7 @@ specified. The values are ordered. 示例：
   ```
 
 
-现在以下内容成立:
+那么以下是成立的:
 
   ord(north) == 0
   ord(east) == 1
@@ -945,11 +944,11 @@ specified. The values are ordered. 示例：
   # 也允许:
   ord(Direction.west) == 3
 
-由此可得，north < east < south < west。比较运算符可以与枚举类型一起使用。枚举值也可以使用它所在的枚举类型来限定，如`north`可以用`Direction.nort`来限定。
+由此可知，north < east < south < west。比较运算符可以与枚举类型一起使用。枚举值也可以使用它所在的枚举类型来限定，如 `north` 可以用 `Direction.nort` 来限定。
 
-为了更好地与其他编程语言连接，可以为枚举类型的字段分配显式序数值。 但是，序数值必须升序排列。 未明确给出序数值的字段被赋予前一个字段+ 1的值。
+为了更好地与其他编程语言连接，可以显式为枚举类型字段分配序数值，但是，序数值必须升序排列。 未明确给出序数值的字段被赋予前一个字段 +1 的值。
 
-显式有序枚举可以有*间隔*：
+显式有序枚举可以有 *间隔* ：
 
   ```nim
   type
@@ -960,7 +959,7 @@ specified. The values are ordered. 示例：
 但是，它不再是序数，因此不可能将这些枚举用作数组的索引类型。 过程`inc`, `dec`, `succ`和`pred`对于它们不可用。
 
 
-编译器支持枚举的内置字符串化运算符`$`。 字符串化的结果可以通过显式给出要使用的字符串值来控制：
+编译器支持内置的字符串化运算符 `$` 用于枚举。字符串化的效果是，可以通过显式给出要使用的字符串来控制：
 
   ```nim
   type
@@ -971,9 +970,10 @@ specified. The values are ordered. 示例：
       valueD = (3, "abc")
   ```
 
-从示例中可以看出，可以通过使用元组指定字段的序数值及其字符串值。 也可以只指定其中一个。
+从示例中可以看出，可以通过使用元组指定字段的序数值以及字符串值，也可以只指定其中一个。
 
-枚举可以使用 `pure`编译指示进行标记，以便将其字段添加到特定模块特定的隐藏作用域，该作用域仅作为最后一次尝试进行查询。 只有没有歧义的符号才会添加到此范围。 但总是可以通过写为`MyEnum.value`的类型限定来访问:
+枚举可以使用 `pure` 编译指示进行标记，以便将其字段添加到特定模块特定的隐藏作用域，该作用域仅作为最后一次尝试进行查询。 
+只有没有歧义的符号才会添加到此作用域。 但总是可以通过写为 `MyEnum.value` 的类型限定来访问:
 
   ```nim
   type
@@ -989,24 +989,24 @@ specified. The values are ordered. 示例：
   echo MyEnum.amb # OK.
   ```
 
-要使用枚举实现位字段，请参阅`Bit fields <#set-type-bit-fields>`_
+要使用枚举实现位字段，请参阅 `Bit fields <#set-type-bit-fields>`_
 
 
 字符串类型
------------
-所有字符串字面值都是`string`类型。 Nim中的字符串与字符序列非常相似。 但是，Nim中的字符串都是以零结尾的并且具有长度字段。 可以用内置的`len`过程检索长度;长度永远不会计算末尾的零。
+--------------------
+所有字符串字面值都是`string`类型。 Nim中的字符串与字符序列非常相似。 但是，Nim中的字符串都是以零结尾的并且具有长度字段。 可以用内置的 `len` 过程检索长度;长度总是不会计算末尾的零。
 
-除非首先将字符串转换为 `cstring` 类型，否则无法访问末尾的零。末尾的零确保可以在O(1)中完成此转换，无需任何分配。
+除非首先将字符串转换为 `cstring` 类型，否则无法访问末尾的零。末尾的零确保可以在 O(1) 中完成此转换，无需任何分配。
 
 字符串的赋值运算符始终复制字符串。`&` 运算符拼接字符串。
 
-大多数原生Nim类型支持使用特殊的`$`过程转换为字符串。
+大多数原生Nim类型支持使用特殊的 `$` 过程转换为字符串。
 
   ```nim
   echo 3 # 为 `int` 调用 `$`
   ```
 
-每当用户创建一个特定的对象时，该过程的实现提供了`string`表示。
+每当用户创建一个特定的对象时，该过程的实现提供了 `string` 表示。
 
   ```nim
   type
@@ -1015,12 +1015,12 @@ specified. The values are ordered. 示例：
       age: int
 
   proc `$`(p: Person): string = # `$` 始终返回字符串
-    result = p.name & "已经" &
+    result = p.name & " 已经 " &
             $p.age & # 需要在p.age前添加`$`，因为它是整数类型，而我们要将其转换成字符串
             "岁了。"
   ```
 
-虽然也可以使用`$p.name`，但`$`操作符不会对字符串做任何事情。 请注意，我们不能依赖于从 `int` 到 `string`  的像`echo`过程一样自动转换。
+虽然也可以使用`$p.name`，但`$`操作符不会对字符串做任何事情。 请注意，我们不能依赖于从 `int` 到 `string` 像`echo`过程一样自动转换。
 
 字符串按字典顺序进行比较。 所有比较运算符都可用。 字符串可以像数组一样索引（下限为0）。 与数组不同，字符串可用于case语句：
 
@@ -1031,12 +1031,13 @@ specified. The values are ordered. 示例：
   else: write(stdout, "非法的命令行选项\n")
   ```
 
-按照惯例，所有字符串都是UTF-8字符串，但不强制执行。 例如，从二进制文件读取字符串时，它们只是一个字节序列。 索引操作`s[i]`表示 s 的第i个 char ，而不是第i个 unichar 。 来自 `unicode module <unicode.html>`_  的迭代器`runes`可用于迭代所有Unicode字符。
+按照惯例，所有字符串都是UTF-8字符串，但不强制执行。 例如，从二进制文件读取字符串时，它们只是一个字节序列。 索引操作`s[i]`表示 s 的第i个 char ，而不是第i个 unichar 。  `unicode module <unicode.html>`_  中的迭代器`runes`，可用于迭代所有Unicode字符。
 
 
 cstring类型
+----------------------
 
-`cstring` 类型意味着 `compatible string` ，是编译后端的字符串的原生表示。 对于C后端，`cstring` 类型表示一个指向末尾为零的char数组的指针，该数组与ANSI C中的 `char*` 类型兼容。 其主要目的在于与C轻松互通。 索引操作 `s[i]` 表示 s 的第i个 *char*;但是没有执行检查 cstring 的边界，导致索引操作并不安全。
+`cstring` 类型意味着 `compatible string` ，是编译后端的字符串的原生表示。 对于C后端，`cstring` 类型表示一个指向末尾为零的char数组的指针，该数组与ANSI C中的 `char*` 类型兼容。 其主要目的在于与C轻松互通。 索引操作 `s[i]` 表示 s 的第i个 *char* ;但是没有执行检查 cstring 的边界，导致索引操作并不安全。
 
 为方便起见，Nim中的 `string` 可以隐式转换为 `cstring` 。 如果将Nim字符串传递给C风格的可变参数过程，它也会隐式转换为 `cstring` ：
 
@@ -1047,7 +1048,7 @@ cstring类型
   printf("这会%s工作", "像预期一样")
   ```
 
-即使转换是隐式的，它也不是*安全的* ：垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。 因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将`const`字符串转换为`cstring`，是安全的，并且仍将被允许。
+即使转换是隐式的，它也不是 *安全的* ：垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。 因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将`const`字符串转换为`cstring`，是安全的，并且仍将被允许。
 
 为cstring定义的`$`过程能够返回string。因此，从cstring获取nim的string可以这样：
 
@@ -1073,20 +1074,20 @@ cstring类型
   ```
 
 结构化类型
-----------------
+--------------------
 结构化类型的变量可以同时保存多个值。 结构化类型可以嵌套到无限级别。数组、序列、元组、对象和集合属于结构化类型。
 
 数组和序列类型
-------------------------
+----------------------------
 数组是同类型的，这意味着数组中的每个元素都具有相同的类型。 数组总是具有指定为常量表达式的固定长度（开放数组除外）。 它们可以按任何序数类型索引。 若参数 `A` 是*开放数组* ，那么它的索引为由0到 len（A）- 1 的整数。 数组表达式可以由数组构造器 `[]` 构造。 数组表达式的元素类型是从第一个元素的类型推断出来的。 所有其他元素都需要隐式转换为此类型。
 
-可以使用`array[大小，类型]`构造数组类型，也可以使用`array[小..大,类型]`设置数组的起点而不是默认的0。
+可以使用 `array[size, T]` 构造数组类型，也可以使用 `array[lo..hi, T]` 设置数组的起点而不是默认的0。
 
 序列类似于数组，但有动态长度，其长度可能在运行时期间发生变化（如字符串）。 序列实现为可增长的数组，在添加项目时分配内存块。 序列 `S` 的索引为从0到 `len(S)-1`的整数，并检查其边界。 序列可以在序列运算符`@`的帮助下，由数组构造器 `[]` 和数组一起构造。为序列分配空间的另一种方法是调用内置的 `newSeq` 过程。
 
-序列可以传递给*开放数组*类型的参数
+序列可以传递给 *开放数组* 类型的参数
 
-示例：
+例如：
 
   ```nim
   type
@@ -1141,9 +1142,9 @@ cstring类型
 
 
 开放数组
------------
+----------------
 
-通常，固定大小的数组太不灵活了;程序应该能够处理不同大小的数组。 `开放数组` 类型只能用于参数。 开放数组总是从位置0开始用 `int`索引。 `len`，`low`和`high`操作也可用于开放数组。 具有兼容基类型的任何数组都可以传递给开放数组形参，无关索引类型。 除了数组之外，还可以将序列传递给开放数组参数。
+通常，固定大小的数组太不灵活了，程序应该能够处理不同大小的数组。 `开放数组` 类型只能用于参数。 开放数组总是从位置0开始用 `int` 索引。 `len`，`low` 和 `high` 操作也可用于开放数组。 具有兼容基类型的任何数组都可以传递给开放数组形参，无关索引类型。 除了数组之外，还可以将序列传递给开放数组参数。
 
 `开放数组`类型不能嵌套： 不支持多维开放数组，因为这种需求很少并且不能有效地完成。
 
@@ -1155,7 +1156,7 @@ cstring类型
   ```
 
 可变参数
--------
+----------------
 
 `varargs` 参数是一个开放数组参数，它允许将可变数量的参数传递给过程。 编译器隐式地将参数列表转换为数组：
 
@@ -1170,7 +1171,7 @@ cstring类型
   myWriteln(stdout, ["abc", "def", "xyz"])
   ```
 
-仅当`varargs`参数是的最后一个参数时，才会执行此转换。 也可以在此上下文中执行类型转换：
+仅当`varargs`参数是最后一个参数时，才会执行此转换。 也可以在此上下文中执行类型转换：
 
   ```nim
   proc myWriteln(f: File, a: varargs[string, `$`]) =
@@ -1183,7 +1184,7 @@ cstring类型
   myWriteln(stdout, [$123, $"abc", $4.0])
   ```
 
-在这个例子中， `$`应用于传递给参数 `a` 的任何参数。 （注意 $ 对字符串是一个空操作。）
+在这个例子中， `$` 应用于传递给参数 `a` 的任何参数。 （注意 `$` 对字符串是一个空操作。）
 
 请注意，传递给 `varargs` 形参的显式数组构造器不会隐式地构造另一个隐式数组：
 
@@ -1205,8 +1206,8 @@ cstring类型
 
 
 未检查数组
-----------------
-`UncheckedArray[T]`类型是一种特殊的 `数组` ，编译器不检查它的边界。 这对于实现定制灵活大小的数组通常很有用。 另外，未检查数组可以这样转换为不确定大小的C数组：
+--------------------
+`UncheckedArray[T]` 类型是一种特殊的 `数组` ，编译器不检查它的边界。 这对于实现定制灵活大小的数组通常很有用。 另外，未检查数组可以这样转换为不确定大小的C数组：
 
   ```nim
   type
@@ -1225,15 +1226,15 @@ cstring类型
   } MySeq;
   ```
 
-未检查数组的基本类型可能不包含任何GC内存，但目前尚未核实。
+未检查数组的基本类型可能不包含任何GC内存，但目前尚未检查。
 
 **未来方向**: 应该在未经检查的数组中允许GC内存，并且应该有一个关于GC如何确定数组的运行时大小的显式注释。
 
 
 
 元组和对象类型
------------------------
-元组或对象类型的变量是异构存储容器。 元组或对象定义了一个类型的各种*字段*。 元组还定义了字段的*顺序*。 元组是有很少抽象可能性的异构存储类型。 `()` 可用于构造元组。 构造函数中字段的顺序必须与元组定义的顺序相匹配。 如果它们以相同的顺序指定相同类型的相同字段，则不同的元组类型*等效* 。字段的*名称*也必须相同。
+----------------------------
+元组或对象类型的变量是异构存储容器。 元组或对象定义了一个类型的各类*字段*。 元组还定义了字段的*顺序*。 元组是有很少抽象可能性的异构存储类型。 `()` 可用于构造元组。 构造函数中字段的顺序必须与元组定义的顺序相匹配。 如果它们以相同的顺序指定相同类型的相同字段，则不同的元组类型*等效* 。字段的*名称*也必须相同。
 
   ```nim
   type
@@ -1303,13 +1304,13 @@ cstring类型
       id: int
   ```
 
-元组和对象的赋值操作符复制每个组件。` 这里<manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
+元组和对象的赋值操作符复制每个组件。` 这里 <manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
 
 
 对象构造
--------------------
+----------------
 
-对象也可以使用`对象构造表达式`创建, 即以下语法 `T(fieldA: valueA, fieldB: valueB, ...)` 其中 `T` 是 `object` 类型或 `ref object` 类型：
+对象也可以使用 `object construction expression`:idx: 创建, 即以下语法 `T(fieldA: valueA, fieldB: valueB, ...)` 其中 `T` 是 `object` 类型或 `ref object` 类型：
 
  ```nim
   type
@@ -1329,7 +1330,7 @@ cstring类型
 
 
 对象变体
----------------
+----------------
 在需要简单变体类型的某些情况下，对象层次结构通常有点过了。 对象变体是通过用于运行时类型灵活性的枚举类型区分的标记联合，对照如在其他语言中找到的 *sum类型* 和 *代数数据类型(ADTs)* 的概念。
 
 一个例子：
@@ -1374,11 +1375,11 @@ cstring类型
 
 从示例中可以看出，对象层次结构的优点是不需要在不同对象类型之间进行转换。 但是，访问无效对象字段会引发异常。
 
-在对象声明中的`case`语句和标准`case`语句语法一致：`case`语句的分支也是如此
+在对象声明中的 `case` 语句和标准 `case` 语句语法一致：`case`语句的分支也是如此
 
-在示例中， `kind` 字段称为 `鉴别字段` : 为安全起见，不能对其进行地址限制，并且对其赋值进行限制：新值不得导致活动对象分支发生变化。 此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
+在示例中， `kind` 字段称为 `discriminator`:idx:\:  鉴别字段，为安全起见，不能对其进行地址限制，并且对其赋值进行限制：新值不得导致活动对象分支发生变化。 此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
 
-与改变活动的对象分支不同，将内存中的旧对象换成一个全新的对象是可以的。
+与改变活动的对象分支不同，可以将内存中的旧对象换成一个全新的对象。
 
   ```nim
   var x = Node(kind: nkAdd, leftOp: Node(kind: nkInt, intVal: 4),
@@ -1447,16 +1448,17 @@ case对象的一些限制可以通过 `{.cast(uncheckedAssign).}` 禁用:
 
 
 集合类型
+----------------
 
 .. include:: sets_fragment.txt
 
 引用和指针类型
----------------------------
-引用（类似于其他编程语言中的指针）是引入多对一关系的一种方式。 这意味着不同的引用可以指向并修改内存中的相同位置（也称为 `别名` )。
+----------------------------
+引用（类似于其他编程语言中的指针）是引入多对一关系的一种方式。 这意味着不同的引用可以指向并修改内存中的相同位置（也称为 `aliasing`:idx: 别名)。
 
-Nim区分 `追踪`和 `未追踪` 引用。 未追踪引用也叫 *指针* 。 追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。 因此，未追踪引用是*不安全* 的。 然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
+Nim区分 `traced`:idx: 、`untraced`:idx: 追踪和未追踪引用。 未追踪引用也叫 *指针* 。 追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。 因此，未追踪引用是 *不安全* 的。 然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
 
-使用**ref**关键字声明追踪引用，使用**ptr**关键字声明未追踪引用。 通常， `ptr T` 可以隐式转换为`pointer` 类型。
+使用**ref**关键字声明追踪引用，使用**ptr**关键字声明未追踪引用。 通常， `ptr T` 可以隐式转换为 `pointer` 类型。
 
 空的下标 `[]` 表示法可以用来取代引用， `addr` 过程返回一个对象的地址。 地址始终是未追踪的引用。 因此， `addr` 的使用是 *不安全的* 功能。
 
@@ -1476,7 +1478,7 @@ Nim区分 `追踪`和 `未追踪` 引用。 未追踪引用也叫 *指针* 。 �
   # 不必写n[].data; 实际上 n[].data是非常不推荐的！
   ```
 
-可以对例程调用的第一个参数执行自动取消引用，但这是一个实验性功能，在`here<manual_experimental.html#automatic-dereferencing>`_进行了说明。
+可以对例程调用的第一个参数执行自动取消引用，但这是一个实验性功能，在 `这里 <manual_experimental.html#automatic-dereferencing>`_ 进行了说明。
 
 为了简化结构类型检查，递归元组无效：
 
@@ -1497,11 +1499,11 @@ Nim区分 `追踪`和 `未追踪` 引用。 未追踪引用也叫 *指针* 。 �
   ```
 
 
-要分配新的追踪对象，必须使用内置过程 `new` 。 为了处理未追踪的内存，可以使用过程 `alloc` ， `dealloc` 和 `realloc` 。 系统模块的文档包含更多信息。
+要分配新的追踪对象，必须使用内置过程 `new` 。 为了处理未追踪的内存，可以使用过程 `alloc` ， `dealloc` 和 `realloc` 。  `system <system.html>`_ 系统模块的文档包含更多信息。
 
 
 空(Nil)
----
+--------------
 
 如果一个引用什么都不指向，那么它的值为`nil`。`nil` 是所有 `ref` 和 `ptr` 类型的默认值。`nil` 值也可以像任何其他字面值一样使用。例如，它可以用在像 `my Ref = nil` 这样的赋值中。
 
@@ -1525,65 +1527,52 @@ Nim区分 `追踪`和 `未追踪` 引用。 未追踪引用也叫 *指针* 。 �
   ```
 
 
-*注意*：这与 C 用于取消引用 NULL 指针的“未定义行为”不具有可比性。
+*注意*：这与 C 用于取消引用 NULL 指针的 "未定义行为" 不具有可比性。
 
 
-Mixing GC'ed memory with `ptr`
---------------------------------
+混合GC内存和 `ptr`
+------------------------------------
 
-Special care has to be taken if an untraced object contains traced objects like
-traced references, strings, or sequences: in order to free everything properly,
-the built-in procedure `reset` has to be called before freeing the untraced
-memory manually:
+特别要注意的是，如果一个未被跟踪的对象包含跟踪的对象，如跟踪引用，字符串，或序列：为了使得所有对象正确释放，
+在释放未被跟踪的内存之前，要手动调用内置过程 `reset` :
 
   ```nim
   type
     Data = tuple[x, y: int, s: string]
 
-  # allocate memory for Data on the heap:
+  # 在堆上为Data分配内存:
   var d = cast[ptr Data](alloc0(sizeof(Data)))
 
-  # create a new string on the garbage collected heap:
+  # 在垃圾回收(GC)堆上创建一个新的字符串:
   d.s = "abc"
 
-  # tell the GC that the string is not needed anymore:
+  # 告诉GC不再需要这个字符串:
   reset(d.s)
 
-  # free the memory:
+  # 释放内存:
   dealloc(d)
   ```
 
-Without the `reset` call the memory allocated for the `d.s` string would
-never be freed. The example also demonstrates two important features for
-low-level programming: the `sizeof` proc returns the size of a type or value
-in bytes. The `cast` operator can circumvent the type system: the compiler
-is forced to treat the result of the `alloc0` call (which returns an untyped
-pointer) as if it would have the type `ptr Data`. Casting should only be
-done if it is unavoidable: it breaks type safety and bugs can lead to
-mysterious crashes.
+如果不调用`reset`，就永远不会释放分配给`d.s`字符串的内存。这个例子从编程底层来说，表现出两个重要的特性：`sizeof` 过程返回一个类型或值的字节大小。`cast`操作符可以避开类型系统：
+编译器强制将`alloc0`(会返回一个未定义类型的指针)的结果认定为`ptr Data`的类型。只有在不可避免的情况下才需要进行转换，因为它破坏了类型安全，bug可能导致未知的崩溃。
 
-**Note**: The example only works because the memory is initialized to zero
-(`alloc0` instead of `alloc` does this): `d.s` is thus initialized to
-binary zero which the string assignment can handle. One needs to know low-level
-details like this when mixing garbage-collected data with unmanaged memory.
+**Note**: 当把垃圾收集的数据和非管理的内存混合在一起时，我们需要了解这样的低级细节。这个例子之所以有效，是因为内存被初始化为零（`alloc0`会这样做，而不是`alloc`）。`d.s`因此被初始化为二进制的零，从而字符串赋值可以处理。
 
-.. XXX finalizers for traced objects
+.. XXX 终结器，用于跟踪对象
 
 
-Procedural type
----------------
-A procedural type is internally a pointer to a procedure. `nil` is
-an allowed value for a variable of a procedural type.
+过程类型
+----------------
+过程类型是一个指向过程的内部指针。对于一个过程类型的变量来说，允许被赋值`nil`。
 
-Examples:
-
-  ```nim
+示例：
+   ```nim
   proc printItem(x: int) = ...
 
   proc forEach(c: proc (x: int) {.cdecl.}) =
     ...
 
-  forEach(printItem)  # this will NOT compile because calling conventions differ
+  forEach(printItem)  # 这个将不会被编译，因为调用约定不同
   ```
 
 
@@ -1592,104 +1581,68 @@ Examples:
     OnMouseMove = proc (x, y: int) {.closure.}
 
   proc onMouseMove(mouseX, mouseY: int) =
-    # has default calling convention
+    # 有默认的调用约定
     echo "x: ", mouseX, " y: ", mouseY
 
   proc setOnMouseMove(mouseMoveEvent: OnMouseMove) = discard
 
-  # ok, 'onMouseMove' has the default calling convention, which is compatible
-  # to 'closure':
+  # 好的, 'onMouseMove' 有默认的调用约定 可以兼容 'closure':
   setOnMouseMove(onMouseMove)
   ```
 
 
-A subtle issue with procedural types is that the calling convention of the
-procedure influences the type compatibility: procedural types are only
-compatible if they have the same calling convention. As a special extension,
-a procedure of the calling convention `nimcall` can be passed to a parameter
-that expects a proc of the calling convention `closure`.
+过程类型的一个细微问题是，过程的调用约定会影响类型的兼容性：过程类型只有在调用约定相同的情况下才兼容。特殊的扩展是，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
 
-Nim supports these `calling conventions`:idx:\:
+Nim支持下列 `calling conventions`:idx:\:
 
 `nimcall`:idx:
-    is the default convention used for a Nim **proc**. It is the
-    same as `fastcall`, but only for C compilers that support `fastcall`.
+    是默认用于Nim **proc** 的惯例。它和`fastcall`一样，但是只有C编译器支持`fastcall`。
 
 `closure`:idx:
-    is the default calling convention for a **procedural type** that lacks
-    any pragma annotations. It indicates that the procedure has a hidden
-    implicit parameter (an *environment*). Proc vars that have the calling
-    convention `closure` take up two machine words: One for the proc pointer
-    and another one for the pointer to implicitly passed environment.
+    对于缺少任意编译指示注解的过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐藏的隐式参数(一个*environment*)。拥有调用约定`closure`的函数变量占两个机器字:一个是用于函数指针，另一个用于隐式传递环境指针。
 
 `stdcall`:idx:
-    This is the stdcall convention as specified by Microsoft. The generated C
-    procedure is declared with the `__stdcall` keyword.
+    这是微软指定的标准惯例。声明`__stdcall`关键字生成C程序。
 
 `cdecl`:idx:
-    The cdecl convention means that a procedure shall use the same convention
-    as the C compiler. Under Windows the generated C procedure is declared with
-    the `__cdecl` keyword.
+    cdecl惯例意味着程序将使用和C编译器一样的惯例。在Windows下生成C程序是声明`__cdecl`关键字。
 
 `safecall`:idx:
-    This is the safecall convention as specified by Microsoft. The generated C
-    procedure is declared with the `__safecall` keyword. The word *safe*
-    refers to the fact that all hardware registers shall be pushed to the
-    hardware stack.
+    微软指定的安全调用约定。生成C程序是用`__safecall`关键字声明。 *safe* 这个词是指会将所有的硬件寄存器压入硬件堆栈。
 
 `inline`:idx:
-    The inline convention means the caller should not call the procedure,
-    but inline its code directly. Note that Nim does not inline, but leaves
-    this to the C compiler; it generates `__inline` procedures. This is
-    only a hint for the compiler: it may completely ignore it, and
-    it may inline procedures that are not marked as `inline`.
+    inline内联惯例意味着调用者不应该调用过程，而是直接内联其代码。请注意，Nim并不直接内联，而是把这个问题留给C编译器。它生成了`__inline`过程，这只是给编译器的一个提示：编译器可以完全忽略它，也可以内联那些没有标记为`inline`的过程。
 
 `fastcall`:idx:
-    Fastcall means different things to different C compilers. One gets whatever
-    the C `__fastcall` means.
+    FastCall意味着对于不同的C编译器有所不同。意味着得获得C`__fastcall`表示。
 
 `thiscall`:idx:
-    This is the thiscall calling convention as specified by Microsoft, used on
-    C++ class member functions on the x86 architecture.
+    这是微软指定的thiscall调用约定，被用于X86架构C++类成员函数中。
 
 `syscall`:idx:
-    The syscall convention is the same as `__syscall`:c: in C. It is used for
-    interrupts.
+    在C中syscall惯例和 `__syscall`:c: 是一样的。它用于中断。
 
 `noconv`:idx:
-    The generated C code will not have any explicit calling convention and thus
-    use the C compiler's default calling convention. This is needed because
-    Nim's default calling convention for procedures is `fastcall` to
-    improve speed.
+    生成的C代码将不会有任何的显示调用约定，因此会使用C编译的默认调用约定。这个是需要的，因为Nim默认会对过程使用`falsecall`调用约定来提升速度。
 
-Most calling conventions exist only for the Windows 32-bit platform.
+大多数调用约定只存在于32位Windows平台。
 
-The default calling convention is `nimcall`, unless it is an inner proc (a
-proc inside of a proc). For an inner proc an analysis is performed whether it
-accesses its environment. If it does so, it has the calling convention
-`closure`, otherwise it has the calling convention `nimcall`.
+默认的调用约定是 `nimcall` ，除非它是一个内部过程（一个过程中的过程）。对于一个内部过程，将分析它是否访问其环境。如果它访问了环境，就采用`closure`的调用约定，否则就采用`nimcall`的调用约定。
 
 
-Distinct type
--------------
+Distinct类型
+------------------------
 
-A `distinct` type is a new type derived from a `base type`:idx: that is
-incompatible with its base type. In particular, it is an essential property
-of a distinct type that it **does not** imply a subtype relation between it
-and its base type. Explicit type conversions from a distinct type to its
-base type and vice versa are allowed. See also `distinctBase` to get the
-reverse operation.
+`distinct`类型是一个新类型源于 `base type`:idx: 它与它的基础类型不兼容。特别的是，它**不**暗示它与其基类型之间的子类型关系是不同类型的基本属性。从distinct类型到它的显式类型转换允许使用基本类型，反之亦然。另请参阅 `distinctBase` 以获取反向操作。
 
 如果基类型是序数类型，则distinct类型是序数类型。
 
 
-### Modeling currencies
+### 模拟货币
 
-A distinct type can be used to model different physical `units`:idx: with a
-numerical base type, for example. The following example models currencies.
+distinct类型可用于建模不同的物理“单位”:idx:例如，具有数字基本类型。 以下示例模拟货币。
 
-Different currencies should not be mixed in monetary calculations. Distinct
-types are a perfect tool to model different currencies:
+在货币计算中不应混用不同的货币。Distinct类型是一个模拟不同货币的完美工具：
 
   ```nim
   type
@@ -1701,20 +1654,17 @@ types are a perfect tool to model different currencies:
     e: Euro
 
   echo d + 12
-  # Error: cannot add a number with no unit and a `Dollar`
+  # 错误: 一个无单位的数字不可以与`Dollar`相加
   ```
 
-Unfortunately, `d + 12.Dollar` is not allowed either,
-because `+` is defined for `int` (among others), not for `Dollar`. So
-a `+` for dollars needs to be defined:
+不幸的是,`d + 12.Dollar`也是不被允许的，因为`+`被`int`(以及其他)定义，并非`Dollat`。所以对于`Dollar`的`+`需要被这样定义：
 
   ```nim
   proc `+` (x, y: Dollar): Dollar =
     result = Dollar(int(x) + int(y))
   ```
 
-It does not make sense to multiply a dollar with a dollar, but with a
-number without unit; and the same holds for division:
+将一美元乘以一美元是没有意义的，但是可以乘以一个没有单位的数字；除法也一样：
 
   ```nim
   proc `*` (x: Dollar, y: int): Dollar =
@@ -1726,11 +1676,7 @@ number without unit; and the same holds for division:
   proc `div` ...
   ```
 
-This quickly gets tedious. The implementations are trivial and the compiler
-should not generate all this code only to optimize it away later - after all
-`+` for dollars should produce the same binary code as `+` for ints.
-The pragma `borrow`:idx: has been designed to solve this problem; in principle,
-it generates the above trivial implementations:
+这很快就会变得乏味.实现很简单，编译器不应该生成所有这些代码只是为了稍后优化它 - 毕竟美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示`borrow`:idx: 旨在解决这个问题； 原则上，它会生成上述简单的实现：
 
   ```nim
   proc `*` (x: Dollar, y: int): Dollar {.borrow.}
@@ -1742,15 +1688,14 @@ The `borrow` pragma makes the compiler use the same implementation as
 the proc that deals with the distinct type's base type, so no code is
 generated.
 
-But it seems all this boilerplate code needs to be repeated for the `Euro`
-currency. This can be solved with templates_.
+但似乎所有的上述样板在`Euro`货币都要重复一遍。这个可以使用templates_来解决。
 
   ```nim  test = "nim c $1"
   template additive(typ: typedesc) =
     proc `+` *(x, y: typ): typ {.borrow.}
     proc `-` *(x, y: typ): typ {.borrow.}
 
-    # unary operators:
+    # 一元操作符:
     proc `+` *(x: typ): typ {.borrow.}
     proc `-` *(x: typ): typ {.borrow.}
 
@@ -1777,8 +1722,7 @@ currency. This can be solved with templates_.
   ```
 
 
-The borrow pragma can also be used to annotate the distinct type to allow
-certain builtin operations to be lifted:
+borrow语法也可用于注释distinct类型以运行提升某些内置操作。
 
   ```nim
   type
@@ -1790,19 +1734,17 @@ certain builtin operations to be lifted:
 
   var bb: ref Bar
   new bb
-  # field access now valid
+  # 域访问有效
   bb.a = 90
   bb.s = "abc"
   ```
 
-Currently, only the dot accessor can be borrowed in this way.
+目前只有点访问器可以通过这个方式borrow
 
 
-### Avoiding SQL injection attacks
+### 避免SQL注入攻击
 
-An SQL statement that is passed from Nim to an SQL database might be
-modeled as a string. However, using string templates and filling in the
-values is vulnerable to the famous `SQL injection attack`:idx:\:
+从Nim传递到SQL数据库的SQL语句可能转化为字符串。但是，使用字符串模板并填写。但是，使用字符串模板并填写值很容易受到著名的“SQL注入攻击”:idx:\：
 
   ```nim
   import std/strutils
@@ -1813,12 +1755,10 @@ values is vulnerable to the famous `SQL injection attack`:idx:\:
     username: string
 
   db.query("SELECT FROM users WHERE name = '$1'" % username)
-  # Horrible security hole, but the compiler does not mind!
+  # 糟糕的安全漏洞，但是编译器不关心
   ```
 
-This can be avoided by distinguishing strings that contain SQL from strings
-that don't. Distinct types provide a means to introduce a new string type
-`SQL` that is incompatible with `string`:
+这可以通过区分包含 SQL 的字符串和不包含 SQL 的字符串来避免。Distinct类型提供了一种引入与 `string` 不兼容的新字符串类型 `SQL` 的方法：
 
   ```nim
   type
@@ -1830,102 +1770,87 @@ that don't. Distinct types provide a means to introduce a new string type
     username: string
 
   db.query("SELECT FROM users WHERE name = '$1'" % username)
-  # Static error: `query` expects an SQL string!
+  # 静态错误: `query` 期望一个SQL字符串
   ```
 
 
-It is an essential property of abstract types that they **do not** imply a
-subtype relation between the abstract type and its base type. Explicit type
-conversions from `string` to `SQL` are allowed:
+抽象类型有一个重要的属性是，抽象类型与它们的子类型之间没有父子关系。运行从`string`到`SQL`的显示类型转换。
 
   ```nim
   import std/[strutils, sequtils]
 
   proc properQuote(s: string): SQL =
-    # quotes a string properly for an SQL statement
+    # 为SQL语句正确引用字符串
     return SQL(s)
 
   proc `%` (frmt: SQL, values: openarray[string]): SQL =
-    # quote each argument:
+    # 引用每个参数:
     let v = values.mapIt(properQuote(it))
-    # we need a temporary type for the type conversion :-(
+    # 我们需要一个临时类型为了类型转换 :-(
     type StrSeq = seq[string]
-    # call strutils.`%`:
+    # 调用 strutils.`%`:
     result = SQL(string(frmt) % StrSeq(v))
 
   db.query("SELECT FROM users WHERE name = '$1'".SQL % [username])
   ```
 
-Now we have compile-time checking against SQL injection attacks. Since
-`"".SQL` is transformed to `SQL("")` no new syntax is needed for nice
-looking `SQL` string literals. The hypothetical `SQL` type actually
-exists in the library as the `SqlQuery type <db_common.html#SqlQuery>`_ of
-modules like `db_sqlite <db_sqlite.html>`_.
+由于 `"".SQL`被转换为 `SQL("")`，因此美观的 `SQL` 字符串文字不需要新的语法。假定的 `SQL` 类型实际上作为 `SqlQuery 类型 <db_common.html#SqlQuery>`_ 的模块存在于库中，例如 `db_sqlite <db_sqlite.html>`_。
 
 
-Auto type
----------
+Auto类型
+----------------
 
-The `auto` type can only be used for return types and parameters. For return
-types it causes the compiler to infer the type from the routine body:
+`auto`类型只能用来作为返回类型和参数。对于返回类型，它会导致编译器从例程主体推断类型：
 
   ```nim
   proc returnsInt(): auto = 1984
   ```
 
-For parameters it currently creates implicitly generic routines:
+对于参数，它当前创建隐式通用例程：
 
   ```nim
   proc foo(a, b: auto) = discard
   ```
 
-Is the same as:
+和如下一样：
 
   ```nim
   proc foo[T1, T2](a: T1, b: T2) = discard
   ```
 
-However, later versions of the language might change this to mean "infer the
-parameters' types from the body". Then the above `foo` would be rejected as
-the parameters' types can not be inferred from an empty `discard` statement.
+但是，该语言的之后版本可能会将其更改为“从主体推断参数的类型”。
 
 
-Type relations
-==============
+类型关系
+================
 
-The following section defines several relations on types that are needed to
-describe the type checking done by the compiler.
-
-
-Type equality
--------------
-
-Nim uses structural type equivalence for most types. Only for objects,
-enumerations and distinct types and for generic types name equivalence is used.
+以下部分定义了描述编译器完成的类型检查所需的几种类型关系。
 
 
-Subtype relation
-----------------
-
-If object `a` inherits from `b`, `a` is a subtype of `b`.
-
-This subtype relation is extended to the types `var`, `ref`, `ptr`.
-If `A` is a subtype of `B` and `A` and `B` are `object` types then:
-
-- `var A` is a subtype of `var B`
-- `ref A` is a subtype of `ref B`
-- `ptr A` is a subtype of `ptr B`.
-
-**Note**: In later versions of the language the subtype relation might
-be changed to *require* the pointer indirection in order to prevent
-"object slicing".
-
-
-Convertible relation
+类型相等性
 --------------------
 
-A type `a` is **implicitly** convertible to type `b` iff the following
-algorithm returns true:
+Nim 对大多数类型使用结构类型等价。仅对对象、枚举和不同类型以及泛型类型使用名称等价。
+
+
+Subtype关系
+----------------------
+
+如果对象`a`继承自`b`，`a`是`b`的子类型。
+
+子类型关系被拓展到类型`var`,`ref`,`prt`。如果`A`是`B`的子类型，`A`和`B`是`object`类型那么：
+
+- `var A`是`var B`的子类型
+- `ref A`是`ref B`的子类型
+- `ptr A`是`ptr B`的子类型。
+
+**注意**：在该语言的更高版本中，子类型关系可能会更改为*要求*指针间接，以防止“object slicing”。
+
+
+交换关系
+----------------
+
+如果以下算法返回 true，则类型 `a` **隐式**可转换为类型 `b`：
 
   ```nim
   proc isImplicitlyConvertible(a, b: PType): bool =
@@ -1959,23 +1884,16 @@ algorithm returns true:
       result = typeEquals(a, b) or compatibleParametersAndEffects(a, b)
   ```
 
-We used the predicate `typeEquals(a, b)` for the "type equality" property
-and the predicate `isSubtype(a, b)` for the "subtype relation".
-`compatibleParametersAndEffects(a, b)` is currently not specified.
+我们使用谓词 `typeEquals(a, b)` 表示“类型相等”属性，使用谓词 `isSubtype(a, b)` 表示“子类型关系”。`compatibleParametersAndEffects(a, b)` 当前未指定。
 
-Implicit conversions are also performed for Nim's `range` type
-constructor.
+Nim 的 `range` 类型构造函数也执行隐式转换。
 
-Let `a0`, `b0` of type `T`.
+Let `a0`, `b0`为类型`T`。
 
-Let `A = range[a0..b0]` be the argument's type, `F` the formal
-parameter's type. Then an implicit conversion from `A` to `F`
-exists if `a0 >= low(F) and b0 <= high(F)` and both `T` and `F`
-are signed integers or if both are unsigned integers.
+让 `A = range[a0..b0]` 为参数的类型， `F` 为形参的类型。如果 `a0 >= low(F) 和 b0 <= high(F)` 并且 `T` 和 `F` 都是有符号整数或两者都是无符号整数，则存在从 `A` 到 `F` 的隐式转换。
 
 
-A type `a` is **explicitly** convertible to type `b` iff the following
-algorithm returns true:
+如果下列算法返回true，则类型`a`是显示转换为类型`b`：
 
   ```nim
   proc isIntegralType(t: PType): bool =
@@ -1991,8 +1909,7 @@ algorithm returns true:
     if isSubtype(a, b) or isSubtype(b, a): return true
   ```
 
-The convertible relation can be relaxed by a user-defined type
-`converter`:idx:.
+可转换关系可以通过用户定义的类型 `converter`:idx:来relax:
 
   ```nim
   converter toInt(x: char): int = result = ord(x)
@@ -2001,16 +1918,15 @@ The convertible relation can be relaxed by a user-defined type
     x: int
     chr: char = 'a'
 
-  # implicit conversion magic happens here
+  # 隐式转换魔法在这里发生
   x = chr
   echo x # => 97
-  # one can use the explicit form too
+  # 另一个也可以使用显式形式
   x = chr.toInt
   echo x # => 97
   ```
 
-The type conversion `T(a)` is an L-value if `a` is an L-value and
-`typeEqualsOrDistinct(T, typeof(a))` holds.
+如果 `a` 是 L-value 并且 `typeEqualsOrDistinct(T, typeof(a))` 成立，则类型转换 `T(a)` 是 L-value。
 
 
 Assignment compatibility
@@ -2020,45 +1936,26 @@ An expression `b` can be assigned to an expression `a` iff `a` is an
 `l-value` and `isImplicitlyConvertible(b.typ, a.typ)` holds.
 
 
-Overload resolution
-===================
+重载解决方案
+========================
 
-In a call `p(args)` the routine `p` that matches best is selected. If
-multiple routines match equally well, the ambiguity is reported during
-semantic analysis.
+在调用 `p(args)` 中，选择最匹配的例程 `p`。如果多个例程匹配得一样好，则在语义分析期间报告歧义。
 
-Every arg in args needs to match. There are multiple different categories how an
-argument can match. Let `f` be the formal parameter's type and `a` the type
-of the argument.
+args 中的每个 arg 都需要匹配。有多个不同的类别可以匹配一个参数。Let `f` 是形参的类型，`a` 是参数的类型。
 
-1. Exact match: `a` and `f` are of the same type.
-2. Literal match: `a` is an integer literal of value `v`
-   and `f` is a signed or unsigned integer type and `v` is in `f`'s
-   range. Or:  `a` is a floating-point literal of value `v`
-   and `f` is a floating-point type and `v` is in `f`'s
-   range.
-3. Generic match: `f` is a generic type and `a` matches, for
-   instance `a` is `int` and `f` is a generic (constrained) parameter
-   type (like in `[T]` or `[T: int|char]`).
-4. Subrange or subtype match: `a` is a `range[T]` and `T`
-   matches `f` exactly. Or: `a` is a subtype of `f`.
-5. Integral conversion match: `a` is convertible to `f` and `f` and `a`
-   is some integer or floating-point type.
-6. Conversion match: `a` is convertible to `f`, possibly via a user
-   defined `converter`.
+1. 完全匹配: `a`和`f`是同一类型。
+2. 字面量匹配：`a` 是值`v` 的整数字面量，`f` 是有符号或无符号整数类型，`v` 在`f` 的范围内。 或者：`a` 是值`v` 的浮点字面量，`f` 是浮点类型，`v` 在`f` 的范围内。
+3. 泛型匹配：`f` 是泛型类型和 `a` 匹配，例如 `a` 是 `int` 而 `f` 是泛型（受约束的）参数类型（如在 `[T]` 或 `[ T：int|char]`）。
+4. 子范围或子类型匹配：`a` 是`range[T]`，`T` 与`f` 完全匹配。 或者：`a` 是 `f` 的子类型。
+5. 整数转换匹配：`a`可以转换为`f`，`f`和`a`是某些整数或浮点类型。
+6. 转换匹配: `a` 可转换为 `f`，可能通过用户定义的 `converter`。
 
-These matching categories have a priority: An exact match is better than a
-literal match and that is better than a generic match etc. In the following,
-`count(p, m)` counts the number of matches of the matching category `m`
-for the routine `p`.
+在下文中，`count(p, m)` 计算例程`p` 的匹配类别`m` 的匹配数。
 
-A routine `p` matches better than a routine `q` if the following
-algorithm returns true::
+如果以下算法返回 true，则例程 `p` 比例程 `q` 匹配得更好：
 
-  for each matching category m in ["exact match", "literal match",
-                                  "generic match", "subtype match",
-                                  "integral match", "conversion match"]:
-    if count(p, m) > count(q, m): return true
+ 对每个匹配类别m在["完全匹配", "字面量匹配", "泛型匹配", "子类型匹配", "整型配型", "转换匹配"]:
+        if count(p, m) > count(q, m): return true
     elif count(p, m) == count(q, m):
       discard "continue with next category m"
     else:
@@ -2066,7 +1963,7 @@ algorithm returns true::
   return "ambiguous"
 
 
-Some examples:
+一些例子：
 
   ```nim
   proc takesInt(x: int) = echo "int"
@@ -2083,10 +1980,7 @@ Some examples:
   ```
 
 
-If this algorithm returns "ambiguous" further disambiguation is performed:
-If the argument `a` matches both the parameter type `f` of `p`
-and `g` of `q` via a subtyping relation, the inheritance depth is taken
-into account:
+如果此算法返回“歧义”，则执行进一步消歧：如果参数 `a` 通过子类型关系同时匹配 `p` 的参数类型 `f` 和 `q` 的 `g`，则考虑继承深度 ：
 
   ```nim
   type
@@ -2101,20 +1995,19 @@ into account:
     echo "B"
 
   var c = C()
-  # not ambiguous, calls 'B', not 'A' since B is a subtype of A
-  # but not vice versa:
+  # 没有歧义, 调用“B”，而不是“A”，因为 B 是 A 的子类型
+  # 但是反之:
   p(c)
 
   proc pp(obj: A, obj2: B) = echo "A B"
   proc pp(obj: B, obj2: A) = echo "B A"
 
-  # but this is ambiguous:
+  # 但是这个有歧义:
   pp(c, c)
   ```
 
 
-Likewise, for generic matches, the most specialized generic type (that still
-matches) is preferred:
+同样，对于泛型匹配，最专用的泛型类型（仍然匹配）是首选：
 
   ```nim
   proc gen[T](x: ref ref T) = echo "ref ref T"
@@ -2126,42 +2019,35 @@ matches) is preferred:
   ```
 
 
-Overloading based on 'var T'
+基于 'var T' 的重载
 --------------------------------------
 
-If the formal parameter `f` is of type `var T`
-in addition to the ordinary type checking,
-the argument is checked to be an `l-value`:idx:.
-`var T` matches better than just `T` then.
+如果形参 `f` 是 `var T` 类型，除了普通类型检查外，参数会被检查为 `左值`:idx:。`var T` 比 `T` 匹配得更好。
 
   ```nim
   proc sayHi(x: int): string =
-    # matches a non-var int
+    # 匹配一个非变量整型
     result = $x
   proc sayHi(x: var int): string =
-    # matches a var int
+    # 匹配一个整形变量
     result = $(x + 10)
 
   proc sayHello(x: int) =
-    var m = x # a mutable version of x
-    echo sayHi(x) # matches the non-var version of sayHi
-    echo sayHi(m) # matches the var version of sayHi
+    var m = x # 一个x的可变版本
+    echo sayHi(x) # 匹配sayHi的非变量版本
+    echo sayHi(m) # 匹配sayHi的变量版本
 
   sayHello(3) # 3
               # 13
   ```
 
 
-Lazy type resolution for untyped
---------------------------------
+无类型的惰性类型解析
+----------------------------------------
 
-**Note**: An `unresolved`:idx: expression is an expression for which no symbol
-lookups and no type checking have been performed.
+`unresolved`:idx:表达式是没有符号的表达式，不执行查找和类型检查。
 
-Since templates and macros that are not declared as `immediate` participate
-in overloading resolution, it's essential to have a way to pass unresolved
-expressions to a template or macro. This is what the meta-type `untyped`
-accomplishes:
+由于未声明为 `immediate` 的模板和宏参与重载解析，因此必须有一种方法将未解析的表达式传递给模板或宏。 这就是元类型 `untyped` 完成的工作：
 
   ```nim
   template rem(x: untyped) = discard
@@ -2169,36 +2055,31 @@ accomplishes:
   rem unresolvedExpression(undeclaredIdentifier)
   ```
 
-A parameter of type `untyped` always matches any argument (as long as there is
-any argument passed to it).
+`untyped` 类型的参数总是匹配任何参数（只要有任何参数传递给它）。
 
-But one has to watch out because other overloads might trigger the
-argument's resolution:
+但是必须小心，因为其他重载可能会触发参数的解析：
 
   ```nim
   template rem(x: untyped) = discard
   proc rem[T](x: T) = discard
 
-  # undeclared identifier: 'unresolvedExpression'
+  # 未声明的标识符: 'unresolvedExpression'
   rem unresolvedExpression(undeclaredIdentifier)
   ```
 
-`untyped` and `varargs[untyped]` are the only metatype that are lazy in this sense, the other
-metatypes `typed` and `typedesc` are not lazy.
+`untyped` 和 `varargs[untyped]` 是唯一在这个意义上是惰性的元类型，其他元类型 `typed` 和 `typedesc` 不是惰性的。
 
 
-Varargs matching
-----------------
+可变参数匹配
+------------------------
 
-See `Varargs <#types-varargs>`_.
+参阅 `Varargs <#types-varargs>`_.
 
 
-iterable
---------
+迭代器
+------------
 
-A called `iterator` yielding type `T` can be passed to a template or macro via
-a parameter typed as `untyped` (for unresolved expressions) or the type class
-`iterable` or `iterable[T]` (after type checking and overload resolution).
+yielding类型`T`的迭代器可以通过类型为“untyped”（用于未解析的表达式）或类型类“iterable”或“iterable[T]”（在类型检查和重载解析之后）的参数传递给模板或宏。
 
   ```nim
   iterator iota(n: int): int =
@@ -2217,28 +2098,21 @@ a parameter typed as `untyped` (for unresolved expressions) or the type class
   ```
 
 
-Overload disambiguation
-=======================
+重载disambiguation
+====================================
 
-For routine calls "overload resolution" is performed. There is a weaker form of
-overload resolution called *overload disambiguation* that is performed when an
-overloaded symbol is used in a context where there is additional type information
-available. Let `p` be an overloaded symbol. These contexts are:
+对于例程调用，执行“重载解决方案”。 有一种称为 *overload disambiguation* 的较弱形式的重载解析，当重载符号用于有附加类型信息可用的上下文中时执行。 让 `p` 成为重载符号。 这些上下文是：
 
-- In a function call `q(..., p, ...)` when the corresponding formal parameter
-  of `q` is a `proc` type. If `q` itself is overloaded then the cartesian product
-  of every interpretation of `q` and `p` must be considered.
-- In an object constructor `Obj(..., field: p, ...)` when `field` is a `proc`
-  type. Analogous rules exist for array/set/tuple constructors.
+- 当 `q` 的相应形式参数是 `proc` 类型时，在函数调用 `q(..., p, ...)` 中。 如果 `q` 本身被重载，则必须考虑 `q` 和 `p` 的每种解释的笛卡尔积。
+- In an object constructor `Obj(..., field: p, ...)` when `field` is a `proc` type. Analogous rules exist for array/set/tuple constructors.
 - In a declaration like `x: T = p` when `T` is a `proc` type.
 
-As usual, ambiguous matches produce a compile-time error.
+通常情况下，有歧义的匹配会产生编译错误。
 
-Named argument overloading
---------------------------
+命名参数重载
+------------------------
 
-Routines with the same type signature can be called individually if
-a parameter has different names between them.
+具有相同类型签名的例程可以单独调用，如果参数在它们之间具有不同的名称。
 
   ```Nim
   proc foo(x: int) =
@@ -2250,66 +2124,49 @@ a parameter has different names between them.
   foo(y = 2) # Using y: 2
   ```
 
-Not supplying the parameter name in such cases results in an
-ambiguity error.
+在这种情况下不提供参数名称会导致歧义错误。
 
 
-Statements and expressions
-==========================
+语句和表达式
+========================
 
-Nim uses the common statement/expression paradigm: Statements do not
-produce a value in contrast to expressions. However, some expressions are
-statements.
+Nim 使用通用语句/表达式范例：与表达式相比，语句不产生值。 但是，有些表达式是语句。
 
-Statements are separated into `simple statements`:idx: and
-`complex statements`:idx:.
-Simple statements are statements that cannot contain other statements like
-assignments, calls, or the `return` statement; complex statements can
-contain other statements. To avoid the `dangling else problem`:idx:, complex
-statements always have to be indented. The details can be found in the grammar.
+语句被分成 `简单语句`:idx:和`复杂语句`:idx:。就按单语句是不能包含其他语句的语句，如赋值、调用或 `return` 语句； 复杂语句可以包含其他语句。 为了避免 `悬空别的问题`，复杂的语句总是必须缩进。 细节可以在语法中找到。
 
 
-Statement list expression
--------------------------
+语句列表表达式
+----------------------------
 
-Statements can also occur in an expression context that looks
-like `(stmt1; stmt2; ...; ex)`. This is called
-a statement list expression or `(;)`. The type
-of `(stmt1; stmt2; ...; ex)` is the type of `ex`. All the other statements
-must be of type `void`. (One can use `discard` to produce a `void` type.)
-`(;)` does not introduce a new scope.
+语句也可以出现在看起来像`(stmt1; stmt2; ...; ex)`。 这称为语句列表表达式或`(;)`。 `(stmt1; stmt2; ...; ex)` 的类型是 `ex` 的类型。 所有其他语句必须是 `void` 类型。 （可以使用 `discard` 来生成 `void` 类型。）`(;)` 不会引入新的范围。
 
 
-Discard statement
------------------
+Discard语句
+----------------------
 
-示例：
+例如：
 
-  ```nim
+```nim
   proc p(x, y: int): int =
     result = x + y
 
-  discard p(3, 4) # discard the return value of `p`
+  discard p(3, 4) # 丢弃`p`的返回值
   ```
 
-The `discard` statement evaluates its expression for side-effects and
-throws the expression's resulting value away, and should only be used
-when ignoring this value is known not to cause problems.
+`discard` 语句评估其表达式的副作用并将表达式的结果值丢弃，并且只应在已知忽略此值不会导致问题时使用。
 
-Ignoring the return value of a procedure without using a discard statement is
-a static error.
+忽略过程的返回值而不使用丢弃语句是静态错误。
 
-The return value can be ignored implicitly if the called proc/iterator has
-been declared with the `discardable`:idx: pragma:
+如果调用的 proc/iterator 已使用 `discardable`:idx:编译指示声明，则可以隐式忽略返回值：
 
   ```nim
   proc p(x, y: int): int {.discardable.} =
     result = x + y
 
-  p(3, 4) # now valid
+  p(3, 4) # 现在有效
   ```
 
-however the discardable pragma does not work on templates as templates substitute the AST in place. For example:
+但是可丢弃的编译指示不适用于模板，因为模板替代了 AST。 例如：
 
   ```nim
   {.push discardable .}
@@ -2319,9 +2176,9 @@ however the discardable pragma does not work on templates as templates substitut
   example()
   ```
 
-This template will resolve into "https://nim-lang.org" which is a string literal and since {.discardable.} doesn't apply to literals, the compiler will error.
+此模板将解析为字符串文字“https://nim-lang.org”，但由于 {.discardable.} 不适用于文字，编译器会出错。
 
-An empty `discard` statement is often used as a null statement:
+空的`discard`语句通常用于一个空的语句中
 
   ```nim
   proc classify(s: string) =
@@ -2332,17 +2189,15 @@ An empty `discard` statement is often used as a null statement:
   ```
 
 
-Void context
-------------
+空下上文
+----------------
 
-In a list of statements, every expression except the last one needs to have the
-type `void`. In addition to this rule an assignment to the builtin `result`
-symbol also triggers a mandatory `void` context for the subsequent expressions:
+在语句列表中，除最后一个之外的每个表达式都需要具有“void”类型。 除了这条规则之外，对内置 `result` 符号的赋值还会触发后续表达式的强制 `void` 上下文：
 
   ```nim
   proc invalid*(): string =
     result = "foo"
-    "invalid"  # Error: value of type 'string' has to be discarded
+    "invalid"  # 错误: 类型`string`的值必须被抛弃
   ```
 
   ```nim
@@ -2352,12 +2207,10 @@ symbol also triggers a mandatory `void` context for the subsequent expressions:
   ```
 
 
-Var statement
--------------
+Var语句
+--------------
 
-Var statements declare new local and global variables and
-initialize them. A comma-separated list of variables can be used to specify
-variables of the same type:
+Var 语句声明新的局部和全局变量并初始化它们。 逗号分隔的变量列表可用于指定相同类型的变量：
 
   ```nim
   var
@@ -2365,14 +2218,11 @@ variables of the same type:
     x, y, z: int
   ```
 
-If an initializer is given, the type can be omitted: the variable is then of the
-same type as the initializing expression. Variables are always initialized
-with a default value if there is no initializing expression. The default
-value depends on the type and is always a zero in binary.
+如果给定了初始化器，则可以省略类型：变量的类型与初始化表达式的类型相同。 如果没有初始化表达式，则始终使用默认值初始化变量。 默认值取决于类型，并且在二进制中始终为零。
 
-============================    ==============================================
-Type                            default value
-============================    ==============================================
+============================    ==========================================================
+类型                            默认值
+============================    ==========================================================
 any integer type                0
 any float                       0.0
 char                            '\\0'
@@ -2384,49 +2234,43 @@ string                          `""`
 tuple[x: A, y: B, ...]          (default(A), default(B), ...)
                                 (analogous for objects)
 array[0..., T]                  [default(T), ...]
-range[T]                        default(T); this may be out of the valid range
-T = enum                        cast[T]\(0); this may be an invalid value
-============================    ==============================================
+range[T]                        default(T); 这个可能会超出有效范围
+T = enum                        cast[T]\(0); 这个可能是一个非法值
+============================    ==========================================================
 
-
-The implicit initialization can be avoided for optimization reasons with the
-`noinit`:idx: pragma:
+出于优化原因，可以使用`noinit`:idx:编译指示来避免隐式初始化：
 
   ```nim
   var
     a {.noinit.}: array[0..1023, char]
   ```
 
-If a proc is annotated with the `noinit` pragma, this refers to its implicit
-`result` variable:
+如果proc使用`noinit`编译指示，这指的是其隐式`result`变量：
 
   ```nim
   proc returnUndefinedValue: int {.noinit.} = discard
   ```
 
 
-The implicit initialization can also be prevented by the `requiresInit`:idx:
-type pragma. The compiler requires an explicit initialization for the object
-and all of its fields. However, it does a `control flow analysis`:idx: to prove
-the variable has been initialized and does not rely on syntactic properties:
+`requiresInit`:idx:类型编译指示也可以防止隐式初始化。编译器需要对对象及其所有字段进行显式初始化。但是，它会进行“控制流分析”:idx:以证明变量已被初始化并且不依赖于句法属性：
 
   ```nim
   type
     MyObject = object {.requiresInit.}
 
   proc p() =
-    # the following is valid:
+    # 下方有效:
     var x: MyObject
     if someCondition():
       x = a()
     else:
       x = a()
-    # use x
+    # 使用x
   ```
 
-`requiresInit` pragma can also be applied to `distinct` types.
+`requiresInit`编译指示也可以应用于 `distinct` 类型。
 
-Given the following distinct type definitions:
+给定以下不同的类型定义：
 
   ```nim
   type
@@ -2437,7 +2281,7 @@ Given the following distinct type definitions:
     DistinctString {.requiresInit.} = distinct string
   ```
 
-The following code blocks will fail to compile:
+下列代码块将会编译失败：
 
   ```nim
   var foo: DistinctFoo
@@ -2451,7 +2295,7 @@ The following code blocks will fail to compile:
   doAssert string(s) == "test"
   ```
 
-But these will compile successfully:
+但这些将会编译成功：
 
   ```nim
   let foo = DistinctFoo(Foo(x: "test"))
@@ -2463,28 +2307,20 @@ But these will compile successfully:
   doAssert string(s) == "test"
   ```
 
-Let statement
--------------
+Let语句
+--------------
 
-A `let` statement declares new local and global `single assignment`:idx:
-variables and binds a value to them. The syntax is the same as that of the `var`
-statement, except that the keyword `var` is replaced by the keyword `let`.
-Let variables are not l-values and can thus not be passed to `var` parameters
-nor can their address be taken. They cannot be assigned new values.
+`let` 语句声明了新的局部和全局“单一赋值”:idx:变量并将值绑定到它们。语法与`var`语句的语法相同，只是关键字`var`被关键字`let`替换。let变量不是左值，因此不能传递给`var`参数也不能获取他们的地址。不能为它们分配新值。
 
-For let variables, the same pragmas are available as for ordinary variables.
+对于 let 变量，可以使用与普通变量相同的编译指示。
 
-As `let` statements are immutable after creation they need to define a value
-when they are declared. The only exception to this is if the `{.importc.}`
-pragma (or any of the other `importX` pragmas) is applied, in this case the
-value is expected to come from native code, typically a C/C++ `const`.
+由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义一个值。 唯一的例外是如果应用了 `{.importc.}` 编译指示（或任何其他 `importX` 编译指示），在这种情况下，值应该来自本机代码，通常是 C/C++ `const `。
 
 
-Tuple unpacking
----------------
+元组解包
+----------------
 
-In a `var` or `let` statement tuple unpacking can be performed. The special
-identifier `_` can be used to ignore some parts of the tuple:
+在 `var` 或 `let` 语句中可以执行元组解包。 特殊标识符 `_` 可用于忽略元组的某些部分：
 
   ```nim
   proc returnsTuple(): (int, int, int) = (4, 2, 3)
@@ -2494,59 +2330,52 @@ identifier `_` can be used to ignore some parts of the tuple:
 
 
 
-Const section
--------------
+常量域
+------------
 
-A const section declares constants whose values are constant expressions:
+常量域声明其值为常量表达式的常量
 
   ```nim
   import std/[strutils]
   const
     roundPi = 3.1415
-    constEval = contains("abc", 'b') # computed at compile time!
+    constEval = contains("abc", 'b') # 在编译时计算
   ```
 
-Once declared, a constant's symbol can be used as a constant expression.
+一旦声明，常量的符号就可以用作常量表达式
 
-See `Constants and Constant Expressions <#constants-and-constant-expressions>`_
-for details.
+参阅`Constants and Constant Expressions <#constants-and-constant-expressions>`_以获取详情
 
-Static statement/expression
----------------------------
+静态语句/表达式
+------------------------------
 
-A static statement/expression explicitly requires compile-time execution.
-Even some code that has side effects is permitted in a static block:
+静态语句/表达式明确需要编译时执行。 甚至在静态块中也允许一些具有副作用的代码：
 
   ```nim
   static:
     echo "echo at compile time"
   ```
 
-`static` can also be used like a routine.
+`static` 也可以像例程一样使用。
 
   ```nim
   proc getNum(a: int): int = a
 
-  # Below calls "echo getNum(123)" at compile time.
+  # 下列调用"echo getNum(123)"是在编译时
   static:
     echo getNum(123)
 
-  # Below call evaluates the "getNum(123)" at compile time, but its
-  # result gets used at run time.
+  # 下面的调用在编译时计算“getNum(123)”，但其结果在运行时使用。
   echo static(getNum(123))
   ```
 
-There are limitations on what Nim code can be executed at compile time;
-see `Restrictions on Compile-Time Execution
-<#restrictions-on-compileminustime-execution>`_ for details.
-It's a static error if the compiler cannot execute the block at compile
-time.
+在编译时可以执行哪些 Nim 代码是有限制的；详情参阅`Restrictions on Compile-Time Execution<#restrictions-on-compileminustime-execution>`。如果编译器无法在编译时执行该块，则这是一个静态错误。
 
 
-If statement
+If语句
 ------------
 
-示例：
+例如：
 
   ```nim
   var name = readLine(stdin)
@@ -2559,20 +2388,9 @@ If statement
     echo "Boring name..."
   ```
 
-The `if` statement is a simple way to make a branch in the control flow:
-The expression after the keyword `if` is evaluated, if it is true
-the corresponding statements after the `:` are executed. Otherwise,
-the expression after the `elif` is evaluated (if there is an
-`elif` branch), if it is true the corresponding statements after
-the `:` are executed. This goes on until the last `elif`. If all
-conditions fail, the `else` part is executed. If there is no `else`
-part, execution continues with the next statement.
+`if` 语句是在控制流中创建分支的一种简单方法：计算关键字 `if` 后的表达式，如果为真，则执行 `:` 后的相应语句。 否则，计算 `elif` 之后的表达式（如果有 `elif` 分支），如果为真，则执行 `:` 之后的相应语句。 这一直持续到最后一个 `elif`。 如果所有条件都失败，则执行 `else` 部分。 如果没有 `else` 部分，则继续执行下一条语句。
 
-In `if` statements, new scopes begin immediately after
-the `if`/`elif`/`else` keywords and ends after the
-corresponding *then* block.
-For visualization purposes the scopes have been enclosed
-in `{|  |}` in the following example:
+在 `if` 语句中，新的作用域在 `if`/`elif`/`else` 关键字之后立即开始，并在相应的 *then* 块之后结束。 出于可视化目的，范围已包含在 `{| |}` 在以下示例中：
 
   ```nim
   if {| (let m = input =~ re"(\w+)=\w+"; m.isMatch):
@@ -2583,10 +2401,10 @@ in `{|  |}` in the following example:
     echo "m not declared here"  |}
   ```
 
-Case statement
---------------
+Case 语句
+------------------
 
-示例：
+例如：
 
   ```nim
   let line = readline(stdin)
@@ -2597,8 +2415,8 @@ Case statement
   elif line.len == 0:     echo "empty" # optional, must come after `of` branches
   else:                   echo "unknown command" # ditto
 
-  # indentation of the branches is also allowed; and so is an optional colon
-  # after the selecting expression:
+  # 允许分支缩进; 冒号是可选的
+  # 在选择表达式之后:
   case readline(stdin):
     of "delete-everything", "restart-computer":
       echo "permission denied"
@@ -2607,31 +2425,24 @@ Case statement
   ```
 
 
-The `case` statement is similar to the `if` statement, but it represents
-a multi-branch selection. The expression after the keyword `case` is
-evaluated and if its value is in a *slicelist* the corresponding statements
-(after the `of` keyword) are executed. If the value is not in any
-given *slicelist*, trailing `elif` and `else` parts are executed using same
-semantics as for `if` statement, and `elif` is handled just like `else: if`.
-If there are no `else` or `elif` parts and not
-all possible values that `expr` can hold occur in a *slicelist*, a static error occurs.
-This holds only for expressions of ordinal types.
-"All possible values" of `expr` are determined by `expr`'s type.
-To suppress the static error an `else: discard` should be used.
+`case` 语句类似于 `if` 语句, 但它表示
+一种多分支选择. 关键字 `case` 后面的表达式是
+求值, 如果它的值在 *slicelist* 列表中, 那么则执行
+( `of` 关键字之后)相应语句. 如果该值不在任何已给定的 *slicelist* 中, 那么 `elif` 和 `else` 部分所执行的语句与 `if` 语句相同, `elif` 的处理就像 `else: if`.
+如果没有 `else` 或 `elif` 部分并且 `expr` 不能保存所有可能的值,则在 *slicelist* 会发生静态错误.
+这仅适用于序数类型的表达式.
+`expr` 的"所有可能的值"由 `expr` 的类型决定
+为了阻止静态错误应该使用 `else: discard`
 
-For non-ordinal types, it is not possible to list every possible value and so
-these always require an `else` part.
-An exception to this rule is for the `string` type, which currently doesn't
-require a trailing `else` or `elif` branch; it's unspecified whether this will
-keep working in future versions.
+对于非序数类型, 不可能列出每一个可能的值,所以这些值总是需要 `else` 部分.
+该规则的一个例外是 `string` 类型, 目前它不需要在后面添加 `else` 或 `elif` 分支;
+目前还不确定这是否会在未来的版本中继续工作.
 
-Because case statements are checked for exhaustiveness during semantic analysis,
-the value in every `of` branch must be a constant expression.
-This restriction also allows the compiler to generate more performant code.
+因为在语义分析期间检查case语句的穷尽性,所以每个 `of` 分支中的值必须是常量表达式.
+此限制可以让编译器生成更高性能的代码.
 
-As a special semantic extension, an expression in an `of` branch of a case
-statement may evaluate to a set or array constructor; the set or array is then
-expanded into a list of its elements:
+作为一种特殊的语义扩展, case语句的 `of` 分支中的表达式可以计算为集合或数组构造函数;
+然后将集合或数组扩展为其元素列表:
 
   ```nim
   const
@@ -2643,7 +2454,7 @@ expanded into a list of its elements:
     of '0'..'9': echo "a number"
     else: echo "other"
 
-  # is equivalent to:
+  # 等价于:
   proc classify(s: string) =
     case s[0]
     of 'a'..'z', 'A'..'Z', '\x80'..'\xFF', '_': echo "an identifier"
@@ -2651,16 +2462,15 @@ expanded into a list of its elements:
     else: echo "other"
   ```
 
-The `case` statement doesn't produce an l-value, so the following example
-won't work:
+ `case` 语句不会产生l-value, 所以下面的示例不会生效:
 
-  ```nim
+    ```nim
   type
     Foo = ref object
       x: seq[string]
 
   proc get_x(x: Foo): var seq[string] =
-    # doesn't work
+    # 不生效
     case true
     of true:
       x.x
@@ -2671,7 +2481,7 @@ won't work:
   foo.get_x().add("asd")
   ```
 
-This can be fixed by explicitly using `result` or `return`:
+这可以通过显式使用' result '或' return '来修复:
 
   ```nim
   proc get_x(x: Foo): var seq[string] =
@@ -2683,10 +2493,10 @@ This can be fixed by explicitly using `result` or `return`:
   ```
 
 
-When statement
---------------
+When 语句
+------------------
 
-示例：
+例如：
 
   ```nim
   when sizeof(int) == 2:
@@ -2699,36 +2509,29 @@ When statement
     echo "cannot happen!"
   ```
 
-The `when` statement is almost identical to the `if` statement with some
-exceptions:
+ `when` 语句几乎与 `if` 语句完全相同, 但有一些例外:
 
-* Each condition (`expr`) has to be a constant expression (of type `bool`).
-* The statements do not open a new scope.
-* The statements that belong to the expression that evaluated to true are
-  translated by the compiler, the other statements are not checked for
-  semantics! However, each condition is checked for semantics.
+* 每个条件 (`expr`) 必须是一个常量表达式 (类型为 `bool`).
+* 语句不产生新作用域.
+* 属于计算为true的表达式的语句由编译器翻译, 其他语句不检查语义! 但是, 检查每个条件的语义.
 
-The `when` statement enables conditional compilation techniques. As
-a special syntactic extension, the `when` construct is also available
-within `object` definitions.
+ `when` 语句启用条件编译技术.  作为一种特殊的语法扩展,  `when` 结构也可以在 `object` 定义中使用
 
 
-When nimvm statement
---------------------
+When nimvm 语句
+------------------------------
 
-`nimvm` is a special symbol that may be used as the expression of a
-`when nimvm` statement to differentiate the execution path between
-compile-time and the executable.
+`nimvm` 是一个特殊的符号, 可以作为 `when nimvm` 语句的表达式来区分编译时和可执行文件之间的执行路径
 
-示例：
+例如：
 
   ```nim
   proc someProcThatMayRunInCompileTime(): bool =
     when nimvm:
-      # This branch is taken at compile time.
+      # 编译时采用这个分支.
       result = true
     else:
-      # This branch is taken in the executable.
+      # 可执行文件中采用这个分支.
       result = false
   const ctValue = someProcThatMayRunInCompileTime()
   let rtValue = someProcThatMayRunInCompileTime()
@@ -2736,28 +2539,24 @@ compile-time and the executable.
   assert(rtValue == false)
   ```
 
-A `when nimvm` statement must meet the following requirements:
+ `when nimvm` 语句必须满足以下要求: 
 
-* Its expression must always be `nimvm`. More complex expressions are not
-  allowed.
-* It must not contain `elif` branches.
-* It must contain an `else` branch.
-* Code in branches must not affect semantics of the code that follows the
-  `when nimvm` statement. E.g. it must not define symbols that are used in
-  the following code.
+* 它的表达式必须是 nimvm . 不允许使用的复杂表达式.
+* 它必须不含有 `elif` 分支.
+* 必须含有 `else` 分支.
+* 分支中的代码不能影响 `when nimvm` 语句后面的代码的语义. 比如它不能定义后续代码中使用的符号.
 
-Return statement
-----------------
+Return 语句
+----------------------
 
-示例：
+例如：
 
   ```nim
   return 40 + 2
   ```
 
-The `return` statement ends the execution of the current procedure.
-It is only allowed in procedures. If there is an `expr`, this is syntactic
-sugar for:
+ `return` 语句结束当前过程的执行.
+它只允许在程序中使用. 如果有一个 `expr`, 这是一个语法糖:
 
   ```nim
   result = expr
@@ -2765,38 +2564,32 @@ sugar for:
   ```
 
 
-`return` without an expression is a short notation for `return result` if
-the proc has a return type. The `result`:idx: variable is always the return
-value of the procedure. It is automatically declared by the compiler. As all
-variables, `result` is initialized to (binary) zero:
+如果proc有返回类型, 不带表达式的`return` 是 `return result` 的简短表示法.
+变量 `result`:idx:始终是过程的返回值. 它由编译器自动声明. 与所有变量一样, '`result` 初始化为(二进制)0:
 
   ```nim
   proc returnZero(): int =
-    # implicitly returns 0
+    # 隐式返回0
   ```
 
 
-Yield statement
----------------
+Yield 语句
+--------------------
 
-示例：
+例如：
 
   ```nim
   yield (1, 2, 3)
   ```
 
-The `yield` statement is used instead of the `return` statement in
-iterators. It is only valid in iterators. Execution is returned to the body
-of the for loop that called the iterator. Yield does not end the iteration
-process, but the execution is passed back to the iterator if the next iteration
-starts. See the section about iterators (`Iterators and the for statement`_)
-for further information.
+在迭代器中使用' yield '语句而不是' return '语句.它只在迭代器中生效.执行返回给调用迭代器的for循环体.
+Yield不会结束迭代过程, 但是如果下一次迭代开始, 则执行会返回到迭代器. 请参阅关于迭代器的部分(`Iterators and the for statement`_)以了解更多信息. 
 
 
-Block statement
----------------
+Block 语句
+--------------------
 
-示例：
+例如：
 
   ```nim
   var found = false
@@ -2805,34 +2598,29 @@ Block statement
       for j in 0..3:
         if a[j][i] == 7:
           found = true
-          break myblock # leave the block, in this case both for-loops
+          break myblock # 跳出两个for循环块
   echo found
   ```
 
-The block statement is a means to group statements to a (named) `block`.
-Inside the block, the `break` statement is allowed to leave the block
-immediately. A `break` statement can contain a name of a surrounding
-block to specify which block is to be left.
+block语句是一种将语句分组到(命名)`block`的方法.在block语句内, 允许 `break` 语句立即跳出block .`break`语句可以包含周围block的名称, 以指定要跳出的block. 
 
 
-Break statement
----------------
+Break 语句
+--------------------
 
-示例：
+例如：
 
   ```nim
   break
   ```
 
-The `break` statement is used to leave a block immediately. If `symbol`
-is given, it is the name of the enclosing block that is to be left. If it is
-absent, the innermost block is left.
+ `break` 语句用于立即跳出block.如果给出`symbol`类型, 则它是要跳出的封闭block的名称.如果不存在,则跳出最里面的block
 
 
-While statement
----------------
+While 语句
+--------------------
 
-示例：
+例如：
 
   ```nim
   echo "Please tell me your password:"
@@ -2843,17 +2631,13 @@ While statement
   ```
 
 
-The `while` statement is executed until the `expr` evaluates to false.
-Endless loops are no error. `while` statements open an `implicit block`
-so that they can be left with a `break` statement.
+执行 `while` 语句直到 `expr` 计算结果为false.无尽的循环没有错误. `while` 语句打开一个 `implicit block`(隐式块), 这样它们就可以用 `break` 语句跳出
 
 
-Continue statement
-------------------
+Continue 语句
+--------------------------
 
-A `continue` statement leads to the immediate next iteration of the
-surrounding loop construct. It is only allowed within a loop. A continue
-statement is syntactic sugar for a nested block:
+ `continue` 语句会导致循环结构进行下一次迭代.它只允许在循环中使用.continue语句是嵌套block的语法糖:
 
   ```nim
   while expr1:
@@ -2862,7 +2646,7 @@ statement is syntactic sugar for a nested block:
     stmt2
   ```
 
-Is equivalent to:
+等价于:
 
   ```nim
   while expr1:
@@ -2873,18 +2657,15 @@ Is equivalent to:
   ```
 
 
-Assembler statement
--------------------
+汇编语句
+----------------
 
-The direct embedding of assembler code into Nim code is supported
-by the unsafe `asm` statement. Identifiers in the assembler code that refer to
-Nim identifiers shall be enclosed in a special character which can be
-specified in the statement's pragmas. The default special character is `'\`'`:
+不安全的 `asm` 语句支持将汇编代码直接嵌入到Nim代码中.在汇编代码中引用Nim标识符的标识符应该包含在一个特殊字符中.该字符可以在语句的编译指示中指定.默认的特殊字符是 `'\`'`
 
   ```nim
   {.push stackTrace:off.}
   proc addInt(a, b: int): int =
-    # a in eax, and b in edx
+    # a 在 eax 中, b 在 edx 中
     asm """
         mov eax, `a`
         add eax, `b`
@@ -2895,7 +2676,7 @@ specified in the statement's pragmas. The default special character is `'\`'`:
   {.pop.}
   ```
 
-If the GNU assembler is used, quotes and newlines are inserted automatically:
+如果使用GNU汇编器, 则会自动插入引号和换行符: 
 
   ```nim
   proc addInt(a, b: int): int =
@@ -2909,7 +2690,7 @@ If the GNU assembler is used, quotes and newlines are inserted automatically:
     """
   ```
 
-Instead of:
+替代:
 
   ```nim
   proc addInt(a, b: int): int =
@@ -2923,11 +2704,11 @@ Instead of:
     """
   ```
 
-Using statement
----------------
+Using语句
+------------------
 
 The `using` statement provides syntactic convenience in modules where
-the same parameter names and types are used over and over. Instead of:
+the same parameter names and types are used over and over. 替代:
 
   ```nim
   proc foo(c: Context; n: Node) = ...
@@ -2935,9 +2716,7 @@ the same parameter names and types are used over and over. Instead of:
   proc baz(c: Context; n: Node) = ...
   ```
 
-One can tell the compiler about the convention that a parameter of
-name `c` should default to type `Context`, `n` should default to
-`Node` etc.:
+你可以告诉编译器一个名为 `c` 的参数默认类型为 `Context`, `n` 默认类型为`Node` :
 
   ```nim
   using
@@ -2950,44 +2729,40 @@ name `c` should default to type `Context`, `n` should default to
   proc baz(c, n) = ...
 
   proc mixedMode(c, n; x, y: int) =
-    # 'c' is inferred to be of the type 'Context'
-    # 'n' is inferred to be of the type 'Node'
-    # But 'x' and 'y' are of type 'int'.
+    # 'c' 被推断为 'Context' 类型
+    # 'n' 被推断为 'Node' 类型
+    # 'x' and 'y' 是 'int' 类型. 
   ```
 
-The `using` section uses the same indentation based grouping syntax as
-a `var` or `let` section.
+ `using`  部分使用相同的基于缩进的分组语法作为 `var` 或 `let` 部分。
 
-Note that `using` is not applied for `template` since the untyped template
-parameters default to the type `system.untyped`.
+注意, `using` 不适用于 `template` ,因为无类型模板参数默认为类型 `system.untyped` 。
 
-Mixing parameters that should use the `using` declaration with parameters
-that are explicitly typed is possible and requires a semicolon between them.
+应该使用 `using` 声明和显式类型的参数混合参数,它们之间需要分号。
 
 
-If expression
--------------
+If 表达式
+------------------
 
 An `if` expression is almost like an if statement, but it is an expression.
 This feature is similar to *ternary operators* in other languages.
-示例：
+例如：
 
   ```nim
   var y = if x > 8: 9 else: 10
   ```
 
-An if expression always results in a value, so the `else` part is
-required. `Elif` parts are also allowed.
+if表达式总是会产生一个值, 所以 `else` 部分是必需的. `Elif` 部分也可以使用。
 
-When expression
----------------
+When表达式
+--------------------
 
-Just like an `if` expression, but corresponding to the `when` statement.
+和`if`表达式相似,但对应的是 `when` 语句。
 
-Case expression
----------------
+Case表达式
+--------------------
 
-The `case` expression is again very similar to the case statement:
+ `case` 表达式 与case语句非常相似:
 
   ```nim
   var favoriteFood = case animal
@@ -2999,17 +2774,12 @@ The `case` expression is again very similar to the case statement:
       "ice cream"
   ```
 
-As seen in the above example, the case expression can also introduce side
-effects. When multiple statements are given for a branch, Nim will use
-the last expression as the result value.
+如上例所示, case表达式也可以引入副作用. 当为分支给出多个语句时, Nim将使用最后一个表达式作为结果值。
 
-Block expression
-----------------
+Block表达式
+----------------------
 
-A `block` expression is almost like a block statement, but it is an expression
-that uses the last expression under the block as the value.
-It is similar to the statement list expression, but the statement list expression
-does not open a new block scope.
+ `block` 表达式几乎和block语句相同, 但它是一个表达式, 它使用block的最后一个表达式作为值. 它类似于语句列表表达式, 但语句列表表达式不会创建新的block作用域。
 
   ```nim
   let a = block:
@@ -3019,48 +2789,35 @@ does not open a new block scope.
     fib
   ```
 
-Table constructor
------------------
+表构造函数
+--------------------
 
-A table constructor is syntactic sugar for an array constructor:
+表构造函数是数组构造函数的语法糖: 
 
   ```nim
   {"key1": "value1", "key2", "key3": "value2"}
 
-  # is the same as:
+  # 等同于:
   [("key1", "value1"), ("key2", "value2"), ("key3", "value2")]
   ```
 
 
-The empty table can be written `{:}` (in contrast to the empty set
-which is `{}`) which is thus another way to write the empty array
-constructor `[]`. This slightly unusual way of supporting tables
-has lots of advantages:
+空表可以写成 `{:}` (与 `{}`的空集相反),这是另一种写为空数组构造函数`[]`的方法. 这种略微不同寻常的书写表的方式有很多优点：
 
-* The order of the (key,value)-pairs is preserved, thus it is easy to
-  support ordered dicts with for example `{key: val}.newOrderedTable`.
-* A table literal can be put into a `const` section and the compiler
-  can easily put it into the executable's data section just like it can
-  for arrays and the generated data section requires a minimal amount
-  of memory.
-* Every table implementation is treated equally syntactically.
-* Apart from the minimal syntactic sugar, the language core does not need to
-  know about tables.
+* 保留了(键, 值)对的顺序, 因此很容易支持有序的字典, 例如`{key: val}.newOrderedTable`.
+* 表字面值可以放入 const 部分, 编译器可以很容易地将它放入可执行文件的数据部分, 就像数组一样, 生成的数据部分只需要很少的内存.
+* 每个表的实现 在语法上都是一样的.
+* 除了最小的语法糖之外, 语言核心不需要了解表.
 
 
-Type conversions
+类型转换
 ----------------
 
-Syntactically a *type conversion* is like a procedure call, but a
-type name replaces the procedure name. A type conversion is always
-safe in the sense that a failure to convert a type to another
-results in an exception (if it cannot be determined statically).
+从语法上来说,类型转换*类似于过程调用, 但是类型名替换过程名. 类型转换总是安全的, 因为将类型转换为另一个类型失败会导致异常(如果无法静态确定)。
 
-Ordinary procs are often preferred over type conversions in Nim: For instance,
-`$` is the `toString` operator by convention and `toFloat` and `toInt`
-can be used to convert from floating-point to integer or vice versa.
+普通的procs通常比Nim中的类型转换更受欢迎: 例如, `$` 是 `toString` 运算符, 而`toFloat`和 `toInt` 可用于从浮点转换为整数, 反之亦然。
 
-Type conversion can also be used to disambiguate overloaded routines:
+类型转换也可用于消除重载例程的歧义:
 
   ```nim
   proc p(x: int) = echo "int"
@@ -3070,55 +2827,34 @@ Type conversion can also be used to disambiguate overloaded routines:
   procVar("a")
   ```
 
-Since operations on unsigned numbers wrap around and are unchecked so are
-type conversions to unsigned integers and between unsigned integers. The
-rationale for this is mostly better interoperability with the C Programming
-language when algorithms are ported from C to Nim.
+由于对无符号数的操作会自动换行且不会检查,因此到无符号整数的类型转换以及无符号整数之间的类型转换也是如此.这样做的基本原理是, 当算法从C移植到Nim时, 可以更好地与C编程语言进行互操作。
 
-Exception: Values that are converted to an unsigned type at compile time
-are checked so that code like `byte(-1)` does not compile.
+异常:将检查在编译时转换为unsigned类型的值, 以使 `byte(-1)` 之类的代码无法编译.
 
-**Note**: Historically the operations
-were unchecked and the conversions were sometimes checked but starting with
-the revision 1.0.4 of this document and the language implementation the
-conversions too are now *always unchecked*.
+**注意**:历史版本上操作是未检查的, 转换有时也会检查, 但从本文档的1.0.4版本和语言实现开始, 转换*总是未检查*
 
 
-Type casts
-----------
+类型强转
+----------------
 
-*Type casts* are a crude mechanism to interpret the bit pattern of an expression
-as if it would be of another type. Type casts are only needed for low-level
-programming and are inherently unsafe.
+类型强转是一种粗暴的机制, 用于解释表达式的位模式, 就好像它将是另一种类型一样. 类型强转仅用于低级编程, 并且本质上是不安全的.
 
   ```nim
   cast[int](x)
   ```
 
-The target type of a cast must be a concrete type, for instance, a target type
-that is a type class (which is non-concrete) would be invalid:
+强制转换的目标类型必须是具体类型, 例如, 类型类(非具体)的目标类型将是无效的:
 
   ```nim
   type Foo = int or float
   var x = cast[Foo](1) # Error: cannot cast to a non concrete type: 'Foo'
   ```
 
-Type casts should not be confused with *type conversions,* as mentioned in the
-prior section. Unlike type conversions, a type cast cannot change the underlying
-bit pattern of the data being cast (aside from that the size of the target type
-may differ from the source type). Casting resembles *type punning* in other
-languages or C++'s `reinterpret_cast`:cpp: and `bit_cast`:cpp: features.
+类型转换不应与*类型转换混淆*, 如前一节所述. 与类型转换不同, 类型强制转换不能更改被强制转换数据的底层位模式(除了目标类型的大小可能与源类型不同之外). 强制转换类似于其他语言中的特性*类型双关语*或c++的`reinterpret_cast`:cpp:和`bit_cast`:cpp: 
 
-The addr operator
------------------
-The `addr` operator returns the address of an l-value. If the type of the
-location is `T`, the `addr` operator result is of the type `ptr T`. An
-address is always an untraced reference. Taking the address of an object that
-resides on the stack is **unsafe**, as the pointer may live longer than the
-object on the stack and can thus reference a non-existing object. One can get
-the address of variables. For easier interoperability with other compiled languages
-such as C, retrieving the address of a `let` variable, a parameter,
-or a `for` loop variable can be accomplished too:
+addr操作符
+--------------------
+ `addr` 运算符返回左值的地址.  如果位置的类型是 `T`, 则 `addr` 运算符结果的类型为 `ptr T`.  地址总是一个未追踪引用的值.  获取驻留在堆栈上的对象的地址是 **不安全的** , 因为指针可能比堆栈中的对象存在更久, 因此可以引用不存在的对象,我们可以得到变量的地址. 为了更容易与其他编译语言(如C)互操作, 检索`let`变量、参数或 `for` 循环变量的地址也可以完成:
 
   ```nim
   let t1 = "Hello"
@@ -3133,64 +2869,52 @@ or a `for` loop variable can be accomplished too:
   echo repr(addr(t1))
   ```
 
-The unsafeAddr operator
------------------------
+unsafeAddr操作符
+--------------------------------
 
-The `unsafeAddr` operator is a deprecated alias for the `addr` operator:
+`unsafeAddr`操作符是`addr`操作符的已弃用别名:
 
   ```nim
   let myArray = [1, 2, 3]
   foreignProcThatTakesAnAddr(unsafeAddr myArray)
   ```
 
-Procedures
-==========
+过程
+========
 
-What most programming languages call `methods`:idx: or `functions`:idx: are
-called `procedures`:idx: in Nim. A procedure
-declaration consists of an identifier, zero or more formal parameters, a return
-value type and a block of code. Formal parameters are declared as a list of
-identifiers separated by either comma or semicolon. A parameter is given a type
-by `: typename`. The type applies to all parameters immediately before it,
-until either the beginning of the parameter list, a semicolon separator, or an
-already typed parameter, is reached. The semicolon can be used to make
-separation of types and subsequent identifiers more distinct.
+大多数编程语言称之为`methods`:idx或 `functions`:idx 在Nim中称为 `procedures`:idx.过程声明由标识符, 零个或多个形式参数, 返回值类型和代码块组成.形式参数声明为由逗号或分号分隔的标识符列表. 形参由 `: typename` 给出一个类型. 该类型适用于紧接其之前的所有参数, 直到达到参数列表的开头, 分号分隔符或已经键入的参数.
+分号可用于使类型和后续标识符的分隔更加清晰
 
   ```nim
-  # Using only commas
+  # 只使用逗号
   proc foo(a, b: int, c, d: bool): int
 
-  # Using semicolon for visual distinction
+  # 使用分号进行视觉区分
   proc foo(a, b: int; c, d: bool): int
 
-  # Will fail: a is untyped since ';' stops type propagation.
+  # 会失败: a是无类型的, 因为 ';' 停止类型传播
   proc foo(a; b: int; c, d: bool): int
   ```
 
-A parameter may be declared with a default value which is used if the caller
-does not provide a value for the argument. The value will be reevaluated
-every time the function is called.
+可以使用默认值声明参数, 如果调用者没有为参数提供值, 则使用该默认值, 每次调用函数时, 都会重新计算该值.
 
   ```nim
-  # b is optional with 47 as its default value.
+  # b是可选的, 默认值为47.
   proc foo(a: int, b: int = 47): int
   ```
 
-Just as the comma propagates the types from right to left until the
-first parameter or until a semicolon is hit, it also propagates the
-default value starting from the parameter declared with it.
+正如逗号从右到左传播类型, 直到遇到第一个参数或分号, 它也从用它声明的参数开始传播默认值.
 
   ```nim
-  # Both a and b are optional with 47 as their default values.
+  # a和b都是可选的, 默认值为47.
   proc foo(a, b: int = 47): int
   ```
 
-Parameters can be declared mutable and so allow the proc to modify those
-arguments, by using the type modifier `var`.
+参数可以声明为可变的, 因此允许proc通过使用类型修饰符 `var`来修改这些参数
 
   ```nim
-  # "returning" a value to the caller through the 2nd argument
-  # Notice that the function uses no actual return value at all (ie void)
+  # 通过第二个参数 ``返回`` 一个值给调用者
+  # 请注意, 该函数根本不使用实际返回值（即void）
   proc foo(inp: int, outp: var int) =
     outp = inp + 47
   ```
@@ -3199,70 +2923,64 @@ If the proc declaration doesn't have a body, it is a `forward`:idx: declaration.
 If the proc returns a value, the procedure body can access an implicitly declared
 variable named `result`:idx: that represents the return value. Procs can be
 overloaded. The overloading resolution algorithm determines which proc is the
-best match for the arguments. 示例：
+best match for the arguments. 例如：
 
   ```nim
-  proc toLower(c: char): char = # toLower for characters
+  proc toLower(c: char): char = # toLower 字符
     if c in {'A'..'Z'}:
       result = chr(ord(c) + (ord('a') - ord('A')))
     else:
       result = c
 
-  proc toLower(s: string): string = # toLower for strings
+  proc toLower(s: string): string = # 字符串 toLower
     result = newString(len(s))
     for i in 0..len(s) - 1:
-      result[i] = toLower(s[i]) # calls toLower for characters; no recursion!
+      result[i] = toLower(s[i]) # 为字符调用toLower;不递归!
   ```
 
-Calling a procedure can be done in many ways:
+调用过程可以通过多种方式完成: 
 
   ```nim
   proc callme(x, y: int, s: string = "", c: char, b: bool = false) = ...
 
-  # call with positional arguments      # parameter bindings:
+  # 带位置参数的调用     # 参数绑定:
   callme(0, 1, "abc", '\t', true)       # (x=0, y=1, s="abc", c='\t', b=true)
-  # call with named and positional arguments:
+  # 使用命名参数和位置参数调用:
   callme(y=1, x=0, "abd", '\t')         # (x=0, y=1, s="abd", c='\t', b=false)
-  # call with named arguments (order is not relevant):
+  # 带命名参数的调用(顺序无关):
   callme(c='\t', y=1, x=0)              # (x=0, y=1, s="", c='\t', b=false)
-  # call as a command statement: no () needed:
+  # 作为命令语句调用:不需要():
   callme 0, 1, "abc", '\t'              # (x=0, y=1, s="abc", c='\t', b=false)
   ```
 
-A procedure may call itself recursively.
+过程可以递归地调用自身.
 
 
-`Operators`:idx: are procedures with a special operator symbol as identifier:
+`Operators` 是具有特殊运算符符号作为标识符的过程:
 
   ```nim
   proc `$` (x: int): string =
-    # converts an integer to a string; this is a prefix operator.
+    # 将整数转换为字符串;这是一个前缀运算符.
     result = intToStr(x)
   ```
 
-Operators with one parameter are prefix operators, operators with two
-parameters are infix operators. (However, the parser distinguishes these from
-the operator's position within an expression.) There is no way to declare
-postfix operators: all postfix operators are built-in and handled by the
-grammar explicitly.
+具有一个参数的运算符是前缀运算符, 具有两个参数的运算符是中缀运算符. （但是, 解析器将这些与运算符在表达式中的位置区分开来.） 没有办法声明后缀运算符: 所有后缀运算符都是内置的, 并由语法显式处理.
 
-Any operator can be called like an ordinary proc with the \`opr\`
-notation. (Thus an operator can have more than two parameters):
+任何运算符都可以像普通的proc一样用 \`opr\` 表示法调用.（因此运算符可以有两个以上的参数）:
 
   ```nim
   proc `*+` (a, b, c: int): int =
-    # Multiply and add
+    # 乘 和 加
     result = a * b + c
 
   assert `*+`(3, 4, 6) == `+`(`*`(a, b), c)
   ```
 
 
-Export marker
--------------
+导出标记
+----------------
 
-If a declared symbol is marked with an `asterisk`:idx: it is exported from the
-current module:
+如果声明的符号标有`asterisk`它从当前模块导出:
 
   ```nim
   proc exportedEcho*(s: string) = echo s
@@ -3278,15 +2996,13 @@ current module:
   ```
 
 
-Method call syntax
-------------------
+方法调用语法
+------------------------
 
-For object-oriented programming, the syntax `obj.methodName(args)` can be used
-instead of `methodName(obj, args)`. The parentheses can be omitted if
-there are no remaining arguments: `obj.len` (instead of `len(obj)`).
+对于面向对象的编程, 可以使用语法 `obj.methodName(args)` 而不是 `methodName(obj, args)` .
+如果没有剩余的参数, 则可以省略括号: `obj.len` (而不是 `len(obj)` ).
 
-This method call syntax is not restricted to objects, it can be used
-to supply any type of first argument for procedures:
+此方法调用语法不限于对象, 它可用于为过程提供任何类型的第一个参数:
 
   ```nim
   echo "abc".len # is the same as echo len "abc"
@@ -3295,60 +3011,48 @@ to supply any type of first argument for procedures:
   stdout.writeLine("Hallo") # the same as writeLine(stdout, "Hallo")
   ```
 
-Another way to look at the method call syntax is that it provides the missing
-postfix notation.
+查看方法调用语法的另一种方法是它提供了缺少的后缀表示法.
 
-The method call syntax conflicts with explicit generic instantiations:
-`p[T](x)` cannot be written as `x.p[T]` because `x.p[T]` is always
-parsed as `(x.p)[T]`.
+方法调用语法与显式泛型实例化冲突: `p[T](x)` 不能写为 `x.p[T]` 因为 `x.p[T]` 总是被解析为 `(x.p)[T]`.
 
-另请参见： `Limitations of the method call syntax
+详见: `Limitations of the method call syntax
 <#templates-limitations-of-the-method-call-syntax>`_.
 
-The `[: ]` notation has been designed to mitigate this issue: `x.p[:T]`
-is rewritten by the parser to `p[T](x)`, `x.p[:T](y)` is rewritten to
-`p[T](x, y)`. Note that `[: ]` has no AST representation, the rewrite
-is performed directly in the parsing step.
+`[: ]` 符号是为了缓解这个问题: `x.p[:T]` 由解析器重写为 `p[T](x)` , `x.p[:T](y)` 被重写为 `p[T](x, y)` . 注意 `[: ]` 没有AST表示, 重写直接在解析步骤中执行
 
 
-Properties
-----------
-Nim has no need for *get-properties*: Ordinary get-procedures that are called
-with the *method call syntax* achieve the same. But setting a value is
-different; for this, a special setter syntax is needed:
+属性
+--------
+Nim不需要 *get-properties* :使用 *方法调用语法* 调用的普通get-procedure达到相同目的. 但设定值是不同的; 为此需要一个特殊的setter语法: 
 
   ```nim
-  # Module asocket
+  #  asocket 模块
   type
     Socket* = ref object of RootObj
       host: int # cannot be accessed from the outside of the module
 
   proc `host=`*(s: var Socket, value: int) {.inline.} =
-    ## setter of hostAddr.
-    ## This accesses the 'host' field and is not a recursive call to
-    ## `host=` because the builtin dot access is preferred if it is
-    ## available:
+    ## hostAddr的setter.
+    ## 它访问'host'字段并且不是对 ``host =`` 的递归调用, 如果内置的点访问方法可用, 则首选点访问:
     s.host = value
 
   proc host*(s: Socket): int {.inline.} =
-    ## getter of hostAddr
+    ##hostAddr的getter
     ## This accesses the 'host' field and is not a recursive call to
-    ## `host` because the builtin dot access is preferred if it is
-    ## available:
+    ## 它访问'host'字段并且不是对 ``host`` 的递归调用, 如果内置的点访问方法可用, 则首选点访问:
     s.host
   ```
 
   ```nim
-  # module B
+  # 模块 B
   import asocket
   var s: Socket
   new s
   s.host = 34  # same as `host=`(s, 34)
   ```
 
-A proc defined as `f=` (with the trailing `=`) is called
-a `setter`:idx:. A setter can be called explicitly via the common
-backticks notation:
+定义为`f=` 的proc（后面跟 = ）被称为 `setter` .
+可以通过常见的反引号表示法显式调用setter: 
 
   ```nim
   proc `f=`(x: MyObject; value: string) =
@@ -3358,66 +3062,43 @@ backticks notation:
   ```
 
 
-`f=` can be called implicitly in the pattern
-`x.f = value` if and only if the type of `x` does not have a field
-named `f` or if `f` is not visible in the current module. These rules
-ensure that object fields and accessors can have the same name. Within the
-module `x.f` is then always interpreted as field access and outside the
-module it is interpreted as an accessor proc call.
+`f=` 可以在模式`x.f = value` 中隐式调用, 当且仅当`x`的类型没有名为 `f` 的字段或者 `f` 时在当前模块中不可见. 这些规则确保对象字段和访问者可以具有相同的名称. 在模块 `x.f` 中总是被解释为字段访问, 在模块外部它被解释为访问器proc调用
 
 
-Command invocation syntax
--------------------------
+命令调用语法
+------------------------
 
-Routines can be invoked without the `()` if the call is syntactically
-a statement. This command invocation syntax also works for
-expressions, but then only a single argument may follow. This restriction
-means `echo f 1, f 2` is parsed as `echo(f(1), f(2))` and not as
-`echo(f(1, f(2)))`. The method call syntax may be used to provide one
-more argument in this case:
+如果调用在语法上是一个语句, 则可以在没有  `()`的情况下调用例程.此命令调用语法也适用于表达式.但之后只能有一个参数.这种限制意味着`echo f 1, f 2` 被解析为`echo(f(1), f(2))` 而不是 `echo(f(1, f(2)))` .
+在这种情况下, 方法调用语法可以用来提供更多的参数.
 
   ```nim
   proc optarg(x: int, y: int = 0): int = x + y
   proc singlearg(x: int): int = 20*x
 
-  echo optarg 1, " ", singlearg 2  # prints "1 40"
+  echo optarg 1, " ", singlearg 2  # 打印 "1 40"
 
-  let fail = optarg 1, optarg 8   # Wrong. Too many arguments for a command call
-  let x = optarg(1, optarg 8)  # traditional procedure call with 2 arguments
-  let y = 1.optarg optarg 8    # same thing as above, w/o the parenthesis
+  let fail = optarg 1, optarg 8   # 错误.命令调用的参数太多
+  let x = optarg(1, optarg 8)  # 传统过程调用2个参数
+  let y = 1.optarg optarg 8    # 与上面相同, 没有括号
   assert x == y
   ```
 
-The command invocation syntax also can't have complex expressions as arguments.
-For example: (`anonymous procs <#procedures-anonymous-procs>`_), `if`,
-`case` or `try`. Function calls with no arguments still need () to
-distinguish between a call and the function itself as a first-class value.
+命令调用语法也不能将复杂表达式作为参数. 例如: (`匿名过程 <#procedures-anonymous-procs>`_), `if`, `case`或 `try` . 没有参数的函数调用仍需要()来区分调用和函数本身作为第一类值.
 
 
-Closures
+闭包
 --------
 
-Procedures can appear at the top level in a module as well as inside other
-scopes, in which case they are called nested procs. A nested proc can access
-local variables from its enclosing scope and if it does so it becomes a
-closure. Any captured variables are stored in a hidden additional argument
-to the closure (its environment) and they are accessed by reference by both
-the closure and its enclosing scope (i.e. any modifications made to them are
-visible in both places). The closure environment may be allocated on the heap
-or on the stack if the compiler determines that this would be safe.
+过程可以出现在模块的顶层,也可以出现在其他作用域中, 在这种情况下, 它们称为嵌套过程. 嵌套的过程可以从其封闭的作用域访问局部变量, 这就变成了一个闭包. 任何捕获的变量都存储在闭包（它的环境）的隐藏附加参数中, 并且它们通过闭包及其封闭作用域的引用来访问（即, 对它们进行的任何修改在两个地方都是可见的）.如果编译器确定这是安全的, 则可以在堆上或堆栈上分配闭包环境.
 
-### Creating closures in loops
+### 在循环中创建闭包
 
-Since closures capture local variables by reference it is often not wanted
-behavior inside loop bodies. See `closureScope
-<system.html#closureScope.t,untyped>`_ and `capture
-<sugar.html#capture.m,varargs[typed],untyped>`_ for details on how to change this behavior.
+由于闭包通过引用捕获局部变量, 所以在循环体中通常不需要这种行为.  有关如何更改此行为的详细信息, 请参阅 <system.html#closureScope.t,untyped>,<sugar.html#capture.m,varargs[typed],untyped>
 
-Anonymous procedures
---------------------
+匿名过程
+----------------
 
-Unnamed procedures can be used as lambda expressions to pass into other
-procedures:
+未命名过程可以用作lambda表达式传递给其他过程:
 
   ```nim
   var cities = @["Frankfurt", "Tokyo", "New York", "Kyiv"]
@@ -3427,17 +3108,12 @@ procedures:
   ```
 
 
-Procs as expressions can appear both as nested procs and inside top-level
-executable code. The  `sugar <sugar.html>`_ module contains the `=>` macro
-which enables a more succinct syntax for anonymous procedures resembling
-lambdas as they are in languages like JavaScript, C#, etc.
+作为表达式的过程既可以作为嵌套的过程出现, 也可以出现在顶级可执行代码中. `sugar <sugar.html>`_模块包含`=>`宏, 该宏为类似于lambdas的匿名过程提供了更简洁的语法, 就像在JavaScript、c#等语言中一样. 
 
-Do notation
------------
+Do 标记
+--------------
 
-As a special convenience notation that keeps most elements of a
-regular proc expression, the `do` keyword can be used to pass
-anonymous procedures to routines:
+作为一种特殊的方便表示法, `do` 关键字可以用来将匿名过程传递给过程:
 
   ```nim
   var cities = @["Frankfurt", "Tokyo", "New York", "Kyiv"]
@@ -3445,42 +3121,36 @@ anonymous procedures to routines:
   sort(cities) do (x, y: string) -> int:
     cmp(x.len, y.len)
 
-  # Less parentheses using the method plus command syntax:
+  # 使用方法加命令语法减少括号:
   cities = cities.map do (x: string) -> string:
     "City of " & x
   ```
 
-`do` is written after the parentheses enclosing the regular proc params.
-The proc expression represented by the `do` block is appended to the routine
-call as the last argument. In calls using the command syntax, the `do` block
-will bind to the immediately preceding expression rather than the command call.
+`do` 写在包含常规程序参数的括号之后. 由 `do` 块表示的proc表达式作为最后一个参数附加到例程调用. 在使用命令语法的调用中, `do`块将绑定到紧接在前面的表达式, 而不是命令调用. 
 
-`do` with a parameter list or pragma list corresponds to an anonymous `proc`,
-however `do` without parameters or pragmas is treated as a normal statement
-list. This allows macros to receive both indented statement lists as an
-argument in inline calls, as well as a direct mirror of Nim's routine syntax.
+带参数列表或pragma列表的`do` 对应于匿名的`proc`, 但是不带参数或程序中的 `do` 被视为正常的语句列表. 这允许宏接收缩进语句列表作为内联调用的参数, 以及Nim例程语法的直接镜像. 
 
   ```nim
-  # Passing a statement list to an inline macro:
+  # 将语句列表传递给内联宏:
   macroResults.add quote do:
     if not `ex`:
       echo `info`, ": Check failed: ", `expString`
   
-  # Processing a routine definition in a macro:
+  # 在宏中处理例程定义:
   rpc(router, "add") do (a, b: int) -> int:
     result = a + b
   ```
 
-Func
-----
+函数
+--------
 
-The `func` keyword introduces a shortcut for a `noSideEffect`:idx: proc.
+The `func` 关键字为 `noSideEffect` 的过程引入了一个快捷方式. 
 
   ```nim
   func binarySearch[T](a: openArray[T]; elem: T): int
   ```
 
-Is short for:
+是它的简写:
 
   ```nim
   proc binarySearch[T](a: openArray[T]; elem: T): int {.noSideEffect.}
@@ -3488,19 +3158,15 @@ Is short for:
 
 
 
-Routines
+例程
 --------
 
-A routine is a symbol of kind: `proc`, `func`, `method`, `iterator`, `macro`, `template`, `converter`.
+例程是一类符号: `proc`, `func`, `method`, `iterator`, `macro`, `template`, `converter`
 
-Type bound operators
---------------------
+类型绑定操作符
+----------------------------
 
-A type bound operator is a `proc` or `func` whose name starts with `=` but isn't an operator
-(i.e. containing only symbols, such as `==`). These are unrelated to setters
-(see `properties <manual.html#procedures-properties>`_), which instead end in `=`.
-A type bound operator declared for a type applies to the type regardless of whether
-the operator is in scope (including if it is private).
+类型绑定操作符是 `proc` 或 `func` , 其名称以 `=` 开始, 但不是操作符(即只包含符号, 如 `==` ). 这些与setter无关(参见 `properties <manual.html#procedures-properties>`_), 它们以 `=` 结尾. 为类型声明的类型绑定操作符将应用于该类型, 无论操作符是否在作用域中(包括是否为私有). 
 
   ```nim
   # foo.nim:
@@ -3520,49 +3186,35 @@ the operator is in scope (including if it is private).
     doAssert witness == 1
     `=destroy`(a) # can be called explicitly, even without being in scope
     doAssert witness == 2
-  # will still be called upon exiting scope
+  # 在退出范围时仍然会被调用
   doAssert witness == 3
   ```
 
-Type bound operators are:
-`=destroy`, `=copy`, `=sink`, `=trace`, `=deepcopy`.
+类型绑定操作符:`=destroy`, `=copy`, `=sink`, `=trace`, `=deepcopy`
 
-These operations can be *overridden* instead of *overloaded*. This means that
-the implementation is automatically lifted to structured types. For instance,
-if the type `T` has an overridden assignment operator `=`, this operator is
-also used for assignments of the type `seq[T]`.
+这些操作可以被*overridden*, 而不是*overloaded*. 这意味着实现会自动提升为结构化类型. 例如, 如果类型 `T` 有一个覆盖的赋值操作符 `=`, 这个操作符也用于类型 `seq[T]` 的赋值. 
 
-Since these operations are bound to a type, they have to be bound to a
-nominal type for reasons of simplicity of implementation; this means an
-overridden `deepCopy` for `ref T` is really bound to `T` and not to `ref T`.
-This also means that one cannot override `deepCopy` for both `ptr T` and
-`ref T` at the same time, instead a distinct or object helper type has to be
-used for one pointer type.
+由于这些操作被绑定到一个类型, 为了实现的简单性, 它们必须绑定到一个名义类型;这意味着一个被重写的 `deepCopy` 的 `ref T` 是真正绑定到 `T` 而不是 `ref T` . 这也意味着, 一个不能覆盖 `deepCopy` 的 `ptr T` 和 `ref T` 同时, 相反, 一个不同的或对象helper类型必须用于一个指针类型. 
 
-For more details on some of those procs, see
+有关这些过程的更多细节, 请参见
 `Lifetime-tracking hooks <destructors.html#lifetimeminustracking-hooks>`_.
 
-Nonoverloadable builtins
-------------------------
+Nonoverloadable 内置命令
+------------------------------------------------
 
-The following built-in procs cannot be overloaded for reasons of implementation
-simplicity (they require specialized semantic checking)::
+出于实现简单性的原因, 以下内置procs不能重载(它们需要专门的语义检查)::
 
   declared, defined, definedInScope, compiles, sizeof,
   is, shallowCopy, getAst, astToStr, spawn, procCall
 
-Thus, they act more like keywords than like ordinary identifiers; unlike a
-keyword however, a redefinition may `shadow`:idx: the definition in
-the system_ module. From this list the following should not be written in dot
-notation `x.f` since `x` cannot be type-checked before it gets passed
-to `f`::
+因此, 它们更像关键字而不是普通标识符; 与关键字不同的是, 重定义可能会在system_模块中 `shadow` idx: the definition. 从这个列表中, 下面的内容不应该用点符号 `x.f` , 因为 `x` 在传递给 `f` 之前不能进行类型检查::
 
   declared, defined, definedInScope, compiles, getAst, astToStr
 
 
-Var parameters
---------------
-The type of a parameter may be prefixed with the `var` keyword:
+Var 参数
+----------------
+参数的类型可以使用 var 关键字作为前缀:
 
   ```nim
   proc divmod(a, b: int; res, remainder: var int) =
@@ -3577,11 +3229,7 @@ The type of a parameter may be prefixed with the `var` keyword:
   assert y == 3
   ```
 
-In the example, `res` and `remainder` are `var parameters`.
-Var parameters can be modified by the procedure and the changes are
-visible to the caller. The argument passed to a var parameter has to be
-an l-value. Var parameters are implemented as hidden pointers. The
-above example is equivalent to:
+在示例中,  `res` 和 `remainder` 是 `var parameters` . 可以通过过程修改Var参数, 并且调用者可以看到更改. 传递给var参数的参数必须是左值. Var参数实现为隐藏指针. 上面的例子相当于：
 
   ```nim
   proc divmod(a, b: int; res, remainder: ptr int) =
@@ -3595,8 +3243,7 @@ above example is equivalent to:
   assert y == 3
   ```
 
-In the examples, var parameters or pointers are used to provide two
-return values. This can be done in a cleaner way by returning a tuple:
+在示例中，var形参或指针用于提供两个返回值。这可以通过返回一个元组以一种更简洁的方式来完成:
 
   ```nim
   proc divmod(a, b: int): tuple[res, remainder: int] =
@@ -3608,7 +3255,7 @@ return values. This can be done in a cleaner way by returning a tuple:
   assert t.remainder == 3
   ```
 
-One can use `tuple unpacking`:idx: to access the tuple's fields:
+可以使用 `tuple unpacking` 来访问元组的字段
 
   ```nim
   var (x, y) = divmod(8, 5) # tuple unpacking
@@ -3617,16 +3264,13 @@ One can use `tuple unpacking`:idx: to access the tuple's fields:
   ```
 
 
-**Note**: `var` parameters are never necessary for efficient parameter
-passing. Since non-var parameters cannot be modified the compiler is always
-free to pass arguments by reference if it considers it can speed up execution.
+**注意**: `var` 参数对于有效的参数传递永远不是必需的。 由于无法修改非var参数，因此如果编译器认为可以加快执行速度，则编译器始终可以通过引用自由传递参数。
 
 
-Var return type
----------------
+Var 返回类型
+------------------------
 
-A proc, converter, or iterator may return a `var` type which means that the
-returned value is an l-value and can be modified by the caller:
+过程，转换器或者迭代器可能会返回 `var` 类型，它意味着返回值是一个左值并且可以被调用者修改：
 
   ```nim
   var g = 0
@@ -3638,8 +3282,7 @@ returned value is an l-value and can be modified by the caller:
   assert g == 6
   ```
 
-It is a static error if the implicitly introduced pointer could be
-used to access a location beyond its lifetime:
+如果隐式创建的指针指向的内存地址有被回收的可能，则会导致静态错误：
 
   ```nim
   proc writeAccessToG(): var int =
@@ -3647,7 +3290,7 @@ used to access a location beyond its lifetime:
     result = g # Error!
   ```
 
-For iterators, a component of a tuple return type can have a `var` type too:
+对于迭代器来说，当元组作为返回值时，元组的元素也可以是 `var` 类型：
 
   ```nim
   iterator mpairs(a: var seq[string]): tuple[key: int, val: var string] =
@@ -3655,44 +3298,33 @@ For iterators, a component of a tuple return type can have a `var` type too:
       yield (i, a[i])
   ```
 
-In the standard library every name of a routine that returns a `var` type
-starts with the prefix `m` per convention.
+在标准库中，所有返回 `var` 类型的例程，都遵循以 `m` 为前缀的命名规范。
 
 
 .. include:: manual/var_t_return.md
 
-### Future directions
+### 将来的改进方向
 
-Later versions of Nim can be more precise about the borrowing rule with
-a syntax like:
+未来的Nim在借用规则上将会更加准确，比如下面的语句
 
   ```nim
   proc foo(other: Y; container: var X): var T from container
   ```
 
-Here `var T from container` explicitly exposes that the
-location is derived from the second parameter (called
-'container' in this case). The syntax `var T from p` specifies a type
-`varTy[T, 2]` which is incompatible with `varTy[T, 1]`.
+`var T from contaner` 显式指定了返回值的地址必须源自第二个参数（本例中称为“contaner”）。
+`var T from p` 语句指定了类型 `varTy[T, 2]` ，它不能与 `varTy[T, 1]` 类型兼容。
 
 
-NRVO
-----
+具名返回值优化 (NRVO)
+------------------------------------------
 
-**Note**: This section describes the current implementation. This part
-of the language specification will be changed.
-See https://github.com/nim-lang/RFCs/issues/230 for more information.
+**注意**: 本节文档仅描述当前版本的代码实现。这部分语言规范将会有变动。
+详情请查看链接 https://github.com/nim-lang/RFCs/issues/230
 
-The return value is represented inside the body of a routine as the special
-`result`:idx: variable. This allows for a mechanism much like C++'s
-"named return value optimization" (`NRVO`:idx:). NRVO means that the stores
-to `result` inside `p` directly affect the destination `dest`
-in `let/var dest = p(args)` (definition of `dest`) and also in `dest = p(args)`
-(assignment to `dest`). This is achieved by rewriting `dest = p(args)`
-to `p'(args, dest)` where `p'` is a variation of `p` that returns `void` and
-receives a hidden mutable parameter representing `result`.
+返回值以例程的特殊变量 `result` :idx: 出现。这便为实现类似C++的"具名返回值优化" (`NRVO`:idx:) 机制创造了条件。
+NRVO 指的是对 `p` 内部 `result` 的操作会直接影响 `let/var dest = p(args)` (`dest` 的定义) 与 `dest = p(args)` (`dest` 的赋值) 中的目标 `dest` 。这是通过将 `dest = p(args)` 重写为 `p'(args, dest)` 来实现的，其中 `p'` 是 `p` 的变体，它返回 `void` 并且接收一个 `result` 的可变参数。
 
-Informally:
+不太正式的示例: 
 
   ```nim
   proc p(): BigT = ...
@@ -3700,7 +3332,7 @@ Informally:
   var x = p()
   x = p()
 
-  # is roughly turned into:
+  # 上面这段代码大体上会被翻译为如下代码
 
   proc p(result: var BigT) = ...
 
@@ -3709,12 +3341,11 @@ Informally:
   ```
 
 
-Let `T`'s be `p`'s return type. NRVO applies for `T`
-if `sizeof(T) >= N` (where `N` is implementation dependent),
-in other words, it applies for "big" structures.
+让 `T`作为 `p` 的返回值。
+当 `sizeof(T) >= N` (`N` 的值依赖于具体实现) 时，NRVO 会将返回值申请为 `T` 。
+换句话说，它会将返回值申请为 "较大" 的结构体。
 
-If `p` can raise an exception, NRVO applies regardless. This can produce
-observable differences in behavior:
+若 `p` 会抛出异常，NRVO仍会应用。这种情况下，不同的行为可能会导致很大的差别。
 
   ```nim
   type
@@ -3736,46 +3367,42 @@ observable differences in behavior:
   ```
 
 
-However, the current implementation produces a warning in these cases.
-There are different ways to deal with this warning:
+然而，在这种情况下，当前版本的实现会提出警告。
+处理这种警告有多种方法: 
 
-1. Disable the warning via `{.push warning[ObservableStores]: off.}` ... `{.pop.}`.
-   Then one may need to ensure that `p` only raises *before* any stores to `result`
-   happen.
+1. 通过 `{.push warning[ObservableStores]: off.}` ... `{.pop.}` 禁用警告。
+   则开发者需要确保 `p` 仅在任何 `result` 的操作之前抛出异常。
 
-2. One can use a temporary helper variable, for example instead of `x = p(8)`
-   use `let tmp = p(8); x = tmp`.
+2. 开发者可以使用一个临时的帮助变量，比如在 `x = p(8)` 内部使用 `let tmp = p(8); x = tmp` 。
 
 
-Overloading of the subscript operator
--------------------------------------
+重载下标运算符
+----------------------------
 
-The `[]` subscript operator for arrays/openarrays/sequences can be overloaded.
+数组/可变参数/序列的 `[]` 下标运算符可以被重载。
 
 
-Methods
-=============
+方法
+========
 
-Procedures always use static dispatch. Methods use dynamic
-dispatch. For dynamic dispatch to work on an object it should be a reference
-type.
+过程总是使用静态方法匹配。方法使用动态方法匹配。用于动态匹配的对象应该是引用类型。
 
   ```nim
   type
-    Expression = ref object of RootObj ## abstract base class for an expression
+    Expression = ref object of RootObj ## 表达式的抽象基类
     Literal = ref object of Expression
       x: int
     PlusExpr = ref object of Expression
       a, b: Expression
 
   method eval(e: Expression): int {.base.} =
-    # override this base method
+    # 重写基方法
     raise newException(CatchableError, "Method without implementation override")
 
   method eval(e: Literal): int = return e.x
 
   method eval(e: PlusExpr): int =
-    # watch out: relies on dynamic binding
+    # 请注意：语句的执行依赖于动态方法匹配
     result = eval(e.a) + eval(e.b)
 
   proc newLit(x: int): Literal =
@@ -3790,28 +3417,21 @@ type.
   echo eval(newPlus(newPlus(newLit(1), newLit(2)), newLit(4)))
   ```
 
-In the example the constructors `newLit` and `newPlus` are procs
-because they should use static binding, but `eval` is a method because it
-requires dynamic binding.
+在这个例子中，构造器 `newLit` 和 `newPlus` 都是过程因为它们都使用静态方法匹配，但是 `eval` 是一个方法因为它需要动态方法匹配。
 
-As can be seen in the example, base methods have to be annotated with
-the `base`:idx: pragma. The `base` pragma also acts as a reminder for the
-programmer that a base method `m` is used as the foundation to determine all
-the effects that a call to `m` might cause.
+从这个例子可以看出，基方法必须使用 `base`:idx: 编译指示修饰。对于开发者来说，`base` 编译指示也是一个提示，它提示 `m` 是任何调用结果的推断基础。
 
 
-**Note**: Compile-time execution is not (yet) supported for methods.
+**注意**: 目前还不支持方法的编译期执行。
 
-**Note**: Starting from Nim 0.20, generic methods are deprecated.
+**注意**: 从Nim 0.20开始，泛型方法已被弃用。
 
-Multi-methods
---------------
+多版本方法(方法重写)
+----------------------------------------
 
-**Note:** Starting from Nim 0.20, to use multi-methods one must explicitly pass
-`--multimethods:on`:option: when compiling.
+**Note** 从Nim 0.20 开始，要启用多版本方法，开发者必须在编译时显式添加 `--multimethods:on`:option: 参数。
 
-In a multi-method, all parameters that have an object type are used for the
-dispatching:
+在多版本方法中，所有对象类型的参数都会用于方法匹配: 
 
   ```nim  test = "nim c --multiMethods:on $1"
   type
@@ -3834,12 +3454,11 @@ dispatching:
   collide(a, b) # output: 2
   ```
 
-Inhibit dynamic method resolution via procCall
------------------------------------------------
+通过 proCall 防止动态方法解析
+----------------------------------------------------------
 
-Dynamic method resolution can be inhibited via the builtin `system.procCall`:idx:.
-This is somewhat comparable to the `super`:idx: keyword that traditional OOP
-languages offer.
+通过调用内置的 `system.procCall`:idx: 可以防止动态方法解析。
+某种程度上它与传统面向对象语言提供的 `super`:idx: 关键字类似。
 
   ```nim  test = "nim c $1"
   type
@@ -3851,23 +3470,18 @@ languages offer.
     echo "base"
 
   method m(a: Unit) =
-    # Call the base method:
+    # 调用基方法:
     procCall m(Thing(a))
     echo "1"
   ```
 
 
-Iterators and the for statement
-===============================
+迭代器与 for 循环语句
+==========================================
 
-The `for`:idx: statement is an abstract mechanism to iterate over the elements
-of a container. It relies on an `iterator`:idx: to do so. Like `while`
-statements, `for` statements open an `implicit block`:idx: so that they
-can be left with a `break` statement.
+`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于迭代器 `iterator`:idx: 来实现。与 `while` 语句类似，`for` 语句打开了一个 `implicit block`:idx: ，这样可以与 `break` 语句搭配。
 
-The `for` loop declares iteration variables - their scope reaches until the
-end of the loop body. The iteration variables' types are inferred by the
-return type of the iterator.
+`for` 循环声明了迭代器变量 - 它们的生命周期持续到循环体的结束。迭代器的类型是由迭代器的返回值类型推断的。
 
 An iterator is similar to a procedure, except that it can be called in the
 context of a `for` loop. Iterators provide a way to specify the iteration over
@@ -3875,21 +3489,21 @@ an abstract type. The `yield` statement in the called iterator plays a key
 role in the execution of a `for` loop. Whenever a `yield` statement is
 reached, the data is bound to the `for` loop variables and control continues
 in the body of the `for` loop. The iterator's local variables and execution
-state are automatically saved between calls. 示例：
+state are automatically saved between calls. 例如：
 
   ```nim
-  # this definition exists in the system module
+  # 系统模块中存在如下定义
   iterator items*(a: string): char {.inline.} =
     var i = 0
     while i < len(a):
       yield a[i]
       inc(i)
 
-  for ch in items("hello world"): # `ch` is an iteration variable
+  for ch in items("hello world"): # `ch` 是一个迭代器变量
     echo ch
   ```
 
-The compiler generates code as if the programmer had written this:
+编译器会生成如下代码，就像是开发者写的代码一样: 
 
   ```nim
   var i = 0
@@ -3899,48 +3513,34 @@ The compiler generates code as if the programmer had written this:
     inc(i)
   ```
 
-If the iterator yields a tuple, there can be as many iteration variables
-as there are components in the tuple. The i'th iteration variable's type is
-the type of the i'th component. In other words, implicit tuple unpacking in a
-for loop context is supported.
+如果迭代器遍历一个元组，则元组的元素便是迭代器的变量。第 i 次迭代的变量类型是元组第 i 个元素的类型。换句话说，循环上下文支持隐式元组拆包。
 
-Implicit items/pairs invocations
---------------------------------
+隐式 items/pairs 调用
+------------------------------------------
 
-If the for loop expression `e` does not denote an iterator and the for loop
-has exactly 1 variable, the for loop expression is rewritten to `items(e)`;
-i.e. an `items` iterator is implicitly invoked:
+如果循环表达式 `e` 不显式指定使用迭代器并且循环只迭代一个变量，则循环表达式会被重写为 `items(e)` ；
+即 `items` 迭代器会被隐式调用: 
 
   ```nim
   for x in [1,2,3]: echo x
   ```
 
-If the for loop has exactly 2 variables, a `pairs` iterator is implicitly
-invoked.
+如果循环恰迭代两个变量，则 `pairs` 迭代器会被隐式调用。
 
-Symbol lookup of the identifiers `items`/`pairs` is performed after
-the rewriting step, so that all overloads of `items`/`pairs` are taken
-into account.
+`items`/`pairs` 标识符的符号查找在编译器重写之后执行，所以 `items`/`pairs` 的重载可以生效。
 
 
-First-class iterators
----------------------
+第一类迭代器
+------------------------
 
-There are 2 kinds of iterators in Nim: *inline* and *closure* iterators.
-An `inline iterator`:idx: is an iterator that's always inlined by the compiler
-leading to zero overhead for the abstraction, but may result in a heavy
-increase in code size.
+Nim 中有两种迭代器： *inline* (内联)和 *closure* (闭包)迭代器。
+`inline iterator`:idx: 内联迭代器指总是被编译器内联优化的迭代器，这样在运行时解释抽象的同时不需要付出额外的代价(零成本抽象)，但可能会导致代码体积大大增加。
 
-Caution: the body of a for loop over an inline iterator is inlined into
-each `yield` statement appearing in the iterator code,
-so ideally the code should be refactored to contain a single yield when possible
-to avoid code bloat.
+请警惕: 在使用内联迭代器时，循环体会被内联进循环中所有的 `yield` 语句里，所以在使用内联迭代器时，开发者应该尽量只使用一个 yield 语句以避免代码体积膨胀。
 
-Inline iterators are second class citizens;
-They can be passed as parameters only to other inlining code facilities like
-templates, macros, and other inline iterators.
+内联迭代器是二等公民; 它们只能作为参数传递给其他内联代码工具，如模板、宏和其他内联迭代器。
 
-In contrast to that, a `closure iterator`:idx: can be passed around more freely:
+相反， `closure iterator`:idx: 闭包迭代器则可以更自由传递：
 
   ```nim
   iterator count0(): int {.closure.} =
@@ -3959,22 +3559,17 @@ In contrast to that, a `closure iterator`:idx: can be passed around more freely:
   invoke(count2)
   ```
 
-Closure iterators and inline iterators have some restrictions:
+闭包迭代器和内联迭代器都有一些限制: 
 
-1. For now, a closure iterator cannot be executed at compile time.
-2. `return` is allowed in a closure iterator but not in an inline iterator
-   (but rarely useful) and ends the iteration.
-3. Inline iterators cannot be recursive.
-4. Neither inline nor closure iterators have the special `result` variable.
-5. Closure iterators are not supported by the JS backend.
+1. 目前，闭包迭代器不能在编译期执行。
+2. 闭包迭代器允许使用 `return` 语句并结束循环，但内联迭代器不行(这并不常用与内联迭代器)。
+3. 内联迭代器不能用于递归。
+4. 内联迭代器与闭包迭代器都没有特殊的 `result` 变量。
+5. JS 后端不支持闭包迭代器。
 
-Iterators that are neither marked `{.closure.}` nor `{.inline.}` explicitly
-default to being inline, but this may change in future versions of the
-implementation.
+如果不使用 `{.closure.}` 或 `{.inline.}` 显式标记迭代器，则默认为内联迭代器。但是将来的版本可能会改动。 
 
-The `iterator` type is always of the calling convention `closure`
-implicitly; the following example shows how to use iterators to implement
-a `collaborative tasking`:idx: system:
+`iterator` 类型通常约定隐式使用 `closure` 闭包迭代器; 下面的例子展示了如何实现一个 `collaborative tasking`:idx: 系统: 
 
   ```nim
   # simple tasking:
@@ -4008,12 +3603,9 @@ a `collaborative tasking`:idx: system:
   runTasks(a1, a2)
   ```
 
-The builtin `system.finished` can be used to determine if an iterator has
-finished its operation; no exception is raised on an attempt to invoke an
-iterator that has already finished its work.
+内置的 `system.finished` 可以用来推断迭代器是否已经完成了它的操作; 如果迭代器已经完成了工作，再调用 `system.finished` 也不会抛出异常。
 
-Note that `system.finished` is error-prone to use because it only returns
-`true` one iteration after the iterator has finished:
+请注意 `system.finished` 容易引发错误，因为它只在迭代器最后一次循环完成后的下一次迭代才会返回 `true` :
 
   ```nim
   iterator mycount(a, b: int): int {.closure.} =
@@ -4022,35 +3614,31 @@ Note that `system.finished` is error-prone to use because it only returns
       yield x
       inc x
 
-  var c = mycount # instantiate the iterator
+  var c = mycount # 初始化迭代器
   while not finished(c):
     echo c(1, 3)
 
-  # Produces
+  # 输出
   1
   2
   3
   0
   ```
 
-Instead, this code has to be used:
+想得到正确的结果，应该想下面的代码一样调用迭代器:
 
   ```nim
-  var c = mycount # instantiate the iterator
+  var c = mycount # 初始化迭代器
   while true:
     let value = c(1, 3)
-    if finished(c): break # and discard 'value'!
+    if finished(c): break # 丢弃返回值!
     echo value
   ```
 
-It helps to think that the iterator actually returns a
-pair `(value, done)` and `finished` is used to access the hidden `done`
-field.
+您可以这样认为迭代器实际上返回键值对 `(value, done)` ，并且 `finished` 访问了隐藏的 `done` 字段。
 
 
-Closure iterators are *resumable functions* and so one has to provide the
-arguments to every call. To get around this limitation one can capture
-parameters of an outer factory proc:
+闭包迭代器是 *可恢复函数* ，因此每次调用必须提供参数。 可以给迭代器套一层“工厂”过程，通过捕获外部“工厂”过程的参数来绕过这个限制:
 
   ```nim
   proc mycount(a, b: int): iterator (): int =
@@ -4066,13 +3654,13 @@ parameters of an outer factory proc:
     echo f
   ```
 
-The call can be made more like an inline iterator with a for loop macro:
+这个过程可以变成内联迭代器，用于for循环的宏:
 
   ```nim
   import std/macros
   macro toItr(x: ForLoopStmt): untyped =
     let expr = x[0]
-    let call = x[1][1] # Get foo out of toItr(foo)
+    let call = x[1][1] # 将 foo 带出 toItr(foo)
     let body = x[2]
     result = quote do:
       block:
@@ -4080,17 +3668,13 @@ The call can be made more like an inline iterator with a for loop macro:
         for `expr` in itr():
             `body`
 
-  for f in toItr(mycount(1, 4)): # using early `proc mycount`
+  for f in toItr(mycount(1, 4)): # 使用上文的过程 `proc mycount`
     echo f
   ```
 
-Because of full backend function call apparatus involvement, closure iterator
-invocation is typically higher cost than inline iterators. Adornment by
-a macro wrapper at the call site like this is a possibly useful reminder.
+因为调用闭包迭代器需要所有后端函数调用的参与，所以代价比调用内联迭代器更高。宏装饰器在调用处的包装是有用的提醒。
 
-The factory `proc`, as an ordinary procedure, can be recursive. The
-above macro allows such recursion to look much like a recursive iterator
-would. For example:
+作为一个普通的过程，工厂过程 `proc` 可以递归。上文中的宏可以用更像迭代器递归的语法重写。比如:
 
   ```nim
   proc recCountDown(n: int): iterator(): int =
@@ -4100,22 +3684,20 @@ would. For example:
         for e in toItr(recCountDown(n - 1)):
           yield e
 
-  for i in toItr(recCountDown(6)): # Emits: 6 5 4 3 2 1
+  for i in toItr(recCountDown(6)): # 输出: 6 5 4 3 2 1
     echo i
   ```
 
 
-See also see `iterable <#overloading-resolution-iterable>`_ for passing iterators to templates and macros.
+关于如果给模板和宏传递迭代器，可以看这一节 `iterable <#overloading-resolution-iterable>`_ 。
 
-Converters
-==========
+转换器
+============
 
-A converter is like an ordinary proc except that it enhances
-the "implicitly convertible" type relation (see `Convertible relation
-<#type-relations-convertible-relation>`_):
+转换器就像普通的过程，只不过它增强了“隐式可转换”类型关系 (参见`Convertible relation <#type-relations-convertible-relation>`_ )
 
   ```nim
-  # bad style ahead: Nim is not C.
+  # 不推荐的代码风格：不推荐用 C 语言的风格编写 Nim 代码。
   converter toBool(x: int): bool = x != 0
 
   if 4:
@@ -4123,48 +3705,43 @@ the "implicitly convertible" type relation (see `Convertible relation
   ```
 
 
-A converter can also be explicitly invoked for improved readability. Note that
-implicit converter chaining is not supported: If there is a converter from
-type A to type B and from type B to type C the implicit conversion from A to C
-is not provided.
+开发者可以显式调用转换器以提高代码的可读性。
+请注意隐式转换器不支持自动的链式调用: 如果存在 A 类型到 B 类型的转换器和 B 类型到 C 类型的转换器，Nim 不提供从 A 转换为 C 类型的隐式转换。
 
 
-Type sections
-=============
+Type 段
+==============
 
-示例：
+例如：
 
   ```nim
-  type # example demonstrating mutually recursive types
-    Node = ref object  # an object managed by the garbage collector (ref)
-      le, ri: Node     # left and right subtrees
-      sym: ref Sym     # leaves contain a reference to a Sym
+  type # 展示相互递归类型的例子
+    Node = ref object  # 由垃圾收集器管理的对象(ref)
+      le, ri: Node     # 左子树和右子树
+      sym: ref Sym     # 叶子包含对 Sym 的引用
 
-    Sym = object       # a symbol
-      name: string     # the symbol's name
-      line: int        # the line the symbol was declared in
-      code: Node       # the symbol's abstract syntax tree
+    Sym = object       # 一个对象
+      name: string     # 对象的名称
+      line: int        # 对象声明的行数
+      code: Node       # 对象的抽象语法树
   ```
 
-A type section begins with the `type` keyword. It contains multiple
-type definitions. A type definition binds a type to a name. Type definitions
-can be recursive or even mutually recursive. Mutually recursive types are only
-possible within a single `type` section. Nominal types like `objects`
-or `enums` can only be defined in a `type` section.
+类型段由 `type` 关键字开启。它包含多个类型定义。类型定义给类型绑定一个名称。类型定义可以是递归的甚至是相互递归的。相互递归类型只能在单层 `type` 段中出现。
+像 `objects` 或者 `enums` 这样的标称类型仅能在 `type` 段中定义。
 
 
 
-Exception handling
-==================
+异常处理
+================
 
-Try statement
--------------
+Try 语句
+----------------
 
-示例：
+例如：
 
   ```nim
-  # read the first two lines of a text file that should contain numbers
-  # and tries to add them
+  # 从文本文件的前两行中读取数字
+  # 并尝试把数字加起来
   var
     f: File
   if open(f, "numbers.txt"):
@@ -4183,31 +3760,19 @@ Try statement
   ```
 
 
-The statements after the `try` are executed in sequential order unless
-an exception `e` is raised. If the exception type of `e` matches any
-listed in an `except` clause, the corresponding statements are executed.
-The statements following the `except` clauses are called
-`exception handlers`:idx:.
+除非有异常 `e` 抛出，否则 `try` 之后的语句顺序执行。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: 。
 
-The empty `except`:idx: clause is executed if there is an exception that is
-not listed otherwise. It is similar to an `else` clause in `if` statements.
+如果程序抛出了未列出的异常，则将执行空的 `except`:idx: 子句。就像 `if` 语句的 `else` 子句。
 
-If there is a `finally`:idx: clause, it is always executed after the
-exception handlers.
+`finally`:idx 子句总会在异常处理程序之后执行，如果存在 `finally` 子句的话。
 
-The exception is *consumed* in an exception handler. However, an
-exception handler may raise another exception. If the exception is not
-handled, it is propagated through the call stack. This means that often
-the rest of the procedure - that is not within a `finally` clause -
-is not executed (if an exception occurs).
+异常在异常处理器中 *处理* 。然而异常处理器也可能抛出异常。如果没有处理这样的异常，则它会通过调用栈传递出去。所以当这种情况发生时，剩下的代码将不会被执行( `finally` 子句的代码依旧会执行)。
 
 
-Try expression
---------------
+Try 表达式
+--------------------
 
-Try can also be used as an expression; the type of the `try` branch then
-needs to fit the types of `except` branches, but the type of the `finally`
-branch always has to be `void`:
+try 也可以用作表达式; `try` 部分的类型需要兼容 `except` 部分的类型，但是 `finally` 部分只能是 `void` : 
 
   ```nim
   from std/strutils import parseInt
@@ -4218,19 +3783,17 @@ branch always has to be `void`:
   ```
 
 
-To prevent confusing code there is a parsing limitation; if the `try`
-follows a `(` it has to be written as a one liner:
+为了防止令人迷惑的代码，有一个解析限制: 如果 `try` 语句在 `(` 之后，则表达式必须写成一行:
 
   ```nim
   let x = (try: parseInt("133a") except: -1)
   ```
 
 
-Except clauses
---------------
+Except 子句
+----------------------
 
-Within an `except` clause it is possible to access the current exception
-using the following syntax:
+在 `except` 子句中，可能需要使用下面的语法访问当前抛出的异常: 
 
   ```nim
   try:
@@ -4240,8 +3803,7 @@ using the following syntax:
     echo "I/O error: " & e.msg
   ```
 
-Alternatively, it is possible to use `getCurrentException` to retrieve the
-exception that has been raised:
+或者，使用 `getCurrentException` 也可以获取当前抛出的异常。
 
   ```nim
   try:
@@ -4251,21 +3813,17 @@ exception that has been raised:
     # Now use "e"
   ```
 
-Note that `getCurrentException` always returns a `ref Exception`
-type. If a variable of the proper type is needed (in the example
-above, `IOError`), one must convert it explicitly:
+注意， `getCurrentException` 总是返回 `ref Exception` 类型。如果需要使用具体类型(比如上面例子中的 `IOError`)的变量，则需要显式转换: 
 
   ```nim
   try:
     # ...
   except IOError:
     let e = (ref IOError)(getCurrentException())
-    # "e" is now of the proper type
+    # 现在 "e" 是具体的异常类型了
   ```
 
-However, this is seldom needed. The most common case is to extract an
-error message from `e`, and for such situations, it is enough to use
-`getCurrentExceptionMsg`:
+但是，这样的情况很少发生。常见的使用场景是从 `e` 中提取异常信息，对于这种场景，使用 `getCurrentExceptionMsg` 已经足够了:
 
   ```nim
   try:
@@ -4274,33 +3832,30 @@ error message from `e`, and for such situations, it is enough to use
     echo getCurrentExceptionMsg()
   ```
 
-Custom exceptions
------------------
+自定义异常
+--------------------
 
-It is possible to create custom exceptions. A custom exception is a custom type:
+您可以创建自定义异常。自定义异常就是自定义类性: 
 
   ```nim
   type
     LoadError* = object of Exception
   ```
 
-Ending the custom exception's name with `Error` is recommended.
+自定义异常的名称建议以 `Error` 结尾。
 
-Custom exceptions can be raised just like any other exception, e.g.:
+自定义异常可以像其他异常一样抛出， 例如: 
 
   ```nim
   raise newException(LoadError, "Failed to load data")
   ```
 
-Defer statement
----------------
+Defer 语句
+--------------------
 
-Instead of a `try finally` statement a `defer` statement can be used, which
-avoids lexical nesting and offers more flexibility in terms of scoping as shown
-below.
+使用 `defer` 语句代替 `try finally` 语句可以避免代码的复杂嵌套，在下面的例子中，您也可以看到它提供更灵活的作用域。
 
-Any statements following the `defer` in the current block will be considered
-to be in an implicit try block:
+当前代码块中， `defer` 之后的任何语句都将考虑包裹在隐式 try 块中: 
 
   ```nim  test = "nim c $1"
   proc main =
@@ -4310,7 +3865,7 @@ to be in an implicit try block:
     f.write "def"
   ```
 
-Is rewritten to:
+会被编译器重写为: 
 
   ```nim  test = "nim c $1"
   proc main =
@@ -4322,8 +3877,7 @@ Is rewritten to:
       close(f)
   ```
 
-When `defer` is at the outermost scope of a template/macro, its scope extends
-to the block where the template is called from:
+当 `defer` 位于最外层的模板/宏的作用域中时，它的作用域将延伸到模板被调用的代码块中: 
 
   ```nim  test = "nim c $1"
   template safeOpenDefer(f, path) =
@@ -4332,7 +3886,7 @@ to the block where the template is called from:
 
   template safeOpenFinally(f, path, body) =
     var f = open(path, fmWrite)
-    try: body # without `defer`, `body` must be specified as parameter
+    try: body # 若没有 `defer` ， `body` 必须指定为参数
     finally: close(f)
 
   block:
@@ -4340,65 +3894,56 @@ to the block where the template is called from:
     f.write "abc"
   block:
     safeOpenFinally(f, "/tmp/z01.txt"):
-      f.write "abc" # adds a lexical scope
+      f.write "abc" # 增加了表达式的作用域
   block:
     var f = open("/tmp/z01.txt", fmWrite)
     try:
-      f.write "abc" # adds a lexical scope
+      f.write "abc" # 增加了表达式的作用域
     finally: close(f)
   ```
 
-Top-level `defer` statements are not supported
-since it's unclear what such a statement should refer to.
+Nim 不支持最顶层(没有任何缩进的)的 `defer` 语句，因为无法判断它用于哪一段代码。
 
 
-Raise statement
----------------
+Raise 语句
+--------------------
 
-示例：
+例如：
 
   ```nim
   raise newException(IOError, "IO failed")
   ```
 
-Apart from built-in operations like array indexing, memory allocation, etc.
-the `raise` statement is the only way to raise an exception.
+除了数组索引，内存分配等内置操作之外， `raise` 语句是抛出异常的唯一方法。
 
 .. XXX document this better!
 
-If no exception name is given, the current exception is `re-raised`:idx:. The
-`ReraiseDefect`:idx: exception is raised if there is no exception to
-re-raise. It follows that the `raise` statement *always* raises an
-exception.
+如果没有给出异常的名称，则当前异常会 `re-raised`:idx: (重新抛出)。如果当前没有异常可以重新抛出，则会抛出 `ReraiseDefect`:idx: 异常。它遵循 `raise` 语句 *总是* 抛出异常的规则。
 
 
-Exception hierarchy
--------------------
+异常的层级
+--------------------
 
-The exception tree is defined in the `system <system.html>`_ module.
-Every exception inherits from `system.Exception`. Exceptions that indicate
-programming bugs inherit from `system.Defect` (which is a subtype of `Exception`)
-and are strictly speaking not catchable as they can also be mapped to an operation
-that terminates the whole process. If panics are turned into exceptions, these
-exceptions inherit from `Defect`.
+`system <system.html>`_ 模块定义了异常树。所有异常都继承自 `system.Exception` 。
+表示编码错误的异常继承自 `system.Defect` (它是 `Exception` 的子类)，严格来说，这类异常无法捕获，因为它也可以映射成一个结束整个进程的操作。
+如果 panic 被转换为异常，则这类异常继承自 `Defect` 。
 
-Exceptions that indicate any other runtime error that can be caught inherit from
-`system.CatchableError` (which is a subtype of `Exception`).
+表示可捕获的所有运行时错误的异常继承自 `system.CatchableError`（它是 `Exception` 的子类）。
 
 
-Imported exceptions
--------------------
+导入的异常
+--------------------
 
 It is possible to raise/catch imported C++ exceptions. Types imported using
 `importcpp` can be raised or caught. Exceptions are raised by value and
-caught by reference. 示例：
+caught by reference. 例如：
 
   ```nim  test = "nim cpp -r $1"
   type
     CStdException {.importcpp: "std::exception", header: "<exception>", inheritable.} = object
-      ## does not inherit from `RootObj`, so we use `inheritable` instead
+      ## 异常不继承自 `RootObj`, 所以我们使用 `inheritable` 关键字
     CRuntimeError {.requiresInit, importcpp: "std::runtime_error", header: "<stdexcept>".} = object of CStdException
-      ## `CRuntimeError` has no default constructor => `requiresInit`
+      ## `CRuntimeError` 没有构造器 => `requiresInit`
   proc what(s: CStdException): cstring {.importcpp: "((char *)#.what())".}
   proc initRuntimeError(a: cstring): CRuntimeError {.importcpp: "std::runtime_error(@)", constructor.}
   proc initStdException(): CStdException {.importcpp: "std::exception()", constructor.}
@@ -4426,25 +3971,19 @@ caught by reference. 示例：
   fn()
   ```
 
-**Note:** `getCurrentException()` and `getCurrentExceptionMsg()` are not available
-for imported exceptions from C++. One needs to use the `except ImportedException as x:` syntax
-and rely on functionality of the `x` object to get exception details.
+**注意** `getCurrentException()` 和 `getCurrentExceptionMsg()` 不能从C++导入。开发者需要使用 `except ImportedException as x:` 语句并且需要依据对象 `x` 的功能获取异常的具体信息。
 
 
-Effect system
-=============
+Effect 系统
+======================
 
-**Note**: The rules for effect tracking changed with the release of version
-1.6 of the Nim compiler. This section describes the new rules that are activated
-via `--experimental:strictEffects`.
+**注意** : Nim 1.6 版本编译器改动了 effect 跟踪的规则。本小节的中的新规则需要通过添加 `--experimental:strictEffects` 选项才能生效。
 
 
-Exception tracking
-------------------
+异常跟踪
+----------------
 
-Nim supports exception tracking. The `raises`:idx: pragma can be used
-to explicitly define which exceptions a proc/iterator/method/converter is
-allowed to raise. The compiler verifies this:
+Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义哪些异常可以由 过程/迭代器/方法/转换器 抛出。编译期会验证如下代码: 
 
   ```nim  test = "nim c $1"
   proc p(what: bool) {.raises: [IOError, OSError].} =
@@ -4452,7 +3991,7 @@ allowed to raise. The compiler verifies this:
     else: raise newException(OSError, "OS")
   ```
 
-An empty `raises` list (`raises: []`) means that no exception may be raised:
+空的 `raises` 列表(`raises: []`)意味着不允许抛出异常: 
 
   ```nim
   proc p(): bool {.raises: [].} =
@@ -4464,8 +4003,7 @@ An empty `raises` list (`raises: []`) means that no exception may be raised:
   ```
 
 
-A `raises` list can also be attached to a proc type. This affects type
-compatibility:
+`raises` 列表也可以附加到过程类型上。这会影响类型兼容性: 
 
   ```nim  test = "nim c $1"  status = 1
   type
@@ -4480,41 +4018,29 @@ compatibility:
   ```
 
 
-For a routine `p`, the compiler uses inference rules to determine the set of
-possibly raised exceptions; the algorithm operates on `p`'s call graph:
+对于例程 `p` 来说，编译器使用推断规则来判断可能引发的异常; 算法在 `p` 的调用图上运行: 
 
-1. Every indirect call via some proc type `T` is assumed to
-   raise `system.Exception` (the base type of the exception hierarchy) and
-   thus any exception unless `T` has an explicit `raises` list.
-   However, if the call is of the form `f(...)` where `f` is a parameter of
-   the currently analyzed routine it is ignored that is marked as `.effectsOf: f`.
-   The call is optimistically assumed to have no effect.
-   Rule 2 compensates for this case.
-2. Every expression `e` of some proc type within a call that is passed to parameter
-   marked as `.effectsOf` is assumed to be called indirectly and thus
-   its raises list is added to `p`'s raises list.
-3. Every call to a proc `q` which has an unknown body (due to a forward
-   declaration) is assumed to
-   raise `system.Exception` unless `q` has an explicit `raises` list.
-   Procs that are `importc`'ed are assumed to have `.raises: []`, unless explicitly
-   declared otherwise.
-4. Every call to a method `m` is assumed to
-   raise `system.Exception` unless `m` has an explicit `raises` list.
-5. For every other call, the analysis can determine an exact `raises` list.
-6. For determining a `raises` list, the `raise` and `try` statements
-   of `p` are taken into consideration.
+1. 通过某些过程类型 `T` 间接调用产生的异常会推断为 `system.Exception` (异常的基类)。若 `T` 拥有显式的 `raises` 列表，则返回具体异常类型。
+   然而，如果是以 `f(...)` 的形式调用并且 `f` 是当前分析的例程的参数，则它会被标记 `.effectsOf: f` 并且忽略异常。
+   乐观来说，这类调用一般认为没有任何 effect 。
+   第二条规则对这种情况有所弥补。
+2. 某些过程类型的表达式 `e` ，在调用中传递给标记为 `.effectsOf` 的参数会被看作间接调用，所以它的 `raises` 列表会加入到 `p` 的 `raises` 列表。
+3. 所有对未知方法体(因为有些过程声明前置)的过程 `q` 的调用都会被看作抛出 `system.Exception` 异常除非 `q` 显式定义了 `raises` 列表。
+   以 `importc` 结尾的过程，若没有显式声明 `raises` 列表，则默认被看作有 `.raises: []` 即空列表。
+4. 若方法 `m` 没有显式声明 `raises` 列表，则调用方法 `m` 默认抛出 `system.Exception` 异常。
+5. 对于其他的调用，Nim 可以分析推断出确定的 `raises` 列表。
+6. Nim 会根据 `p` 的 `raise` 和 `try` 语句推断 `raises` 列表。
 
 
-Exceptions inheriting from `system.Defect` are not tracked with
-the `.raises: []` exception tracking mechanism. This is more consistent with the
-built-in operations. The following code is valid:
+继承自 `system.Defect` 的异常不会根据 `.raises: []` 异常跟踪机制跟踪。这跟内置的运算符保持一致。
+下面的代码是合理的: 
 
   ```nim
   proc mydiv(a, b): int {.raises: [].} =
-    a div b # can raise an DivByZeroDefect
+    a div b # 会抛出 DivByZeroDefect 异常
   ```
 
-And so is:
+同理，下面的代码 也是合理的: 
 
   ```nim
   proc mydiv(a, b): int {.raises: [].} =
@@ -4523,16 +4049,13 @@ And so is:
   ```
 
 
-The reason for this is that `DivByZeroDefect` inherits from `Defect` and
-with `--panics:on`:option: Defects become unrecoverable errors.
-(Since version 1.4 of the language.)
+因为 `DivByZeroDefect` 继承自 `Defect` 并且已添加 `--panics:on`:option: 选项，所以异常变成无法修复还原的错误。(自从 Nim 1.4 开始支持) 
 
 
-EffectsOf annotation
---------------------
+EffectsOf 编译指示
+------------------------------------
 
-Rules 1-2 of the exception tracking inference rules (see the previous section)
-ensure the following works:
+异常追踪(之前的小节)的第一条与第二条异常推断规则确保以下代码正常工作: 
 
   ```nim
   proc weDontRaiseButMaybeTheCallback(callback: proc()) {.raises: [], effectsOf: callback.} =
@@ -4542,17 +4065,13 @@ ensure the following works:
     raise newException(IOError, "IO")
 
   proc use() {.raises: [].} =
-    # doesn't compile! Can raise IOError!
+    # 不会编译通过! 会抛出 IOError 错误!
     weDontRaiseButMaybeTheCallback(doRaise)
   ```
 
-As can be seen from the example, a parameter of type `proc (...)` can be
-annotated as `.effectsOf`. Such a parameter allows for effect polymorphism:
-The proc `weDontRaiseButMaybeTheCallback` raises the exceptions
-that `callback` raises.
+从这个例子中可以看出， `proc (...)` 类型的参数可以标记为 `.effectsOf` 。这样的参数允许 effect 多态: 过程 `weDontRaiseButMaybeTheCallback` 可以抛出 `callback` 抛出的异常。
 
-So in many cases a callback does not cause the compiler to be overly
-conservative in its effect analysis:
+所以在很多场景中，callback 并不会导致编译器在 effect 分析中过于保守: 
 
   ```nim  test = "nim c $1"  status = 1
   {.push warningAsError[Effect]: on.}
@@ -4575,35 +4094,32 @@ conservative in its effect analysis:
     cmp(a.int, b.int)
 
   proc harmful {.raises: [].} =
-    # does not compile, `sort` can now raise Exception
+    # 不会通过编译， `sort` 现在会抛出异常
     toSort.sort cmpE
   ```
 
 
 
-Tag tracking
-------------
+Tag 跟踪
+----------------
 
-Exception tracking is part of Nim's `effect system`:idx:. Raising an exception
-is an *effect*. Other effects can also be defined. A user defined effect is a
-means to *tag* a routine and to perform checks against this tag:
+异常追踪是 Nim `effect system`:idx: 的一部分。抛出异常是一个 *effect* 。当然可以定义其他 effect 。用户定义的 effect 是对例程打上一个 *tag* 并检查这个 tag : 
 
   ```nim  test = "nim c --warningAsError:Effect:on $1"  status = 1
-  type IO = object ## input/output effect
+  type IO = object ## 输入/输出 effect
   proc readLine(): string {.tags: [IO].} = discard
 
   proc no_effects_please() {.tags: [].} =
-    # the compiler prevents this:
+    # 编译器会阻止下面代码通过编译:
     let x = readLine()
   ```
 
-A tag has to be a type name. A `tags` list - like a `raises` list - can
-also be attached to a proc type. This affects type compatibility.
+`tag` 必须是类型名。
+就像 `raises` 列表， `tags` 列表也可以附加到过程类型上。这会影响类型的兼容性。
 
-The inference for tag tracking is analogous to the inference for
-exception tracking.
+tag 跟踪的推断规则与异常追踪的推断规则类型。
 
-There is also a way which can be used to forbid certain effects:
+也有几种方式可以禁用某些effect:
 
 .. code-block:: nim
     :test: "nim c --warningAsError:Effect:on $1"
@@ -4614,15 +4130,13 @@ There is also a way which can be used to forbid certain effects:
   proc echoLine(): void = discard
 
   proc no_IO_please() {.forbids: [IO].} =
-    # this is OK because it didn't define any tag:
+    # 这样写没问题，因为它没有定义任何 tag:
     echoLine()
-    # the compiler prevents this:
+    # 但是编译器不允许这样写:
     let y = readLine()
 
-The `forbids` pragma defines a list of illegal effects - if any statement
-invokes any of those effects, the compilation will fail.
-Procedure types with any disallowed effect are the subtypes of equal
-procedure types without such lists:
+`forbids` 编译指示定义了一个非法 effect 的列表。如果任何语句调用这些 effect ，则编译会失败。
+带有非法 effect 的过程类型是原(没有非法 effect )过程类型的子类型: 
 
 .. code-block:: nim
   type MyEffect = object
@@ -4638,18 +4152,19 @@ procedure types without such lists:
   proc toBeCalled1(i: int): void = effectful(i)
   proc toBeCalled2(i: int): void = effectless(i)
 
-  ## this will fail because toBeCalled1 uses MyEffect which was forbidden by ProcType1:
+  ## 这会编译失败因为 toBeCalled1 使用 ProcType1 禁用的 MyEffect :
   caller1(toBeCalled1)
-  ## this is OK because both toBeCalled1 and ProcType1 have the same requirements:
+  ## 这会编译通过因为 toBeCalled1 和 ProcType1 有相同的要求:
   caller1(toBeCalled2)
-  ## these are OK because ProcType2 doesn't have any effect requirement:
+  ## 这会编译通过因为 ProcType2 没有任何 effect 的要求:
   caller2(toBeCalled1)
   caller2(toBeCalled2)
 
-`ProcType2` is a subtype of `ProcType1`. Unlike with tags, the parent context - the function which calls other functions with forbidden effects - doesn't inherit the forbidden list of effects.
+`ProcType2` 是 `ProcType1` 的子类。跟 tag 不同，父级的上下文(调用其他有禁用 effect 函数的函数)并不继承 effect 的禁用列表。
 
 
 副作用
+------------
 
 `noSideEffect` 编译指示标记只能通过传递参数产生副作用的过程或迭代器。这意味着这个过程或迭代器只能改变形参可访问的地址。假如该过程或迭代器参数中没有 `var`、`ref`、 `ptr`、 `cstring`、 `proc` 中的任意类型，其无法修改外部地址。
 
@@ -4678,6 +4193,7 @@ procedure types without such lists:
 
 
 GC安全的作用
+------------------------
 
 如果一个过程未接收任何包含于垃圾回收内存中的全局变量（`string`, `seq`, `ref`或者一个 closure（闭包）），也没有直接或间接调用涉及这类全局变量的GC不安全过程，该过程就是GC安全的：`GC safe`。
 
@@ -4707,6 +4223,7 @@ GC安全的作用
 
 
 作用编译标志
+------------------------
 
 `effects` 编译标志用于协助程序员进行作用分析。这条语句可以使编译器输出所有被推断出的作用到`effects`的位置上
 
@@ -4723,6 +4240,7 @@ GC安全的作用
 
 
 泛型
+========
 
 泛型是Nim以`type parameters`:idx:类型化参数实现参数化的过程、迭代器和类型的途径。根据上下文，中括号可用于引入泛型参数或实例化泛型过程、泛型迭代器或者泛型类型。
 
@@ -4786,6 +4304,7 @@ GC安全的作用
 这里的`T`被称为泛型类型参数`generic type parameter`:idx:，或者可变类型
 
 `is` 操作符
+----------------------
 
 `is` 操作符在语义分析期间评估检查类型的等价性。因此其在对类型有特定要求的泛型代码中有重要作用。
 
@@ -4799,8 +4318,8 @@ GC安全的作用
   ```
 
 
-Type类
-------------
+Type 类
+--------------
 
 Type类是一种特殊的伪类型，可在重载解析或`is` 操作符处针对性地匹配上下文中的类型 。Nim支持以下内置类型类：
 
@@ -4812,8 +4331,8 @@ type class           matches
 `enum`               枚举类型
 `proc`               过程类型
 `ref`                过程类型
-`ptr`               指针类型
-`var`               变量类型
+`ptr`                指针类型
+`var`                变量类型
 `distinct`           distinct类型
 `array`              数组类型
 `set`                集合类型
@@ -4843,7 +4362,7 @@ Type类可以通过标准的布尔操作符组合为更复杂的Type类。
 
 虽然type类在语法上接近于类ML语言中的抽象数据类型和代数数据类型，但应该知道type类是实例化时强制执行的静态约束。type类本身并非真的类，而只是提供了一个泛型检查系统以将其最终解释为确定的单一类型。type类不允许运行时的动态类型分配，这与object、变量和方法不同。
 
-例如，以下代码将无法通过编译。
+例如，以下代码将无法通过编译:
 
   ```nim
   type TypeClass = int | string
@@ -4863,6 +4382,7 @@ Nim允许将type类和常规类用作泛型类型参数的类型约束`type cons
 
 
 隐式泛型
+----------------
 
 一个type类可以直接作为参数的类型使用。
 
@@ -4902,7 +4422,7 @@ Nim允许将type类和常规类用作泛型类型参数的类型约束`type cons
   ```
 
 
-这里有说明隐式泛型的更多例子
+这里有说明隐式泛型的更多例子:
 
   ```nim
   proc p(t: Table; k: Table.Key): Table.Value
@@ -4968,6 +4488,7 @@ Nim允许将type类和常规类用作泛型类型参数的类型约束`type cons
 
 
 泛型推断局限
+------------------------
 
 类型 `var T` 和 `typedesc[T]` 无法在泛型实例中被推断，以下语句是不允许的：
 
@@ -4993,9 +4514,9 @@ Nim允许将type类和常规类用作泛型类型参数的类型约束`type cons
 
 
 泛型中的符号查找
--------------------------
+--------------------------------
 
-开放和封闭符号
+### 开放和封闭符号
 
 泛型中的符号绑定规则略显微妙：其存在开放和封闭两种状态的符号。一个封闭的符号在实例的上下文中无法被重新绑定，而一个开放的符号可以。默认情况下，重载符号都是开放的，而所有其他符号都是封闭的。
 
@@ -5015,7 +4536,8 @@ Nim允许将type类和常规类用作泛型类型参数的类型约束`type cons
 
 在这个例子中，针对元组泛型符号 `==` （定义于系统模块），使用 `==` 操作符进行元组的组合。然而，针对`Index` 类型的 `==`符号定义在其针对元组的定义之后；所以，这个例子在被编译时，实例中当前符号的定义也会进入其中。
 
-Mixin语句
+Mixin 语句
+------------------
 
 一个符号可以通过`mixin`:idx:关键字声明开放
 
@@ -5031,7 +4553,7 @@ Mixin语句
 
 
 绑定语句
---------------
+----------------
 
  `bind` 语句相对于 `mixin` 语句。可用于显式地声明标识符需要绑定于先前（标识符应在模板或泛型的作用域中被定义）。
 
@@ -5059,7 +4581,7 @@ Mixin语句
 
 
 委托绑定语句
---------------------------
+------------------------
 
 下面的示例概述了当泛型的实例跨越多个不同模块时可能出现的问题：
 
@@ -5098,13 +4620,13 @@ Mixin语句
 
 
 模板
-=========
+========
 
 一个模板就是一个简单形式的宏：它是一个简单的替换机制，在Nim的抽象语法树上运行。它运作在编译器的语义传递中。
 
-调用模板的语法和调用过程的语法是相同的
+调用模板的语法和调用过程的语法是相同的。
 
-示例：
+例如：
 
   ```nim
   template `!=` (a, b: untyped): untyped =
@@ -5123,8 +4645,8 @@ Mixin语句
 模板中的类型可以使用`untyped`、`typed` 及 `typedesc`三个符号。这些都是“元类型”，它们只能被用于特定上下文中。常规类型也可被同样的使用；这意味着 `typed` 的表现是可预期的。
 
 
-Typed 参数和untyped参数的比较
----------------------------
+Typed 参数和 untyped 参数的比较
+--------------------------------------------------------------
 
 一个`untyped` 参数意味着符号的查找和类型的解析在表达式传递给模板前是不执行的。这意味着像以下例子这样不声明标识符的代码是可通过的：
 
@@ -5150,7 +4672,7 @@ Typed 参数和untyped参数的比较
 
 
 传递代码块到模板
-----------------------------------
+--------------------------------
 
 通过特殊的 `:` 语法，可以将一个语句块传递给模板的最后一个参数。
 
@@ -5170,7 +4692,7 @@ Typed 参数和untyped参数的比较
     txt.writeLine("line 2")
   ```
 
-在这个例子中，这两行`writeLine` 语句被绑定到了模板的 `actions`参数
+在这个例子中，这两行`writeLine` 语句被绑定到了模板的 `actions`参数。
 
 
 通常，为了传递一个代码块到模板，接受代码块的参数需要被声明为`untyped`类型。因为这样，符号查找会被推迟到模板实例化的进行期间内执行：
@@ -5199,7 +4721,7 @@ Typed 参数和untyped参数的比较
 
 
 无需类型检查的数量可变参数
-------------------
+----------------------------------------------------
 
 除了`untyped` 元类型阻止类型检查外， `varargs[untyped]`中的参数数量也是不确定的。
 
@@ -5213,7 +4735,7 @@ Typed 参数和untyped参数的比较
 
 
 模板中的符号绑定
----------------------------
+--------------------------------
 
 一个模板就是一个卫生宏`hygienic`:idx:，因此也会开启一个新的作用域。大部分符号会在宏的定义域中绑定。
 
@@ -5239,7 +4761,7 @@ Typed 参数和untyped参数的比较
 
 
 标识符构建
------------------------
+--------------------
 
 在模板中，标识符可以通过反引号标注进行构建
 
@@ -5257,6 +4779,7 @@ Typed 参数和untyped参数的比较
 
 
 模板参数中的查找规则
+----------------------------------------
 
 模板中的一个参数 `p`总是被替换为`x.p`这样的表达式。因此，模板参数可像字段名称一样使用，且一个全局符号会被一个合法的同名参数覆盖：
 
@@ -5276,7 +4799,7 @@ Typed 参数和untyped参数的比较
   # 生成: 'levA levA'
   ```
 
-但是全局符号可以通过`bind` 语句适时地捕获。
+但是全局符号可以通过`bind` 语句适时地捕获:
 
   ```nim
   # 模块 'm'
@@ -5297,9 +4820,9 @@ Typed 参数和untyped参数的比较
 
 
 模板中的卫生
---------------------
+------------------------
 
-默认地，模板是卫生的`hygienic`:idx:。模板中的本地标识符被声明后，无法在模板实例所处的上下文中访问。
+默认地，模板是卫生的`hygienic`:idx:。模板中的本地标识符被声明后，无法在模板实例所处的上下文中访问:
 
   ```nim  test = "nim c $1"
   template newException*(exceptn: typedesc, message: string): untyped =
@@ -5359,9 +4882,9 @@ Typed 参数和untyped参数的比较
   ```
 
 
-以上代码将按预期工作
+以上代码将按预期工作。
 
-而这意味着被`gensym`标记的符号无法应用方法调用语义
+而这意味着被`gensym`标记的符号无法应用方法调用语义:
 
   ```nim  test = "nim c $1"  status = 1
   template tmp(x) =
@@ -5375,7 +4898,7 @@ Typed 参数和untyped参数的比较
 
 
 方法调用语义的局限性
--------------------------------------
+----------------------------------------
 
  在像 `x.f` 这样的表达式中的`x` 在确定执行前需要进行语义检查（这意味着符号查找和类型检查），这一过程中其将被写作 `f(x)`的形式。因此，当`.`语义用于调用模板和宏时有一些局限性。
 
@@ -5415,19 +4938,19 @@ Typed 参数和untyped参数的比较
 * 再次对该区域的代码进行语义分析。
 * 如果宏返回的AST包含其他宏调用，则此过程将迭代进行。
 
-虽然宏支持编译时的代码转换，但它们无法更改 Nim 的语法
+虽然宏支持编译时的代码转换，但它们无法更改 Nim 的语法。
 
 **样式说明：** 为了提高代码的可读性，最好使用简洁而富表现力的编程结构。建议如下：
 
-（1）首先尽可能使用普通的过程和迭代器。
-（2）其次尽可能使用泛型过程和迭代器。
-（3）再次尽可能使用模板。
-（4）最后才考虑使用宏。
+(1) 首先尽可能使用普通的过程和迭代器。
+(2) 其次尽可能使用泛型过程和迭代器。
+(3) 再次尽可能使用模板。
+(4) 最后才考虑使用宏。
 
-Debug例子
--------------
+Debug 例子
+--------------------
 
-以下例子展现了通过接受可变数量参数的有效`debug`命令
+以下例子展现了通过接受可变数量参数的有效`debug`命令:
 
   ```nim  test = "nim c $1"
   # 要使用Nim语法树，我们需要一个在“宏”模块中定义的API
@@ -5518,30 +5041,29 @@ bindSym
   writeLine(stdout, x)
   ```
 
-但是，符号 `write`，`writeLine` 和`stdout` 已经绑定，且不会再次查找。如示例所示，`bindSym` 确实可以隐式地处理重载符号
+但是，符号 `write`，`writeLine` 和`stdout` 已经绑定，且不会再次查找。如示例所示，`bindSym` 确实可以隐式地处理重载符号。
 
 请注意，传递给`bindSym` 的符号名称必须是常量。实验功能 `dynamicBindSym` (`experimental manual
 <manual_experimental.html#dynamic-arguments-for-bindsym>`_)
 允许动态地计算此值
 
-Post-statement blocks
----------------------
+语句后的代码块
+----------------------------
 
-Macros can receive `of`, `elif`, `else`, `except`, `finally` and `do`
-blocks (including their different forms such as `do` with routine parameters)
-as arguments if called in statement form.
+当以语句形式调用宏时，宏可以接受 `of`，`elif`，`else`，`except`，`finally` 和 `do` 代码块
+（包括诸如带有例程参数的 `do` 等其它形式）。
 
   ```nim
   macro performWithUndo(task, undo: untyped) = ...
 
   performWithUndo do:
-    # multiple-line block of code
-    # to perform the task
+    # 若干行用来执行
+    # 任务的代码
   do:
-    # code to undo it
-  
+    # 用来撤消操作的代码
+
   let num = 12
-  # a single colon may be used if there is no initial block
+  # 如果没有初始代码块，可只使用一个冒号
   match (num mod 3, num mod 5):
   of (0, 0):
     echo "FizzBuzz"
@@ -5554,42 +5076,42 @@ as arguments if called in statement form.
   ```
 
 
-For loop macro
---------------
+For 循环宏
+--------------------
 
-A macro that takes as its only input parameter an expression of the special
-type `system.ForLoopStmt` can rewrite the entirety of a `for` loop:
+当宏只有一个输入参数，而且这个参数的类型是特殊的 `system.ForLoopStmt` 时，
+这个宏可以重写整个 `for` 循环：
 
   ```nim  test = "nim c $1"
   import std/macros
 
   macro example(loop: ForLoopStmt) =
-    result = newTree(nnkForStmt)    # Create a new For loop.
-    result.add loop[^3]             # This is "item".
-    result.add loop[^2][^1]         # This is "[1, 2, 3]".
+    result = newTree(nnkForStmt)    # 创建一个新的 For 循环。
+    result.add loop[^3]             # 这是“item”。
+    result.add loop[^2][^1]         # 这是“[1, 2, 3]”。
     result.add newCall(bindSym"echo", loop[0])
 
   for item in example([1, 2, 3]): discard
   ```
 
-Expands to:
+展开成：
 
   ```nim
   for item in items([1, 2, 3]):
     echo item
   ```
 
-Another example:
+再举一个例子：
 
   ```nim  test = "nim c $1"
   import std/macros
 
   macro enumerate(x: ForLoopStmt): untyped =
     expectKind x, nnkForStmt
-    # check if the starting count is specified:
+    # 检查是否指定了计数的起始值
     var countStart = if x[^2].len == 2: newLit(0) else: x[^2][1]
     result = newStmtList()
-    # we strip off the first for loop variable and use it as an integer counter:
+    # 我们把第一个 for 循环变量修改为整数计数器：
     result.add newVarStmt(x[0], countStart)
     var body = x[^1]
     if body.kind != nnkStmtList:
@@ -5598,31 +5120,29 @@ Another example:
     var newFor = newTree(nnkForStmt)
     for i in 1..x.len-3:
       newFor.add x[i]
-    # transform enumerate(X) to 'X'
+    # 将 enumerate(X) 转换为 'X'
     newFor.add x[^2][^1]
     newFor.add body
     result.add newFor
-    # now wrap the whole macro in a block to create a new scope
+    # 现在将整个宏包装到代码块里从而创建一个新的作用域
     result = quote do:
       block: `result`
 
   for a, b in enumerate(items([1, 2, 3])):
     echo a, " ", b
 
-  # without wrapping the macro in a block, we'd need to choose different
-  # names for `a` and `b` here to avoid redefinition errors
+  # 如果不将宏包装到代码块里，我们就需要为这里的 `a` 和 `b` 选择不同的名称
+  # 以免犯重复定义的错误。
   for a, b in enumerate(10, [1, 2, 3, 5]):
     echo a, " ", b
   ```
 
 
-Case statement macros
----------------------
+Case 语句宏
+----------------------
 
-Macros named `` `case` `` can provide implementations of `case` statements
-for certain types. The following is an example of such an implementation
-for tuples, leveraging the existing equality operator for tuples
-(as provided in `system.==`):
+名为 `` `case` `` 的宏能够为特定类型实现 `case` 语句。
+下面的例子借助元组已有的相等运算符（由 `system.==` 提供）为它们实现了 `case` 语句。
 
   ```nim  test = "nim c $1"
   import std/macros
@@ -5640,7 +5160,7 @@ for tuples, leveraging the existing equality operator for tuples
           let cond = newCall("==", selector, it[j])
           result.add newTree(nnkElifBranch, cond, it[^1])
       else:
-        error "custom 'case' for tuple cannot handle this node", it
+        error "自定义的元组 'case' 无法处理这个节点", it
 
   case ("foo", 78)
   of ("foo", 78): echo "yes"
@@ -5648,63 +5168,53 @@ for tuples, leveraging the existing equality operator for tuples
   else: discard
   ```
 
-`case` macros are subject to overload resolution. The type of the
-`case` statement's selector expression is matched against the type
-of the first argument of the `case` macro. Then the complete `case`
-statement is passed in place of the argument and the macro is evaluated.
+重载解析会处理 `case` 宏：`case` 宏的第一个参数的类型用来匹配 `case` 语句选择器表达式的类型。
+然后整个 `case` 语句被填入这个参数并对宏求值。
 
-In other words, the macro needs to transform the full `case` statement
-but only the statement's selector expression is used to determine which
-macro to call.
+换句话说，这种宏需要转换整个 `case` 语句，但是决定调用哪个宏的仅是语句的选择器表达式。
 
 
 Special 类型
-=============
+================
 
 static[T]
 ---------
 
-As their name suggests, static parameters must be constant expressions:
+如名称所示，静态参数必须是常数表达式：
 
   ```nim
   proc precompiledRegex(pattern: static string): RegEx =
     var res {.global.} = re(pattern)
     return res
 
-  precompiledRegex("/d+") # Replaces the call with a precompiled
-                          # regex, stored in a global variable
+  precompiledRegex("/d+") # 这个调用被替换成一个预编译的、
+                          # 存储在全局变量里的正则表达式
 
-  precompiledRegex(paramStr(1)) # Error, command-line options
-                                # are not constant expressions
+  precompiledRegex(paramStr(1)) # 错误，命令行选项不是常数表达式
   ```
 
 
-For the purposes of code generation, all static params are treated as
-generic params - the proc will be compiled separately for each unique
-supplied value (or combination of values).
+为了代码生成，所有的静态参数都被视为泛型参数——每遇到一种新的输入参数（或者参数的组合），函数就会被编译一次。
 
-Static params can also appear in the signatures of generic types:
+静态参数也可以出现在泛型的签名里：
 
   ```nim
   type
     Matrix[M,N: static int; T: Number] = array[0..(M*N - 1), T]
-      # Note how `Number` is just a type constraint here, while
-      # `static int` requires us to supply an int value
+      # 注意这里的 `Number` 只是一个类型约束，而
+      # `static int` 则要求我们提供一个整数值
 
     AffineTransform2D[T] = Matrix[3, 3, T]
     AffineTransform3D[T] = Matrix[4, 4, T]
 
   var m1: AffineTransform3D[float]  # OK
-  var m2: AffineTransform2D[string] # Error, `string` is not a `Number`
+  var m2: AffineTransform2D[string] # 错误，`string` 不是一种 `Number`
   ```
 
-Please note that `static T` is just a syntactic convenience for the underlying
-generic type `static[T]`. The type param can be omitted to obtain the type
-class of all constant expressions. A more specific type class can be created by
-instantiating `static` with another type class.
+请注意，`static T` 只是泛型类 `static[T]` 的语法糖。
+省略类型参数 `T` 可以获得所有常数表达式的类型类。用 `static` 把其它类型类实例化能够得到一种更具体的类型类。
 
-One can force an expression to be evaluated at compile time as a constant
-expression by coercing it to a corresponding `static` type:
+把表达式强制转换成对应的 `static` 类型可以强制其像常数表达式一样在编译期就进行求值。
 
   ```nim
   import std/math
@@ -5712,25 +5222,19 @@ expression by coercing it to a corresponding `static` type:
   echo static(fac(5)), " ", static[bool](16.isPowerOfTwo)
   ```
 
-The compiler will report any failure to evaluate the expression or a
-possible type mismatch error.
+编译器会报告表达式求值或者类型匹配中遇到的任何失败。
 
 typedesc[T]
 -----------
 
-In many contexts, Nim treats the names of types as regular
-values. These values exist only during the compilation phase, but since
-all values must have a type, `typedesc` is considered their special type.
+在一些上下文中，Nim 把类型名当作常规的值处理。这些值只存在于编译阶段，由于所有的值都必须有类型，
+就用 `typedesc` 来表示它们的这种特殊类型。
 
-`typedesc` acts as a generic type. For instance, the type of the symbol
-`int` is `typedesc[int]`. Just like with regular generic types, when the
-generic param is omitted, `typedesc` denotes the type class of all types.
-As a syntactic convenience, one can also use `typedesc` as a modifier.
+`typedesc` 像一种泛型类。比如，符号 `int` 的类型是 `typedesc[int]`。就像普通泛型类一样，
+省略了泛型参数的 `typedesc` 代表所有类型的类型类。作为一种语法糖，`typedesc` 也可用作修饰符。
 
-Procs featuring `typedesc` params are considered implicitly generic.
-They will be instantiated for each unique combination of supplied types,
-and within the body of the proc, the name of each param will refer to
-the bound concrete type:
+带有 `typedesc` 参数的函数被认为是隐式泛型的。这些函数针对每种唯一的输入类型组合都会有一个实例。
+在函数体内，每个参数的名字都指代所绑定的具体的类型：
 
   ```nim
   proc new(T: typedesc): ref T =
@@ -5741,14 +5245,13 @@ the bound concrete type:
   var tree = new(BinaryTree[int])
   ```
 
-When multiple type params are present, they will bind freely to different
-types. To force a bind-once behavior, one can use an explicit generic param:
+当存在多个类型参数时，它们可以自由地绑定到不同的类型。使用显式泛型参数可只允许单次绑定：
 
   ```nim
   proc acceptOnlyTypePairs[T, U](A, B: typedesc[T]; C, D: typedesc[U])
   ```
 
-Once bound, type params can appear in the rest of the proc signature:
+一旦绑定，类型参数就可以在函数签名剩余部分里出现：
 
   ```nim  test = "nim c $1"
   template declareVariableWithType(T: typedesc, value: T) =
@@ -5758,10 +5261,8 @@ Once bound, type params can appear in the rest of the proc signature:
   ```
 
 
-Overload resolution can be further influenced by constraining the set
-of types that will match the type param. This works in practice by
-attaching attributes to types via templates. The constraint can be a
-concrete type or a type class.
+限制类型参数所能匹配的类型可以进一步影响重载解析。实践中借助模板为类型附加约束就可以实现这个效果。
+这里的约束可以是一个具体的类型或者一个类型类。
 
   ```nim  test = "nim c $1"
   template maxval(T: typedesc[int]): int = high(int)
@@ -5772,57 +5273,48 @@ concrete type or a type class.
   when false:
     var s = string.maxval # error, maxval is not implemented for string
 
-  template isNumber(t: typedesc[object]): string = "Don't think so."
-  template isNumber(t: typedesc[SomeInteger]): string = "Yes!"
-  template isNumber(t: typedesc[SomeFloat]): string = "Maybe, could be NaN."
+  template isNumber(t: typedesc[object]): string = "不这么看。"
+  template isNumber(t: typedesc[SomeInteger]): string = "是的！"
+  template isNumber(t: typedesc[SomeFloat]): string = "有可能，也可能是 NaN。"
 
-  echo "is int a number? ", isNumber(int)
-  echo "is float a number? ", isNumber(float)
-  echo "is RootObj a number? ", isNumber(RootObj)
-  ```
+  echo "int 是数字吗？ ", isNumber(int)
+  echo "float 是数字吗？ ", isNumber(float)
+  echo "RootObj 是数字吗？ ", isNumber(RootObj)
 
-Passing `typedesc` is almost identical, just with the difference that
-the macro is not instantiated generically. The type expression is
-simply passed as a `NimNode` to the macro, like everything else.
+给宏传入 `typedesc` 与传入其它参数几乎是一样的，区别仅在于宏一般不会被实例化。类型表达式简单地作为 `NimNode` 传给宏，就像其它任何东西一样。
 
   ```nim
   import std/macros
 
   macro forwardType(arg: typedesc): typedesc =
-    # `arg` is of type `NimNode`
+    # `arg` 的类型是 `NimNode`
     let tmp: NimNode = arg
     result = tmp
 
   var tmp: forwardType(int)
   ```
 
-typeof operator
----------------
+typeof 运算符
+--------------------------
 
-**Note**: `typeof(x)` can for historical reasons also be written as
-`type(x)` but `type(x)` is discouraged.
+**注意**: 由于历史原因 `typeof(x)` 也可写作 `type(x)`，但是不鼓励这种写法。
 
-One can obtain the type of a given expression by constructing a `typeof`
-value from it (in many other languages this is known as the `typeof`:idx:
-operator):
+取给定的表达式的 `typeof` 值就能得到这个表达式的类型（在其它的很多语言里这被称为 `typeof`:idx: 运算符）：
 
   ```nim
   var x = 0
-  var y: typeof(x) # y has type int
+  var y: typeof(x) # y 的类型是 int
   ```
 
 
-If `typeof` is used to determine the result type of a proc/iterator/converter
-call `c(X)` (where `X` stands for a possibly empty list of arguments), the
-interpretation, where `c` is an iterator, is preferred over the
-other interpretations, but this behavior can be changed by
-passing `typeOfProc` as the second argument to `typeof`:
+如果 `typeof` 被用来判断函数（或迭代子、变换器）调用 `c(X)` 的结果的类型（这里，`X` 代表可能为空的参数列表），
+解释代码时，与其它方式相比，优先考虑把 `c` 视作迭代子。通过给 `typeof` 传入第二个参数 `typeOfProc` 可以改变这种行为。
 
   ```nim  test = "nim c $1"
   iterator split(s: string): string = discard
   proc split(s: string): seq[string] = discard
 
-  # since an iterator is the preferred interpretation, `y` has the type `string`:
+  # 由于迭代子是优先考虑的解释方式，下面的类型是 `string`：
   assert typeof("a b c".split) is string
 
   assert typeof("a b c".split, typeOfProc) is seq[string]
@@ -5830,93 +5322,83 @@ passing `typeOfProc` as the second argument to `typeof`:
 
 
 
-Modules
-=======
-Nim supports splitting a program into pieces by a module concept.
-Each module needs to be in its own file and has its own `namespace`:idx:.
-Modules enable `information hiding`:idx: and `separate compilation`:idx:.
-A module may gain access to the symbols of another module by the `import`:idx:
-statement. `Recursive module dependencies`:idx: are allowed, but are slightly
-subtle. Only top-level symbols that are marked with an asterisk (`*`) are
-exported. A valid module name can only be a valid Nim identifier (and thus its
-filename is ``identifier.nim``).
+模块
+========
+依靠模块概念 Nim 支持将程序拆分成小块。每个模块单独一个文件，有其独立的 `命名空间`:idx:。
+模块为 `信息隐藏`:idx: 和 `独立编译`:idx: 提供了可能。一个模块可以通过 `import`:idx:
+语句访问另一个模块里的符号。允许 `递归模块依赖`:idx:，但是略微复杂。只会导出带了星号（`*`）标记的顶层符号。
+只有合法的 Nim 标识符才能作为模块名（所以对应的文件名是 ``identifier.nim``）。
 
-The algorithm for compiling modules is:
+编译模块的算法如下：
 
-- Compile the whole module as usual, following import statements recursively.
+- 递归地追随导入语句正常编译整个模块。
 
-- If there is a cycle, only import the already parsed symbols (that are
-  exported); if an unknown identifier occurs then abort.
+- 如果发现成环，只导入已经完成语法分析的（且被导出的）符号；如果遇到未知标识符就中止。
 
-This is best illustrated by an example:
+最好用一个例子来演示（译者注：代码里的注释描述了编译模块 A 时编译器的行为）：
 
   ```nim
-  # Module A
+  # 模块 A
   type
-    T1* = int  # Module A exports the type `T1`
-  import B     # the compiler starts parsing B
+    T1* = int  # 模块 A 导出了类型 `T1`
+  import B     # 编译器开始分析模块 B
 
   proc main() =
-    var i = p(3) # works because B has been parsed completely here
+    var i = p(3) # 由于此处模块 B 已经完成语法分析，所以没有问题
 
   main()
   ```
 
 
   ```nim
-  # Module B
-  import A  # A is not parsed here! Only the already known symbols
-            # of A are imported.
+  # 模块 B
+  import A  # 此时模块 A 未完成语法分析，只会导入模块 A 中目前已知的符号
 
   proc p*(x: A.T1): A.T1 =
-    # this works because the compiler has already
-    # added T1 to A's interface symbol table
+    # 编译器已把 T1 添加到 A 的接口符号表，所以这么写没问题
     result = x + 1
   ```
 
 
-Import statement
-----------------
+Import 语句
+----------------------
 
-After the `import` statement, a list of module names can follow or a single
-module name followed by an `except` list to prevent some symbols from being
-imported:
+`import` 关键字的后面可以跟一个由若干模块名组成的列表，或者带有 `except` 列表的单个模块名。
+`except` 列表里的符号不会导入。
 
   ```nim  test = "nim c $1"  status = 1
   import std/strutils except `%`, toUpperAscii
 
-  # doesn't work then:
+  # 这行代码无法工作：
   echo "$1" % "abc".toUpperAscii
   ```
 
 
-It is not checked that the `except` list is really exported from the module.
-This feature allows us to compile against an older version of the module that
-does not export these identifiers.
+编译器不会检查 `except` 列表里的符号是否真的已经导出。这一特性允许我们与模块的不同版本一起编译，
+即便某个版本可能没有导出列表里的某些符号。
 
-The `import` statement is only allowed at the top level.
+`import` 只允许在顶层出现。
 
 
-Include statement
------------------
+Include 语句
+------------
 
-The `include` statement does something fundamentally different than
-importing a module: it merely includes the contents of a file. The `include`
-statement is useful to split up a large module into several files:
+`include` 语句所干的事情与导入模块截然不同：它只是把文件的内容包含进来而已。
+`include` 语句可用来把一个大模块切分成几个文件：
 
   ```nim
   include fileA, fileB, fileC
   ```
 
-The `include` statement can be used outside the top level, as such:
+`include` 语句可以在顶层之外使用，比如：
 
   ```nim
-  # Module A
+  # 模块 A
   echo "Hello World!"
   ```
 
   ```nim
-  # Module B
+  # 模块 B
   proc main() =
     include A
 
@@ -5924,10 +5406,10 @@ The `include` statement can be used outside the top level, as such:
   ```
 
 
-Module names in imports
------------------------
+导入语句里的模块名
+------------------------------------
 
-A module alias can be introduced via the `as` keyword:
+通过 `as` 关键字可为模块引入别名（原模块名就不可用了）：
 
   ```nim
   import std/strutils as su, std/sequtils as qu
@@ -5935,94 +5417,80 @@ A module alias can be introduced via the `as` keyword:
   echo su.format("$1", "lalelu")
   ```
 
-The original module name is then not accessible. The notations
-`path/to/module` or `"path/to/module"` can be used to refer to a module
-in subdirectories:
+使用 `path/to/module` 或者 `"path/to/module"` 这些写法来引用子目录里的模块：
 
   ```nim
   import lib/pure/os, "lib/pure/times"
   ```
 
-Note that the module name is still `strutils` and not `lib/pure/strutils`,
-thus one **cannot** do:
+注意模块名仍然是 `strutils` 而不是 `lib/pure/strutils`，所以**不能**这么干：
 
   ```nim
   import lib/pure/strutils
   echo lib/pure/strutils.toUpperAscii("abc")
   ```
 
-Likewise, the following does not make sense as the name is `strutils` already:
+与之类似，因为模块名已经就是 `strutils` 了，所以下面的代码是不合理的:
 
   ```nim
   import lib/pure/strutils as strutils
   ```
 
 
-Collective imports from a directory
------------------------------------
+从目录里集体导入
+--------------------------------
 
-The syntax `import dir / [moduleA, moduleB]` can be used to import multiple modules
-from the same directory.
+使用语法 `import dir / [moduleA, moduleB]` 能够从同一个路径里导入多个模块。
 
-Path names are syntactically either Nim identifiers or string literals. If the path
-name is not a valid Nim identifier it needs to be a string literal:
+在语法上，路径名可以是 Nim 标识符或者字符串字面量。如果路径名不是一个合法的 Nim 标识符，
+那么就需要写成字符串字面量的形式：
 
   ```nim
-  import "gfx/3d/somemodule" # in quotes because '3d' is not a valid Nim identifier
+  import "gfx/3d/somemodule" # '3d' 不是合法的 Nim 标识符，要用引号
   ```
 
 
-Pseudo import/include paths
----------------------------
+用于 import/include 的伪路径
+--------------------------------------------------------
 
-A directory can also be a so-called "pseudo directory". They can be used to
-avoid ambiguity when there are multiple modules with the same path.
+路径也可以是所谓的“伪路径”。它们用来解决存在同名模块时的多义问题。
 
-There are two pseudo directories:
+有两个伪路径：
 
-1. `std`: The `std` pseudo directory is the abstract location of Nim's standard
-   library. For example, the syntax `import std / strutils` is used to unambiguously
-   refer to the standard library's `strutils` module.
-2. `pkg`: The `pkg` pseudo directory is used to unambiguously refer to a Nimble
-   package. However, for technical details that lie outside the scope of this document,
-   its semantics are: *Use the search path to look for module name but ignore the standard
-   library locations*. In other words, it is the opposite of `std`.
+1. `std`：`std` 这个伪路径代表了 Nim 标准库的抽象位置。例如，`import std / strutils` 可用来明确地导入标准库里的 `stutils` 模块。
+2. `pkg`：`pkg` 这个伪路径用来明确地指向 Nim 软件包。不过，其技术细节不在本文档的范围以内。
+    它的语义是：*使用搜索路径去查找模块名，但是忽略标准库所在位置*。换句话说，它是 `std` 的反面。
 
-It is recommended and preferred but not currently enforced that all stdlib module imports include the std/ "pseudo directory" as part of the import name.
+对于所有导入标准库（stdlib）里的模块的情况，建议、优选（但是目前并不强制）把 std/ 这个伪路径写到导入语句里。
 
-From import statement
----------------------
+From import 语句
+--------------------------------
 
-After the `from` statement, a module name followed by
-an `import` to list the symbols one likes to use without explicit
-full qualification:
+`from` 关键字后面是一个模块名，然后是 `import` 关键字，最后是符号列表。这个列表里的符号开发者不需要显式地全限定就能直接使用。
 
   ```nim  test = "nim c $1"
   from std/strutils import `%`
 
   echo "$1" % "abc"
-  # always possible: full qualification:
+  # 总是允许全限定形式：
   echo strutils.replace("abc", "a", "z")
   ```
 
-It's also possible to use `from module import nil` if one wants to import
-the module but wants to enforce fully qualified access to every symbol
-in `module`.
+如果要导入模块 `module`，又要强制以全限定的形式访问它的每一个符号，那么可以 `from module import nil`。
 
 
-Export statement
-----------------
+Export 语句
+----------------------
 
-An `export` statement can be used for symbol forwarding so that client
-modules don't need to import a module's dependencies:
+`export` 语句用来转发符号，这样客户模块就不需要再导入本模块的依赖了：
 
   ```nim
-  # module B
+  # 模块 B
   type MyObject* = object
   ```
 
   ```nim
-  # module A
+  # 模块 A
   import B
   export B.MyObject
 
@@ -6031,18 +5499,17 @@ modules don't need to import a module's dependencies:
 
 
   ```nim
-  # module C
+  # 模块 C
   import A
 
-  # B.MyObject has been imported implicitly here:
+  # 这里 B.MyObject 被隐式导入：
   var x: MyObject
   echo $x
   ```
 
-When the exported symbol is another module, all of its definitions will
-be forwarded. One can use an `except` list to exclude some of the symbols.
+当被导出的符号是另一个模块时，这个模块里的所有定义都会被导出。通过使用 `except` 列表可以将其中的某些符号排除。
 
-Notice that when exporting, one needs to specify only the module name:
+注意当导出时，只需要指定模块名：
 
   ```nim
   import foo/bar/baz
@@ -6051,138 +5518,119 @@ Notice that when exporting, one needs to specify only the module name:
 
 
 
-Scope rules
------------
-Identifiers are valid from the point of their declaration until the end of
-the block in which the declaration occurred. The range where the identifier
-is known is the scope of the identifier. The exact scope of an
-identifier depends on the way it was declared.
+作用域规则
+--------------------
+标识符从它的声明处开始生效，并持续到到其声明所在的那个块结束。标识符为已知状态的那段代码范围称为标识符的作用域。标识符的准确的作用域与其声明方式有关。
 
-### Block scope
+### 块（Block）作用域
 
-The *scope* of a variable declared in the declaration part of a block
-is valid from the point of declaration until the end of the block. If a
-block contains a second block, in which the identifier is redeclared,
-then inside this block, the second declaration will be valid. Upon
-leaving the inner block, the first declaration is valid again. An
-identifier cannot be redefined in the same block, except if valid for
-procedure or iterator overloading purposes.
+对于在块（block）的声明部分里声明的变量，其作用域从其声明处开始，直到块的末尾结束。
+如果一个块里包含另一个块，在这个块里又再次声明了这个标识符，那么，在这个内部的块里，第二个声明有效。
+当离开这个内部的块时，第一个声明又一次有效。在同一个块里，同一个标识符不能被重复定义，
+除非是为了过程或者迭代子重载之目的。
 
 
-### Tuple or object scope
+### 元组或对象作用域
 
-The field identifiers inside a tuple or object definition are valid in the
-following places:
+在元组或者对象定义里的字段标识符在下列地方有效：
 
-* To the end of the tuple/object definition.
-* Field designators of a variable of the given tuple/object type.
-* In all descendant types of the object type.
+* 直到元组/对象的定义结束
+* 所给的元组/对象类型的变量的字段指示器（designators）
+* 对象类型的所有派生类型内
 
-### Module scope
+### 模块作用域
 
-All identifiers of a module are valid from the point of declaration until
-the end of the module. Identifiers from indirectly dependent modules are *not*
-available. The `system`:idx: module is automatically imported in every module.
+模块里的所有标识符从声明开始直到模块结束一直有效。间接依赖的模块里的标识符在本模块里*不可用*。
+每个模块都自动导入了系统模块（`system`:idx:）。
 
-If a module imports an identifier by two different modules, each occurrence of
-the identifier has to be qualified unless it is an overloaded procedure or
-iterator in which case the overloading resolution takes place:
+如果一个模块从两个不同模块里导入了相同的标识符，那么每次使用它时都必须加上限定，除非它是一个重载的过程或者迭代子，
+这时重载解析会进来解决多义性：
 
   ```nim
-  # Module A
+  # 模块 A
   var x*: string
   ```
 
   ```nim
-  # Module B
+  # 模块 B
   var x*: int
   ```
 
   ```nim
-  # Module C
+  # 模块 C
   import A, B
-  write(stdout, x) # error: x is ambiguous
-  write(stdout, A.x) # no error: qualifier used
+  write(stdout, x) # 错误：x 指代不明
+  write(stdout, A.x) # 正确：加上限定后 x 的指代明确
 
   var x = 4
-  write(stdout, x) # not ambiguous: uses the module C's x
+  write(stdout, x) # 没有多义性：这是模块 C 自己的 x
   ```
 
 
-Packages
---------
-A collection of modules in a file tree with an ``identifier.nimble`` file in the
-root of the tree is called a Nimble package. A valid package name can only be a
-valid Nim identifier and thus its filename is ``identifier.nimble`` where
-``identifier`` is the desired package name. A module without a ``.nimble`` file
-is assigned the package identifier: `unknown`.
+包
+----
+对于根目录里有一个 ``identifier.nimble`` 文件的目录树，里面的那些模块被合称为一个 Nimble 包。
+``identifier.nimble`` 这个文件名里的 ``identifier`` 就是包的名称，必须是合法的 Nim 标识符。
+对于没有与之关联的 ``.nimble`` 文件的模块，给它这么一个包名：`unknown`。
 
-The distinction between packages allows diagnostic compiler messages to be
-scoped to the current project's package vs foreign packages.
+包与包之间有了区分，就可以限制编译器输出的诊断信息的范围：仅限当前项目里的包，或者仅限项目外部的包。
 
 
 
-Compiler Messages
-=================
+编译器消息
+====================
 
-The Nim compiler emits different kinds of messages: `hint`:idx:,
-`warning`:idx:, and `error`:idx: messages. An *error* message is emitted if
-the compiler encounters any static error.
-
+Nim 编译器会输出不同类型的消息：提示（`hint`:idx:），警告（`warning`:idx:）和错误（`error`:idx:）。
+编译器遇到静态错误时会输出*错误*消息。
 
 
-Pragmas
-=======
 
-Pragmas are Nim's method to give the compiler additional information /
-commands without introducing a massive number of new keywords. Pragmas are
-processed on the fly during semantic checking. Pragmas are enclosed in the
-special `{.` and `.}` curly brackets. Pragmas are also often used as a
-first implementation to play with a language feature before a nicer syntax
-to access the feature becomes available.
+编译指示
+================
+
+编译指示（pragmas）是 Nim 语言在不引入大量新关键字的前提下给编译器提供额外信息、命令的方法。
+编译指示在语法检查时随即就处理了。编译指示由一对特殊的花括号 `{.` 和 `.}` 包围。
+当语言有了新特性但是还没设计出与之匹配的漂亮语法时，常常通过编译指示提供尝鲜体验。
 
 
-deprecated pragma
------------------
+deprecated 编译指示
+--------------------------------------
 
-The deprecated pragma is used to mark a symbol as deprecated:
+deprecated 编译指示用来标记某符号已废弃：
 
   ```nim
   proc p() {.deprecated.}
   var x {.deprecated.}: char
   ```
 
-This pragma can also take in an optional warning string to relay to developers.
+可选地，这个编译指示还能接受一个包含警告信息的字符串，编译器会把它呈现给开发者。
 
   ```nim
-  proc thing(x: bool) {.deprecated: "use thong instead".}
+  proc thing(x: bool) {.deprecated: "请改用 thong".}
   ```
 
 
 
-compileTime pragma
-------------------
-The `compileTime` pragma is used to mark a proc or variable to be used only
-during compile-time execution. No code will be generated for it. Compile-time
-procs are useful as helpers for macros. Since version 0.12.0 of the language, a
-proc that uses `system.NimNode` within its parameter types is implicitly
-declared `compileTime`:
+compileTime 编译指示
+----------------------------------------
+`compileTime` 编译指示用来指示一个过程或者变量只能用于编译期的执行。不会为它生成代码。
+编译期过程可作为宏的辅助。从语言的 0.12.0 版本开始，包含 `system.NimNode`
+类型的参数的过程隐式地声明为 `compileTime`：
 
   ```nim
   proc astHelper(n: NimNode): NimNode =
     result = n
   ```
 
-Is the same as:
+和如下一样：
 
   ```nim
   proc astHelper(n: NimNode): NimNode {.compileTime.} =
     result = n
   ```
 
-`compileTime` variables are available at runtime too. This simplifies certain
-idioms where variables are filled at compile-time (for example, lookup tables)
-but accessed at runtime:
+加了 `compileTime` 编译指示的变量在运行时也存在。很多时候希望某些变量（例如查找表）在编译时填充数据、
+在运行时访问——这轻而易举：
 
   ```nim  test = "nim c -r $1"
   import std/macros
@@ -6205,16 +5653,15 @@ but accessed at runtime:
   ```
 
 
-noreturn pragma
----------------
-The `noreturn` pragma is used to mark a proc that never returns.
+noreturn 编译指示
+----------------------------------
+`noreturn` 编译指示用来指示过程永远不会返回。
 
 
-acyclic pragma
---------------
-The `acyclic` pragma can be used for object types to mark them as acyclic
-even though they seem to be cyclic. This is an **optimization** for the garbage
-collector to not consider objects of this type as part of a cycle:
+acyclic 编译指示
+--------------------------------
+`acyclic` 编译指示用来指示对象类型是无环的，即使看起来像是有环的。
+这个信息是一种**优化**，有了这个信息垃圾回收器不再需要考虑这个类的对象构成环的情况：
 
   ```nim
   type
@@ -6224,7 +5671,7 @@ collector to not consider objects of this type as part of a cycle:
       data: string
   ```
 
-Or if we directly use a ref object:
+我们也可以直接使用引用对象类型：
 
   ```nim
   type
@@ -6233,31 +5680,22 @@ Or if we directly use a ref object:
       data: string
   ```
 
-In the example, a tree structure is declared with the `Node` type. Note that
-the type definition is recursive and the GC has to assume that objects of
-this type may form a cyclic graph. The `acyclic` pragma passes the
-information that this cannot happen to the GC. If the programmer uses the
-`acyclic` pragma for data types that are in reality cyclic, this may result
-in memory leaks, but memory safety is preserved.
+这个例子里通过 `Node` 类型声明了一个树形结构。注意到这个类型的定义是递归的，GC 不得不考虑各对象可能构成一个有环图的情况。
+`acyclic` 编译指示告诉 GC 这不可能发生。如果程序员把 `acyclic` 编译指示赋予了实际上有环的数据类型，那么将导致内存泄露，但是不会破坏内存安全。
 
 
 
-final pragma
-------------
-The `final` pragma can be used for an object type to specify that it
-cannot be inherited from. Note that inheritance is only available for
-objects that inherit from an existing object (via the `object of SuperType`
-syntax) or that have been marked as `inheritable`.
+final 编译指示
+----------------------------
+`final` 编译指示用来指示一个对象类型不能被继承。注意只能继承那些继承自已有对象类型的类型（通过 `object of 超类型` 语法）
+或者标注了 `inheritable` 的类型。
 
 
-shallow pragma
---------------
-The `shallow` pragma affects the semantics of a type: The compiler is
-allowed to make a shallow copy. This can cause serious semantic issues and
-break memory safety! However, it can speed up assignments considerably,
-because the semantics of Nim require deep copying of sequences and strings.
-This can be expensive, especially if sequences are used to build a tree
-structure:
+shallow 编译指示
+--------------------------------
+`shallow` 编译指示影响类型的语义：允许编译器进行浅拷贝。这会导致严重的语义问题，破坏内存安全！
+但是，它也可以大幅度提高赋值的速度，因为 Nim 的语义要求对序列和字符串做深拷贝。深拷贝代价高昂，
+尤其是用序列来构造树形结构的时候：
 
   ```nim
   type
@@ -6271,117 +5709,97 @@ structure:
   ```
 
 
-pure pragma
------------
-An object type can be marked with the `pure` pragma so that its type field
-which is used for runtime type identification is omitted. This used to be
-necessary for binary compatibility with other compiled languages.
+pure 编译指示
+--------------------------
+给对象类型加上 `pure` 编译指示后，编译器就不再为它生成用于运行时类型识别的类型字段。
+这曾是为了实现与其它编译型语言的二进制兼容。
 
-An enum type can be marked as `pure`. Then access of its fields always
-requires full qualification.
+枚举类型可以标记为 `pure`。这样一来，访问其成员时总是需要使用全限定。
 
 
-asmNoStackFrame pragma
-----------------------
-A proc can be marked with the `asmNoStackFrame` pragma to tell the compiler
-it should not generate a stack frame for the proc. There are also no exit
-statements like `return result;` generated and the generated C function is
-declared as `__declspec(naked)`:c: or `__attribute__((naked))`:c: (depending on
-the used C compiler).
+asmNoStackFrame 编译指示
+------------------------------------------------
+可以给过程加上 `asmNoStackFrame` 编译指示以告诉编译器不要为它生成栈帧。编译器同样也不会生成类似
+`return result;` 的退出语句。根据所用的 C 编译器，生成的 C 函数会被声明成 `__declspec(naked)`:c:
+或者 `__attribute__((naked))`:c:。
 
-**Note**: This pragma should only be used by procs which consist solely of
-assembler statements.
+**注意**：这个编译指示应该只用于完全由汇编语句构成的过程。
 
-error pragma
-------------
-The `error` pragma is used to make the compiler output an error message
-with the given content. The compilation does not necessarily abort after an error
-though.
+error 编译指示
+----------------------------
+`error` 编译指示可使编译器输出一条包含指定内容的错误消息。但是输出了这个错误消息后，编译过程并不一定会中止。
 
-The `error` pragma can also be used to
-annotate a symbol (like an iterator or proc). The *usage* of the symbol then
-triggers a static error. This is especially useful to rule out that some
-operation is valid due to overloading and type conversions:
+可以给符号（比如迭代子或者过程）附加 `error` 编译指示。*使用*这个符号将触发静态错误。
+当需要排除某些由于重载和类型转换导致的合法操作时，这个 `error` 就派上用场了：
 
   ```nim
-  ## check that underlying int values are compared and not the pointers:
+  ## 检查所比较的是整形数值，而不是指针：
   proc `==`(x, y: ptr int): bool {.error.}
   ```
 
 
-fatal pragma
-------------
+fatal 编译指示
+----------------------------
 The `fatal` pragma is used to make the compiler output an error message
 with the given content. In contrast to the `error` pragma, the compilation
-is guaranteed to be aborted by this pragma. 示例：
+is guaranteed to be aborted by this pragma. 例如：
 
   ```nim
   when not defined(objc):
-    {.fatal: "Compile this program with the objc command!".}
+    {.fatal: "编译这个程序时带上 objc 命令！".}
   ```
 
-warning pragma
---------------
-The `warning` pragma is used to make the compiler output a warning message
-with the given content. Compilation continues after the warning.
+warning 编译指示
+--------------------------------
+`warning` 编译指示可使编译器输出一条包含指定内容的警告消息，然后继续编译。
 
-hint pragma
------------
-The `hint` pragma is used to make the compiler output a hint message with
-the given content. Compilation continues after the hint.
+hint 编译指示
+--------------------------
+`hint` 编译指示可使编译器输出一条包含指定内容的提示消息，然后继续编译。
 
-line pragma
------------
-The `line` pragma can be used to affect line information of the annotated
-statement, as seen in stack backtraces:
+line 编译指示
+--------------------------
+`line` 编译指示可以修改所在语句的代码行信息。这个行信息可在栈回溯信息里看到：
 
   ```nim
   template myassert*(cond: untyped, msg = "") =
     if not cond:
-      # change run-time line information of the 'raise' statement:
+      # 修改 `raise` 语句运行时的行信息
       {.line: instantiationInfo().}:
         raise newException(AssertionDefect, msg)
   ```
 
-If the `line` pragma is used with a parameter, the parameter needs to be a
-`tuple[filename: string, line: int]`. If it is used without a parameter,
-`system.instantiationInfo()` is used.
+如果 `line` 带了参数，那么参数需要是 `tuple[filename: string, line: int]` 的形式；
+如果不带参数，那么相当于以 `system.instantiationInfo()` 为参数。
 
 
-linearScanEnd pragma
---------------------
-The `linearScanEnd` pragma can be used to tell the compiler how to
-compile a Nim `case`:idx: statement. Syntactically it has to be used as a
-statement:
+linearScanEnd 编译指示
+--------------------------------------------
+`linearScanEnd` 编译指示用来告诉编译器如何处理 Nim `case`:idx: 语句。这个编译指示在语法上必须是一个语句：
 
   ```nim
   case myInt
   of 0:
-    echo "most common case"
+    echo "最常见的情况"
   of 1:
     {.linearScanEnd.}
-    echo "second most common case"
-  of 2: echo "unlikely: use branch table"
-  else: echo "unlikely too: use branch table for ", myInt
+    echo "第二常见的情况"
+  of 2: echo "不常见：使用分支表"
+  else: echo "也不常见：使用了分支表，数值为 ", myInt
   ```
 
-In the example, the case branches `0` and `1` are much more common than
-the other cases. Therefore, the generated assembler code should test for these
-values first so that the CPU's branch predictor has a good chance to succeed
-(avoiding an expensive CPU pipeline stall). The other cases might be put into a
-jump table for O(1) overhead but at the cost of a (very likely) pipeline
-stall.
+在这个例子里，`0` 和 `1` 分支比其它情况更加常见。所以，生成的汇编代码应该首先测试这两个值以使 CPU
+的分支预测器有更大的几率预测成功（避免出现开销高昂的 CPU 流水线停滞）。其它的情况则可以放到跳转表里，
+其开销为 O(1)，但代价是一次（很可能出现的）流水线停滞。
 
-The `linearScanEnd` pragma should be put into the last branch that should be
-tested against via linear scanning. If put into the last branch of the
-whole `case` statement, the whole `case` statement uses linear scanning.
+`linearScanEnd` 编译指示应该被到最后一个需要进行线性扫描的分支里。如果放到整个 `case` 语句最后那个分支里，
+那么整个 `case` 语句都会使用线性扫描。
 
 
-computedGoto pragma
--------------------
-The `computedGoto` pragma can be used to tell the compiler how to
-compile a Nim `case`:idx: in a `while true` statement.
-Syntactically it has to be used as a statement inside the loop:
+computedGoto 编译指示
+------------------------------------------
+`computedGoto` 编译指令告诉编译器如何编译嵌在 `while true` 语句里的 Nim `case`:idx: 语句。
+这个编译指示在语法上必须是这个循环体里的一条语句：
 
   ```nim
   type
@@ -6405,11 +5823,11 @@ Syntactically it has to be used as a statement inside the loop:
       let instr = instructions[pc]
       case instr
       of enumA:
-        echo "yeah A"
+        echo "哦，A"
       of enumC, enumD:
-        echo "yeah CD"
+        echo "啊，CD"
       of enumB:
-        echo "yeah B"
+        echo "呀，B"
       of enumE:
         break
       inc(pc)
@@ -6417,53 +5835,39 @@ Syntactically it has to be used as a statement inside the loop:
   vm()
   ```
 
-As the example shows, `computedGoto` is mostly useful for interpreters. If
-the underlying backend (C compiler) does not support the computed goto
-extension the pragma is simply ignored.
+如例子所示，`computedGoto` 对于实现解释器非常有用。如果所使用的后端（C
+编译器）不支持计算跳转这个扩展功能，那么该编译指示被直接忽略。
 
 
-immediate pragma
-----------------
+immediate 编译指示
+------------------------------------
 
-The immediate pragma is obsolete. See `Typed vs untyped parameters
-<#templates-typed-vs-untyped-parameters>`_.
+`immediate` 编译指示已经淘汰。参考 `有类型 vs 无类型参数 <#templates-typed-vs-untyped-parameters>`_ .
 
 
-compilation option pragmas
---------------------------
-The listed pragmas here can be used to override the code generation options
-for a proc/method/converter.
+与编译选项相关的编译指示
+------------------------------------------------
+下面列出的编译指示用来改写过程、方法、转换器的代码生成选项。
 
-The implementation currently provides the following possible options (various
-others may be added later).
+当前，编译器提供以下可能的选项（以后可能会增加）。
 
-===============  ===============  ============================================
-pragma           allowed values   description
-===============  ===============  ============================================
-checks           on|off           Turns the code generation for all runtime
-                                  checks on or off.
-boundChecks      on|off           Turns the code generation for array bound
-                                  checks on or off.
-overflowChecks   on|off           Turns the code generation for over- or
-                                  underflow checks on or off.
-nilChecks        on|off           Turns the code generation for nil pointer
-                                  checks on or off.
-assertions       on|off           Turns the code generation for assertions
-                                  on or off.
-warnings         on|off           Turns the warning messages of the compiler
-                                  on or off.
-hints            on|off           Turns the hint messages of the compiler
-                                  on or off.
-optimization     none|speed|size  Optimize the code for speed or size, or
-                                  disable optimization.
-patterns         on|off           Turns the term rewriting templates/macros
-                                  on or off.
-callconv         cdecl|...        Specifies the default calling convention for
-                                  all procedures (and procedure types) that
-                                  follow.
-===============  ===============  ============================================
+===================  =======================  ==================================================================
+编译指示             允许的值                 描述
+===================  =======================  ==================================================================
+checks               on|off                   是否为所有的运行时检查生成代码。
+boundChecks          on|off                   是否为数组边界检查生成代码。
+overflowChecks       on|off                   是否为上、下溢出检查生成代码。
+nilChecks            on|off                   是否为空指针检查生成代码。
+assertions           on|off                   是否为断言生成代码。
+warnings             on|off                   打开或关闭编译器的警告消息。
+hints                on|off                   打开或关闭编译器的提示消息。
+optimization         none|speed|size          设置优化目标为执行速度（speed）、文件大小（size），
+                                              或者关闭优化（none）
+patterns             on|off                   打开或关闭项重写模块、宏。
+callconv             cdecl|...                为所有过程（及过程类型）设置默认的调用规范。
+===================  =======================  ==================================================================
 
-示例：
+例如：
 
   ```nim
   {.checks: off, optimization: speed.}
@@ -6471,20 +5875,19 @@ callconv         cdecl|...        Specifies the default calling convention for
   ```
 
 
-push and pop pragmas
---------------------
+push 和 pop 编译指示
+----------------------------------------
 The `push/pop`:idx: pragmas are very similar to the option directive,
-but are used to override the settings temporarily. 示例：
+but are used to override the settings temporarily. 例如：
 
   ```nim
   {.push checks: off.}
-  # compile this section without runtime checks as it is
-  # speed critical
-  # ... some code ...
-  {.pop.} # restore old settings
+  # 由于这一段代码对于执行速度非常关键，所以不做运行时检查
+  # ... 一些代码 ...
+  {.pop.} # 恢复原来旧的编译设置
   ```
 
-`push/pop`:idx: can switch on/off some standard library pragmas, example:
+`push/pop`:idx: 能够开关一些来自标准库的编译指示，例如：
 
   ```nim
   {.push inline.}
@@ -6502,25 +5905,21 @@ but are used to override the settings temporarily. 示例：
   {.pop.}
   ```
 
-For third party pragmas, it depends on its implementation but uses the same syntax.
+对于来自第三方的编译指示，`push/pop`:idx: 是否有效与第三方的实现有关，但是无论如何使用的语法是相同的。
 
 
-register pragma
----------------
-The `register` pragma is for variables only. It declares the variable as
-`register`, giving the compiler a hint that the variable should be placed
-in a hardware register for faster access. C compilers usually ignore this
-though and for good reasons: Often they do a better job without it anyway.
+register 编译指示
+----------------------------------
+`register` 编译指示仅用于变量。这个编译指示将变量声明为 `register`，
+提示编译器应该将这个变量放到硬件寄存器里以提高访问速度。C 编译器经常忽略这个提示，理由充分：
+没有这个提示它们往往能把活干得更漂亮。
 
-However, in highly specific cases (a dispatch loop of a bytecode interpreter
-for example) it may provide benefits.
+然而，特定的情况下（例如一个字节码解释器的调度循环）这个编译指示可能会有所帮助。
 
 
-global pragma
--------------
-The `global` pragma can be applied to a variable within a proc to instruct
-the compiler to store it in a global location and initialize it once at program
-startup.
+global 编译提示
+------------------------------
+可以给过程里的变量加上 `global` 编译提示，命令编译器把这个变量存储在全局位置，并且在程序启动时初始化一次。
 
   ```nim
   proc isHexNumber(s: string): bool =
@@ -6528,32 +5927,27 @@ startup.
     result = s.match(pattern)
   ```
 
-When used within a generic proc, a separate unique global variable will be
-created for each instantiation of the proc. The order of initialization of
-the created global variables within a module is not defined, but all of them
-will be initialized after any top-level variables in their originating module
-and before any variable in a module that imports it.
+在泛型过程里使用时，编译器会为泛型过程的每个实例创建独立的全局变量。编译器为某个模块创建的这些全局变量，
+其初始化时的先后顺序不做规定；但是，整体上是先初始化这个模块的顶层变量，再初始化这些全局变量；
+如果其它模块导入了这个模块，那么这些全局变量的初始化将早于其它模块里的变量。
 
-Disabling certain messages
---------------------------
-Nim generates some warnings and hints ("line too long") that may annoy the
-user. A mechanism for disabling certain messages is provided: Each hint
-and warning message contains a symbol in brackets. This is the message's
-identifier that can be used to enable or disable it:
+禁用某些消息
+------------------------
+Nim 产生的某些警告和提示消息（如“line too long”）可能令人厌烦。为此提供了一种禁用消息的机制：
+每条提示和警告消息都关联了一个符号。这个符号就是消息的标识符，把它放到编译指示后面的方括号里就可以使能或者禁用这条消息：
 
   ```Nim
-  {.hint[LineTooLong]: off.} # turn off the hint about too long lines
+  {.hint[LineTooLong]: off.} # 关闭关于代码行太长的那条提示
   ```
 
-This is often better than disabling all warnings at once.
+对于警告消息而言，这种办法往往比一股脑地禁用所有警告更好。
 
 
-used pragma
------------
+used 编译提示
+--------------------------
 
-Nim produces a warning for symbols that are not exported and not used either.
-The `used` pragma can be attached to a symbol to suppress this warning. This
-is particularly useful when the symbol was generated by a macro:
+当一个符号既未导出也未被使用时，Nim 会输出一条警告消息。给这个符号加上 `used` 编译提示可以抑制这条消息。
+当通过宏生成符号时，这个编译提示非常有用：
 
   ```nim
   template implementArithOps(T) =
@@ -6562,30 +5956,28 @@ is particularly useful when the symbol was generated by a macro:
     proc echoSub(a, b: T) {.used.} =
       echo a - b
 
-  # no warning produced for the unused 'echoSub'
+  # 'echoSub' 虽然未被使用，但是不会触发警告
   implementArithOps(int)
   echoAdd 3, 5
   ```
 
-`used` can also be used as a top-level statement to mark a module as "used".
-This prevents the "Unused import" warning:
+`used` 也可用作顶层语句，把模块标记为“已使用”。这样就可以抑制针对这个模块的“未使用的导入”这条警告：
 
   ```nim
-  # module: debughelper.nim
+  # 模块：debughelper.nim
   when defined(nimHasUsed):
-    # 'import debughelper' is so useful for debugging
-    # that Nim shouldn't produce a warning for that import,
-    # even if currently unused:
+    # 'import debughelper' 对于调试来说非常有用，
+    # 即使这个模块未被使用，也不需要 Nim 输出警告：
     {.used.}
   ```
 
 
 expermimental 的编译指示
--------------------
+------------------------------------------------
 
 `expermimental` 编译指示用于启用实验性的语言功能。 取决于具体的特性 这意味着该特性要么被认为是 过于不稳定，要么特性 的未来是不确定的(它可能随时被删除)。 详情请参阅 `expermimental 手册 <manual_experimental.html>`_ 。
 
-示例：
+例如：
 
   ```nim
   import std/threadpool
@@ -6624,13 +6016,14 @@ expermimental 的编译指示
   ```
 
 
-实现特定的编译指示
-===============================
+Implementation Specific 编译指示
+========================================
 
-本节介绍当前Nim实现 所支持的额外的编译指示，但不应将其视为语言说明的一部分。
+This section describes additional pragmas that the current Nim implementation
+supports but which should not be seen as part of the language specification.
 
 Bitsize 编译指示
---------------
+--------------------------------
 
 `bitsize` 是对象字段成员的编译指示。 这表明该字段为 是C/C++中的一个位域。
 
@@ -6650,7 +6043,7 @@ Bitsize 编译指示
 
 
 Align 编译指示
-------------
+----------------------------
 
 `align`:idx: 编译指示是针对变量和对象字段成员的。 它 用于修改所声明的实体的字节对齐要求。 参数必须是 2 的幂。 有效的非 0 对齐的编译标记同时存在声明的时候，弱的编译标记 会被忽略。 与类型的 对齐要求相比较弱的对齐编译标记的声明也会被忽略。
 
@@ -6678,7 +6071,7 @@ Align 编译指示
 
 
 Noalias 编译指示
---------------
+--------------------------------
 
 从 Nim 编译器版本 1.4 ，有一个 `.noalias` 注解用于变量 和参数。 它被直接映射到 C/C++ 的 `restrict`:c: 关键字，并表示 底部指向内存中的一个独特位置， 此位置不存在其他别名。 *unchecked*遵守此别名限制。 如果违反了 限制，后端优化器可以自由地编译代码。 这是一个 **不安全的** 语言功能。
 
@@ -6686,15 +6079,14 @@ Noalias 编译指示
 
 
 Volatile 编译指示
----------------
+----------------------------------
 `volatile` 编译指示仅用于变量。 它宣布变量为 `volatile`:c:, 不论 C/C++ 中 volatile 代表什么含义 (其语义在 C/C+++中是没有明确定义的)。
 
 **注意**: LLVM 后端不存在这种编译指示。
 
 
-
 nodecl 编译指示
--------------
+------------------------------
 `nodell` 编译指示可以应用于几乎任何符号（变量，程序， 类型等）。 有时在与 C 的相互操作上很有用： <0>nodell</0> 编译指示会告诉 Nim, 不要生成在 C 代码中的符号的声明。 例如：
 
   ```Nim
@@ -6709,7 +6101,7 @@ nodecl 编译指示
 
 
 Header 编译指示
--------------
+------------------------------
 `header` 编译指示和 `nodecl` 编译指示非常相似:几乎可以在任何符号和不应声明的 specifies 上应用，与之替代的是，生成代码会包含一个 `#include`:c:\:
 
   ```Nim
@@ -6724,7 +6116,7 @@ Header 编译指示
 
 
 IncompleteStruct 编译指示
------------------------
+--------------------------------------------------
 `incompleteStruct` 编译指示告诉编译器不要使用 底层 C 的`结构`:c: 在 `sizeof` 表达式中：
 
   ```Nim
@@ -6735,7 +6127,7 @@ IncompleteStruct 编译指示
 
 
 Compile 编译指示
---------------
+--------------------------------
 `compile` 编译指示可以将一个 C/C++ 源文件用于编译和链接到项目：
 
   ```Nim
@@ -6754,7 +6146,7 @@ Compile 编译指示
 
 
 Link 编译指示
------------
+--------------------------
 `link` 编译指示可以用来将附加文件与项目链接：
 
   ```Nim
@@ -6763,7 +6155,7 @@ Link 编译指示
 
 
 passc 编译指示
-------------
+----------------------------
 `passc` 编译指示可以用来传递额外参数到 C 编译器，就像命令行使用的 `--passc`:option:\：
 
   ```Nim
@@ -6778,7 +6170,7 @@ passc 编译指示
 
 
 localPassC 编译指示
------------------
+--------------------------------------
 `localPassC` 编译指示可以用来传递附加参数到 C 编译器。 但仅适用于 Nim 模块包含该编译指示生成的 C/C++ 文件 ：
 
   ```Nim
@@ -6789,7 +6181,7 @@ localPassC 编译指示
 
 
 passl 编译指示
-------------
+----------------------------
 `passc` 编译指示可以用来传递额外参数到 C 链接器，就像在命令行使用的 `--passc`:option:\：
 
   ```Nim
@@ -6810,7 +6202,7 @@ compiler's code generator. The code is then unportable to other code
 generators/backends. Its usage is highly discouraged! However, it can be
 extremely useful for interfacing with `C++`:idx: or `Objective C`:idx: code.
 
-示例：
+例如：
 
   ```Nim
   {.emit: """
@@ -6860,7 +6252,7 @@ extremely useful for interfacing with `C++`:idx: or `Objective C`:idx: code.
 
 
 ImportCpp 编译指示
-----------------
+------------------------------------
 
 **注意**: `c2nim <https://github.com/nim-lang/c2nim/blob/master/doc/c2nim.rst>`_ 可以解析大量 C++ 的子集并知道 关于` importCpp ` 编译指示的模式语言。 不需要 知道这里描述的所有细节。
 
@@ -7042,7 +6434,6 @@ ImportCpp 编译指示
 
 - 如果需要更确切的控制的话。 撇号 `'` 可以在可以支持的 模式中来表示通用类型的具体类型参数。 了解更多详情，请参阅 proc 模式中撇号运算符的用法。
 
-
     ```nim
     type
       VectorIterator {.importcpp: "std::vector<'0>::iterator".} [T] = object
@@ -7059,14 +6450,14 @@ ImportCpp 编译指示
 
 
 ImportJs 编译指示
----------------
+----------------------------------
 
 类似于 `importcpp pragma for C++ <#implementation-specific-pragmas-importcpp-pragma>`_, `importjs` 编译指示可以用来导入 JavaScript 的方法或者符号。 生成的代码会使用 Javascript 方法 调用语法： `obj.method(arg)`
 
 
 
 ImportObjC 编译指示
------------------
+--------------------------------------
 类似于 `importc pragma for C
 <#foreign-function-interface-importc-pragma>`_, `importobjc` 编译指示可以用来导入 `Objective C`:idx: 的方法。 生成的代码会使用 Objective C 的方法 调用语法： `[obj method param1: arg]`。 结合 `header` 和 `emit` 编译标记，这允许 *sloppy* 接口使用 Objective C 的库:
 
@@ -7111,17 +6502,14 @@ ImportObjC 编译指示
 需要告诉编译器生成 Objective C(命令 `objc`:option:) 才能工作 。 当编译器 输出 Objective C 代码时，条件符号 `objc` 会被定义。
 
 
-
 CodegenDecl 编译指示
-------------------
+----------------------------------------
 
 `codegenDecl`编译指示可以直接影响Nim的代码 生成器。 它接受一个格式字符串，用于决定变量 或程序如何在生成的代码中声明。
-
 
 对于变量，格式字符串中的$1表示变量 的类型，$2表示变量的名称。
 
 以下 Nim 代码：
-
 
   ```nim
   var
@@ -7151,10 +6539,9 @@ CodegenDecl 编译指示
 
 
 `cppNonPod` 编译指示
-------------------
+----------------------------------------
 
 `.cppNonPod` 编译指示应该用于非POD `importcpp` 类型，以便他们 ` threadvar` 变量正常工作(尤其是对构造器和析构器而言) 。 这需要 `--tlsEmulation:off`:option:。
-
 
   ```nim
   type Foo {.cppNonPod, importcpp, header: "funs.h".} = object
@@ -7164,17 +6551,22 @@ CodegenDecl 编译指示
   ```
 
 
-编译时定义的编译指示
+compile-time define pragmas
 ---------------------------
 
-这里列出的编译指示可以用于在编译时间接受 的 `-d/--define`:option: 选项的可选值。
+The pragmas listed here can be used to optionally accept values from
+the `-d/--define`:option: option at compile time.
 
-当前的执行提供了以下可能的选项 (以后可能会添加 个其他选项)。
+当前，编译器提供以下可能的选项（以后可能会增加）。
 
 
-
-=================  ============================================ 编译指示             描述 =================  ============================================ `intdefine`:idx:   编译时定义读取为整数类型 `strdefine`:idx:   编译时定义读取为 string 类型 `booldefine`:idx:  编译时定义读取为 bool 类型 =================  ============================================
-
+=================  ============================================ 
+编译指示           描述 
+=================  ============================================ 
+`intdefine`:idx:   编译时定义读取为整数类型 
+`strdefine`:idx:   编译时定义读取为 string 类型 
+`booldefine`:idx:  编译时定义读取为 bool 类型 
+=================  ============================================
 
   ```nim
   const FooBar {.intdefine.}: int = 5
@@ -7190,8 +6582,7 @@ CodegenDecl 编译指示
 语法 `-d:flag`:option: 实际上只是 `-d:flag=true`:option: 的简写。
 
 用户自定义的编译指示：
-====================
-
+==========================================
 
 
 pragma pragma
@@ -7202,7 +6593,7 @@ useful because Nim's templates and macros do not affect pragmas.
 User-defined pragmas are in a different module-wide scope than all other symbols.
 They cannot be imported from a module.
 
-示例：
+例如：
 
   ```nim
   when appType == "lib":
@@ -7214,15 +6605,12 @@ They cannot be imported from a module.
     result = a + b
   ```
 
-
 在上述例子中。 介绍了一个名为 `rtl` 的新的编译指示，它要么从动态库中导入 一个符号，要么导出动态库 生成的符号。
 
 
-
-自定义注解：
-------------------
+自定义注解
+--------------------
 这可以定义自定义类型的编译指示。 自定义编译指示不会直接影响 代码生成，但可以被宏检测到。 使用编译指示 `pragma`: 注解模板来定义自定义编译指示。
-
 
   ```nim
   template dbTable(name: string, table_space: string = "") {.pragma.}
@@ -7254,9 +6642,7 @@ They cannot be imported from a module.
 
 在本例中，使用自定义编译指示描述如何将 Nim 对象映射到关系数据库的模式。 自定义编译指示可以有 个或更多参数。 要传递多个参数，请使用 模板调用语法之一。 所有参数都指定类型，并且在模板中遵循标准 重载规则。 因此，可以通过名称、varargs 等指定参数默认值。
 
-
 自定义编译指示可以在所有可以指定原有编译指示的 的地方使用。 可以用来注解proc、模板、类型和变量 定义、语句等。
-
 
 
 宏模块包括可用于简化自定义编译指示 访问 `hasCustomPragma`, `getCustomPragmaVal` 详情请访问 `macros <macros.html>`_ 模块文档。 这些宏并不是 魔法。它们做的一切都可以通过逐个遍历对象 表示的 AST 来实现。
@@ -7273,15 +6659,16 @@ They cannot be imported from a module.
     ```
 
 - 添加类型用于游戏引擎中 gui 检查：
+
     ```nim
     type MyComponent = object
       position {.editable, animatable.}: Vector3
       alpha {.editRange: [0.0..1.0], animatable.}: float32
     ```
 
-宏编译指示
--------------
 
+宏编译指示
+--------------------
 
 
 有时可以用编译指示的语法来调用宏和模板。 比如可能可以附加到例程(procs, 迭代器等) 声明或例程类型表达式。 编译器将执行简单的语法转换：
@@ -7317,30 +6704,24 @@ They cannot be imported from a module.
 
 当多个宏编译指示声明应用在同一个声明上，按对左到右的顺序第一个 声明起作用。 然后，这个宏可以选择在其输出中是否保留其余的宏编译指示，它们将以相同的方式进行计算。
 
-
 还有一些宏编译指示的应用例子，例如类型、 变量和常量声明等。 但这种使用方式被认为是 实验性的，所以被记录在 `实验性手册
 <manual_experimental.html#extended-macro-pragmas>`_ 中。
 
 
-
 外部函数接口
-==========================
+========================
 
 Nim 的 `FFI`:idx: (外部函数接口) 很广泛，只有 一部分将会扩展到其他后端(如LLVM/JavaScript 后端) 会在这里被记录。
 
 
-
 Importc 编译指示
---------------
+--------------------------------
 `importc` 编译指示提供了从 C 中导入proc 或变量 的手段。 可选参数需要是包含 C 标识符的字符串。 参数缺失，C 的名字就会和Nim标识符*完全一样*:
-
 
 .. code-block::
   proc printf(formatstr: cstring) {.header: "<stdio.h>", importc: "printf", varargs.}
 
-
 当 `importc` 被应用在一个 `let` 语句时它可以忽略它的值，然后 取从 C 产生的值。 这可以用于导入 C 的常量 `const`:c:\:
-
 
 .. code-block::
   {.emit: "const int cconst = 42;".}
@@ -7359,14 +6740,12 @@ Importc 编译指示
   proc p(s: cstring) {.importc: "prefix$1".}
   ```
 
-
 例如， `p` 的外部名称会被设置为 `prefixp`。 只有 `$1` 可用，美元符号必须写成 `$$`。
 
 
 Exportc 编译指示
---------------
+--------------------------------
 `exportc` 编译指示提供了一种将类型、变量或 程序导出到 C 的手段。 枚举和常量不能导出。 可选参数 是包含 C 标识符的字符串。 如果参数缺失，C 的名字就会和Nim标识符*完全一样*:
-
 
   ```Nim
   proc callme(formatstr: cstring) {.exportc: "callMe", varargs.}
@@ -7376,12 +6755,10 @@ Exportc 编译指示
 
 传递到 `exportc` 可以是一个格式化的字符串：
 
-
   ```Nim
   proc p(s: string) {.exportc: "prefix$1".} =
     echo s
   ```
-
 
 例如， `p` 的外部名称会被设置为 `prefixp`。 只有 `$1` 可用，美元符号必须写成 `$$`。
 
@@ -7391,25 +6768,21 @@ pragma should be used in addition to the `exportc` pragma. See
 
 
 Extern 编译指示
--------------
+------------------------------
 像 `exportc` 或 `importc`一样, `extern` 编译指示会影响名称混淆。 传递到 `extern` 可以是一个格式化的字符串：
-
 
   ```Nim
   proc p(s: string) {.extern: "prefix$1".} =
     echo s
   ```
 
-
 例如， `p` 的外部名称会被设置为 `prefixp`。 只有 `$1` 可用，美元符号必须写成 `$$`。
 
 
-
 Bycopy 编译指示
--------------
+------------------------------
 
 `bycopy` 编译指示可以应用于对象或元组类型， 指示编译器按值传递类型到程序中：
-
 
   ```nim
   type
@@ -7420,13 +6793,13 @@ Bycopy 编译指示
 Nim编译器通过根据参数类型的大小自动决定参数是根据值传递的还是按引用传递的。 如果一个参数必须通过值或引用传递(例如当与 C 库对接时时)，请使用 bycopy 或 byref 编译指示。
 
 Byref 编译指示
-------------
+----------------------------
 
 `byref` 编译指示可以应用于对象或元组类型， 指示编译器按引用传递类型（隐藏指针）到程序中：
 
 
 Varargs 编译指示
---------------
+--------------------------------
 `varargs` 编译指示只能应用于程序 (和程序 类型)。 它会告诉Nim, 在最后一个指定的参数之后, proc 还可以接受一个变量作为参数。 Nim 字符串值将会自动转换为 C 的 字符串：
 
   ```Nim
@@ -7437,26 +6810,22 @@ Varargs 编译指示
 
 
 Union 编译指示
-------------
+----------------------------
 `Union` 编译指示可以应用于任意 `object` 类型。 这意味着一个对象字段的所有 都会在内存中被覆盖。 这在生成的 C/C++ 代码中产生了 `union`:c: 而不是 `struct`:c:。 对象声明 不能使用继承或任何 GC 过但目前未检查的内存。
 
 **未来的方向**：应该允许 GC 回收过的内存，而GC 应该保守地扫描 union 共用体。
 
 
-
-
 Packed 编译指示
--------------
+------------------------------
 `packed` 编译指示可以应用于任意 `object` 类型。 它能确保 一个对象的字段在内存中连续打包。 它非常有用， 在用于存储来自/到网络或硬件驱动程序的数据包或消息是，以及 与C的互操作性上。组合 packed 编译指示和继承是不被定义的 定义，也不应与 GC 的内存（引用的）一起使用。
 
 **未来方向**: 在packed 编译指示中使用 GC'ed 内存将导致 静态错误。 继承的用法应加以定义和文档记录。
 
 
-
 Dynlib 编译指示用于导入
-------------------------
+------------------------------------------------
 使用 `dynlib` 编译指示，程序或变量可以从 动态库中导入 (`.dll` Windows 文件, `lib*.so` UNIX 文件)。 必须参数必须是动态库的名称：
-
 
   ```Nim
   proc gtk_image_new(): PGtkWidget
@@ -7466,7 +6835,6 @@ Dynlib 编译指示用于导入
 一般来说，导入动态库不需要任何特殊链接 选项或与导入库链接。 这也意味着不需要安装 *devel* 软件包。
 
 `dynlib` 导入机制支持版本化：
-
 
   ```nim
   proc Tcl_Eval(interp: pTcl_Interp, script: cstring): int {.cdecl,
