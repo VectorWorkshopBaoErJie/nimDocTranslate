@@ -111,7 +111,7 @@ for backwards compatibility with older versions of the language that lacked
 unsigned integer types. These unsigned operations for signed integers use
 the `%` suffix as convention:
 {==+==}
-除了有符号和无符号整数的常用算术运算符( `+ - *` 等)之外， 还有些运算符可以处理 *有符号* 整数但将他们的参数视为 *无符号* : 它们主要用于之后的版本与缺少无符号整数类型的旧版本语言进行兼容。 有符号整数的这些无符号运算约定使用 `%` 作为后缀:
+除了有符号和无符号整数的常用算术运算符( `+ - *` 等)之外， 还有些运算符可以处理 *有符号* 整数但将他们的参数视为 *无符号*: 它们主要用于之后的版本与缺少无符号整数类型的旧版本语言进行兼容。 有符号整数的这些无符号运算约定使用 `%` 作为后缀: 
 {==+==}
 
 
@@ -169,7 +169,7 @@ example `int32 -> int16`). A `widening type conversion`:idx: converts a
 smaller type to a larger type (for example `int16 -> int32`). In Nim only
 widening type conversions are *implicit*:
 {==+==}
-`缩小类型转换`将较大的类型转换为较小的类型(比如`int32 -> int16`) ，`扩展类型转换`将较小的类型转换为较大的类型（比如`int16 -> int32`) ，Nim中仅有扩展类型转型是 *隐式的*:
+`缩小类型转换`将较大的类型转换为较小的类型(比如`int32 -> int16`) ，`扩展类型转换`将较小的类型转换为较大的类型（比如`int16 -> int32`) ，Nim中仅有扩展类型转型是 *隐式的* :
 {==+==}
 
 
@@ -547,7 +547,7 @@ explicitly given is assigned the value of the previous field + 1.
 {==+==}
 An explicit ordered enum can have *holes*:
 {==+==}
-显式有序枚举可以有 *间隔* ：
+显式有序枚举可以有 *间隔* :
 {==+==}
 
 {==+==}
@@ -772,7 +772,7 @@ bytes. The index operation `s[i]` means the i-th *char* of `s`, not the
 i-th *unichar*. The iterator `runes` from the `unicode module
 <unicode.html>`_ can be used for iteration over all Unicode characters.
 {==+==}
-按照惯例，所有字符串都是UTF-8字符串，但不强制执行。 例如，从二进制文件读取字符串时，它们只是一个字节序列。 索引操作`s[i]`表示 s 的第i个 char ，而不是第i个 unichar 。  `unicode module <unicode.html>`_  中的迭代器`runes`，可用于迭代所有Unicode字符。
+按照惯例，所有字符串都是UTF-8字符串，但不强制执行。 例如，从二进制文件读取字符串时，它们只是一个字节序列。 索引操作`s[i]`表示 s 的第i个 *char* ，而不是第i个 *unichar* 。  `unicode module <unicode.html>`_  中的迭代器`runes`，可用于迭代所有Unicode字符。
 {==+==}
 
 
@@ -827,7 +827,7 @@ memory. For this reason, the implicit conversion will be removed in future
 releases of the Nim compiler. Certain idioms like conversion of a `const` string
 to `cstring` are safe and will remain to be allowed.
 {==+==}
-即使转换是隐式的，它也不是 *安全的* ：垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。 因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将`const`字符串转换为`cstring`，是安全的，并且仍将被允许。
+即使转换是隐式的，它也不是 *安全的* : 垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。 因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将`const`字符串转换为`cstring`，是安全的，并且仍将被允许。
 {==+==}
 
 {==+==}
@@ -918,7 +918,7 @@ array constructor `[]`. The element type of this array expression is
 inferred from the type of the first element. All other elements need to be
 implicitly convertible to this type.
 {==+==}
-数组是同类型的，这意味着数组中的每个元素都具有相同的类型。 数组总是具有指定为常量表达式的固定长度（开放数组除外）。 它们可以按任何序数类型索引。 若参数 `A` 是*开放数组* ，那么它的索引为由0到 len（A）- 1 的整数。 数组表达式可以由数组构造器 `[]` 构造。 数组表达式的元素类型是从第一个元素的类型推断出来的。 所有其他元素都需要隐式转换为此类型。
+数组是同类型的，这意味着数组中的每个元素都具有相同的类型。 数组总是具有指定为常量表达式的固定长度（开放数组除外）。 它们可以按任何序数类型索引。 若参数 `A` 是 *开放数组* ，那么它的索引为由0到 len（A）- 1 的整数。 数组表达式可以由数组构造器 `[]` 构造。 数组表达式的元素类型是从第一个元素的类型推断出来的。 所有其他元素都需要隐式转换为此类型。
 {==+==}
 
 {==+==}
@@ -1196,7 +1196,7 @@ not wrapped in another implicit array construction:
 of arbitrary type but *always* constructs an implicit array. This is required
 so that the builtin `echo` proc does what is expected:
 {==+==}
-`varargs[typed]` 被特别对待：它匹配任意类型的参数的变量列表，但*始终*构造一个隐式数组。这是必需的，因而内置的 `echo` 过程能够执行预期的操作：
+`varargs[typed]` 被特别对待：它匹配任意类型的参数的变量列表，但 *始终* 构造一个隐式数组。这是必需的，因而内置的 `echo` 过程能够执行预期的操作：
 {==+==}
 
 {==+==}
@@ -1293,7 +1293,7 @@ must match the order of the tuple's definition. Different tuple-types are
 *equivalent* if they specify the same fields of the same type in the same
 order. The *names* of the fields also have to be the same.
 {==+==}
-元组或对象类型的变量是异构存储容器。 元组或对象定义了一个类型的各类*字段*。 元组还定义了字段的*顺序*。 元组是有很少抽象可能性的异构存储类型。 `()` 可用于构造元组。 构造函数中字段的顺序必须与元组定义的顺序相匹配。 如果它们以相同的顺序指定相同类型的相同字段，则不同的元组类型*等效* 。字段的*名称*也必须相同。
+元组或对象类型的变量是异构存储容器。 元组或对象定义了一个类型的各类 *字段* 。 元组还定义了字段的 *顺序* 。 元组是有很少抽象可能性的异构存储类型。 `()` 可用于构造元组。 构造函数中字段的顺序必须与元组定义的顺序相匹配。 如果它们以相同的顺序指定相同类型的相同字段，则不同的元组类型 *等效*  。字段的 *名称* 也必须相同。
 {==+==}
 
 {==+==}
@@ -1853,7 +1853,7 @@ Traced references are declared with the **ref** keyword, untraced references
 are declared with the **ptr** keyword. In general, a `ptr T` is implicitly
 convertible to the `pointer` type.
 {==+==}
-使用**ref**关键字声明追踪引用，使用**ptr**关键字声明未追踪引用。 通常， `ptr T` 可以隐式转换为 `pointer` 类型。
+使用 **ref** 关键字声明追踪引用，使用 **ptr** 关键字声明未追踪引用。 通常， `ptr T` 可以隐式转换为 `pointer` 类型。
 {==+==}
 
 {==+==}
@@ -1977,7 +1977,7 @@ default value for all `ref` and `ptr` types. The `nil` value can also be
 used like any other literal value. For example, it can be used in an assignment
 like `myRef = nil`.
 {==+==}
-如果一个引用什么都不指向，那么它的值为`nil`。`nil` 是所有 `ref` 和 `ptr` 类型的默认值。`nil` 值也可以像任何其他字面值一样使用。例如，它可以用在像 `my Ref = nil` 这样的赋值中。
+如果一个引用什么都不指向，那么它的值为 `nil` 。 `nil` 是所有 `ref` 和 `ptr` 类型的默认值。`nil` 值也可以像任何其他字面值一样使用。例如，它可以用在像 `my Ref = nil` 这样的赋值中。
 {==+==}
 
 {==+==}

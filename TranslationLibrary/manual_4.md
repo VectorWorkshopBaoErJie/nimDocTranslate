@@ -754,7 +754,7 @@ An `if` expression is almost like an if statement, but it is an expression.
 This feature is similar to *ternary operators* in other languages.
 Example:
 {==+==}
-`if`  表达式与if语句非常相似, 但它是一个表达式. 这个特性类似于其他语言中的*三元操作符*
+`if`  表达式与if语句非常相似, 但它是一个表达式. 这个特性类似于其他语言中的 *三元操作符* 
 示例: 
 {==+==}
 
@@ -916,7 +916,7 @@ type name replaces the procedure name. A type conversion is always
 safe in the sense that a failure to convert a type to another
 results in an exception (if it cannot be determined statically).
 {==+==}
-从语法上来说,类型转换*类似于过程调用, 但是类型名替换过程名. 类型转换总是安全的, 因为将类型转换为另一个类型失败会导致异常(如果无法静态确定)。
+从语法上来说, *类型转换* 类似于过程调用, 但是类型名替换过程名. 类型转换总是安全的, 因为将类型转换为另一个类型失败会导致异常(如果无法静态确定)。
 {==+==}
 
 {==+==}
@@ -965,7 +965,7 @@ were unchecked and the conversions were sometimes checked but starting with
 the revision 1.0.4 of this document and the language implementation the
 conversions too are now *always unchecked*.
 {==+==}
-**注意**:历史版本上操作是未检查的, 转换有时也会检查, 但从本文档的1.0.4版本和语言实现开始, 转换*总是未检查*
+**注意**:历史版本上操作是未检查的, 转换有时也会检查, 但从本文档的1.0.4版本和语言实现开始, 转换 *总是未检查* 
 {==+==}
 
 {==+==}
@@ -1011,7 +1011,7 @@ bit pattern of the data being cast (aside from that the size of the target type
 may differ from the source type). Casting resembles *type punning* in other
 languages or C++'s `reinterpret_cast`:cpp: and `bit_cast`:cpp: features.
 {==+==}
-类型转换不应与*类型转换混淆*, 如前一节所述. 与类型转换不同, 类型强制转换不能更改被强制转换数据的底层位模式(除了目标类型的大小可能与源类型不同之外). 强制转换类似于其他语言中的特性*类型双关语*或c++的`reinterpret_cast`:cpp:和`bit_cast`:cpp: 
+类型转换不应与 *类型转换混淆* , 如前一节所述. 与类型转换不同, 类型强制转换不能更改被强制转换数据的底层位模式(除了目标类型的大小可能与源类型不同之外). 强制转换类似于其他语言中的特性 *类型双关语* 或c++的 `reinterpret_cast`:cpp: 和 `bit_cast`:cpp: 
 {==+==}
 
 {==+==}
@@ -1032,7 +1032,7 @@ the address of variables. For easier interoperability with other compiled langua
 such as C, retrieving the address of a `let` variable, a parameter,
 or a `for` loop variable can be accomplished too:
 {==+==}
- `addr` 运算符返回左值的地址.  如果位置的类型是 `T`, 则 `addr` 运算符结果的类型为 `ptr T`.  地址总是一个未追踪引用的值.  获取驻留在堆栈上的对象的地址是 **不安全的** , 因为指针可能比堆栈中的对象存在更久, 因此可以引用不存在的对象,我们可以得到变量的地址. 为了更容易与其他编译语言(如C)互操作, 检索`let`变量、参数或 `for` 循环变量的地址也可以完成:
+ `addr` 运算符返回左值的地址.  如果位置的类型是 `T`, 则 `addr` 运算符结果的类型为 `ptr T`.  地址总是一个未追踪引用的值.  获取驻留在堆栈上的对象的地址是 **不安全的** , 因为指针可能比堆栈中的对象存在更久, 因此可以引用不存在的对象,我们可以得到变量的地址. 为了更容易与其他编译语言(如C)互操作, 检索 `let` 变量、参数或 `for` 循环变量的地址也可以完成:
 {==+==}
 
 {-----}
@@ -1849,7 +1849,7 @@ the implementation is automatically lifted to structured types. For instance,
 if the type `T` has an overridden assignment operator `=`, this operator is
 also used for assignments of the type `seq[T]`.
 {==+==}
-这些操作可以被*overridden*, 而不是*overloaded*. 这意味着实现会自动提升为结构化类型. 例如, 如果类型 `T` 有一个覆盖的赋值操作符 `=`, 这个操作符也用于类型 `seq[T]` 的赋值. 
+这些操作可以被 *overridden* , 而不是 *overloaded* . 这意味着实现会自动提升为结构化类型. 例如, 如果类型 `T` 有一个覆盖的赋值操作符 `=`, 这个操作符也用于类型 `seq[T]` 的赋值. 
 {==+==}
 
 {==+==}

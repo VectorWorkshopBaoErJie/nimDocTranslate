@@ -77,7 +77,7 @@ The language constructs are explained using an extended BNF, in which `(a)*`
 means 0 or more `a`'s, `a+` means 1 or more `a`'s, and `(a)?` means an
 optional *a*. Parentheses may be used to group elements.
 {==+==}
-语言结构使用扩展BNF解释， `(a)*` 表示0个或多个 `a` ， `a+` 表示1个或多个 `a` ， `(a)?` 表示一个可选的 *a* ，圆括号用来元素分组。
+语言结构使用扩展BNF解释， `(a)*` 表示0个或多个 `a` ， `a+` 表示1个或多个 `a` ， `(a)?` 表示一个可选的 *a*  ，圆括号用来元素分组。
 {==+==}
 
 {==+==}
@@ -116,7 +116,7 @@ and `a ^* b` is short for `(a (b a)*)?`. Example::
 
   arrayConstructor = '[' expr ^* ',' ']'
 {==+==}
-二进制的 `^*` 运算符表示为0或更多，由第二个参数分开；`^+` 表示着1或更多。 `a ^+ b` 是 `a (b a)*`的简写， `a ^* b` 则是 `(a (b a)*)?` 的简写。 例如::
+二进制的 `^*` 运算符表示为0或更多，由第二个参数分开；`^+` 表示着1或更多。 `a ^+ b` 是 `a (b a)*` 的简写， `a ^* b` 则是 `(a (b a)*)?` 的简写。 例如::
 
   arrayConstructor = '[' expr ^* ',' ']'
 {==+==}

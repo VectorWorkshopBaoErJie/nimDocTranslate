@@ -889,7 +889,7 @@ in subdirectories:
 Note that the module name is still `strutils` and not `lib/pure/strutils`,
 thus one **cannot** do:
 {==+==}
-注意模块名仍然是 `strutils` 而不是 `lib/pure/strutils`，所以**不能**这么干：
+注意模块名仍然是 `strutils` 而不是 `lib/pure/strutils`，所以 **不能** 这么干：
 {==+==}
 
 {-----}
@@ -1179,7 +1179,7 @@ All identifiers of a module are valid from the point of declaration until
 the end of the module. Identifiers from indirectly dependent modules are *not*
 available. The `system`:idx: module is automatically imported in every module.
 {==+==}
-模块里的所有标识符从声明开始直到模块结束一直有效。间接依赖的模块里的标识符在本模块里*不可用*。
+模块里的所有标识符从声明开始直到模块结束一直有效。间接依赖的模块里的标识符在本模块里 *不可用* 。
 每个模块都自动导入了系统模块（`system`:idx:）。
 {==+==}
 
@@ -1275,7 +1275,7 @@ The Nim compiler emits different kinds of messages: `hint`:idx:,
 the compiler encounters any static error.
 {==+==}
 Nim 编译器会输出不同类型的消息：提示（`hint`:idx:），警告（`warning`:idx:）和错误（`error`:idx:）。
-编译器遇到静态错误时会输出*错误*消息。
+编译器遇到静态错误时会输出 *错误* 消息。
 {==+==}
 
 {==+==}
@@ -1456,7 +1456,7 @@ collector to not consider objects of this type as part of a cycle:
 acyclic 编译指示
 --------------------------------
 `acyclic` 编译指示用来指示对象类型是无环的，即使看起来像是有环的。
-这个信息是一种**优化**，有了这个信息垃圾回收器不再需要考虑这个类的对象构成环的情况：
+这个信息是一种 **优化** ，有了这个信息垃圾回收器不再需要考虑这个类的对象构成环的情况：
 {==+==}
 
 {==+==}
@@ -1647,7 +1647,7 @@ annotate a symbol (like an iterator or proc). The *usage* of the symbol then
 triggers a static error. This is especially useful to rule out that some
 operation is valid due to overloading and type conversions:
 {==+==}
-可以给符号（比如迭代子或者过程）附加 `error` 编译指示。*使用*这个符号将触发静态错误。
+可以给符号（比如迭代子或者过程）附加 `error` 编译指示。 *使用* 这个符号将触发静态错误。
 当需要排除某些由于重载和类型转换导致的合法操作时，这个 `error` 就派上用场了：
 {==+==}
 

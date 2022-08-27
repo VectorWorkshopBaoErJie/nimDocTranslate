@@ -174,7 +174,7 @@ Nim支持下列 `calling conventions`:idx:\:
     same as `fastcall`, but only for C compilers that support `fastcall`.
 {==+==}
 `nimcall`:idx:
-    是默认用于Nim **proc** 的惯例。它和`fastcall`一样，但是只有C编译器支持`fastcall`。
+    是默认用于Nim **proc** 的惯例。它和 `fastcall` 一样，但是只有C编译器支持 `fastcall` 。
 {==+==}
 
 {==+==}
@@ -186,7 +186,7 @@ Nim支持下列 `calling conventions`:idx:\:
     and another one for the pointer to implicitly passed environment.
 {==+==}
 `closure`:idx:
-    对于缺少任意编译指示注解的过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐藏的隐式参数(一个*environment*)。拥有调用约定`closure`的函数变量占两个机器字:一个是用于函数指针，另一个用于隐式传递环境指针。
+    对于缺少任意编译指示注解的过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐藏的隐式参数(一个 *environment* )。拥有调用约定 `closure` 的函数变量占两个机器字:一个是用于函数指针，另一个用于隐式传递环境指针。
 {==+==}
 
 {==+==}
@@ -216,7 +216,7 @@ Nim支持下列 `calling conventions`:idx:\:
     hardware stack.
 {==+==}
 `safecall`:idx:
-    微软指定的安全调用约定。生成C程序是用`__safecall`关键字声明。 *safe* 这个词是指会将所有的硬件寄存器压入硬件堆栈。
+    微软指定的安全调用约定。生成C程序是用 `__safecall` 关键字声明。 *safe* 这个词是指会将所有的硬件寄存器压入硬件堆栈。
 {==+==}
 
 {==+==}
@@ -300,7 +300,7 @@ and its base type. Explicit type conversions from a distinct type to its
 base type and vice versa are allowed. See also `distinctBase` to get the
 reverse operation.
 {==+==}
-`distinct`类型是一个新类型源于 `base type`:idx: 它与它的基础类型不兼容。特别的是，它**不**暗示它与其基类型之间的子类型关系是不同类型的基本属性。从distinct类型到它的显式类型转换允许使用基本类型，反之亦然。另请参阅 `distinctBase` 以获取反向操作。
+`distinct` 类型是一个新类型源于 `base type`:idx: 它与它的基础类型不兼容。特别的是，它 **不** 暗示它与其基类型之间的子类型关系是不同类型的基本属性。从distinct类型到它的显式类型转换允许使用基本类型，反之亦然。另请参阅 `distinctBase` 以获取反向操作。
 {==+==}
 
 {==+==}
@@ -627,7 +627,7 @@ It is an essential property of abstract types that they **do not** imply a
 subtype relation between the abstract type and its base type. Explicit type
 conversions from `string` to `SQL` are allowed:
 {==+==}
-抽象类型有一个重要的属性是，抽象类型与它们的子类型之间没有父子关系。运行从`string`到`SQL`的显示类型转换。
+抽象类型有一个重要的属性是，抽象类型与它们的子类型之间没有父子关系。运行从 `string` 到 `SQL` 的显示类型转换。
 {==+==}
 
 {==+==}
@@ -824,7 +824,7 @@ Convertible relation
 A type `a` is **implicitly** convertible to type `b` iff the following
 algorithm returns true:
 {==+==}
-如果以下算法返回 true，则类型 `a` **隐式**可转换为类型 `b`：
+如果以下算法返回 true，则类型 `a` **隐式** 可转换为类型 `b` ：
 {==+==}
 
 {==+==}
@@ -927,7 +927,7 @@ are signed integers or if both are unsigned integers.
 A type `a` is **explicitly** convertible to type `b` iff the following
 algorithm returns true:
 {==+==}
-如果下列算法返回true，则类型`a`是显示转换为类型`b`：
+如果下列算法返回true，则类型 `a` 是显示转换为类型 `b` ：
 {==+==}
 
 {==+==}

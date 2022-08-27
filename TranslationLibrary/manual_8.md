@@ -182,7 +182,7 @@ verbose name like `unsafeAssumeNoAlias`.)
 Noalias 编译指示
 --------------------------------
 
-从 Nim 编译器版本 1.4 ，有一个 `.noalias` 注解用于变量 和参数。 它被直接映射到 C/C++ 的 `restrict`:c: 关键字，并表示 底部指向内存中的一个独特位置， 此位置不存在其他别名。 *unchecked*遵守此别名限制。 如果违反了 限制，后端优化器可以自由地编译代码。 这是一个 **不安全的** 语言功能。
+从 Nim 编译器版本 1.4 ，有一个 `.noalias` 注解用于变量 和参数。 它被直接映射到 C/C++ 的 `restrict`:c: 关键字，并表示 底部指向内存中的一个独特位置， 此位置不存在其他别名。 *unchecked* 遵守此别名限制。 如果违反了 限制，后端优化器可以自由地编译代码。 这是一个 **不安全的** 语言功能。
 
 理想情况下，在 Nim 之后的版本中，该限制将在 编译时间强制执行。 (这也是为什么选择 `noalias` 的名字，而不是描述更 详细的名字，如 `unsafeAssumeNoAlias`。)
 {==+==}
@@ -589,7 +589,7 @@ The *sloppy interfacing* example uses `.emit` to produce `using namespace`:cpp:
 declarations. It is usually much better to instead refer to the imported name
 via the `namespace::identifier`:cpp: notation:
 {==+==}
-*sloppy interfacing* 示例使用 `.emit` 来生成`using namespace`:cpp: 声明。 转而通过 `namespace::identifier`:cpp: 注解来引用导入的名称 通常要好得多：
+*sloppy interfacing* 示例使用 `.emit` 来生成 `using namespace`:cpp: 声明。 转而通过 `namespace::identifier`:cpp: 注解来引用导入的名称 通常要好得多：
 {==+==}
 
 {-----}
@@ -700,7 +700,7 @@ capabilities:
 
 For example:
 {==+==}
-- 撇号`'` 之后是一个整数 `i` 取值为 0..9 范围内 将会被第 i 个参数 *type* 替换。 第 0 个位置是返回值的 类型。 这可以用来传递类型到 C++ 函数模板。 在 `'` 与数字之间，可以使用星号来获取类型的基本类型 。 (它会从 T* 中“拿走 *”。 比如 `T*`:c: 变成 `T`。) 两个星号 ** 可以用来获取元素类型的类型。
+- 撇号`'` 之后是一个整数 `i` 取值为 0..9 范围内 将会被第 i 个参数 *type* 替换。 第 0 个位置是返回值的 类型。 这可以用来传递类型到 C++ 函数模板。 在 `'` 与数字之间，可以使用星号来获取类型的基本类型 。 (它会从中拿走星号。 比如 `T*`:c: 变成 `T` 。) 两个星号可以用来获取元素类型的类型。
 
 例如：
 {==+==}
@@ -916,8 +916,7 @@ allows *sloppy* interfacing with libraries written in Objective C:
 {==+==}
 ImportObjC 编译指示
 --------------------------------------
-类似于 `importc pragma for C
-<#foreign-function-interface-importc-pragma>`_, `importobjc` 编译指示可以用来导入 `Objective C`:idx: 的方法。 生成的代码会使用 Objective C 的方法 调用语法： `[obj method param1: arg]`。 结合 `header` 和 `emit` 编译标记，这允许 *sloppy* 接口使用 Objective C 的库:
+类似于 `importc pragma for C <#foreign-function-interface-importc-pragma>`_ , `importobjc` 编译指示可以用来导入 `Objective C`:idx: 的方法。 生成的代码会使用 Objective C 的方法 调用语法： `[obj method param1: arg]` 。 结合 `header` 和 `emit` 编译标记，这允许 *sloppy* 接口使用 Objective C 的库:
 
 {==+==}
 
@@ -1461,7 +1460,7 @@ procedure to C. Enums and constants can't be exported. The optional argument
 is a string containing the C identifier. If the argument is missing, the C
 name is the Nim identifier *exactly as spelled*:
 {==+==}
-`exportc` 编译指示提供了一种将类型、变量或 程序导出到 C 的手段。 枚举和常量不能导出。 可选参数 是包含 C 标识符的字符串。 如果参数缺失，C 的名字就会和Nim标识符*完全一样*:
+`exportc` 编译指示提供了一种将类型、变量或 程序导出到 C 的手段。 枚举和常量不能导出。 可选参数 是包含 C 标识符的字符串。 如果参数缺失，C 的名字就会和Nim标识符 *完全一样* :
 {==+==}
 
 {-----}
