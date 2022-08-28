@@ -1715,7 +1715,7 @@ symbol also triggers a mandatory `void` context for the subsequent expressions:
   ```
 {==+==}
   ```nim
-  proc invalid*(): string =
+  proc invalid* (): string =
     result = "foo"
     "invalid"  # 错误: 类型`string`的值必须被抛弃
   ```
@@ -1729,7 +1729,7 @@ symbol also triggers a mandatory `void` context for the subsequent expressions:
   ```
 {==+==}
   ```nim
-  proc valid*(): string =
+  proc valid* (): string =
     let x = 317
     "valid"
   ```
@@ -1743,7 +1743,7 @@ symbol also triggers a mandatory `void` context for the subsequent expressions:
   ```
 {==+==}
   ```nim
-  proc valid*(): string =
+  proc valid* (): string =
     let x = 317
     "valid"
   ```

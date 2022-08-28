@@ -1207,7 +1207,7 @@ so that the builtin `echo` proc does what is expected:
   ```
 {==+==}
   ```nim
-  proc echo*(x: varargs[typed, `$`]) {...}
+  proc echo* (x: varargs[typed, `$`]) {...}
 
   echo @[1, 2, 3]
   # 输出 "@[1, 2, 3]" 而不是 "123"
@@ -1449,7 +1449,7 @@ introduce new object roots apart from `system.RootObj`.
   ```nim
   type
     Person = object # final 对象的例子
-      name*: string
+      name* : string
       age: int
 
     Student = ref object of Person # 错误: 继承只能用于非final对象

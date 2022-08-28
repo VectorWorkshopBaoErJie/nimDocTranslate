@@ -932,7 +932,7 @@ definition):
   var
     lastId = 0
 
-  template genId*: untyped =
+  template genId* : untyped =
     bind lastId
     inc(lastId)
     lastId
@@ -993,7 +993,7 @@ instantiations cross multiple different modules:
 {==+==}
   ```nim
   # 模块 A
-  proc genericA*[T](x: T) =
+  proc genericA* [T](x: T) =
     mixin init
     init(x)
   ```
@@ -1032,7 +1032,7 @@ instantiations cross multiple different modules:
   ```nim
   # 模块 C
   type O = object
-  proc init*(x: var O) = discard
+  proc init* (x: var O) = discard
   ```
 {==+==}
 
@@ -1379,7 +1379,7 @@ bound from the definition scope of the template:
   var
     lastId = 0
 
-  template genId*: untyped =
+  template genId* : untyped =
     inc(lastId)
     lastId
   ```
@@ -1564,7 +1564,7 @@ template cannot be accessed in the instantiation context:
   ```
 {==+==}
   ```nim  test = "nim c $1"
-  template newException*(exceptn: typedesc, message: string): untyped =
+  template newException* (exceptn: typedesc, message: string): untyped =
     var
       e: ref exceptn  # e 在这里被隐式地定义
     new(e)

@@ -728,7 +728,7 @@ This is best illustrated by an example:
   # 模块 B
   import A  # 此时模块 A 未完成语法分析，只会导入模块 A 中目前已知的符号
 
-  proc p*(x: A.T1): A.T1 =
+  proc p* (x: A.T1): A.T1 =
     # 编译器已把 T1 添加到 A 的接口符号表，所以这么写没问题
     result = x + 1
   ```
@@ -1215,12 +1215,12 @@ iterator in which case the overloading resolution takes place:
 {==+==}
   ```nim
   # 模块 A
-  var x*: string
+  var x* : string
   ```
 
   ```nim
   # 模块 B
-  var x*: int
+  var x* : int
   ```
 
   ```nim
