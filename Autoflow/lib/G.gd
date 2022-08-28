@@ -11,11 +11,11 @@ func dir_contents(path,files:Array):
                 file_name = dir.get_next()
                 continue;
             if dir.current_is_dir() :
-                # print("发现目录：" + file_name)
+                # print("发现目录:" + file_name)
                 dir_contents(path+"/"+file_name,files)
             else:
                 files.append({"目录":path,"文件":file_name})
-                # print("发现文件：" + file_name)
+                # print("发现文件:" + file_name)
             file_name = dir.get_next()
     else:
         print("尝试访问路径时出错。")

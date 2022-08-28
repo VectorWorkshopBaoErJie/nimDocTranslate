@@ -10,7 +10,7 @@ Var 返回类型
 A proc, converter, or iterator may return a `var` type which means that the
 returned value is an l-value and can be modified by the caller:
 {==+==}
-过程，转换器或者迭代器可能会返回 `var` 类型，它意味着返回值是一个左值并且可以被调用者修改：
+过程，转换器或者迭代器可能会返回 `var` 类型，它意味着返回值是一个左值并且可以被调用者修改:
 {==+==}
 
 {-----}
@@ -29,7 +29,7 @@ returned value is an l-value and can be modified by the caller:
 It is a static error if the implicitly introduced pointer could be
 used to access a location beyond its lifetime:
 {==+==}
-如果隐式创建的指针指向的内存地址有被回收的可能，则会导致静态错误：
+如果隐式创建的指针指向的内存地址有被回收的可能，则会导致静态错误:
 {==+==}
 
 {-----}
@@ -43,7 +43,7 @@ used to access a location beyond its lifetime:
 {==+==}
 For iterators, a component of a tuple return type can have a `var` type too:
 {==+==}
-对于迭代器来说，当元组作为返回值时，元组的元素也可以是 `var` 类型：
+对于迭代器来说，当元组作为返回值时，元组的元素也可以是 `var` 类型:
 {==+==}
 
 {-----}
@@ -90,7 +90,7 @@ location is derived from the second parameter (called
 'container' in this case). The syntax `var T from p` specifies a type
 `varTy[T, 2]` which is incompatible with `varTy[T, 1]`.
 {==+==}
-`var T from contaner` 显式指定了返回值的地址必须源自第二个参数（本例中称为“contaner”）。
+`var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例中称为“contaner”)。
 `var T from p` 语句指定了类型 `varTy[T, 2]` ，它不能与 `varTy[T, 1]` 类型兼容。
 {==+==}
 
@@ -299,7 +299,7 @@ type.
   method eval(e: Literal): int = return e.x
 
   method eval(e: PlusExpr): int =
-    # 请注意：语句的执行依赖于动态方法匹配
+    # 请注意:语句的执行依赖于动态方法匹配
     result = eval(e.a) + eval(e.b)
 
   proc newLit(x: int): Literal =
@@ -474,7 +474,7 @@ reached, the data is bound to the `for` loop variables and control continues
 in the body of the `for` loop. The iterator's local variables and execution
 state are automatically saved between calls. Example:
 {==+==}
-迭代器与过程类似，除了迭代器只在 `for` 循环的上下文中调用。迭代器提供了一种特殊的使用抽象类型的迭代方式。在 `for` 循环的执行过程中， `yield` 语句对迭代器的调用起到关键性的作用。当程序执行到 `yield` 语句时，数据会与 `for` 循环的当前变量绑定但循环体继续执行。迭代器的局部变量和执行语句会在循环之间自动保存。实例如下：
+迭代器与过程类似，除了迭代器只在 `for` 循环的上下文中调用。迭代器提供了一种特殊的使用抽象类型的迭代方式。在 `for` 循环的执行过程中， `yield` 语句对迭代器的调用起到关键性的作用。当程序执行到 `yield` 语句时，数据会与 `for` 循环的当前变量绑定但循环体继续执行。迭代器的局部变量和执行语句会在循环之间自动保存。实例如下:
 {==+==}
 
 {==+==}
@@ -581,7 +581,7 @@ An `inline iterator`:idx: is an iterator that's always inlined by the compiler
 leading to zero overhead for the abstraction, but may result in a heavy
 increase in code size.
 {==+==}
-Nim 中有两种迭代器： *inline* (内联)和 *closure* (闭包)迭代器。
+Nim 中有两种迭代器: *inline* (内联)和 *closure* (闭包)迭代器。
 `inline iterator`:idx: 内联迭代器指总是被编译器内联优化的迭代器，这样在运行时解释抽象的同时不需要付出额外的代价(零成本抽象)，但可能会导致代码体积大大增加。
 {==+==}
 
@@ -605,7 +605,7 @@ templates, macros, and other inline iterators.
 {==+==}
 In contrast to that, a `closure iterator`:idx: can be passed around more freely:
 {==+==}
-相反， `closure iterator`:idx: 闭包迭代器则可以更自由传递：
+相反， `closure iterator`:idx: 闭包迭代器则可以更自由传递:
 {==+==}
 
 {-----}
@@ -922,7 +922,7 @@ the "implicitly convertible" type relation (see `Convertible relation
   ```
 {==+==}
   ```nim
-  # 不推荐的代码风格：不推荐用 C 语言的风格编写 Nim 代码。
+  # 不推荐的代码风格:不推荐用 C 语言的风格编写 Nim 代码。
   converter toBool(x: int): bool = x != 0
 
   if 4:
@@ -1440,7 +1440,7 @@ exceptions inherit from `Defect`.
 Exceptions that indicate any other runtime error that can be caught inherit from
 `system.CatchableError` (which is a subtype of `Exception`).
 {==+==}
-表示可捕获的所有运行时错误的异常继承自 `system.CatchableError`（它是 `Exception` 的子类）。
+表示可捕获的所有运行时错误的异常继承自 `system.CatchableError`(它是 `Exception` 的子类)。
 {==+==}
 
 

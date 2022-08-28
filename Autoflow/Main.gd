@@ -29,7 +29,7 @@ func test():
         if mark_num % 3 ==0:
             print(i.file_name+"文件标记3整除余数检查通过。")
         else:
-            print(i.file_name+"文件标记3整除余数检查失败。","余数为：",mark_num % 3)
+            print(i.file_name+"文件标记3整除余数检查失败。","余数为:",mark_num % 3)
             is_test=false 
         pass
                 
@@ -38,7 +38,7 @@ func test():
         TL_entrys.append_array(i.get_TL_entrys())
         pass
         
-    print("当前所提取到的翻译词条数量为：",TL_entrys.size())
+    print("当前所提取到的翻译词条数量为:",TL_entrys.size())
     ## 对翻译词条的原文进行是否存在性监测
     var tar_doc_file:String=G.load_file(targetDoc_path+"manual20220810.md")
     for i in TL_entrys:
@@ -60,5 +60,5 @@ func __on_merge_button_down():
             tar_doc_file=tar_doc_file.replace(i.source_text,i.translation_text)
             pass
         #print(tar_doc_file)
-        G.save_file(tar_doc_file,G.dir_current_parent()+"products/temp.md")
+        G.save_file(tar_doc_file,G.dir_current_parent()+"products/manual.md")
     pass

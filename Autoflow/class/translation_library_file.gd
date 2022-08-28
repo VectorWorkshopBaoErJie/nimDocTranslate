@@ -11,7 +11,7 @@ func _init(content:String,file_name:String,file_path:String):
     self.file_path=file_path
 
 func _to_string():
-    return "正文:"+content+" 文件名："+file_name+" 目录："+file_path
+    return "正文:"+content+" 文件名:"+file_name+" 目录:"+file_path
 
 func count_Add_Mark():
     var regex = RegEx.new()

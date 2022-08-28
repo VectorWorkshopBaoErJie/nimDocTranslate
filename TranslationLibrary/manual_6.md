@@ -84,7 +84,7 @@ We call a proc `p` `GC safe`:idx: when it doesn't access any global variable
 that contains GC'ed memory (`string`, `seq`, `ref` or a closure) either
 directly or indirectly through a call to a GC unsafe proc.
 {==+==}
-如果一个过程未接收任何包含于垃圾回收内存中的全局变量（`string`, `seq`, `ref`或者一个 closure（闭包）），也没有直接或间接调用涉及这类全局变量的GC不安全过程，该过程就是GC安全的：`GC safe`。
+如果一个过程未接收任何包含于垃圾回收内存中的全局变量(`string`, `seq`, `ref`或者一个 closure(闭包))，也没有直接或间接调用涉及这类全局变量的GC不安全过程，该过程就是GC安全的:`GC safe`。
 {==+==}
 
 {==+==}
@@ -130,7 +130,7 @@ be used:
 {==+==}
 See also:
 {==+==}
-另请参见：
+另请参见:
 {==+==}
 
 {-----}
@@ -191,7 +191,7 @@ introduce type parameters or to instantiate a generic proc, iterator, or type.
 {==+==}
 The following example shows how a generic binary tree can be modeled:
 {==+==}
-以下例子展示了如何构建一个泛型二叉树：
+以下例子展示了如何构建一个泛型二叉树:
 {==+==}
 
 {==+==}
@@ -289,7 +289,7 @@ The following example shows how a generic binary tree can be modeled:
 
   iterator preorder*[T](root: BinaryTree[T]): T =
     # 二叉树的预序遍历.
-    # 显式地使用栈（比递归迭代器工厂更有效）.
+    # 显式地使用栈(比递归迭代器工厂更有效).
     var stack: seq[BinaryTree[T]] = @[root]
     while stack.len > 0:
       var n = stack.pop()
@@ -363,7 +363,7 @@ A type class is a special pseudo-type that can be used to match against
 types in the context of overload resolution or the `is` operator.
 Nim supports the following built-in type classes:
 {==+==}
-Type类是一种特殊的伪类型，可在重载解析或`is` 操作符处针对性地匹配上下文中的类型 。Nim支持以下内置类型类：
+Type类是一种特殊的伪类型，可在重载解析或`is` 操作符处针对性地匹配上下文中的类型 。Nim支持以下内置类型类:
 {==+==}
 
 {==+==}
@@ -441,7 +441,7 @@ Type类可以通过标准的布尔操作符组合为更复杂的Type类。
 Type constraints on generic parameters can be grouped with `,` and propagation
 stops with `;`, similarly to parameters for macros and templates:
 {==+==}
-泛型参数列表中的参数类型约束可以通过`,` 进行分组，并以 `;`结束一个分组，就像宏和模板中的参数列表那样：
+泛型参数列表中的参数类型约束可以通过`,` 进行分组，并以 `;`结束一个分组，就像宏和模板中的参数列表那样:
 {==+==}
 
 {==+==}
@@ -559,7 +559,7 @@ By default, during overload resolution, each named type class will bind to
 exactly one concrete type. We call such type classes `bind once`:idx: types.
 Here is an example taken directly from the system module to illustrate this:
 {==+==}
-通常，重载解析期间，每一个被命名的type类都将被绑定到一个确切的混合类。我们称这些type类 `bind once`:idx:单一绑定类。这里是一个从系统模块里直接拿来的例子：
+通常，重载解析期间，每一个被命名的type类都将被绑定到一个确切的混合类。我们称这些type类 `bind once`:idx:单一绑定类。这里是一个从系统模块里直接拿来的例子:
 {==+==}
 
 {==+==}
@@ -645,7 +645,7 @@ Here are more examples that illustrate implicit generics:
   ```nim
   proc p(a: Table, b: Table)
 
-  # 等同于以下写法：
+  # 等同于以下写法:
 
   proc p[Key, Value](a, b: Table[Key, Value])
   ```
@@ -663,7 +663,7 @@ Here are more examples that illustrate implicit generics:
   ```nim
   proc p(a: Table, b: distinct Table)
 
-  # 等同于以下写法：
+  # 等同于以下写法:
 
   proc p[Key, Value, KeyB, ValueB](a: Table[Key, Value], b: Table[KeyB, ValueB])
   ```
@@ -688,7 +688,7 @@ generic. `typedesc` has its own set of rules:
   ```nim
   proc p(a: typedesc)
 
-  # 等同于以下写法：
+  # 等同于以下写法:
 
   proc p[T](a: typedesc[T])
   ```
@@ -712,7 +712,7 @@ generic. `typedesc` has its own set of rules:
   ```nim
   proc p(a, b: typedesc)
 
-  # 等同于以下写法：
+  # 等同于以下写法:
 
   proc p[T, T2](a: typedesc[T], b: typedesc[T2])
   ```
@@ -723,7 +723,7 @@ A parameter of type `typedesc` is itself usable as a type. If it is used
 as a type, it's the underlying type. (In other words, one level
 of "typedesc"-ness is stripped off:
 {==+==}
-一个具 `typedesc`类型的 参数自身也是可以作为一个类型使用的。如果将其作为类型使用，其将是底层类型。（换言之， `typedesc`类型参数最终绑定的类型将被剥离出来使用）：
+一个具 `typedesc`类型的 参数自身也是可以作为一个类型使用的。如果将其作为类型使用，其将是底层类型。(换言之， `typedesc`类型参数最终绑定的类型将被剥离出来使用):
 {==+==}
 
 {==+==}
@@ -741,7 +741,7 @@ of "typedesc"-ness is stripped off:
   ```nim
   proc p(a: typedesc; b: a) = discard
 
-  # 等同于以下代码：
+  # 等同于以下代码:
   proc p[T](a: typedesc[T]; b: T) = discard
 
   # 这是有效的调用:
@@ -762,7 +762,7 @@ Generic inference restrictions
 The types `var T` and `typedesc[T]` cannot be inferred in a generic
 instantiation. The following is not allowed:
 {==+==}
-类型 `var T` 和 `typedesc[T]` 无法在泛型实例中被推断，以下语句是不允许的：
+类型 `var T` 和 `typedesc[T]` 无法在泛型实例中被推断，以下语句是不允许的:
 {==+==}
 
 {==+==}
@@ -825,14 +825,14 @@ The symbol binding rules in generics are slightly subtle: There are "open" and
 context, an "open" symbol can. Per default, overloaded symbols are open
 and every other symbol is closed.
 {==+==}
-泛型中的符号绑定规则略显微妙：其存在开放和封闭两种状态的符号。一个封闭的符号在实例的上下文中无法被重新绑定，而一个开放的符号可以。默认情况下，重载符号都是开放的，而所有其他符号都是封闭的。
+泛型中的符号绑定规则略显微妙:其存在开放和封闭两种状态的符号。一个封闭的符号在实例的上下文中无法被重新绑定，而一个开放的符号可以。默认情况下，重载符号都是开放的，而所有其他符号都是封闭的。
 {==+==}
 
 {==+==}
 Open symbols are looked up in two different contexts: Both the context
 at definition and the context at instantiation are considered:
 {==+==}
-开放的符号可以在在两种不同的上下文中被找到：一是其定义所处的上下文，二是实例中的上下文：
+开放的符号可以在在两种不同的上下文中被找到:一是其定义所处的上下文，二是实例中的上下文:
 {==+==}
 
 {-----}
@@ -856,7 +856,7 @@ the `Index` type is defined *after* the `==` for tuples; yet the example
 compiles as the instantiation takes the currently defined symbols into account
 too.
 {==+==}
-在这个例子中，针对元组泛型符号 `==` （定义于系统模块），使用 `==` 操作符进行元组的组合。然而，针对`Index` 类型的 `==`符号定义在其针对元组的定义之后；所以，这个例子在被编译时，实例中当前符号的定义也会进入其中。
+在这个例子中，针对元组泛型符号 `==` (定义于系统模块)，使用 `==` 操作符进行元组的组合。然而，针对`Index` 类型的 `==`符号定义在其针对元组的定义之后；所以，这个例子在被编译时，实例中当前符号的定义也会进入其中。
 {==+==}
 
 {==+==}
@@ -912,7 +912,7 @@ can be used to explicitly declare identifiers that should be bound early (i.e.
 the identifiers should be looked up in the scope of the template/generic
 definition):
 {==+==}
- `bind` 语句相对于 `mixin` 语句。可用于显式地声明标识符需要绑定于先前（标识符应在模板或泛型的作用域中被定义）。
+ `bind` 语句相对于 `mixin` 语句。可用于显式地声明标识符需要绑定于先前(标识符应在模板或泛型的作用域中被定义)。
 {==+==}
 
 {==+==}
@@ -980,7 +980,7 @@ Delegating bind statements
 The following example outlines a problem that can arise when generic
 instantiations cross multiple different modules:
 {==+==}
-下面的示例概述了当泛型的实例跨越多个不同模块时可能出现的问题：
+下面的示例概述了当泛型的实例跨越多个不同模块时可能出现的问题:
 {==+==}
 
 {==+==}
@@ -1074,7 +1074,7 @@ A template is a simple form of a macro: It is a simple substitution
 mechanism that operates on Nim's abstract syntax trees. It is processed in
 the semantic pass of the compiler.
 {==+==}
-一个模板就是一个简单形式的宏：它是一个简单的替换机制，在Nim的抽象语法树上运行。它运作在编译器的语义传递中。
+一个模板就是一个简单形式的宏:它是一个简单的替换机制，在Nim的抽象语法树上运行。它运作在编译器的语义传递中。
 {==+==}
 
 {==+==}
@@ -1086,7 +1086,7 @@ The syntax to *invoke* a template is the same as calling a procedure.
 {==+==}
 Example:
 {==+==}
-例如：
+例如:
 {==+==}
 
 {==+==}
@@ -1146,7 +1146,7 @@ An `untyped` parameter means that symbol lookups and type resolution is not
 performed before the expression is passed to the template. This means that
 *undeclared* identifiers, for example, can be passed to the template:
 {==+==}
-一个`untyped` 参数意味着符号的查找和类型的解析在表达式传递给模板前是不执行的。这意味着像以下例子这样不声明标识符的代码是可通过的：
+一个`untyped` 参数意味着符号的查找和类型的解析在表达式传递给模板前是不执行的。这意味着像以下例子这样不声明标识符的代码是可通过的:
 {==+==}
 
 {==+==}
@@ -1197,7 +1197,7 @@ compiler. Explicit immediate templates are now deprecated.
 **Note**: For historical reasons, `stmt` was an alias for `typed` and
 `expr` was an alias for `untyped`, but they are removed.
 {==+==}
-注意：由于历史原因，`stmt` 是`typed` 的别名，`expr` 是 `untyped`的别名，但这两者都被移除了。
+注意:由于历史原因，`stmt` 是`typed` 的别名，`expr` 是 `untyped`的别名，但这两者都被移除了。
 {==+==}
 
 {==+==}
@@ -1261,7 +1261,7 @@ Usually, to pass a block of code to a template, the parameter that accepts
 the block needs to be of type `untyped`. Because symbol lookups are then
 delayed until template instantiation time:
 {==+==}
-通常，为了传递一个代码块到模板，接受代码块的参数需要被声明为`untyped`类型。因为这样，符号查找会被推迟到模板实例化的进行期间内执行：
+通常，为了传递一个代码块到模板，接受代码块的参数需要被声明为`untyped`类型。因为这样，符号查找会被推迟到模板实例化的进行期间内执行:
 {==+==}
 
 {==+==}
@@ -1293,7 +1293,7 @@ passed to the `body` parameter and type checking in Nim implies symbol lookups.
 The same code works with `untyped` as the passed body is not required to be
 type-checked:
 {==+==}
-以上代码错误信息为 `p` 未被声明。其原因是`p()` 语句体在传递到 `body` 参数前执行类型检查和符号查找。通过修改模板参数类型为`untyped` 使得传递语句体时无需类型检查，同样的代码便可以通过：
+以上代码错误信息为 `p` 未被声明。其原因是`p()` 语句体在传递到 `body` 参数前执行类型检查和符号查找。通过修改模板参数类型为`untyped` 使得传递语句体时无需类型检查，同样的代码便可以通过:
 {==+==}
 
 {==+==}
@@ -1455,7 +1455,7 @@ A parameter `p` in a template is even substituted in the expression `x.p`.
 Thus, template arguments can be used as field names and a global symbol can be
 shadowed by the same argument name even when fully qualified:
 {==+==}
-模板中的一个参数 `p`总是被替换为`x.p`这样的表达式。因此，模板参数可像字段名称一样使用，且一个全局符号会被一个合法的同名参数覆盖：
+模板中的一个参数 `p`总是被替换为`x.p`这样的表达式。因此，模板参数可像字段名称一样使用，且一个全局符号会被一个合法的同名参数覆盖:
 {==+==}
 
 {==+==}
@@ -1660,7 +1660,7 @@ and `namedParameterCall(field = value)` syntactic constructs.
 {==+==}
 The reason for this is that code like
 {==+==}
-其原因如以下代码所示：
+其原因如以下代码所示:
 {==+==}
 
 {-----}
@@ -1724,7 +1724,7 @@ symbol lookup and type checking) before it can be decided that it needs to be
 rewritten to `f(x)`. Therefore, the dot syntax has some limitations when it
 is used to invoke templates/macros:
 {==+==}
- 在像 `x.f` 这样的表达式中的`x` 在确定执行前需要进行语义检查（这意味着符号查找和类型检查），这一过程中其将被写作 `f(x)`的形式。因此，当`.`语义用于调用模板和宏时有一些局限性。
+ 在像 `x.f` 这样的表达式中的`x` 在确定执行前需要进行语义检查(这意味着符号查找和类型检查)，这一过程中其将被写作 `f(x)`的形式。因此，当`.`语义用于调用模板和宏时有一些局限性。
 {==+==}
 
 {==+==}
@@ -1798,7 +1798,7 @@ tree (AST) of the code that is passed to it. The macro can then do
 transformations on it and return the transformed AST. This can be used to
 add custom language features and implement `domain-specific languages`:idx:.
 {==+==}
-宏是一种在编译时运行的特殊函数。通常地，宏的输入是代码传递的抽象语法树（AST）。然后宏可以对其执行转换并将转换后的AST的结果返回。这可以被用来添加自定义语言功能，并实现域特定语言`domain-specific languages`:idx:。
+宏是一种在编译时运行的特殊函数。通常地，宏的输入是代码传递的抽象语法树(AST)。然后宏可以对其执行转换并将转换后的AST的结果返回。这可以被用来添加自定义语言功能，并实现域特定语言`domain-specific languages`:idx:。
 {==+==}
 
 {==+==}
@@ -1806,7 +1806,7 @@ Macro invocation is a case where semantic analysis does **not** entirely proceed
 top to bottom and left to right. Instead, semantic analysis happens at least
 twice:
 {==+==}
-宏的语义分析并不完全是从上到下和从左到右的。相反，语义分析至少发生两次：
+宏的语义分析并不完全是从上到下和从左到右的。相反，语义分析至少发生两次:
 {==+==}
 
 {==+==}
@@ -1818,7 +1818,7 @@ twice:
   this process iterates.
 {==+==}
 * 语义分析识别并解析宏调用。
-* 编译器执行宏正文（可能会调用其他进程）。
+* 编译器执行宏正文(可能会调用其他进程)。
 * 将宏调用的AST替换为返回的AST。
 * 再次对该区域的代码进行语义分析。
 * 如果宏返回的AST包含其他宏调用，则此过程将迭代进行。
@@ -1835,7 +1835,7 @@ cannot change Nim's syntax.
 **Style note:** For code readability, it is best to use the least powerful
 programming construct that remains expressive. So the "check list" is:
 {==+==}
-**样式说明：** 为了提高代码的可读性，最好使用简洁而富表现力的编程结构。建议如下：
+**样式说明:** 为了提高代码的可读性，最好使用简洁而富表现力的编程结构。建议如下:
 {==+==}
 
 {==+==}
@@ -1928,7 +1928,7 @@ variable number of arguments:
 {==+==}
 The macro call expands to:
 {==+==}
-这个宏调用后将展开为以下代码：
+这个宏调用后将展开为以下代码:
 {==+==}
 
 {-----}
@@ -1970,7 +1970,7 @@ instantiating context. There is a way to use bound identifiers
 (aka `symbols`:idx:) instead of using unbound identifiers. The `bindSym`
 builtin can be used for that:
 {==+==}
-上面的`debug` 宏依赖于这样一个事实，即`write`，`writeLine`和`stdout` 在系统模块中已被声明，而且在实例的上下文中总是可见地。有一种方法可以使用绑定标识符（即 `symbols`:idx:）以替换未绑定的标识符。内置的 `bindSym`可用于此目的。
+上面的`debug` 宏依赖于这样一个事实，即`write`，`writeLine`和`stdout` 在系统模块中已被声明，而且在实例的上下文中总是可见地。有一种方法可以使用绑定标识符(即 `symbols`:idx:)以替换未绑定的标识符。内置的 `bindSym`可用于此目的。
 {==+==}
 
 {==+==}
@@ -2018,7 +2018,7 @@ builtin can be used for that:
 {==+==}
 The macro call expands to:
 {==+==}
-这个宏调用后将展开为以下代码：
+这个宏调用后将展开为以下代码:
 {==+==}
 
 {-----}

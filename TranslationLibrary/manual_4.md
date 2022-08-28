@@ -882,7 +882,7 @@ which is `{}`) which is thus another way to write the empty array
 constructor `[]`. This slightly unusual way of supporting tables
 has lots of advantages:
 {==+==}
-空表可以写成 `{:}` (与 `{}`的空集相反),这是另一种写为空数组构造函数`[]`的方法. 这种略微不同寻常的书写表的方式有很多优点：
+空表可以写成 `{:}` (与 `{}`的空集相反),这是另一种写为空数组构造函数`[]`的方法. 这种略微不同寻常的书写表的方式有很多优点:
 {==+==}
 
 {==+==}
@@ -1176,7 +1176,7 @@ arguments, by using the type modifier `var`.
 {==+==}
   ```nim
   # 通过第二个参数 ``返回`` 一个值给调用者
-  # 请注意, 该函数根本不使用实际返回值（即void）
+  # 请注意, 该函数根本不使用实际返回值(即void)
   proc foo(inp: int, outp: var int) =
     outp = inp + 47
   ```
@@ -1288,14 +1288,14 @@ the operator's position within an expression.) There is no way to declare
 postfix operators: all postfix operators are built-in and handled by the
 grammar explicitly.
 {==+==}
-具有一个参数的运算符是前缀运算符, 具有两个参数的运算符是中缀运算符. （但是, 解析器将这些与运算符在表达式中的位置区分开来.） 没有办法声明后缀运算符: 所有后缀运算符都是内置的, 并由语法显式处理.
+具有一个参数的运算符是前缀运算符, 具有两个参数的运算符是中缀运算符. (但是, 解析器将这些与运算符在表达式中的位置区分开来.) 没有办法声明后缀运算符: 所有后缀运算符都是内置的, 并由语法显式处理.
 {==+==}
 
 {==+==}
 Any operator can be called like an ordinary proc with the \`opr\`
 notation. (Thus an operator can have more than two parameters):
 {==+==}
-任何运算符都可以像普通的proc一样用 \`opr\` 表示法调用.（因此运算符可以有两个以上的参数）:
+任何运算符都可以像普通的proc一样用 \`opr\` 表示法调用.(因此运算符可以有两个以上的参数):
 {==+==}
 
 {==+==}
@@ -1491,7 +1491,7 @@ A proc defined as `f=` (with the trailing `=`) is called
 a `setter`:idx:. A setter can be called explicitly via the common
 backticks notation:
 {==+==}
-定义为`f=` 的proc（后面跟 = ）被称为 `setter` .
+定义为`f=` 的proc(后面跟 = )被称为 `setter` .
 可以通过常见的反引号表示法显式调用setter: 
 {==+==}
 
@@ -1590,7 +1590,7 @@ the closure and its enclosing scope (i.e. any modifications made to them are
 visible in both places). The closure environment may be allocated on the heap
 or on the stack if the compiler determines that this would be safe.
 {==+==}
-过程可以出现在模块的顶层,也可以出现在其他作用域中, 在这种情况下, 它们称为嵌套过程. 嵌套的过程可以从其封闭的作用域访问局部变量, 这就变成了一个闭包. 任何捕获的变量都存储在闭包（它的环境）的隐藏附加参数中, 并且它们通过闭包及其封闭作用域的引用来访问（即, 对它们进行的任何修改在两个地方都是可见的）.如果编译器确定这是安全的, 则可以在堆上或堆栈上分配闭包环境.
+过程可以出现在模块的顶层,也可以出现在其他作用域中, 在这种情况下, 它们称为嵌套过程. 嵌套的过程可以从其封闭的作用域访问局部变量, 这就变成了一个闭包. 任何捕获的变量都存储在闭包(它的环境)的隐藏附加参数中, 并且它们通过闭包及其封闭作用域的引用来访问(即, 对它们进行的任何修改在两个地方都是可见的).如果编译器确定这是安全的, 则可以在堆上或堆栈上分配闭包环境.
 {==+==}
 
 {==+==}
@@ -1941,7 +1941,7 @@ visible to the caller. The argument passed to a var parameter has to be
 an l-value. Var parameters are implemented as hidden pointers. The
 above example is equivalent to:
 {==+==}
-在示例中,  `res` 和 `remainder` 是 `var parameters` . 可以通过过程修改Var参数, 并且调用者可以看到更改. 传递给var参数的参数必须是左值. Var参数实现为隐藏指针. 上面的例子相当于：
+在示例中,  `res` 和 `remainder` 是 `var parameters` . 可以通过过程修改Var参数, 并且调用者可以看到更改. 传递给var参数的参数必须是左值. Var参数实现为隐藏指针. 上面的例子相当于:
 {==+==}
 
 {-----}
