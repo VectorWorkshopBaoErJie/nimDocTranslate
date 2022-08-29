@@ -14,6 +14,12 @@ func _ready():
     ## 开始相关测试监测
     $Button.connect("button_down",self,"__on_merge_button_down")
     test()
+#    sorting_by_length()
+#
+#    for i in TL_entrys:
+#        print(i.source_text.length())
+#        pass
+    
 
 func test():
     ## 读取翻译库文档
@@ -56,9 +62,28 @@ func __on_merge_button_down():
         print("格式检查没有通过，请修正。")
     else:
         var tar_doc_file:String=G.load_file(targetDoc_path+"manual20220810.md")
+        ## 这里对翻译对按字符串的长度排序
+        sorting_by_length()
+        
         for i in TL_entrys:
             tar_doc_file=tar_doc_file.replace(i.source_text,i.translation_text)
             pass
         #print(tar_doc_file)
         G.save_file(tar_doc_file,G.dir_current_parent()+"products/manual.md")
     pass
+
+## 对字符翻译数组按字符串长度进行一次排序。
+func sorting_by_length():
+    for i in range(TL_entrys.size()):
+        for u in rand_range(i,TL_entrys.size()):
+            if TL_entrys[u].source_text.length()<TL_entrys[i].source_text.length():
+                var c=TL_entrys[i]
+                TL_entrys[i]=TL_entrys[u]
+                TL_entrys[u]=c
+            pass
+
+
+
+
+
+

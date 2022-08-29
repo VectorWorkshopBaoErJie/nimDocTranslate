@@ -27,7 +27,7 @@ Nim手册
 > end-user to one/some of the other players, but the total amount seems to remain
 > pretty much constant for a given task. -- Ran
 {==+==}
-> "复杂性" 如同 "能量": 终端用户把它转嫁给其他参与者，但一个给定任务的总量似乎没变。 -- Ran
+> "复杂性" 如同 "能量": 终端用户把它转嫁给其他参与者，但给定任务的总量似乎没变。 -- Ran
 {==+==}
 
 {==+==}
@@ -42,7 +42,7 @@ About this document
 **Note**: This document is a draft! Several of Nim's features may need more
 precise wording. This manual is constantly evolving into a proper specification.
 {==+==}
-**注意**: 当前手册还是草案! Nim的一些功能需要更加准确的描述。手册也在不断推进，以成为标准规范。
+**注意**: 当前手册还是草案! Nim的一些功能需要更加准确的描述。本手册也在不断更新，以成为标准规范。
 {==+==}
 
 {==+==}
@@ -145,7 +145,7 @@ variable's type is called `static type`:idx:, the location's type is called
 `dynamic type`:idx:. If the static type is not the same as the dynamic type,
 it is a super-type or subtype of the dynamic type.
 {==+==}
-Nim代码是特定的计算单元，作用于称为 `locations`:idx: 地址部分构成的内存。变量本质上是地址的名称，每个变量和地址都有特定的 `type`:idx: ，变量的类型被称为 `static type`:idx: ，地址的类型被称为 `dynamic type`:idx: 。如果静态类型与动态类型不同，它就是动态类型的超类或子类。
+Nim代码是特定的计算单元，作用于称为 `locations`:idx: "地址"组件构成的内存。变量本质上是地址的名称，每个变量和地址都有特定的 `type`:idx: "类型"，变量的类型被称为 `static type`:idx: "静态类型"，地址的类型被称为 `dynamic type`:idx: "动态类型"。如果静态类型与动态类型不相同，它就是动态类型的父类或子类。
 {==+==}
 
 
@@ -156,7 +156,7 @@ called the `scope`:idx: of the declaration. Scopes can be nested. The meaning
 of an identifier is determined by the smallest enclosing scope in which the
 identifier is declared unless overloading resolution rules suggest otherwise.
 {==+==}
- `identifier`:idx: 是变量、类型、过程等的名称声明符号，一个声明所适用的程序区域被称为该声明的 `scope`:idx: ，作用域可以嵌套，一个标识符的含义由标识符所声明的最小包围作用域决定，除非重载解析规则另有建议。
+ `identifier`:idx: "标识符"是变量、类型、过程等的名称声明符号，一个声明所适用的程序区域被称为该声明的 `scope`:idx: "作用域"，作用域可以嵌套，一个标识符的含义由标识符所声明的最小包围作用域决定，除非重载解析规则另有建议。
 {==+==}
 
 {==+==}
@@ -165,7 +165,7 @@ Expressions that produce locations are called `l-values`:idx:. An l-value
 can denote either a location or the value the location contains, depending on
 the context.
 {==+==}
-一个表达式特指产生值或地址的计算，产生地址的表达式被称为 `l-values`:idx: ，左值可以表示地址，也可以表示该地址包含的值，这取决于上下文。
+一个表达式特指产生值或地址的计算，产生地址的表达式被称为 `l-values`:idx: "左值"，左值可以表示地址，也可以表示该地址包含的值，这取决于上下文。
 {==+==}
 
 {==+==}
@@ -174,7 +174,7 @@ Nim code. It is processed by a Nim `compiler`:idx: into an `executable`:idx:.
 The nature of this executable depends on the compiler implementation; it may,
 for example, be a native binary or JavaScript source code.
 {==+==}
-Nim `program`:idx: 由一个或多个包含Nim代码的文本 `source files`:idx: 组成，由Nim `compiler`:idx: 处理成 `executable`:idx: ,这个可执行文件的性质取决于编译器的实现；例如，它可能是一个本地二进制文件或JavaScript源代码。
+Nim `program`:idx: "程序"由一个或多个包含Nim代码的文本 `source files`:idx: "源文件"组成，由Nim `compiler`:idx: "编译器"处理成 `executable`:idx: "可执行的"，这个可执行文件的性质取决于编译器的实现；例如，它可能是一个本地二进制文件或JavaScript源代码。
 {==+==}
 
 {==+==}
@@ -187,7 +187,7 @@ on Compile-Time Execution <#restrictions-on-compileminustime-execution>`_ for
 details. We use the term `runtime`:idx: to cover both compile-time execution
 and code execution in the executable.
 {==+==}
-在典型的Nim程序中，大部分代码被编译到可执行文件中，然而，有些代码可能在 `compile-time`:idx: 执行，包括常量表达式、宏定义和宏定义使用的Nim过程。大部分的Nim代码支持编译时执行，但是有一些限制 -- 详情阅读 `关于编译时执行的限制 <#restrictions-on-compileminustime-execution>`_ 。我们使用术语 `runtime`:idx: 来涵盖编译时执行和可执行文件中的代码执行。
+在典型的Nim程序中，大部分代码被编译到可执行文件中，然而，有些代码可能在 `compile-time`:idx: "编译期"执行，包括常量表达式、宏定义和宏定义使用的Nim过程。大部分的Nim代码支持编译时执行，但是有一些限制 -- 详情阅读 `关于编译时执行的限制 <#restrictions-on-compileminustime-execution>`_ 。我们使用术语 `runtime`:idx: "运行时"来涵盖编译时执行和可执行文件中的代码执行。
 {==+==}
 
 {==+==}
@@ -199,7 +199,7 @@ identifier meanings, and in some cases expression values. An error detected
 during semantic analysis is called a `static error`:idx:. Errors described in
 this manual are static errors when not otherwise specified.
 {==+==}
-编译器将Nim源代码解析成一个内部数据结构，称为 `abstract syntax tree`:idx: (`AST`:idx:) ，在执行代码或将其编译为可执行文件之前，通过 `semantic analysis`:idx: 对AST进行转换，增加了语义信息，如表达式类型、标识符的含义，以及在某些情况下的表达式值。在语义分析中检测到的错误被称为 `static error`:idx: ，当前手册中描述的错误在没有其他约定时是静态错误。
+编译器将Nim源代码解析成一个内部数据结构，称为 `abstract syntax tree`:idx: (`AST`:idx:) "抽象语法树"，在执行代码或将其编译为可执行文件之前，通过 `semantic analysis`:idx: "语义分析"对AST进行转换，增加了语义信息，如表达式类型、标识符的含义，以及在某些情况下的表达式值。在语义分析中检测到的错误被称为 `static error`:idx: "静态错误"，当前手册中描述的错误在没有其他约定时是静态错误。
 {==+==}
 
 {==+==}
@@ -209,7 +209,7 @@ and reports at runtime. The method for reporting such errors is via
 provides a means to disable these `runtime checks`:idx:. See the section
 pragmas_ for details.
 {==+==}
-`panic`:idx: 是在运行时检测和报告的错误，报告这种错误的方式是通过 *引发异常* 或 *致命错误* 结束，也提供了一种方法来禁用 `runtime checks`:idx: ，详情阅读标记一节。
+`panic`:idx: "恐慌"是在运行时检测和报告的错误，报告这种错误的方式是通过 *引发异常* 或 *致命错误* 结束，也提供了一种方法来禁用 `runtime checks`:idx: "运行时检查"，详情阅读标记一节。
 {==+==}
 
 {==+==}
@@ -248,7 +248,7 @@ detected and can cause the subsequent behavior of the computation to
 be arbitrary. Unchecked runtime errors cannot occur if only `safe`:idx:
 language features are used and if no runtime checks are disabled.
 {==+==}
-`unchecked runtime error`:idx: 是不能保证被检测到的错误，它可能导致计算产生任意的后续行为，如果只使用 `safe`:idx: 语言特性，并且没有禁用运行时检查，就不会产生未检查的运行时错误。
+`unchecked runtime error`:idx: 是不能保证被检测到的错误，它可能导致计算产生任意的后续行为，如果只使用 `safe`:idx: "安全"语言特性，并且没有禁用运行时检查，就不会产生未检查的运行时错误。
 {==+==}
 
 {==+==}
@@ -261,7 +261,7 @@ expressions can be used as an input to semantic analysis (such as for defining
 array bounds), this flexibility requires the compiler to interleave semantic
 analysis and compile-time code execution.
 {==+==}
-`constant expression`:idx: 是表达式，在对包含它的代码进行语义分析时，值就可以被计算出来。它从来不会是左值，也不会有副作用。常量表达式并不局限于语义分析的能力，例如常量折叠。它可以使用所支持的编译时执行的所有Nim语言特性。由于常量表达式可以作为语义分析的输入，比如用于定义数组的边界，因为这种灵活性的要求，编译器交错进行语义分析和编译时代码执行。
+`constant expression`:idx: "常量表达式"在对包含它的代码进行语义分析时，值就可以被计算出来。它从来不会是左值，也不会有副作用。常量表达式并不局限于语义分析的能力，例如常量折叠。它可以使用所支持的编译时执行的所有Nim语言特性。由于常量表达式可以作为语义分析的输入，比如用于定义数组的边界，因为这种灵活性的要求，编译器交错进行语义分析和编译时代码执行。
 {==+==}
 
 {==+==}
