@@ -485,7 +485,7 @@ Emit 编译指示
   is a single string literal, Nim symbols can be referred to via backticks.
   This usage is however deprecated.
 {==+==}
-.. 注意:: 为了向后兼容，如果到 `emit` 语句的参数 是一个单个字符串， Nim 符号可以通过反引号进行引用。 但这种用法已经废弃。
+.. note:: 为了向后兼容，如果到 `emit` 语句的参数 是一个单个字符串， Nim 符号可以通过反引号进行引用。 但这种用法已经废弃。
 {==+==}
 
 {==+==}

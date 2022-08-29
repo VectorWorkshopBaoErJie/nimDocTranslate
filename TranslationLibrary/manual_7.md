@@ -539,6 +539,7 @@ concrete type or a type class.
   echo "int 是数字吗？ ", isNumber(int)
   echo "float 是数字吗？ ", isNumber(float)
   echo "RootObj 是数字吗？ ", isNumber(RootObj)
+  ```
 {==+==}
 
 {==+==}
@@ -787,7 +788,7 @@ Include statement
 -----------------
 {==+==}
 Include 语句
-------------
+------------------------
 {==+==}
 
 {==+==}

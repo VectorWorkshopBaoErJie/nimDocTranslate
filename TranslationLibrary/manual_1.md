@@ -1646,6 +1646,7 @@ reorderings that have been passed to named parameters:
   construct(second = q(), first = p())
 
   doAssert s == "qppqpq"
+  ```
 {==+==}
 
 {==+==}

@@ -127,7 +127,8 @@ Examples:
   ```
 {==+==}
 示例:
-   ```nim
+
+  ```nim
   proc printItem(x: int) = ...
 
   proc forEach(c: proc (x: int) {.cdecl.}) =
@@ -471,18 +472,18 @@ currency. This can be solved with templates_.
 {==+==}
   ```nim  test = "nim c $1"
   template additive(typ: typedesc) =
-    proc `+` *(x, y: typ): typ {.borrow.}
-    proc `-` *(x, y: typ): typ {.borrow.}
+    proc `+` * (x, y: typ): typ {.borrow.}
+    proc `-` * (x, y: typ): typ {.borrow.}
 
     # 一元操作符:
-    proc `+` *(x: typ): typ {.borrow.}
-    proc `-` *(x: typ): typ {.borrow.}
+    proc `+` * (x: typ): typ {.borrow.}
+    proc `-` * (x: typ): typ {.borrow.}
 
   template multiplicative(typ, base: typedesc) =
-    proc `*` *(x: typ, y: base): typ {.borrow.}
-    proc `*` *(x: base, y: typ): typ {.borrow.}
-    proc `div` *(x: typ, y: base): typ {.borrow.}
-    proc `mod` *(x: typ, y: base): typ {.borrow.}
+    proc `*` * (x: typ, y: base): typ {.borrow.}
+    proc `*` * (x: base, y: typ): typ {.borrow.}
+    proc `div` * (x: typ, y: base): typ {.borrow.}
+    proc `mod` * (x: typ, y: base): typ {.borrow.}
 
   template comparable(typ: typedesc) =
     proc `<` * (x, y: typ): bool {.borrow.}
@@ -964,7 +965,7 @@ algorithm returns true:
 The convertible relation can be relaxed by a user-defined type
 `converter`:idx:.
 {==+==}
-可转换关系可以通过用户定义的类型 `converter`:idx:来relax:
+可转换关系可以通过用户定义的类型 `converter`:idx: 放宽:
 {==+==}
 
 {==+==}
@@ -1618,7 +1619,7 @@ a static error.
 The return value can be ignored implicitly if the called proc/iterator has
 been declared with the `discardable`:idx: pragma:
 {==+==}
-如果调用的 proc/iterator 已使用 `discardable`:idx:编译指示声明，则可以隐式忽略返回值:
+如果调用的 proc/iterator 已使用 `discardable`:idx: 编译指示声明，则可以隐式忽略返回值:
 {==+==}
 
 {==+==}
@@ -1831,7 +1832,7 @@ T = enum                        cast[T]\(0); 这个可能是一个非法值
 The implicit initialization can be avoided for optimization reasons with the
 `noinit`:idx: pragma:
 {==+==}
-出于优化原因，可以使用`noinit`:idx:编译指示来避免隐式初始化:
+出于优化原因，可以使用 `noinit`:idx: 编译指示来避免隐式初始化:
 {==+==}
 
 {==+==}
@@ -1869,7 +1870,7 @@ type pragma. The compiler requires an explicit initialization for the object
 and all of its fields. However, it does a `control flow analysis`:idx: to prove
 the variable has been initialized and does not rely on syntactic properties:
 {==+==}
-`requiresInit`:idx:类型编译指示也可以防止隐式初始化。编译器需要对对象及其所有字段进行显式初始化。但是，它会进行“控制流分析”:idx:以证明变量已被初始化并且不依赖于句法属性:
+`requiresInit`:idx: 类型编译指示也可以防止隐式初始化。编译器需要对对象及其所有字段进行显式初始化。但是，它会进行“控制流分析”:idx:以证明变量已被初始化并且不依赖于句法属性:
 {==+==}
 
 {==+==}
@@ -2026,7 +2027,7 @@ when they are declared. The only exception to this is if the `{.importc.}`
 pragma (or any of the other `importX` pragmas) is applied, in this case the
 value is expected to come from native code, typically a C/C++ `const`.
 {==+==}
-由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义一个值。 唯一的例外是如果应用了 `{.importc.}` 编译指示(或任何其他 `importX` 编译指示)，在这种情况下，值应该来自本机代码，通常是 C/C++ `const `。
+由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义一个值。 唯一的例外是如果应用了 `{.importc.}` 编译指示(或任何其他 `importX` 编译指示)，在这种情况下，值应该来自本机代码，通常是 C/C++ `const` 。
 {==+==}
 
 {==+==}

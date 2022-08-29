@@ -1463,7 +1463,7 @@ The assignment operator for tuples and objects copies each component.
 The methods to override this copying behavior are described `here
 <manual.html#procedures-type-bound-operations>`_.
 {==+==}
-元组和对象的赋值操作符复制每个组件。` 这里 <manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
+元组和对象的赋值操作符复制每个组件。 ` 这里 <manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
 {==+==}
 
 {==+==}
@@ -1785,11 +1785,11 @@ case对象的一些限制可以通过 `{.cast(uncheckedAssign).}` 禁用:
     TokenKind* = enum
       strLit, intLit
     Token = object
-      case kind*: TokenKind
+      case kind* : TokenKind
       of strLit:
-        s*: string
+        s* : string
       of intLit:
-        i*: int64
+        i* : int64
 
   proc passToVar(x: var TokenKind) = discard
 

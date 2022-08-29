@@ -559,7 +559,7 @@ By default, during overload resolution, each named type class will bind to
 exactly one concrete type. We call such type classes `bind once`:idx: types.
 Here is an example taken directly from the system module to illustrate this:
 {==+==}
-通常，重载解析期间，每一个被命名的type类都将被绑定到一个确切的混合类。我们称这些type类 `bind once`:idx:单一绑定类。这里是一个从系统模块里直接拿来的例子:
+通常，重载解析期间，每一个被命名的type类都将被绑定到一个确切的混合类。我们称这些type类 `bind once`:idx: 单一绑定类。这里是一个从系统模块里直接拿来的例子:
 {==+==}
 
 {==+==}
@@ -1546,7 +1546,7 @@ Hygiene in templates
 Per default, templates are `hygienic`:idx:\: Local identifiers declared in a
 template cannot be accessed in the instantiation context:
 {==+==}
-默认地，模板是卫生的`hygienic`:idx:。模板中的本地标识符被声明后，无法在模板实例所处的上下文中访问:
+默认地，模板是卫生的 `hygienic`:idx: 。模板中的本地标识符被声明后，无法在模板实例所处的上下文中访问:
 {==+==}
 
 {==+==}
