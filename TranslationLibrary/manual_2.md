@@ -65,7 +65,7 @@ These integer types are pre-defined:
   `low(int32)..high(int32)` otherwise the literal's type is `int64`.
 {==+==}
 `int`
-  通用有符号整数类型。它的大小取决于平台，并且与指针大小相同。如果一个没有类型后缀的整数字面值在 `low(int32)...high(int32)` 的范围内，则它是这种类型，否则为 `int64` 类型.
+  常规有符号整数类型。它的大小取决于平台，并且与指针大小相同。如果一个没有类型后缀的整数字面值在 `low(int32)...high(int32)` 的范围内，则它是这种类型，否则为 `int64` 类型.
 {==+==}
 
 {==+==}
@@ -86,7 +86,7 @@ These integer types are pre-defined:
   suffix `'u` is of this type.
 {==+==}
 `uint`
-  通用的 `unsigned integer`:idx:"无符号整数" 。它的大小取决于平台，并且与指针大小相同。 类型后缀为 `'u` 的整数字面值就是这种类型。
+  常规 `unsigned integer`:idx: "无符号整数" 。它的大小取决于平台，并且与指针大小相同。 类型后缀为 `'u` 的整数字面值就是这种类型。
 {==+==}
 
 {==+==}
@@ -99,7 +99,7 @@ These integer types are pre-defined:
   underflow errors.
 {==+==}
 `uint`\ XX
-  使用XX位额外标记的无符号整数使用这种命名。(比如uint16是16位宽的无符号整数)当前支持的实现有 `uint8`, `uint16`, `uint32`, `uint64` 。这些类型的字面值具有后缀 'uXX 。 无符号操作会环绕; 不会导致上溢或下溢错误。
+  使用XX位额外标记的无符号整数使用这种命名。(比如uint16是16位宽的无符号整数)当前支持的实现有 `uint8`, `uint16`, `uint32`, `uint64` 。这些类型的字面值具有后缀 'uXX 。 无符号运算会环绕，不会导致上溢或下溢错误。
 {==+==}
 
 
@@ -160,7 +160,7 @@ operation                meaning
 `Automatic type conversion`:idx: is performed in expressions where different
 kinds of integer types are used: the smaller type is converted to the larger.
 {==+==}
-不同类型的整型的表达式中，会执行`Automatic type conversion`:idx: “自动类型转换” :较小的类型转换为较大的类型。
+不同类型的整型的表达式中，会执行`Automatic type conversion`:idx: "自动类型转换" : 较小的类型转换为较大的类型。
 {==+==}
 
 {==+==}
@@ -169,7 +169,7 @@ example `int32 -> int16`). A `widening type conversion`:idx: converts a
 smaller type to a larger type (for example `int16 -> int32`). In Nim only
 widening type conversions are *implicit*:
 {==+==}
-`Automatic type conversion`:idx:“自动类型转换” 将较大的类型转换为较小的类型(比如 `int32 -> int16` ) ， `widening type conversion`:idx: "扩大类型转换" 将较小的类型转换为较大的类型(比如`int16 -> int32`) ，Nim中仅有扩展类型转型是 *隐式的* :
+`Automatic type conversion`:idx: "自动类型转换" 将较大的类型转换为较小的类型(比如 `int32 -> int16` ) ， `widening type conversion`:idx: "扩大类型转换" 将较小的类型转换为较大的类型(比如`int16 -> int32`) ，Nim中仅有扩展类型转型是 *隐式的* :
 {==+==}
 
 
@@ -185,9 +185,9 @@ widening type conversions are *implicit*:
   ```nim
   var myInt16 = 5i16
   var myInt: int
-  myInt16 + 34     # 为`int16`类型
-  myInt16 + myInt  # 为`int`类型
-  myInt16 + 2i32   # 为`int32`类型
+  myInt16 + 34     # 为 `int16` 类型
+  myInt16 + myInt  # 为 `int` 类型
+  myInt16 + 2i32   # 为 `int32` 类型
   ```
 {==+==}
 
@@ -222,7 +222,7 @@ A subrange type is a range of values from an ordinal or floating-point type (the
 type). To define a subrange type, one must specify its limiting values -- the
 lowest and highest value of the type. For example:
 {==+==}
-子范围类型是序数或浮点类型(基类型)的取值范围。要定义子范围类型，必须指定其限制值，即类型的最低值和最高值。例如:
+子范围类型是序数或浮点类型(基类型)的取值范围。要定义子范围类型，必须指定其值的限制，即类型的最低值和最高值。例如:
 {==+==}
 
 {==+==}
@@ -237,7 +237,7 @@ lowest and highest value of the type. For example:
   type
     Subrange = range[0..5]
     PositiveFloat = range[0.0..Inf]
-    Positive* = range[1..high(int)] # 正如`system`里定义的一样
+    Positive* = range[1..high(int)] # 正如 `system` 里定义的一样
   ```
 {==+==}
 
@@ -252,8 +252,8 @@ semantic analysis). Assignments from the base type to one of its subrange types
 (and vice versa) are allowed.
 {==+==}
 `Subrange` 是整数的子范围，只能保存0到5的值。`PositiveFloat` 定义了包含所有正浮点数的子范围。
-NaN不属于任何浮点类型的子范围。将任何其他值分配给类型为 `Subrange` 会产生panic(如果可以在语义分析期间确认，则为静态错误)。
-允许从基本类型到其子类型之一的分配，反之亦然。
+NaN不属于任何浮点类型的子范围。将任何其他值赋值给类型为 `Subrange` 会产生panic(如果可以在语义分析期间确认，则为静态错误)。
+允许将基类型赋值给它的一个子范围类型(反之亦然)。
 {==+==}
 
 {==+==}
@@ -285,7 +285,7 @@ The following floating-point types are pre-defined:
   This type should be used in general.
 {==+==}
 `float`
-  通用浮点类型; 它的大小曾经是平台相关的，但现在它总是映射到 `float64` 。一般应该使用这种类型。
+  常规浮点类型; 它的大小曾经与平台相关，但现在，它总是映射为 `float64` 。一般应该使用这种类型。
 {==+==}
 
 {==+==}
@@ -307,7 +307,7 @@ types is performed: See `Convertible relation
 performed on floating-point types follows the IEEE standard. Integer types are
 not converted to floating-point types automatically and vice versa.
 {==+==}
-可以在具有不同类型浮点数的表达式中执行自动类型转换:详见 `Convertible relation <#type-relations-convertible-relation>`_ 。 
+可以在具有不同类型浮点数的表达式中执行自动类型转换: 详见 `Convertible relation <#type-relations-convertible-relation>`_ 。 
 在浮点类型上执行的算术遵循IEEE标准。 整数类型不会自动转换为浮点类型，反之亦然。
 {==+==}
 
@@ -329,11 +329,11 @@ IEEE标准定义了五种类型的浮点异常:
 * Inexact: operation produces a result that cannot be represented with infinite
   precision, for example, 2.0 / 3.0, log(1.1) and 0.1 in input.
 {==+==}
-* 无效: 使用数学上无效的操作数操作, 例如 0.0/0.0, sqrt(-1.0), 和log(-37.8).
-* 除以零:除数为零，且被除数是有限的非零数，例如1.0 / 0.0。
-* 溢出:操作产生的结果超出范围，例如，MAXDOUBLE + 0.0000000000001e308。
-* 下溢:操作产生的结果太小而无法表示为正常数字，例如，MINDOUBLE * MINDOUBLE。
-* 不精确:操作产生的结果无法用无限精度表示，例如，输入中的 2.0 / 3.0，log(1.1) 和 0.1。
+* 无效: 使用数学上无效的操作数运算, 例如 0.0/0.0, sqrt(-1.0), 和log(-37.8).
+* 除以零: 除数为零，且被除数是有限的非零数，例如1.0 / 0.0。
+* 溢出: 运算产生的结果超出范围，例如，MAXDOUBLE + 0.0000000000001e308。
+* 下溢: 运算产生的结果太小而无法表示为正常数字，例如，MINDOUBLE * MINDOUBLE。
+* 不精确: 运算产生的结果无法用无限精度表示，例如，输入中的 2.0 / 3.0，log(1.1) 和 0.1。
 {==+==}
 
 {==+==}
@@ -343,7 +343,7 @@ Nim exceptions: `FloatInvalidOpDefect`:idx:, `FloatDivByZeroDefect`:idx:,
 and `FloatInexactDefect`:idx:.
 These exceptions inherit from the `FloatingPointDefect`:idx: base class.
 {==+==}
-IEEE异常在执行期间被忽略或映射到Nim异常: `FloatInvalidOpDefect`:idx: "浮点数无效缺陷" , `FloatDivByZeroDefect`:idx: "浮点数除零缺陷" , `FloatOverflowDefect`:idx: "浮点数溢出缺陷" , `FloatUnderflowDefect`:idx: "浮点数下溢缺陷" , 和 `FloatInexactDefect`:idx: “浮点数不精确缺陷” 。 这些异常继承自 `FloatingPointDefect`:idx: "浮点数缺陷" 基类。
+IEEE异常在执行期间被忽略或映射到Nim异常: `FloatInvalidOpDefect`:idx: "浮点数无效缺陷" , `FloatDivByZeroDefect`:idx: "浮点数除零缺陷" , `FloatOverflowDefect`:idx: "浮点数溢出缺陷" , `FloatUnderflowDefect`:idx: "浮点数下溢缺陷" , 和 `FloatInexactDefect`:idx: "浮点数不精确缺陷" 。 这些异常继承自 `FloatingPointDefect`:idx: "浮点数缺陷" 基类。
 {==+==}
 
 {==+==}
@@ -509,26 +509,6 @@ Now the following holds::
 {==+==}
 
 {==+==}
-  ord(north) == 0
-  ord(east) == 1
-  ord(south) == 2
-  ord(west) == 3
-
-  # Also allowed:
-  ord(Direction.west) == 3
-{==+==}
-```
-  ord(north) == 0
-  ord(east) == 1
-  ord(south) == 2
-  ord(west) == 3
-
-  # 也允许:
-  ord(Direction.west) == 3
-```
-{==+==}
-
-{==+==}
 The implied order is: north < east < south < west. The comparison operators can be used
 with enumeration types. Instead of `north` etc., the enum value can also
 be qualified with the enum type that it resides in, `Direction.north`.
@@ -570,7 +550,7 @@ However, it is then not ordinal anymore, so it is impossible to use these
 enums as an index type for arrays. The procedures `inc`, `dec`, `succ`
 and `pred` are not available for them either.
 {==+==}
-但是，它不再是序数，因此不可能将这些枚举用作数组的索引类型。 过程 `inc` , `dec`, `succ` 和 `pred` 对于它们不可用。
+但是，它不再是序数，因此不可能将这些枚举用作数组类型的索引。 过程 `inc` , `dec`, `succ` 和 `pred` 对于它们不可用。
 {==+==}
 
 
@@ -637,7 +617,7 @@ as `MyEnum.value`:
 
 
   echo valueA # MyEnum.valueA
-  echo amb    # 错误:不清楚它是MyEnum.amb还是OtherEnum.amb
+  echo amb    # 错误: 不确定它是MyEnum.amb还是OtherEnum.amb
   echo MyEnum.amb # OK.
   ```
 {==+==}
@@ -663,7 +643,7 @@ similar to a sequence of characters. However, strings in Nim are both
 zero-terminated and have a length field. One can retrieve the length with the
 builtin `len` procedure; the length never counts the terminating zero.
 {==+==}
-所有字符串字面值都是 `string` 类型。 Nim中的字符串与字符序列非常相似。 但是，Nim中的字符串都是以零结尾的并且具有长度字段。 可以用内置的 `len` 过程检索长度;长度总是不会计算末尾的零。
+所有字符串字面值都是 `string` 类型。 Nim中的字符串与字符序列非常相似。 但是，Nim中的字符串都是以零结尾的并且具有长度字段。 可以用内置的 `len` 过程检索长度，长度总是不会计算末尾的零。
 {==+==}
 
 {==+==}
@@ -739,7 +719,7 @@ While `$p.name` can also be used, the `$` operation on a string does
 nothing. Note that we cannot rely on automatic conversion from an `int` to
 a `string` like we can for the `echo` proc.
 {==+==}
-虽然也可以使用`$p.name`，但`$`操作符不会对字符串做任何事情。 请注意，我们不能依赖于从 `int` 到 `string` 像`echo`过程一样自动转换。
+虽然也可以使用 `$p.name` ，但 `$` 操作符不会对字符串做任何事情。 请注意，我们不能依赖于从 `int` 到 `string` 像 `echo` 过程一样自动转换。
 {==+==}
 
 {==+==}
@@ -828,7 +808,7 @@ memory. For this reason, the implicit conversion will be removed in future
 releases of the Nim compiler. Certain idioms like conversion of a `const` string
 to `cstring` are safe and will remain to be allowed.
 {==+==}
-即使转换是隐式的，它也不是 *安全的* : 垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。 因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将 `const` 字符串转换为 `cstring` ，是安全的，并且仍将被允许。
+即使转换是隐式的，它也不是 *安全的* : 垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。 因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将 `const` 字符串转换为 `cstring` 是安全的，并且仍将被允许。
 {==+==}
 
 {==+==}
@@ -1167,7 +1147,7 @@ type conversions in this context:
 In this example `$` is applied to any argument that is passed to the
 parameter `a`. (Note that `$` applied to strings is a nop.)
 {==+==}
-在这个例子中， `$` 应用于传递给参数 `a` 的任何参数。 (注意 `$` 对字符串是一个空操作。)
+在这个例子中， `$` 应用于传递给参数 `a` 的任意参数。 (注意 `$` 对字符串是一个空操作。)
 {==+==}
 
 {==+==}
@@ -1197,7 +1177,7 @@ not wrapped in another implicit array construction:
 of arbitrary type but *always* constructs an implicit array. This is required
 so that the builtin `echo` proc does what is expected:
 {==+==}
-`varargs[typed]` 被特别对待:它匹配任意类型的参数的变量列表，但 *始终* 构造一个隐式数组。这是必需的，因而内置的 `echo` 过程能够执行预期的操作:
+`varargs[typed]` 被特别对待: 它匹配任意类型的参数的变量列表，但 *始终* 构造一个隐式数组。这是必需的，只有这样内置的 `echo` 过程能够执行预期的操作:
 {==+==}
 
 {==+==}
@@ -1231,7 +1211,7 @@ are not checked. This is often useful to implement customized flexibly sized
 arrays. Additionally, an unchecked array is translated into a C array of
 undetermined size:
 {==+==}
-`UncheckedArray[T]` 类型是一种特殊的 `数组` ，编译器不检查它的边界。 这对于实现定制灵活大小的数组通常很有用。 另外，未检查数组可以这样转换为不确定大小的C数组:
+`UncheckedArray[T]` 类型是一种特殊的 `array` "数组"，编译器不检查它的边界。 这对于实现定制灵活大小的数组通常很有用。 另外，未检查数组可以这样转换为不确定大小的C数组:
 {==+==}
 
 {-----}
@@ -1271,7 +1251,7 @@ is currently not checked.
 there should be an explicit annotation of how the GC is to determine the
 runtime size of the array.
 {==+==}
-**未来方向**: 应该在未经检查的数组中允许GC内存，并且应该有一个关于GC如何确定数组的运行时大小的显式注释。
+**未来方向**: 应该在未检查的数组中允许GC内存，并且应该有一个关于GC如何确定数组的运行时大小的显式注解。
 {==+==}
 
 
@@ -1412,7 +1392,7 @@ the `instanceof` operator in Java.
   ```nim
   type
     Person = object of RootObj
-      name*: string   # *表示可以从其他模块访问`name`
+      name*: string   # *表示可以从其他模块访问 `name` 
       age: int        # 没有*表示该字段已隐藏
 
     Student = ref object of Person # 学生是人
@@ -1421,8 +1401,8 @@ the `instanceof` operator in Java.
   var
     student: Student
     person: Person
-  assert(student of Student) # 是真
-  assert(student of Person) # 也是真
+  assert(student of Student)  # 是真
+  assert(student of Person)   # 也是真
   ```
 {==+==}
 
@@ -1646,7 +1626,7 @@ new value must not lead to a change of the active object branch. Also, when the
 fields of a particular branch are specified during object construction, the
 corresponding discriminator value must be specified as a constant expression.
 {==+==}
-在示例中， `kind` 字段称为 `discriminator`:idx: “鉴别字段” \: 为安全起见，不能对其进行地址限制，并且对其赋值进行限制:新值不得导致活动对象分支发生变化。 此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
+在示例中， `kind` 字段称为 `discriminator`:idx: "鉴别字段" \: 为安全起见，不能对其进行地址限制，并且对其赋值进行限制: 新值不得导致活动对象分支发生变化。 此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
 {==+==}
 
 {==+==}
@@ -1900,7 +1880,7 @@ dereferencing operations for reference types:
     n: Node
   new(n)
   n.data = 9
-  # 不必写n[].data; 实际上 n[].data是非常不推荐的！
+  # 不必写n[].data; 非常不推荐 n[].data！
   ```
 {==+==}
 
