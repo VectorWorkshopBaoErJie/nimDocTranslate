@@ -86,7 +86,7 @@ These integer types are pre-defined:
   suffix `'u` is of this type.
 {==+==}
 `uint`
-  通用的 `unsigned integer`:idx: 。它的大小取决于平台，并且与指针大小相同。 类型后缀为 `'u` 的整数字面值就是这种类型。
+  通用的 `unsigned integer`:idx:"无符号整数" 。它的大小取决于平台，并且与指针大小相同。 类型后缀为 `'u` 的整数字面值就是这种类型。
 {==+==}
 
 {==+==}
@@ -160,7 +160,7 @@ operation                meaning
 `Automatic type conversion`:idx: is performed in expressions where different
 kinds of integer types are used: the smaller type is converted to the larger.
 {==+==}
-不同类型的整型的表达式中，会执行`自动类型转换`:较小的类型转换为较大的类型。
+不同类型的整型的表达式中，会执行`Automatic type conversion`:idx: “自动类型转换” :较小的类型转换为较大的类型。
 {==+==}
 
 {==+==}
@@ -169,7 +169,7 @@ example `int32 -> int16`). A `widening type conversion`:idx: converts a
 smaller type to a larger type (for example `int16 -> int32`). In Nim only
 widening type conversions are *implicit*:
 {==+==}
-`Automatic type conversion`:idx: 将较大的类型转换为较小的类型(比如 `int32 -> int16` ) ， `widening type conversion`:idx: 将较小的类型转换为较大的类型(比如`int16 -> int32`) ，Nim中仅有扩展类型转型是 *隐式的* :
+`Automatic type conversion`:idx:“自动类型转换” 将较大的类型转换为较小的类型(比如 `int32 -> int16` ) ， `widening type conversion`:idx: "扩大类型转换" 将较小的类型转换为较大的类型(比如`int16 -> int32`) ，Nim中仅有扩展类型转型是 *隐式的* :
 {==+==}
 
 
@@ -343,14 +343,14 @@ Nim exceptions: `FloatInvalidOpDefect`:idx:, `FloatDivByZeroDefect`:idx:,
 and `FloatInexactDefect`:idx:.
 These exceptions inherit from the `FloatingPointDefect`:idx: base class.
 {==+==}
-IEEE异常在执行期间被忽略或映射到Nim异常: `FloatInvalidOpDefect` , `FloatDivByZeroDefect` , `FloatOverflowDefect` , `FloatUnderflowDefect` , 和 `FloatInexactDefect` 。 这些异常继承自 `FloatingPointDefect` 基类。
+IEEE异常在执行期间被忽略或映射到Nim异常: `FloatInvalidOpDefect`:idx: "浮点数无效缺陷" , `FloatDivByZeroDefect`:idx: "浮点数除零缺陷" , `FloatOverflowDefect`:idx: "浮点数溢出缺陷" , `FloatUnderflowDefect`:idx: "浮点数下溢缺陷" , 和 `FloatInexactDefect`:idx: “浮点数不精确缺陷” 。 这些异常继承自 `FloatingPointDefect`:idx: "浮点数缺陷" 基类。
 {==+==}
 
 {==+==}
 Nim provides the pragmas `nanChecks`:idx: and `infChecks`:idx: to control
 whether the IEEE exceptions are ignored or trap a Nim exception:
 {==+==}
-Nim提供了编译指示 `nanChecks` 和 `infChecks` 控制是否忽略IEEE异常或捕获Nim异常:
+Nim提供了编译指示 `nanChecks`:idx: 和 `infChecks`:idx: 控制是否忽略IEEE异常或捕获Nim异常:
 {==+==}
 
 {==+==}
@@ -380,7 +380,7 @@ combination of `nanChecks` and `infChecks` pragmas. `floatChecks` are
 turned off as default.
 {==+==}
 在当前的实现中，绝不会引发 `FloatDivByZeroError` 和 `FloatInexactError` 。 `FloatOverflowError` 取代了 `FloatDivByZeroError` 。 
-另有 floatChecks 编译指示用作 `nanChecks` 和 `infChecks` 的便捷方式。 `floatChecks` 默认关闭。
+另有 `floatChecks`:idx: 编译指示用作 `nanChecks` 和 `infChecks` 的便捷方式。 `floatChecks` 默认关闭。
 {==+==}
 
 {==+==}
@@ -413,7 +413,7 @@ The boolean type is named `bool`:idx: in Nim and can be one of the two
 pre-defined values `true` and `false`. Conditions in `while`,
 `if`, `elif`, `when`-statements need to be of type `bool`.
 {==+==}
-布尔类型在Nim中命名为 `bool` ，值为预定义( `true` 和 `false` )之一。 `while` , `if` , `elif` , `when` 中的状态需为 `bool` 类型.
+布尔类型在Nim中命名为 `bool`:idx: ，值为预定义( `true` 和 `false` )之一。 `while` , `if` , `elif` , `when` 中的状态需为 `bool` 类型.
 {==+==}
 
 {==+==}
@@ -517,6 +517,7 @@ Now the following holds::
   # Also allowed:
   ord(Direction.west) == 3
 {==+==}
+```
   ord(north) == 0
   ord(east) == 1
   ord(south) == 2
@@ -524,6 +525,7 @@ Now the following holds::
 
   # 也允许:
   ord(Direction.west) == 3
+```
 {==+==}
 
 {==+==}
@@ -1069,7 +1071,7 @@ a compatible base type can be passed to an open array parameter, the index
 type does not matter. In addition to arrays, sequences can also be passed
 to an open array parameter.
 {==+==}
-通常，固定大小的数组太不灵活了，程序应该能够处理不同大小的数组。 `开放数组` 类型只能用于参数。 开放数组总是从位置0开始用 `int` 索引。 `len`，`low` 和 `high` 操作也可用于开放数组。 具有兼容基类型的任何数组都可以传递给开放数组形参，无关索引类型。 除了数组之外，还可以将序列传递给开放数组参数。
+通常，固定大小的数组太不灵活了，程序应该能够处理不同大小的数组。 `openarray`:idx: "开放数组" 类型只能用于参数。 开放数组总是从位置0开始用 `int` 索引。 `len`，`low` 和 `high` 操作也可用于开放数组。 具有兼容基类型的任何数组都可以传递给开放数组形参，无关索引类型。 除了数组之外，还可以将序列传递给开放数组参数。
 {==+==}
 
 {==+==}
@@ -1479,7 +1481,7 @@ Objects can also be created with an `object construction expression`:idx: that
 has the syntax `T(fieldA: valueA, fieldB: valueB, ...)` where `T` is
 an `object` type or a `ref object` type:
 {==+==}
-对象也可以使用 `object construction expression`:idx: 创建, 即以下语法 `T(fieldA: valueA, fieldB: valueB, ...)` 其中 `T` 是 `object` 类型或 `ref object` 类型:
+对象也可以使用 `object construction expression`:idx: "对象构建表达式" 创建, 即以下语法 `T(fieldA: valueA, fieldB: valueB, ...)` 其中 `T` 是 `object` 类型或 `ref object` 类型:
 {==+==}
 
 {==+==}
@@ -1644,7 +1646,7 @@ new value must not lead to a change of the active object branch. Also, when the
 fields of a particular branch are specified during object construction, the
 corresponding discriminator value must be specified as a constant expression.
 {==+==}
-在示例中， `kind` 字段称为 `discriminator`:idx:\:  鉴别字段，为安全起见，不能对其进行地址限制，并且对其赋值进行限制:新值不得导致活动对象分支发生变化。 此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
+在示例中， `kind` 字段称为 `discriminator`:idx: “鉴别字段” \: 为安全起见，不能对其进行地址限制，并且对其赋值进行限制:新值不得导致活动对象分支发生变化。 此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
 {==+==}
 
 {==+==}
@@ -1833,7 +1835,7 @@ References (similar to pointers in other programming languages) are a
 way to introduce many-to-one relationships. This means different references can
 point to and modify the same location in memory (also called `aliasing`:idx:).
 {==+==}
-引用(类似于其他编程语言中的指针)是引入多对一关系的一种方式。 这意味着不同的引用可以指向并修改内存中的相同位置(也称为 `aliasing`:idx: 别名)。
+引用(类似于其他编程语言中的指针)是引入多对一关系的一种方式。 这意味着不同的引用可以指向并修改内存中的相同位置(也称为 `aliasing`:idx: "别名")。
 {==+==}
 
 {==+==}
@@ -1844,7 +1846,7 @@ manually allocated objects or objects somewhere else in memory. Thus,
 untraced references are *unsafe*. However, for certain low-level operations
 (accessing the hardware) untraced references are unavoidable.
 {==+==}
-Nim区分 `traced`:idx: 、`untraced`:idx: 追踪和未追踪引用。 未追踪引用也叫 *指针* 。 追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。 因此，未追踪引用是 *不安全* 的。 然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
+Nim区分 `traced`:idx: "追踪"、`untraced`:idx: "未追踪" 引用。 未追踪引用也叫 *指针* 。 追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。 因此，未追踪引用是 *不安全* 的。 然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
 {==+==}
 
 {==+==}
