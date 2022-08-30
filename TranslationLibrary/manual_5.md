@@ -90,7 +90,7 @@ location is derived from the second parameter (called
 'container' in this case). The syntax `var T from p` specifies a type
 `varTy[T, 2]` which is incompatible with `varTy[T, 1]`.
 {==+==}
-`var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例中称为“contaner”)。
+`var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例中称为 'contaner' )。
 `var T from p` 语句指定了类型 `varTy[T, 2]` ，它不能与 `varTy[T, 1]` 类型兼容。
 {==+==}
 
@@ -128,7 +128,7 @@ NRVO 指的是对 `p` 内部 `result` 的操作会直接影响 `let/var dest = p
 {==+==}
 Informally:
 {==+==}
-不太正式的示例: 
+不太正式的示例:
 {==+==}
 
 {==+==}
@@ -204,7 +204,7 @@ However, the current implementation produces a warning in these cases.
 There are different ways to deal with this warning:
 {==+==}
 然而，在这种情况下，当前版本的实现会提出警告。
-处理这种警告有多种方法: 
+有多种方法处理这种警告:
 {==+==}
 
 {==+==}
@@ -454,7 +454,7 @@ of a container. It relies on an `iterator`:idx: to do so. Like `while`
 statements, `for` statements open an `implicit block`:idx: so that they
 can be left with a `break` statement.
 {==+==}
-`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于迭代器 `iterator`:idx: 来实现。与 `while` 语句类似，`for` 语句打开了一个 `implicit block`:idx: ，这样可以与 `break` 语句搭配。
+`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于 `iterator`:idx: "迭代器"来实现。与 `while` 语句类似，`for` 语句打开了一个 `implicit block`:idx: "隐式代码块"，这样可以与 `break` 语句搭配。
 {==+==}
 
 {==+==}
@@ -506,7 +506,7 @@ state are automatically saved between calls. Example:
 {==+==}
 The compiler generates code as if the programmer had written this:
 {==+==}
-编译器会生成如下代码，就像是开发者写的代码一样: 
+编译器会生成如下代码，就像是开发者写的代码一样:
 {==+==}
 
 {-----}
@@ -542,7 +542,7 @@ has exactly 1 variable, the for loop expression is rewritten to `items(e)`;
 i.e. an `items` iterator is implicitly invoked:
 {==+==}
 如果循环表达式 `e` 不显式指定使用迭代器并且循环只迭代一个变量，则循环表达式会被重写为 `items(e)` ；
-即 `items` 迭代器会被隐式调用: 
+即 `items` 迭代器会被隐式调用:
 {==+==}
 
 {-----}
@@ -582,7 +582,7 @@ leading to zero overhead for the abstraction, but may result in a heavy
 increase in code size.
 {==+==}
 Nim 中有两种迭代器: *inline* (内联)和 *closure* (闭包)迭代器。
-`inline iterator`:idx: 内联迭代器指总是被编译器内联优化的迭代器，这样在运行时解释抽象的同时不需要付出额外的代价(零成本抽象)，但可能会导致代码体积大大增加。
+`inline iterator`:idx: "内联迭代器"指总是被编译器内联优化的迭代器，实现零成本抽象(在运行时解释抽象的同时不需要付出额外的代价)，但可能会导致代码体积大大增加。
 {==+==}
 
 {==+==}
@@ -605,7 +605,7 @@ templates, macros, and other inline iterators.
 {==+==}
 In contrast to that, a `closure iterator`:idx: can be passed around more freely:
 {==+==}
-相反， `closure iterator`:idx: 闭包迭代器则可以更自由传递:
+相反， `closure iterator`:idx: "闭包迭代器"则可以更自由传递:
 {==+==}
 
 {-----}
@@ -630,7 +630,7 @@ In contrast to that, a `closure iterator`:idx: can be passed around more freely:
 {==+==}
 Closure iterators and inline iterators have some restrictions:
 {==+==}
-闭包迭代器和内联迭代器都有一些限制: 
+闭包迭代器和内联迭代器都有一些限制:
 {==+==}
 
 {==+==}
@@ -653,7 +653,7 @@ Iterators that are neither marked `{.closure.}` nor `{.inline.}` explicitly
 default to being inline, but this may change in future versions of the
 implementation.
 {==+==}
-如果不使用 `{.closure.}` 或 `{.inline.}` 显式标记迭代器，则默认为内联迭代器。但是将来的版本可能会改动。 
+如果不使用 `{.closure.}` 或 `{.inline.}` 显式标记迭代器，则默认为内联迭代器。但是将来的版本可能会改动。
 {==+==}
 
 {==+==}
@@ -661,7 +661,7 @@ The `iterator` type is always of the calling convention `closure`
 implicitly; the following example shows how to use iterators to implement
 a `collaborative tasking`:idx: system:
 {==+==}
-`iterator` 类型通常约定隐式使用 `closure` 闭包迭代器; 下面的例子展示了如何实现一个 `collaborative tasking`:idx: 系统: 
+`iterator` 类型通常约定隐式使用 `closure` 闭包迭代器; 下面的例子展示了如何实现一个 `collaborative tasking`:idx: "协作任务"系统:
 {==+==}
 
 {-----}
@@ -893,7 +893,7 @@ would. For example:
 {==+==}
 See also see `iterable <#overloading-resolution-iterable>`_ for passing iterators to templates and macros.
 {==+==}
-关于如果给模板和宏传递迭代器，可以看这一节 `iterable <#overloading-resolution-iterable>`_ 。
+关于如果给模板和宏传递迭代器，可以看这一节 `迭代器 <#overloading-resolution-iterable>`_ 。
 {==+==}
 
 {==+==}
@@ -909,7 +909,7 @@ A converter is like an ordinary proc except that it enhances
 the "implicitly convertible" type relation (see `Convertible relation
 <#type-relations-convertible-relation>`_):
 {==+==}
-转换器就像普通的过程，只不过它增强了“隐式可转换”类型关系 (参见`Convertible relation <#type-relations-convertible-relation>`_ )
+转换器就像普通的过程，只不过它增强了“隐式可转换”类型关系 (参见`转换关系 <#type-relations-convertible-relation>`_ )
 {==+==}
 
 {==+==}
@@ -953,7 +953,7 @@ Type 段
 {==+==}
 Example:
 {==+==}
-例子: 
+例子:
 {==+==}
 
 {==+==}
@@ -1067,7 +1067,7 @@ listed in an `except` clause, the corresponding statements are executed.
 The statements following the `except` clauses are called
 `exception handlers`:idx:.
 {==+==}
-除非有异常 `e` 抛出，否则 `try` 之后的语句顺序执行。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: 。
+除非有异常 `e` 抛出，否则 `try` 之后的语句顺序执行。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: "异常处理器"。
 {==+==}
 
 {==+==}
@@ -1108,7 +1108,7 @@ Try can also be used as an expression; the type of the `try` branch then
 needs to fit the types of `except` branches, but the type of the `finally`
 branch always has to be `void`:
 {==+==}
-try 也可以用作表达式; `try` 部分的类型需要兼容 `except` 部分的类型，但是 `finally` 部分只能是 `void` : 
+try 也可以用作表达式; `try` 部分的类型需要兼容 `except` 部分的类型，但是 `finally` 部分只能是 `void` :
 {==+==}
 
 {-----}
@@ -1148,7 +1148,7 @@ Except 子句
 Within an `except` clause it is possible to access the current exception
 using the following syntax:
 {==+==}
-在 `except` 子句中，可能需要使用下面的语法访问当前抛出的异常: 
+在 `except` 子句中，可能需要使用下面的语法访问当前抛出的异常:
 {==+==}
 
 {-----}
@@ -1183,7 +1183,7 @@ Note that `getCurrentException` always returns a `ref Exception`
 type. If a variable of the proper type is needed (in the example
 above, `IOError`), one must convert it explicitly:
 {==+==}
-注意， `getCurrentException` 总是返回 `ref Exception` 类型。如果需要使用具体类型(比如上面例子中的 `IOError`)的变量，则需要显式转换: 
+注意， `getCurrentException` 总是返回 `ref Exception` 类型。如果需要使用具体类型(比如上面例子中的 `IOError`)的变量，则需要显式转换:
 {==+==}
 
 {==+==}
@@ -1232,7 +1232,7 @@ Custom exceptions
 {==+==}
 It is possible to create custom exceptions. A custom exception is a custom type:
 {==+==}
-您可以创建自定义异常。自定义异常就是自定义类性: 
+您可以创建自定义异常。自定义异常就是自定义类性:
 {==+==}
 
 {-----}
@@ -1251,7 +1251,7 @@ Ending the custom exception's name with `Error` is recommended.
 {==+==}
 Custom exceptions can be raised just like any other exception, e.g.:
 {==+==}
-自定义异常可以像其他异常一样抛出， 例如: 
+自定义异常可以像其他异常一样抛出， 例如:
 {==+==}
 
 {-----}
@@ -1280,7 +1280,7 @@ below.
 Any statements following the `defer` in the current block will be considered
 to be in an implicit try block:
 {==+==}
-当前代码块中， `defer` 之后的任何语句都将考虑包裹在隐式 try 块中: 
+当前代码块中， `defer` 之后的任何语句都将考虑包裹在隐式 try 块中:
 {==+==}
 
 {-----}
@@ -1296,7 +1296,7 @@ to be in an implicit try block:
 {==+==}
 Is rewritten to:
 {==+==}
-会被编译器重写为: 
+会被编译器重写为:
 {==+==}
 
 {-----}
@@ -1315,7 +1315,7 @@ Is rewritten to:
 When `defer` is at the outermost scope of a template/macro, its scope extends
 to the block where the template is called from:
 {==+==}
-当 `defer` 位于最外层的模板/宏的作用域中时，它的作用域将延伸到模板被调用的代码块中: 
+当 `defer` 位于最外层的模板/宏的作用域中时，它的作用域将延伸到模板被调用的代码块中:
 {==+==}
 
 {==+==}
@@ -1411,7 +1411,7 @@ If no exception name is given, the current exception is `re-raised`:idx:. The
 re-raise. It follows that the `raise` statement *always* raises an
 exception.
 {==+==}
-如果没有给出异常的名称，则当前异常会 `re-raised`:idx: (重新抛出)。如果当前没有异常可以重新抛出，则会抛出 `ReraiseDefect`:idx: 异常。它遵循 `raise` 语句 *总是* 抛出异常的规则。
+如果没有给出异常的名称，则当前异常会 `re-raised`:idx: "重新抛出"。如果当前没有异常可以重新抛出，则会抛出 `ReraiseDefect`:idx: 异常。它遵循 `raise` 语句 *总是* 抛出异常的规则。
 {==+==}
 
 
@@ -1458,7 +1458,7 @@ It is possible to raise/catch imported C++ exceptions. Types imported using
 caught by reference. Example:
 {==+==}
 导入的 C++ 异常也可以抛出和捕获。使用 `importcpp` 导入的类型可以抛出和捕获。异常通过值抛出，通过引用捕获。
-例子如下: 
+例子如下:
 {==+==}
 
 {==+==}
@@ -1568,7 +1568,7 @@ Nim supports exception tracking. The `raises`:idx: pragma can be used
 to explicitly define which exceptions a proc/iterator/method/converter is
 allowed to raise. The compiler verifies this:
 {==+==}
-Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义哪些异常可以由 过程/迭代器/方法/转换器 抛出。编译期会验证如下代码: 
+Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义哪些异常可以由 过程/迭代器/方法/转换器 抛出。编译期会验证如下代码:
 {==+==}
 
 {-----}
@@ -1582,7 +1582,7 @@ Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义哪些异�
 {==+==}
 An empty `raises` list (`raises: []`) means that no exception may be raised:
 {==+==}
-空的 `raises` 列表(`raises: []`)意味着不允许抛出异常: 
+空的 `raises` 列表(`raises: []`)意味着不允许抛出异常:
 {==+==}
 
 {-----}
@@ -1601,7 +1601,7 @@ An empty `raises` list (`raises: []`) means that no exception may be raised:
 A `raises` list can also be attached to a proc type. This affects type
 compatibility:
 {==+==}
-`raises` 列表也可以附加到过程类型上。这会影响类型兼容性: 
+`raises` 列表也可以附加到过程类型上。这会影响类型兼容性:
 {==+==}
 
 {-----}
@@ -1623,7 +1623,7 @@ compatibility:
 For a routine `p`, the compiler uses inference rules to determine the set of
 possibly raised exceptions; the algorithm operates on `p`'s call graph:
 {==+==}
-对于例程 `p` 来说，编译器使用推断规则来判断可能引发的异常; 算法在 `p` 的调用图上运行: 
+对于例程 `p` 来说，编译器使用推断规则来判断可能引发的异常; 算法在 `p` 的调用图上运行:
 {==+==}
 
 {==+==}
@@ -1667,7 +1667,7 @@ the `.raises: []` exception tracking mechanism. This is more consistent with the
 built-in operations. The following code is valid:
 {==+==}
 继承自 `system.Defect` 的异常不会根据 `.raises: []` 异常跟踪机制跟踪。这跟内置的运算符保持一致。
-下面的代码是合理的: 
+下面的代码是合法的:
 {==+==}
 
 {==+==}
@@ -1685,7 +1685,7 @@ built-in operations. The following code is valid:
 {==+==}
 And so is:
 {==+==}
-同理，下面的代码 也是合理的: 
+同理，下面的代码 也是合理的:
 {==+==}
 
 {-----}
@@ -1702,7 +1702,7 @@ The reason for this is that `DivByZeroDefect` inherits from `Defect` and
 with `--panics:on`:option: Defects become unrecoverable errors.
 (Since version 1.4 of the language.)
 {==+==}
-因为 `DivByZeroDefect` 继承自 `Defect` 并且已添加 `--panics:on`:option: 选项，所以异常变成无法修复还原的错误。(自从 Nim 1.4 开始支持) 
+因为 `DivByZeroDefect` 继承自 `Defect` 并且已添加 `--panics:on`:option: 选项，所以异常变成无法修复还原的错误。(自从 Nim 1.4 开始支持)
 {==+==}
 
 
@@ -1718,7 +1718,7 @@ EffectsOf 编译指示
 Rules 1-2 of the exception tracking inference rules (see the previous section)
 ensure the following works:
 {==+==}
-异常追踪(之前的小节)的第一条与第二条异常推断规则确保以下代码正常工作: 
+异常追踪(之前的小节)的第一条与第二条异常推断规则确保以下代码正常工作:
 {==+==}
 
 {==+==}
@@ -1760,7 +1760,7 @@ that `callback` raises.
 So in many cases a callback does not cause the compiler to be overly
 conservative in its effect analysis:
 {==+==}
-所以在很多场景中，callback 并不会导致编译器在 effect 分析中过于保守: 
+所以在很多场景中，callback 并不会导致编译器在 effect 分析中过于保守:
 {==+==}
 
 {==+==}
@@ -1830,7 +1830,7 @@ Exception tracking is part of Nim's `effect system`:idx:. Raising an exception
 is an *effect*. Other effects can also be defined. A user defined effect is a
 means to *tag* a routine and to perform checks against this tag:
 {==+==}
-异常追踪是 Nim `effect system`:idx: 的一部分。抛出异常是一个 *effect* 。当然可以定义其他 effect 。用户定义的 effect 是对例程打上一个 *tag* 并检查这个 tag : 
+异常追踪是 `effect system`:idx: "Effect 系统"的一部分。抛出异常是一个 *effect* 。当然可以定义其他 effect 。自定义 effect 是对例程打上 *tag* 和检查这个 tag 的一种方式:
 {==+==}
 
 {==+==}
@@ -1848,7 +1848,7 @@ means to *tag* a routine and to perform checks against this tag:
   proc readLine(): string {.tags: [IO].} = discard
 
   proc no_effects_please() {.tags: [].} =
-    # 编译器会阻止下面代码通过编译:
+    # 下面代码不能通过编译:
     let x = readLine()
   ```
 {==+==}
@@ -1871,7 +1871,7 @@ tag 跟踪的推断规则与异常追踪的推断规则类型。
 {==+==}
 There is also a way which can be used to forbid certain effects:
 {==+==}
-也有几种方式可以禁用某些effect:
+也有几种方式可以禁用某些 effect :
 {==+==}
 
 {==+==}
@@ -1911,7 +1911,7 @@ Procedure types with any disallowed effect are the subtypes of equal
 procedure types without such lists:
 {==+==}
 `forbids` 编译指示定义了一个非法 effect 的列表。如果任何语句调用这些 effect ，则编译会失败。
-带有非法 effect 的过程类型是原(没有非法 effect )过程类型的子类型: 
+带有非法 effect 的过程类型是原(没有非法 effect )过程类型的子类型:
 {==+==}
 
 {==+==}
