@@ -164,7 +164,7 @@ won't work:
   foo.get_x().add("asd")
   ```
 {==+==}
-    ```nim
+  ```nim
   type
     Foo = ref object
       x: seq[string]
