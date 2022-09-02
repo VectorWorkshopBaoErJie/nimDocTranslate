@@ -95,8 +95,8 @@ type `system.ForLoopStmt` can rewrite the entirety of a `for` loop:
 
   macro example(loop: ForLoopStmt) =
     result = newTree(nnkForStmt)    # 创建一个新的 For 循环。
-    result.add loop[^3]             # 这是“item”。
-    result.add loop[^2][^1]         # 这是“[1, 2, 3]”。
+    result.add loop[^3]             # 这是 "item" 。
+    result.add loop[^2][^1]         # 这是 "[1, 2, 3]" 。
     result.add newCall(bindSym"echo", loop[0])
 
   for item in example([1, 2, 3]): discard
@@ -266,7 +266,7 @@ for tuples, leveraging the existing equality operator for tuples
 of the first argument of the `case` macro. Then the complete `case`
 statement is passed in place of the argument and the macro is evaluated.
 {==+==}
-重载解析会处理 `case` 宏:`case` 宏的第一个参数的类型用来匹配 `case` 语句选择器表达式的类型。
+重载解析会处理 `case` 宏: `case` 宏的第一个参数的类型用来匹配 `case` 语句选择器表达式的类型。
 然后整个 `case` 语句被填入这个参数并对宏求值。
 {==+==}
 
@@ -384,25 +384,19 @@ expression by coercing it to a corresponding `static` type:
 把表达式强制转换成对应的 `static` 类型可以强制其像常数表达式一样在编译期就进行求值。
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   import std/math
 
   echo static(fac(5)), " ", static[bool](16.isPowerOfTwo)
   ```
-{==+==}
-  ```nim
-  import std/math
-
-  echo static(fac(5)), " ", static[bool](16.isPowerOfTwo)
-  ```
-{==+==}
+{-----}
 
 {==+==}
 The compiler will report any failure to evaluate the expression or a
 possible type mismatch error.
 {==+==}
-编译器会报告表达式求值或者类型匹配中遇到的任何失败。
+编译器将报告表达式求值失败或可能的类型不匹配错误。
 {==+==}
 
 {==+==}
@@ -428,7 +422,7 @@ all values must have a type, `typedesc` is considered their special type.
 generic param is omitted, `typedesc` denotes the type class of all types.
 As a syntactic convenience, one can also use `typedesc` as a modifier.
 {==+==}
-`typedesc` 像一种泛型类。比如，符号 `int` 的类型是 `typedesc[int]`。就像普通泛型类一样，
+`typedesc` 像一种泛型类。比如，符号 `int` 的类型是 `typedesc[int]` 。就像普通泛型类一样，
 省略了泛型参数的 `typedesc` 代表所有类型的类型类。作为一种语法糖，`typedesc` 也可用作修饰符。
 {==+==}
 
@@ -442,7 +436,7 @@ the bound concrete type:
 在函数体内，每个参数的名字都指代所绑定的具体的类型:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   proc new(T: typedesc): ref T =
     echo "allocating ", T.name
@@ -451,16 +445,7 @@ the bound concrete type:
   var n = Node.new
   var tree = new(BinaryTree[int])
   ```
-{==+==}
-  ```nim
-  proc new(T: typedesc): ref T =
-    echo "allocating ", T.name
-    new(result)
-
-  var n = Node.new
-  var tree = new(BinaryTree[int])
-  ```
-{==+==}
+{-----}
 
 {==+==}
 When multiple type params are present, they will bind freely to different
@@ -469,15 +454,11 @@ types. To force a bind-once behavior, one can use an explicit generic param:
 当存在多个类型参数时，它们可以自由地绑定到不同的类型。使用显式泛型参数可只允许单次绑定:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   proc acceptOnlyTypePairs[T, U](A, B: typedesc[T]; C, D: typedesc[U])
   ```
-{==+==}
-  ```nim
-  proc acceptOnlyTypePairs[T, U](A, B: typedesc[T]; C, D: typedesc[U])
-  ```
-{==+==}
+{-----}
 
 {==+==}
 Once bound, type params can appear in the rest of the proc signature:
@@ -586,7 +567,7 @@ typeof 运算符
 **Note**: `typeof(x)` can for historical reasons also be written as
 `type(x)` but `type(x)` is discouraged.
 {==+==}
-**注意**: 由于历史原因 `typeof(x)` 也可写作 `type(x)`，但是不鼓励这种写法。
+**注意**: 由于历史原因 `typeof(x)` 也可写作 `type(x)` ，但是不鼓励这种写法。
 {==+==}
 
 {==+==}
@@ -660,10 +641,10 @@ subtle. Only top-level symbols that are marked with an asterisk (`*`) are
 exported. A valid module name can only be a valid Nim identifier (and thus its
 filename is ``identifier.nim``).
 {==+==}
-依靠模块概念 Nim 支持将程序拆分成小块。每个模块单独一个文件，有其独立的 `命名空间`:idx:。
-模块为 `信息隐藏`:idx: 和 `独立编译`:idx: 提供了可能。一个模块可以通过 `import`:idx:
-语句访问另一个模块里的符号。允许 `递归模块依赖`:idx:，但是略微复杂。只会导出带了星号(`*`)标记的顶层符号。
-只有合法的 Nim 标识符才能作为模块名(所以对应的文件名是 ``identifier.nim``)。
+依靠模块概念 Nim 支持将程序拆分成小块。每个模块单独一个文件，有其独立的 `namespace`:idx: "命名空间"。
+模块为 `information hiding`:idx: "信息隐藏"和 `separate compilation`:idx: "独立编译"提供了可能。一个模块可以通过 `import`:idx:
+语句访问另一个模块里的符号。允许 `Recursive module dependencies`:idx: "递归模块依赖"，但是略微复杂。只会导出带了星号( `*` )标记的顶层符号。
+只有合法的 Nim 标识符才能作为模块名(所以对应的文件名是 ``identifier.nim`` )。
 {==+==}
 
 {==+==}
@@ -796,19 +777,15 @@ The `include` statement does something fundamentally different than
 importing a module: it merely includes the contents of a file. The `include`
 statement is useful to split up a large module into several files:
 {==+==}
-`include` 语句所干的事情与导入模块截然不同:它只是把文件的内容包含进来而已。
+`include` 语句所干的事情与导入模块截然不同: 它只是把文件的内容包含进来而已。
 `include` 语句可用来把一个大模块切分成几个文件:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   include fileA, fileB, fileC
   ```
-{==+==}
-  ```nim
-  include fileA, fileB, fileC
-  ```
-{==+==}
+{-----}
 
 {==+==}
 The `include` statement can be used outside the top level, as such:
@@ -858,19 +835,13 @@ A module alias can be introduced via the `as` keyword:
 通过 `as` 关键字可为模块引入别名(原模块名就不可用了):
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   import std/strutils as su, std/sequtils as qu
 
   echo su.format("$1", "lalelu")
   ```
-{==+==}
-  ```nim
-  import std/strutils as su, std/sequtils as qu
-
-  echo su.format("$1", "lalelu")
-  ```
-{==+==}
+{-----}
 
 {==+==}
 The original module name is then not accessible. The notations
@@ -957,7 +928,7 @@ Pseudo import/include paths
 A directory can also be a so-called "pseudo directory". They can be used to
 avoid ambiguity when there are multiple modules with the same path.
 {==+==}
-路径也可以是所谓的“伪路径”。它们用来解决存在同名模块时的多义问题。
+路径也可以是所谓的 "pseudo directory" "伪路径"。它们用来解决存在同名模块时的多义问题。
 {==+==}
 
 {==+==}
@@ -975,7 +946,7 @@ There are two pseudo directories:
 
 1. `std`:`std` 这个伪路径代表了 Nim 标准库的抽象位置。例如，`import std / strutils` 可用来明确地导入标准库里的 `stutils` 模块。
 2. `pkg`:`pkg` 这个伪路径用来明确地指向 Nim 软件包。不过，其技术细节不在本文档的范围以内。
-    它的语义是:*使用搜索路径去查找模块名，但是忽略标准库所在位置*。换句话说，它是 `std` 的反面。
+  它的语义是: *使用搜索路径去查找模块名，但是忽略标准库所在位置* 。换句话说，它是 `std` 的反面。
 {==+==}
 
 {==+==}
@@ -997,7 +968,7 @@ After the `from` statement, a module name followed by
 an `import` to list the symbols one likes to use without explicit
 full qualification:
 {==+==}
-`from` 关键字后面是一个模块名，然后是 `import` 关键字，最后是符号列表。这个列表里的符号开发者不需要显式地全限定就能直接使用。
+`from` 关键字后面是一个模块名，然后是 `import` 关键字，最后是符号列表。这个列表里的符号，开发者不需要显式地全限定就能直接使用。
 {==+==}
 
 {==+==}
@@ -1023,7 +994,7 @@ It's also possible to use `from module import nil` if one wants to import
 the module but wants to enforce fully qualified access to every symbol
 in `module`.
 {==+==}
-如果要导入模块 `module`，又要强制以全限定的形式访问它的每一个符号，那么可以 `from module import nil`。
+如果要导入模块 `module` ，又要强制以全限定的形式访问它的每一个符号，那么可以 `from module import nil` 。
 {==+==}
 
 {==+==}
@@ -1102,17 +1073,13 @@ Notice that when exporting, one needs to specify only the module name:
 注意当导出时，只需要指定模块名:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   import foo/bar/baz
   export baz
   ```
-{==+==}
-  ```nim
-  import foo/bar/baz
-  export baz
-  ```
-{==+==}
+{-----}
+
 
 {==+==}
 Scope rules
@@ -1130,7 +1097,7 @@ identifier depends on the way it was declared.
 {==+==}
 ### Block scope
 {==+==}
-### 块(Block)作用域
+### 块作用域
 {==+==}
 
 {==+==}
@@ -1181,7 +1148,7 @@ the end of the module. Identifiers from indirectly dependent modules are *not*
 available. The `system`:idx: module is automatically imported in every module.
 {==+==}
 模块里的所有标识符从声明开始直到模块结束一直有效。间接依赖的模块里的标识符在本模块里 *不可用* 。
-每个模块都自动导入了系统模块(`system`:idx:)。
+每个模块都自动导入了 `system`:idx: "系统"模块。
 {==+==}
 
 {==+==}
@@ -1231,7 +1198,7 @@ iterator in which case the overloading resolution takes place:
   write(stdout, A.x) # 正确:加上限定后 x 的指代明确
 
   var x = 4
-  write(stdout, x) # 没有多义性:这是模块 C 自己的 x
+  write(stdout, x) # 没有多义性: 这是模块 C 自己的 x
   ```
 {==+==}
 
@@ -1252,14 +1219,14 @@ is assigned the package identifier: `unknown`.
 {==+==}
 对于根目录里有一个 ``identifier.nimble`` 文件的目录树，里面的那些模块被合称为一个 Nimble 包。
 ``identifier.nimble`` 这个文件名里的 ``identifier`` 就是包的名称，必须是合法的 Nim 标识符。
-对于没有与之关联的 ``.nimble`` 文件的模块，给它这么一个包名:`unknown`。
+对于没有与之关联的 ``.nimble`` 文件的模块，给它这么一个包名: `unknown` 。
 {==+==}
 
 {==+==}
 The distinction between packages allows diagnostic compiler messages to be
 scoped to the current project's package vs foreign packages.
 {==+==}
-包与包之间有了区分，就可以限制编译器输出的诊断信息的范围:仅限当前项目里的包，或者仅限项目外部的包。
+包与包之间有了区分，就可以限制编译器输出的诊断信息的范围: 仅限当前项目里的包，或者仅限项目外部的包。
 {==+==}
 
 {==+==}
@@ -1275,7 +1242,7 @@ The Nim compiler emits different kinds of messages: `hint`:idx:,
 `warning`:idx:, and `error`:idx: messages. An *error* message is emitted if
 the compiler encounters any static error.
 {==+==}
-Nim 编译器会输出不同类型的消息:提示(`hint`:idx:)，警告(`warning`:idx:)和错误(`error`:idx:)。
+Nim 编译器会输出不同类型的消息: `hint`:idx: "提示"，`warning`:idx: "警告"和 `error`:idx: "错误"。
 编译器遇到静态错误时会输出 *错误* 消息。
 {==+==}
 
@@ -1374,17 +1341,12 @@ Is the same as:
 与下面的代码一致:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   proc astHelper(n: NimNode): NimNode {.compileTime.} =
     result = n
   ```
-{==+==}
-  ```nim
-  proc astHelper(n: NimNode): NimNode {.compileTime.} =
-    result = n
-  ```
-{==+==}
+{-----}
 
 {==+==}
 `compileTime` variables are available at runtime too. This simplifies certain
@@ -1395,7 +1357,7 @@ but accessed at runtime:
 在运行时访问——这轻而易举:
 {==+==}
 
-{==+==}
+{-----}
   ```nim  test = "nim c -r $1"
   import std/macros
 
@@ -1415,27 +1377,7 @@ but accessed at runtime:
 
   doAssert nameToProc[2][1]() == "baz"
   ```
-{==+==}
-  ```nim  test = "nim c -r $1"
-  import std/macros
-
-  var nameToProc {.compileTime.}: seq[(string, proc (): string {.nimcall.})]
-
-  macro registerProc(p: untyped): untyped =
-    result = newTree(nnkStmtList, p)
-
-    let procName = p[0]
-    let procNameAsStr = $p[0]
-    result.add quote do:
-      nameToProc.add((`procNameAsStr`, `procName`))
-
-  proc foo: string {.registerProc.} = "foo"
-  proc bar: string {.registerProc.} = "bar"
-  proc baz: string {.registerProc.} = "baz"
-
-  doAssert nameToProc[2][1]() == "baz"
-  ```
-{==+==}
+{-----}
 
 {==+==}
 noreturn pragma
@@ -1460,7 +1402,7 @@ acyclic 编译指示
 这个信息是一种 **优化** ，有了这个信息垃圾回收器不再需要考虑这个类的对象构成环的情况:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   type
     Node = ref NodeObj
@@ -1468,15 +1410,7 @@ acyclic 编译指示
       left, right: Node
       data: string
   ```
-{==+==}
-  ```nim
-  type
-    Node = ref NodeObj
-    NodeObj {.acyclic.} = object
-      left, right: Node
-      data: string
-  ```
-{==+==}
+{-----}
 
 {==+==}
 Or if we directly use a ref object:
@@ -1484,21 +1418,14 @@ Or if we directly use a ref object:
 我们也可以直接使用引用对象类型:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   type
     Node {.acyclic.} = ref object
       left, right: Node
       data: string
   ```
-{==+==}
-  ```nim
-  type
-    Node {.acyclic.} = ref object
-      left, right: Node
-      data: string
-  ```
-{==+==}
+{-----}
 
 {==+==}
 In the example, a tree structure is declared with the `Node` type. Note that
@@ -1526,7 +1453,7 @@ cannot be inherited from. Note that inheritance is only available for
 objects that inherit from an existing object (via the `object of SuperType`
 syntax) or that have been marked as `inheritable`.
 {==+==}
-`final` 编译指示用来指示一个对象类型不能被继承。注意只能继承那些继承自已有对象类型的类型(通过 `object of 超类型` 语法)
+`final` 编译指示用来指示一个对象类型不能被继承。注意只能继承那些继承自已有对象类型的类型(通过 `object of SuperType` 语法)
 或者标注了 `inheritable` 的类型。
 {==+==}
 
@@ -1546,12 +1473,12 @@ because the semantics of Nim require deep copying of sequences and strings.
 This can be expensive, especially if sequences are used to build a tree
 structure:
 {==+==}
-`shallow` 编译指示影响类型的语义:允许编译器进行浅拷贝。这会导致严重的语义问题，破坏内存安全！
+`shallow` 编译指示影响类型的语义: 允许编译器进行浅拷贝。这会导致严重的语义问题，破坏内存安全！
 但是，它也可以大幅度提高赋值的速度，因为 Nim 的语义要求对序列和字符串做深拷贝。深拷贝代价高昂，
 尤其是用序列来构造树形结构的时候:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   type
     NodeKind = enum nkLeaf, nkInner
@@ -1562,18 +1489,7 @@ structure:
       of nkInner:
         children: seq[Node]
   ```
-{==+==}
-  ```nim
-  type
-    NodeKind = enum nkLeaf, nkInner
-    Node {.shallow.} = object
-      case kind: NodeKind
-      of nkLeaf:
-        strVal: string
-      of nkInner:
-        children: seq[Node]
-  ```
-{==+==}
+{-----}
 
 {==+==}
 pure pragma
@@ -1596,7 +1512,7 @@ necessary for binary compatibility with other compiled languages.
 An enum type can be marked as `pure`. Then access of its fields always
 requires full qualification.
 {==+==}
-枚举类型可以标记为 `pure`。这样一来，访问其成员时总是需要使用全限定。
+枚举类型可以标记为 `pure` 。这样一来，访问其成员时总是需要使用全限定。
 {==+==}
 
 {==+==}
@@ -1614,16 +1530,15 @@ statements like `return result;` generated and the generated C function is
 declared as `__declspec(naked)`:c: or `__attribute__((naked))`:c: (depending on
 the used C compiler).
 {==+==}
-可以给过程加上 `asmNoStackFrame` 编译指示以告诉编译器不要为它生成栈帧。编译器同样也不会生成类似
-`return result;` 的退出语句。根据所用的 C 编译器，生成的 C 函数会被声明成 `__declspec(naked)`:c:
-或者 `__attribute__((naked))`:c:。
+可以给过程加上 `asmNoStackFrame` 编译指示以告诉编译器不要为它生成栈帧。编译器同样也不会生成类似`return result;` 的退出语句。
+根据所用的 C 编译器，生成的 C 函数会被声明成 `__declspec(naked)`:c: 或者 `__attribute__((naked))`:c: 。
 {==+==}
 
 {==+==}
 **Note**: This pragma should only be used by procs which consist solely of
 assembler statements.
 {==+==}
-**注意**:这个编译指示应该只用于完全由汇编语句构成的过程。
+**注意**: 这个编译指示应该只用于完全由汇编语句构成的过程。
 {==+==}
 
 {==+==}
@@ -1813,9 +1728,8 @@ values first so that the CPU's branch predictor has a good chance to succeed
 jump table for O(1) overhead but at the cost of a (very likely) pipeline
 stall.
 {==+==}
-在这个例子里，`0` 和 `1` 分支比其它情况更加常见。所以，生成的汇编代码应该首先测试这两个值以使 CPU
-的分支预测器有更大的几率预测成功(避免出现开销高昂的 CPU 流水线停滞)。其它的情况则可以放到跳转表里，
-其开销为 O(1)，但代价是一次(很可能出现的)流水线停滞。
+在这个例子里， `0` 和 `1` 分支比其它情况更加常见。所以，生成的汇编代码应该首先测试这两个值以使 CPU的分支预测器有更大的几率预测成功(避免出现开销高昂的 CPU 流水线停滞)。
+其它的情况则可以放到跳转表里，其开销为 O(1)，但代价是一次(很可能出现的)流水线停滞。
 {==+==}
 
 {==+==}
@@ -1823,8 +1737,7 @@ The `linearScanEnd` pragma should be put into the last branch that should be
 tested against via linear scanning. If put into the last branch of the
 whole `case` statement, the whole `case` statement uses linear scanning.
 {==+==}
-`linearScanEnd` 编译指示应该被到最后一个需要进行线性扫描的分支里。如果放到整个 `case` 语句最后那个分支里，
-那么整个 `case` 语句都会使用线性扫描。
+`linearScanEnd` 编译指示应该被到最后一个需要进行线性扫描的分支里。如果放到整个 `case` 语句最后那个分支里，那么整个 `case` 语句都会使用线性扫描。
 {==+==}
 
 {==+==}
@@ -1844,7 +1757,7 @@ Syntactically it has to be used as a statement inside the loop:
 这个编译指示在语法上必须是这个循环体里的一条语句:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   type
     MyEnum = enum
@@ -1878,49 +1791,14 @@ Syntactically it has to be used as a statement inside the loop:
 
   vm()
   ```
-{==+==}
-  ```nim
-  type
-    MyEnum = enum
-      enumA, enumB, enumC, enumD, enumE
-
-  proc vm() =
-    var instructions: array[0..100, MyEnum]
-    instructions[2] = enumC
-    instructions[3] = enumD
-    instructions[4] = enumA
-    instructions[5] = enumD
-    instructions[6] = enumC
-    instructions[7] = enumA
-    instructions[8] = enumB
-
-    instructions[12] = enumE
-    var pc = 0
-    while true:
-      {.computedGoto.}
-      let instr = instructions[pc]
-      case instr
-      of enumA:
-        echo "哦，A"
-      of enumC, enumD:
-        echo "啊，CD"
-      of enumB:
-        echo "呀，B"
-      of enumE:
-        break
-      inc(pc)
-
-  vm()
-  ```
-{==+==}
+{-----}
 
 {==+==}
 As the example shows, `computedGoto` is mostly useful for interpreters. If
 the underlying backend (C compiler) does not support the computed goto
 extension the pragma is simply ignored.
 {==+==}
-如例子所示，`computedGoto` 对于实现解释器非常有用。如果所使用的后端(C
-编译器)不支持计算跳转这个扩展功能，那么该编译指示被直接忽略。
+如例子所示，`computedGoto` 对于实现解释器非常有用。如果所使用的后端(C 编译器)不支持计算跳转这个扩展功能，那么该编译指示被直接忽略。
 {==+==}
 
 {==+==}
@@ -1935,7 +1813,7 @@ immediate 编译指示
 The immediate pragma is obsolete. See `Typed vs untyped parameters
 <#templates-typed-vs-untyped-parameters>`_.
 {==+==}
-`immediate` 编译指示已经淘汰。参考 `有类型 vs 无类型参数 <#templates-typed-vs-untyped-parameters>`_ .
+`immediate` 编译指示已经淘汰。参考 `Typed vs untyped parameters <#templates-typed-vs-untyped-parameters>`_ "有类型 vs 无类型参数" .
 {==+==}
 
 {==+==}
@@ -2058,7 +1936,7 @@ but are used to override the settings temporarily. Example:
 `push/pop`:idx: 能够开关一些来自标准库的编译指示，例如:
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   {.push inline.}
   proc thisIsInlined(): int = 42
@@ -2074,23 +1952,7 @@ but are used to override the settings temporarily. Example:
   proc sample(): bool = true
   {.pop.}
   ```
-{==+==}
-  ```nim
-  {.push inline.}
-  proc thisIsInlined(): int = 42
-  func willBeInlined(): float = 42.0
-  {.pop.}
-  proc notInlined(): int = 9
-
-  {.push discardable, boundChecks: off, compileTime, noSideEffect, experimental.}
-  template example(): string = "https://nim-lang.org"
-  {.pop.}
-
-  {.push deprecated, hint[LineTooLong]: off, used, stackTrace: off.}
-  proc sample(): bool = true
-  {.pop.}
-  ```
-{==+==}
+{-----}
 
 {==+==}
 For third party pragmas, it depends on its implementation but uses the same syntax.
@@ -2130,19 +1992,13 @@ global 编译提示
 可以给过程里的变量加上 `global` 编译提示，命令编译器把这个变量存储在全局位置，并且在程序启动时初始化一次。
 {==+==}
 
-{==+==}
+{-----}
   ```nim
   proc isHexNumber(s: string): bool =
     var pattern {.global.} = re"[0-9a-fA-F]+"
     result = s.match(pattern)
   ```
-{==+==}
-  ```nim
-  proc isHexNumber(s: string): bool =
-    var pattern {.global.} = re"[0-9a-fA-F]+"
-    result = s.match(pattern)
-  ```
-{==+==}
+{-----}
 
 {==+==}
 When used within a generic proc, a separate unique global variable will be
@@ -2166,7 +2022,7 @@ identifier that can be used to enable or disable it:
 {==+==}
 禁用某些消息
 ------------------------
-Nim 产生的某些警告和提示消息(如“line too long”)可能令人厌烦。为此提供了一种禁用消息的机制:
+Nim 产生的某些警告和提示消息(如"line too long")可能令人厌烦。为此提供了一种禁用消息的机制: 
 每条提示和警告消息都关联了一个符号。这个符号就是消息的标识符，把它放到编译指示后面的方括号里就可以使能或者禁用这条消息:
 {==+==}
 
@@ -2233,7 +2089,7 @@ is particularly useful when the symbol was generated by a macro:
 `used` can also be used as a top-level statement to mark a module as "used".
 This prevents the "Unused import" warning:
 {==+==}
-`used` 也可用作顶层语句，把模块标记为“已使用”。这样就可以抑制针对这个模块的“未使用的导入”这条警告:
+`used` 也可用作顶层语句，把模块标记为"已使用"。这样就可以抑制针对这个模块的"未使用的导入"这条警告:
 {==+==}
 
 {==+==}
