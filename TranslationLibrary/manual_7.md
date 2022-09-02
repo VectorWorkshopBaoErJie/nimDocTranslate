@@ -1436,7 +1436,7 @@ information that this cannot happen to the GC. If the programmer uses the
 in memory leaks, but memory safety is preserved.
 {==+==}
 这个例子里通过 `Node` 类型声明了一个树形结构。注意到这个类型的定义是递归的，GC 不得不考虑各对象可能构成一个有环图的情况。
-`acyclic` 编译指示告诉 GC 这不可能发生。如果程序员把 `acyclic` 编译指示赋予了实际上有环的数据类型，那么将导致内存泄露，但是不会破坏内存安全。
+`acyclic` 编译指示告知 GC 这不可能发生。如果程序员把 `acyclic` 编译指示赋予了实际上有环的数据类型，那么将导致内存泄露，但是不会破坏内存安全。
 {==+==}
 
 {==+==}
@@ -1530,7 +1530,7 @@ statements like `return result;` generated and the generated C function is
 declared as `__declspec(naked)`:c: or `__attribute__((naked))`:c: (depending on
 the used C compiler).
 {==+==}
-可以给过程加上 `asmNoStackFrame` 编译指示以告诉编译器不要为它生成栈帧。编译器同样也不会生成类似`return result;` 的退出语句。
+可以给过程加上 `asmNoStackFrame` 编译指示以告知编译器不要为它生成栈帧。编译器同样也不会生成类似`return result;` 的退出语句。
 根据所用的 C 编译器，生成的 C 函数会被声明成 `__declspec(naked)`:c: 或者 `__attribute__((naked))`:c: 。
 {==+==}
 
@@ -1693,7 +1693,7 @@ The `linearScanEnd` pragma can be used to tell the compiler how to
 compile a Nim `case`:idx: statement. Syntactically it has to be used as a
 statement:
 {==+==}
-`linearScanEnd` 编译指示用来告诉编译器如何处理 Nim `case`:idx: 语句。这个编译指示在语法上必须是一个语句:
+`linearScanEnd` 编译指示用来告知编译器如何处理 Nim `case`:idx: 语句。这个编译指示在语法上必须是一个语句:
 {==+==}
 
 {==+==}
@@ -1753,7 +1753,7 @@ The `computedGoto` pragma can be used to tell the compiler how to
 compile a Nim `case`:idx: in a `while true` statement.
 Syntactically it has to be used as a statement inside the loop:
 {==+==}
-`computedGoto` 编译指令告诉编译器如何编译嵌在 `while true` 语句里的 Nim `case`:idx: 语句。
+`computedGoto` 编译指令告知编译器如何编译嵌在 `while true` 语句里的 Nim `case`:idx: 语句。
 这个编译指示在语法上必须是这个循环体里的一条语句:
 {==+==}
 

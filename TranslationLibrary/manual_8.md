@@ -213,7 +213,7 @@ the C code. For example:
 {==+==}
 nodecl 编译指示
 ------------------------------
-`nodell` 编译指示可以应用于几乎任何标识符(变量、过程、类型等)。有时在与 C 的互操作上很有用: nodell编译指示会告诉Nim,不要生成在 C 代码中的标识符的声明。例如:
+`nodell` 编译指示可以应用于几乎任何标识符(变量、过程、类型等)。有时在与 C 的互操作上很有用: nodell编译指示会告知Nim,不要生成在 C 代码中的标识符的声明。例如:
 {==+==}
 
 {-----}
@@ -275,7 +275,7 @@ underlying C `struct`:c: in a `sizeof` expression:
 {==+==}
 IncompleteStruct 编译指示
 --------------------------------------------------
-`incompleteStruct` 编译指示告诉编译器不要在 `sizeof` 表达式中使用底层的 C `struct`:c: 。
+`incompleteStruct` 编译指示告知编译器不要在 `sizeof` 表达式中使用底层的 C `struct`:c: 。
 {==+==}
 
 {-----}

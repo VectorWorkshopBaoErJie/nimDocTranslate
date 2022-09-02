@@ -1544,7 +1544,7 @@ Nim区分 `traced`:idx: 、`untraced`:idx: 追踪和未追踪引用。 未追踪
   # 在垃圾回收(GC)堆上创建一个新的字符串:
   d.s = "abc"
 
-  # 告诉GC不再需要这个字符串:
+  # 告知GC不再需要这个字符串:
   reset(d.s)
 
   # 释放内存:
@@ -2714,7 +2714,7 @@ the same parameter names and types are used over and over. 替代:
   proc baz(c: Context; n: Node) = ...
   ```
 
-你可以告诉编译器一个名为 `c` 的参数默认类型为 `Context`, `n` 默认类型为`Node` :
+你可以告知编译器一个名为 `c` 的参数默认类型为 `Context`, `n` 默认类型为`Node` :
 
   ```nim
   using
@@ -5679,7 +5679,7 @@ acyclic 编译指示
   ```
 
 这个例子里通过 `Node` 类型声明了一个树形结构。注意到这个类型的定义是递归的，GC 不得不考虑各对象可能构成一个有环图的情况。
-`acyclic` 编译指示告诉 GC 这不可能发生。如果程序员把 `acyclic` 编译指示赋予了实际上有环的数据类型，那么将导致内存泄露，但是不会破坏内存安全。
+`acyclic` 编译指示告知 GC 这不可能发生。如果程序员把 `acyclic` 编译指示赋予了实际上有环的数据类型，那么将导致内存泄露，但是不会破坏内存安全。
 
 
 
@@ -5717,7 +5717,7 @@ pure 编译指示
 
 asmNoStackFrame 编译指示
 ------------------------------------------------
-可以给过程加上 `asmNoStackFrame` 编译指示以告诉编译器不要为它生成栈帧。编译器同样也不会生成类似
+可以给过程加上 `asmNoStackFrame` 编译指示以告知编译器不要为它生成栈帧。编译器同样也不会生成类似
 `return result;` 的退出语句。根据所用的 C 编译器，生成的 C 函数会被声明成 `__declspec(naked)`:c:
 或者 `__attribute__((naked))`:c:。
 
@@ -5773,7 +5773,7 @@ line 编译指示
 
 linearScanEnd 编译指示
 --------------------------------------------
-`linearScanEnd` 编译指示用来告诉编译器如何处理 Nim `case`:idx: 语句。这个编译指示在语法上必须是一个语句:
+`linearScanEnd` 编译指示用来告知编译器如何处理 Nim `case`:idx: 语句。这个编译指示在语法上必须是一个语句:
 
   ```nim
   case myInt

@@ -1538,7 +1538,7 @@ But the global symbol can properly be captured by a `bind` statement:
 Hygiene in templates
 --------------------
 {==+==}
-模板中的卫生
+"洁净"模板
 ------------------------
 {==+==}
 

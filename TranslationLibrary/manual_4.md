@@ -679,7 +679,7 @@ One can tell the compiler about the convention that a parameter of
 name `c` should default to type `Context`, `n` should default to
 `Node` etc.:
 {==+==}
-你可以告诉编译器一个名为 `c` 的参数默认类型为 `Context` , `n` 默认类型为 `Node` :
+你可以告知编译器一个名为 `c` 的参数默认类型为 `Context` , `n` 默认类型为 `Node` :
 {==+==}
 
 {==+==}

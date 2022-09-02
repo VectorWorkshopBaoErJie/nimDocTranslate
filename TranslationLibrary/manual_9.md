@@ -2,7 +2,7 @@
 Dynlib pragma for export
 ------------------------
 {==+==}
-用于导出的 Dynlib 编译标记
+Dynlib 编译指示应用于导出
 ------------------------------------------------
 {==+==}
 
@@ -11,8 +11,7 @@ With the `dynlib` pragma, a procedure can also be exported to
 a dynamic library. The pragma then has no argument and has to be used in
 conjunction with the `exportc` pragma:
 {==+==}
-一个使用了 `dynlib` 编译标记的过程，也能被导出为一个动态库。
-这样的话，那它不需要参数，但必须结合 `exportc` 标记来使用。
+一个使用了 `dynlib` 编译指示的过程，也能被导出为动态库。这样以来，它不需要参数，但必须结合 `exportc` 编译指示来使用:
 {==+==}
 
 {-----}
@@ -25,10 +24,8 @@ conjunction with the `exportc` pragma:
 This is only useful if the program is compiled as a dynamic library via the
 `--app:lib`:option: command-line option.
 {==+==}
-这个标记只在通过 `--app:lib`:option: 命令行参数，将程序编译为动态库时有用。
+这只有在程序通过 `--app:lib`:option: 命令行选项被编译为动态库时才有用。
 {==+==}
-
-
 
 {==+==}
 Threads
@@ -46,10 +43,8 @@ for the low-level thread API. There are also high-level parallelism constructs
 available. See `spawn <manual_experimental.html#parallel-amp-spawn>`_ for
 further details.
 {==+==}
-开启线程支持，需要启用 `--threads:on`:option: 。
-系统_ 模块包含了一系列的线程基元。
-要启用线程支持，需要使用 `--threads:on`:option: 命令行开关。system_模块包含几个线程基元。
-关于底层的线程API，请参阅 `channels <channels_builtin.html>`_ 模块。也有一些高级可用的并行结构，详情参阅 `spawn <manual_experimental.html#parallel-amp-spawn>`_ 。
+要启用线程支持，需要使用 `--threads:on`:option: 命令行开关。同时，system_模块包含几个线程基元。
+关于底层的线程API，请参阅 `channels <channels_builtin.html>`_ 模块。还有一些高层次的并行结构可用。详情请见 `spawn <manual_experimental.html#parallel-amp-spawn>`_ 。
 {==+==}
 
 {==+==}
@@ -88,8 +83,8 @@ violations of the `no heap sharing restriction`:idx:\: This restriction implies
 that it is invalid to construct a data structure that consists of memory
 allocated from different (thread-local) heaps.
 {==+==}
-出于可读性的考虑，作为新线程执行的程序应该用 `thread` 编译标记进行标记。
-编译器会检查是否违反了 `no heap sharing restriction`:idx:\: 
+出于可读性的考虑，作为新线程执行的程序应该用 `thread` 编译指示进行标记。
+编译器会检查是否违反了 `no heap sharing restriction`:idx:\: "无堆共享限制"
 这个限制意味着，无法构造由不同(线程本地)堆分配的内存组成的数据结构。
 {==+==}
 
@@ -98,10 +93,8 @@ A thread proc is passed to `createThread` or `spawn` and invoked
 indirectly; so the `thread` pragma implies `procvar`.
 {==+==}
 一个线程过程被传递给 `createThread` 或 `spawn` ，并被间接调用；
-因此，`thread` 编译标记等价于 `procvar`。
+因此，`thread` 编译指示等价于 `procvar` 。
 {==+==}
-
-
 
 {==+==}
 Threadvar pragma
@@ -116,8 +109,8 @@ A variable can be marked with the `threadvar` pragma, which makes it a
 `thread-local`:idx: variable; Additionally, this implies all the effects
 of the `global` pragma.
 {==+==}
-变量可以用 `threadvar` 编译标记来标记，这会使它成为 `线程本地`:idx: 变量；
-此外，这意味着 `global` 编译标记的所有效果。
+变量可以用 `threadvar` 编译指示来标记，这会使它成为 `thread-local`:idx: "线程本地"变量；
+此外，这意味着 `global` 编译指示的所有作用。
 {==+==}
 
 {-----}
@@ -133,7 +126,6 @@ be replicated at thread creation.)
 {==+==}
 由于实现的限制，本地线程变量不能在 `var` 块中初始化。(每个线程本地变量都需要在线程创建时复制。)
 {==+==}
-
 
 {==+==}
 Threads and exceptions
@@ -181,7 +173,7 @@ Nim 通过附带编译指示，显著地提高了这些功能的安全性:
 2) Every access of a guarded memory location needs to happen in an
    appropriate `locks`:idx: statement.
 {==+==}
-1) 引入 `guard`:idx: 注释，以防止数据竞争；
+1) 引入 `guard`:idx: 注解，以防止数据竞争。
 2) 每次访问受保护的内存位置，都需要在适当的 `locks`:idx: 语句中进行。
 {==+==}
 
@@ -302,7 +294,7 @@ explained in the `lock levels <#guards-and-locks-lock-levels>`_ section.
 {==+==}
 ### Protecting general locations
 {==+==}
-### 保护一般位置
+### 保护常规地址
 {==+==}
 
 {==+==}
@@ -310,7 +302,7 @@ The `guard` annotation can also be used to protect fields within an object.
 The guard then needs to be another field within the same object or a
 global variable.
 {==+==}
-`guard` 标注也可以用于保护对象中的字段。然后，需要用同一个对象或者全局变量中的另一个字段作为守卫。
+`guard` 注解也可以用于保护对象中的字段。然后，需要用同一个对象或者全局变量中的另一个字段作为守卫。
 {==+==}
 
 {==+==}
@@ -364,8 +356,8 @@ corresponds to the protected location `counters[i].v`. This analysis is called
 `path analysis`:idx: because it deals with paths to locations
 like `obj.field[i].fieldB[j]`.
 {==+==}
-有一个分析器，可以检查 `counters[i].L` 是否是对应受保护位置 `counters[i].v` 的锁。
-因为这个分析器能够处理像 `obj.field[i].fieldB[j]` 这样的位置的路径，所以我们叫它 `path analysis`:idx: 。
+有一个分析器，可以检查 `counters[i].L` 是否是对应受保护地址 `counters[i].v` 的锁。
+因为这个分析器能够处理像 `obj.field[i].fieldB[j]` 这样的地址的路径，所以我们叫它 `path analysis`:idx: "路径分析"。
 {==+==}
 
 {==+==}
