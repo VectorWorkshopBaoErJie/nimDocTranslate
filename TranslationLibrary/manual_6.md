@@ -154,7 +154,7 @@ See also:
 {==+==}
 
 {==+==}
-- `Shared heap memory management <mm.html>`_ 。
+- `Shared heap memory management <mm.html>`_.
 {==+==}
 - `Shared heap memory management <mm.html>`_ 。
 {==+==}

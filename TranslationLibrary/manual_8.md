@@ -284,7 +284,7 @@ nodecl 编译指示
   ```Nim
   var
     EACCES {.importc, nodecl.}: cint # pretend EACCES was a variable, as
-                                     # Nim 不知道他的值
+                                     # Nim does not know its value
   ```
 {==+==}
   ```Nim
@@ -1917,6 +1917,11 @@ The string literal passed to `exportc` can be a format string:
 传递给 `exportc` 可以是一个格式化的字符串:
 {==+==}
 
+{==+==}
+  ```Nim
+  proc p(s: string) {.exportc: "prefix$1".} =
+    echo s
+  ```
 {==+==}
   ```Nim
   proc p(s: string) {.exportc: "prefix$1".} =
