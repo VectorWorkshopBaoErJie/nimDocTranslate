@@ -109,12 +109,17 @@ Expands to:
 展开成:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   for item in items([1, 2, 3]):
     echo item
   ```
-{-----}
+{==+==}
+  ```nim
+  for item in items([1, 2, 3]):
+    echo item
+  ```
+{==+==}
 
 {==+==}
 Another example:
@@ -384,13 +389,19 @@ expression by coercing it to a corresponding `static` type:
 把表达式强制转换成对应的 `static` 类型可以强制其像常数表达式一样在编译期就进行求值。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import std/math
 
   echo static(fac(5)), " ", static[bool](16.isPowerOfTwo)
   ```
-{-----}
+{==+==}
+  ```nim
+  import std/math
+
+  echo static(fac(5)), " ", static[bool](16.isPowerOfTwo)
+  ```
+{==+==}
 
 {==+==}
 The compiler will report any failure to evaluate the expression or a
@@ -436,7 +447,7 @@ the bound concrete type:
 在函数体内，每个参数的名字都指代所绑定的具体的类型:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc new(T: typedesc): ref T =
     echo "allocating ", T.name
@@ -445,7 +456,16 @@ the bound concrete type:
   var n = Node.new
   var tree = new(BinaryTree[int])
   ```
-{-----}
+{==+==}
+  ```nim
+  proc new(T: typedesc): ref T =
+    echo "allocating ", T.name
+    new(result)
+
+  var n = Node.new
+  var tree = new(BinaryTree[int])
+  ```
+{==+==}
 
 {==+==}
 When multiple type params are present, they will bind freely to different
@@ -454,11 +474,15 @@ types. To force a bind-once behavior, one can use an explicit generic param:
 当存在多个类型参数时，它们可以自由地绑定到不同的类型。使用显式泛型参数可只允许单次绑定:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc acceptOnlyTypePairs[T, U](A, B: typedesc[T]; C, D: typedesc[U])
   ```
-{-----}
+{==+==}
+  ```nim
+  proc acceptOnlyTypePairs[T, U](A, B: typedesc[T]; C, D: typedesc[U])
+  ```
+{==+==}
 
 {==+==}
 Once bound, type params can appear in the rest of the proc signature:
@@ -466,14 +490,21 @@ Once bound, type params can appear in the rest of the proc signature:
 一旦绑定，类型参数就可以在函数签名剩余部分里出现:
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   template declareVariableWithType(T: typedesc, value: T) =
     var x: T = value
 
   declareVariableWithType int, 42
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  template declareVariableWithType(T: typedesc, value: T) =
+    var x: T = value
+
+  declareVariableWithType int, 42
+  ```
+{==+==}
 
 {==+==}
 Overload resolution can be further influenced by constraining the set
@@ -781,11 +812,15 @@ statement is useful to split up a large module into several files:
 `include` 语句可用来把一个大模块切分成几个文件:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   include fileA, fileB, fileC
   ```
-{-----}
+{==+==}
+  ```nim
+  include fileA, fileB, fileC
+  ```
+{==+==}
 
 {==+==}
 The `include` statement can be used outside the top level, as such:
@@ -835,13 +870,19 @@ A module alias can be introduced via the `as` keyword:
 通过 `as` 关键字可为模块引入别名(原模块名就不可用了):
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import std/strutils as su, std/sequtils as qu
 
   echo su.format("$1", "lalelu")
   ```
-{-----}
+{==+==}
+  ```nim
+  import std/strutils as su, std/sequtils as qu
+
+  echo su.format("$1", "lalelu")
+  ```
+{==+==}
 
 {==+==}
 The original module name is then not accessible. The notations
@@ -851,11 +892,15 @@ in subdirectories:
 使用 `path/to/module` 或者 `"path/to/module"` 这些写法来引用子目录里的模块:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import lib/pure/os, "lib/pure/times"
   ```
-{-----}
+{==+==}
+  ```nim
+  import lib/pure/os, "lib/pure/times"
+  ```
+{==+==}
 
 {==+==}
 Note that the module name is still `strutils` and not `lib/pure/strutils`,
@@ -864,12 +909,17 @@ thus one **cannot** do:
 注意模块名仍然是 `strutils` 而不是 `lib/pure/strutils`，所以 **不能** 这么干:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import lib/pure/strutils
   echo lib/pure/strutils.toUpperAscii("abc")
   ```
-{-----}
+{==+==}
+  ```nim
+  import lib/pure/strutils
+  echo lib/pure/strutils.toUpperAscii("abc")
+  ```
+{==+==}
 
 {==+==}
 Likewise, the following does not make sense as the name is `strutils` already:
@@ -877,11 +927,15 @@ Likewise, the following does not make sense as the name is `strutils` already:
 与之类似，因为模块名已经就是 `strutils` 了，所以下面的代码是不合理的:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import lib/pure/strutils as strutils
   ```
-{-----}
+{==+==}
+  ```nim
+  import lib/pure/strutils as strutils
+  ```
+{==+==}
 
 {==+==}
 Collective imports from a directory
@@ -1073,14 +1127,17 @@ Notice that when exporting, one needs to specify only the module name:
 注意当导出时，只需要指定模块名:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import foo/bar/baz
   export baz
   ```
-{-----}
-
-
+{==+==}
+  ```nim
+  import foo/bar/baz
+  export baz
+  ```
+{==+==}
 {==+==}
 Scope rules
 -----------
@@ -1281,13 +1338,17 @@ The deprecated pragma is used to mark a symbol as deprecated:
 deprecated 编译指示用来标记某符号已废弃:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc p() {.deprecated.}
   var x {.deprecated.}: char
   ```
-{-----}
-
+{==+==}
+  ```nim
+  proc p() {.deprecated.}
+  var x {.deprecated.}: char
+  ```
+{==+==}
 
 {==+==}
 This pragma can also take in an optional warning string to relay to developers.
@@ -1341,12 +1402,17 @@ Is the same as:
 与下面的代码一致:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc astHelper(n: NimNode): NimNode {.compileTime.} =
     result = n
   ```
-{-----}
+{==+==}
+  ```nim
+  proc astHelper(n: NimNode): NimNode {.compileTime.} =
+    result = n
+  ```
+{==+==}
 
 {==+==}
 `compileTime` variables are available at runtime too. This simplifies certain
@@ -1357,7 +1423,7 @@ but accessed at runtime:
 在运行时访问——这轻而易举:
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c -r $1"
   import std/macros
 
@@ -1377,7 +1443,27 @@ but accessed at runtime:
 
   doAssert nameToProc[2][1]() == "baz"
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c -r $1"
+  import std/macros
+
+  var nameToProc {.compileTime.}: seq[(string, proc (): string {.nimcall.})]
+
+  macro registerProc(p: untyped): untyped =
+    result = newTree(nnkStmtList, p)
+
+    let procName = p[0]
+    let procNameAsStr = $p[0]
+    result.add quote do:
+      nameToProc.add((`procNameAsStr`, `procName`))
+
+  proc foo: string {.registerProc.} = "foo"
+  proc bar: string {.registerProc.} = "bar"
+  proc baz: string {.registerProc.} = "baz"
+
+  doAssert nameToProc[2][1]() == "baz"
+  ```
+{==+==}
 
 {==+==}
 noreturn pragma
@@ -1402,7 +1488,7 @@ acyclic 编译指示
 这个信息是一种 **优化** ，有了这个信息垃圾回收器不再需要考虑这个类的对象构成环的情况:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     Node = ref NodeObj
@@ -1410,7 +1496,15 @@ acyclic 编译指示
       left, right: Node
       data: string
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    Node = ref NodeObj
+    NodeObj {.acyclic.} = object
+      left, right: Node
+      data: string
+  ```
+{==+==}
 
 {==+==}
 Or if we directly use a ref object:
@@ -1418,14 +1512,21 @@ Or if we directly use a ref object:
 我们也可以直接使用引用对象类型:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     Node {.acyclic.} = ref object
       left, right: Node
       data: string
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    Node {.acyclic.} = ref object
+      left, right: Node
+      data: string
+  ```
+{==+==}
 
 {==+==}
 In the example, a tree structure is declared with the `Node` type. Note that
@@ -1478,7 +1579,7 @@ structure:
 尤其是用序列来构造树形结构的时候:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     NodeKind = enum nkLeaf, nkInner
@@ -1489,7 +1590,18 @@ structure:
       of nkInner:
         children: seq[Node]
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    NodeKind = enum nkLeaf, nkInner
+    Node {.shallow.} = object
+      case kind: NodeKind
+      of nkLeaf:
+        strVal: string
+      of nkInner:
+        children: seq[Node]
+  ```
+{==+==}
 
 {==+==}
 pure pragma
@@ -1757,7 +1869,7 @@ Syntactically it has to be used as a statement inside the loop:
 这个编译指示在语法上必须是这个循环体里的一条语句:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     MyEnum = enum
@@ -1791,7 +1903,41 @@ Syntactically it has to be used as a statement inside the loop:
 
   vm()
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    MyEnum = enum
+      enumA, enumB, enumC, enumD, enumE
+
+  proc vm() =
+    var instructions: array[0..100, MyEnum]
+    instructions[2] = enumC
+    instructions[3] = enumD
+    instructions[4] = enumA
+    instructions[5] = enumD
+    instructions[6] = enumC
+    instructions[7] = enumA
+    instructions[8] = enumB
+
+    instructions[12] = enumE
+    var pc = 0
+    while true:
+      {.computedGoto.}
+      let instr = instructions[pc]
+      case instr
+      of enumA:
+        echo "yeah A"
+      of enumC, enumD:
+        echo "yeah CD"
+      of enumB:
+        echo "yeah B"
+      of enumE:
+        break
+      inc(pc)
+
+  vm()
+  ```
+{==+==}
 
 {==+==}
 As the example shows, `computedGoto` is mostly useful for interpreters. If
@@ -1936,7 +2082,7 @@ but are used to override the settings temporarily. Example:
 `push/pop`:idx: 能够开关一些来自标准库的编译指示，例如:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   {.push inline.}
   proc thisIsInlined(): int = 42
@@ -1952,7 +2098,23 @@ but are used to override the settings temporarily. Example:
   proc sample(): bool = true
   {.pop.}
   ```
-{-----}
+{==+==}
+  ```nim
+  {.push inline.}
+  proc thisIsInlined(): int = 42
+  func willBeInlined(): float = 42.0
+  {.pop.}
+  proc notInlined(): int = 9
+
+  {.push discardable, boundChecks: off, compileTime, noSideEffect, experimental.}
+  template example(): string = "https://nim-lang.org"
+  {.pop.}
+
+  {.push deprecated, hint[LineTooLong]: off, used, stackTrace: off.}
+  proc sample(): bool = true
+  {.pop.}
+  ```
+{==+==}
 
 {==+==}
 For third party pragmas, it depends on its implementation but uses the same syntax.
@@ -1992,13 +2154,19 @@ global 编译提示
 可以给过程里的变量加上 `global` 编译提示，命令编译器把这个变量存储在全局位置，并且在程序启动时初始化一次。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc isHexNumber(s: string): bool =
     var pattern {.global.} = re"[0-9a-fA-F]+"
     result = s.match(pattern)
   ```
-{-----}
+{==+==}
+  ```nim
+  proc isHexNumber(s: string): bool =
+    var pattern {.global.} = re"[0-9a-fA-F]+"
+    result = s.match(pattern)
+  ```
+{==+==}
 
 {==+==}
 When used within a generic proc, a separate unique global variable will be

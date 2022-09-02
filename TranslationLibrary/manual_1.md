@@ -16,11 +16,15 @@ Nim手册
 :版本: |nimversion|
 {==+==}
 
-{-----}
+{==+==}
 .. default-role:: code
 .. include:: rstcommon.rst
 .. contents::
-{-----}
+{==+==}
+.. default-role:: code
+.. include:: rstcommon.rst
+.. contents::
+{==+==}
 
 {==+==}
 > "Complexity" seems to be a lot like "energy": you can transfer it from the
@@ -104,10 +108,12 @@ with `'`. An example::
 非终端符号以小写字母开头，抽象的终端符号字母大写，逐字的终端符号(包括关键词)用 `'` 引号。例如:
 {==+==}
 
-{-----}
+{==+==}
   ifStmt = 'if' expr ':' stmts ('elif' expr ':' stmts)* ('else' stmts)?
-{-----}
- 
+{==+==}
+  ifStmt = 'if' expr ':' stmts ('elif' expr ':' stmts)* ('else' stmts)?
+{==+==}
+
 {==+==}
 The binary `^*` operator is used as a shorthand for 0 or more occurrences
 separated by its second argument; likewise `^+` means 1 or more
@@ -221,7 +227,7 @@ compiler may instead choose to allow the program to die with a fatal error.
 恐慌的结果是一个异常还是一个致命的错误，是特定实现，因此，下面的程序无效，尽管代码试图捕获越界访问数组的 `IndexDefect` ，但编译器可能会以致命错误终结程序。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var a: array[0..1, char]
   let i = 5
@@ -230,7 +236,16 @@ compiler may instead choose to allow the program to die with a fatal error.
   except IndexDefect:
     echo "invalid index"
   ```
-{-----}
+{==+==}
+  ```nim
+  var a: array[0..1, char]
+  let i = 5
+  try:
+    a[i] = 'N'
+  except IndexDefect:
+    echo "invalid index"
+  ```
+{==+==}
 
 {==+==}
 The current implementation allows switching between these different behaviors
@@ -422,13 +437,19 @@ They look like:
 从0.13.0版本的语言开始，Nim支持多行注释。如下:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   #[Comment here.
   Multiple lines
   are not a problem.]#
   ```
-{-----}
+{==+==}
+  ```nim
+  #[Comment here.
+  Multiple lines
+  are not a problem.]#
+  ```
+{==+==}
 
 {==+==}
 Multiline comments support nesting:
@@ -436,14 +457,21 @@ Multiline comments support nesting:
 多行注释支持嵌套:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   #[  #[ Multiline comment in already
      commented out code. ]#
   proc p[T](x: T) = discard
   ]#
   ```
-{-----}
+{==+==}
+  ```nim
+  #[  #[ Multiline comment in already
+     commented out code. ]#
+  proc p[T](x: T) = discard
+  ]#
+  ```
+{==+==}
 
 {==+==}
 Multiline documentation comments also exist and support nesting too:
@@ -451,14 +479,21 @@ Multiline documentation comments also exist and support nesting too:
 还有多行文档注释，同样支持嵌套:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc foo =
     ##[Long documentation comment
        here.
     ]##
   ```
-{-----}
+{==+==}
+  ```nim
+  proc foo =
+    ##[Long documentation comment
+       here.
+    ]##
+  ```
+{==+==}
 
 {==+==}
 Identifiers & Keywords
@@ -485,13 +520,19 @@ Nim中的标识符可以是任何字母、数字和下划线组成的字符串�
 * 不允许两个下划线 `__` 结尾。
 {==+==}
 
-{-----}
+{==+==}
   ```
   letter ::= 'A'..'Z' | 'a'..'z' | '\x80'..'\xff'
   digit ::= '0'..'9'
   IDENTIFIER ::= letter ( ['_'] (letter | digit) )*
   ```
-{-----}
+{==+==}
+  ```
+  letter ::= 'A'..'Z' | 'a'..'z' | '\x80'..'\xff'
+  digit ::= '0'..'9'
+  IDENTIFIER ::= letter ( ['_'] (letter | digit) )*
+  ```
+{==+==}
 
 {==+==}
 Currently, any Unicode character with an ordinal value > 127 (non-ASCII) is
@@ -535,13 +576,19 @@ Two identifiers are considered equal if the following algorithm returns true:
 如果以下算法返回真，则认为两个标识符相等:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc sameIdentifier(a, b: string): bool =
     a[0] == b[0] and
       a.replace("_", "").toLowerAscii == b.replace("_", "").toLowerAscii
   ```
-{-----}
+{==+==}
+  ```nim
+  proc sameIdentifier(a, b: string): bool =
+    a[0] == b[0] and
+      a.replace("_", "").toLowerAscii == b.replace("_", "").toLowerAscii
+  ```
+{==+==}
 
 {==+==}
 That means only the first letters are compared in a case-sensitive manner. Other
@@ -600,7 +647,7 @@ If a keyword is enclosed in backticks it loses its keyword property and becomes 
 如果一个关键词被括在反撇号里，它就失去了关键词的属性，变成了一个普通的标识符。
 {==+==}
 
-{-----}
+{==+==}
 Examples
 
   ```nim
@@ -622,7 +669,29 @@ Examples
   const `assert` = true
   assert `assert`
   ```
-{-----}
+{==+==}
+Examples
+
+  ```nim
+  var `var` = "Hello Stropping"
+  ```
+
+  ```nim
+  type Obj = object
+    `type`: int
+
+  let `object` = Obj(`type`: 9)
+  assert `object` is Obj
+  assert `object`.`type` == 9
+
+  var `var` = 42
+  let `let` = 8
+  assert `var` + `let` == 50
+
+  const `assert` = true
+  assert `assert`
+  ```
+{==+==}
 
 {==+==}
 String literals
@@ -733,11 +802,15 @@ ending of the string literal is defined by the pattern `"""[^"]`, so this:
 字符串也可以用三个双引号 `"""` ... `"""` 来分隔，这种形式的字面值支持多行，可以包含 `"` ，并且不解释任何转义字符，为了方便，开头 `"""` 后面换行符以及空格并不包括在字符串中，字符串的结尾定义为 `"""[^"]` 模式，所以如下:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   """"long string within quotes""""
   ```
-{-----}
+{==+==}
+  ```nim
+  """"long string within quotes""""
+  ```
+{==+==}
 
 {==+==}
 Produces::
@@ -772,11 +845,15 @@ This is especially convenient for regular expressions or Windows paths:
 还有一些原始的字符串字面值，前面为字母 `r` 或 `R` ，并匹配一对双引号的普通字符串，不解释转义字符，这用在正则表达式或Windows中的路径时很方便。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var f = openFile(r"C:\texts\text.txt") # a raw string, so ``\t`` is no tab
   ```
-{-----}
+{==+==}
+  ```nim
+  var f = openFile(r"C:\texts\text.txt") # a raw string, so ``\t`` is no tab
+  ```
+{==+==}
 
 {==+==}
 To produce a single `"` within a raw string literal, it has to be doubled:
@@ -784,11 +861,15 @@ To produce a single `"` within a raw string literal, it has to be doubled:
 要在原始字符串字面值中含有 `"` 则必须成双。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   r"a""b"
   ```
-{-----}
+{==+==}
+  ```nim
+  r"a""b"
+  ```
+{==+==}
 
 {==+==}
 Produces::
@@ -955,7 +1036,7 @@ Numeric literals have the form::
 数值字面值具有这种形式::
 {==+==}
 
-{-----}
+{==+==}
   hexdigit = digit | 'A'..'F' | 'a'..'f'
   octdigit = '0'..'7'
   bindigit = '0'..'1'
@@ -991,7 +1072,43 @@ Numeric literals have the form::
               | (FLOAT_LIT | DEC_LIT | OCT_LIT | BIN_LIT) ['\''] FLOAT64_SUFFIX
 
   CUSTOM_NUMERIC_LIT = (FLOAT_LIT | INT_LIT) '\'' CUSTOM_NUMERIC_SUFFIX
-{-----}
+{==+==}
+  hexdigit = digit | 'A'..'F' | 'a'..'f'
+  octdigit = '0'..'7'
+  bindigit = '0'..'1'
+  unary_minus = '-' # See the section about unary minus
+  HEX_LIT = unary_minus? '0' ('x' | 'X' ) hexdigit ( ['_'] hexdigit )*
+  DEC_LIT = unary_minus? digit ( ['_'] digit )*
+  OCT_LIT = unary_minus? '0' 'o' octdigit ( ['_'] octdigit )*
+  BIN_LIT = unary_minus? '0' ('b' | 'B' ) bindigit ( ['_'] bindigit )*
+
+  INT_LIT = HEX_LIT
+          | DEC_LIT
+          | OCT_LIT
+          | BIN_LIT
+
+  INT8_LIT = INT_LIT ['\''] ('i' | 'I') '8'
+  INT16_LIT = INT_LIT ['\''] ('i' | 'I') '16'
+  INT32_LIT = INT_LIT ['\''] ('i' | 'I') '32'
+  INT64_LIT = INT_LIT ['\''] ('i' | 'I') '64'
+
+  UINT_LIT = INT_LIT ['\''] ('u' | 'U')
+  UINT8_LIT = INT_LIT ['\''] ('u' | 'U') '8'
+  UINT16_LIT = INT_LIT ['\''] ('u' | 'U') '16'
+  UINT32_LIT = INT_LIT ['\''] ('u' | 'U') '32'
+  UINT64_LIT = INT_LIT ['\''] ('u' | 'U') '64'
+
+  exponent = ('e' | 'E' ) ['+' | '-'] digit ( ['_'] digit )*
+  FLOAT_LIT = unary_minus? digit (['_'] digit)* (('.' digit (['_'] digit)* [exponent]) |exponent)
+  FLOAT32_SUFFIX = ('f' | 'F') ['32']
+  FLOAT32_LIT = HEX_LIT '\'' FLOAT32_SUFFIX
+              | (FLOAT_LIT | DEC_LIT | OCT_LIT | BIN_LIT) ['\''] FLOAT32_SUFFIX
+  FLOAT64_SUFFIX = ( ('f' | 'F') '64' ) | 'd' | 'D'
+  FLOAT64_LIT = HEX_LIT '\'' FLOAT64_SUFFIX
+              | (FLOAT_LIT | DEC_LIT | OCT_LIT | BIN_LIT) ['\''] FLOAT64_SUFFIX
+
+  CUSTOM_NUMERIC_LIT = (FLOAT_LIT | INT_LIT) '\'' CUSTOM_NUMERIC_SUFFIX
+{==+==}
 
 {==+==}
   # CUSTOM_NUMERIC_SUFFIX is any Nim identifier that is not
@@ -1034,7 +1151,7 @@ In the following examples, `-1` is a single token:
 在下面的例子中， `-1` 是一个单独的token标记:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   echo -1
   echo(-1)
@@ -1043,7 +1160,16 @@ In the following examples, `-1` is a single token:
 
   "abc";-1
   ```
-{-----}
+{==+==}
+  ```nim
+  echo -1
+  echo(-1)
+  echo [-1]
+  echo 3,-1
+
+  "abc";-1
+  ```
+{==+==}
 
 {==+==}
 In the following examples, `-1` is parsed as two separate tokens
@@ -1052,14 +1178,21 @@ In the following examples, `-1` is parsed as two separate tokens
 在下面的例子中， `-1` 被解析为两个独立的token标记( `-`:tok: `1`:tok: ):
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   echo x-1
   echo (int)-1
   echo [a]-1
   "abc"-1
   ```
-{-----}
+{==+==}
+  ```nim
+  echo x-1
+  echo (int)-1
+  echo [a]-1
+  "abc"-1
+  ```
+{==+==}
 
 {==+==}
 The suffix starting with an apostrophe ('\'') is called a
@@ -1227,11 +1360,15 @@ following characters::
 Nim允许用户定义运算符。运算符可以是以下字符的任意组合::
 {==+==}
 
-{-----}
+{==+==}
        =     +     -     *     /     <     >
        @     $     ~     &     %     |
        !     ?     ^     .     :     \
-{-----}
+{==+==}
+       =     +     -     *     /     <     >
+       @     $     ~     &     %     |
+       !     ?     ^     .     :     \
+{==+==}
 
 {==+==}
 (The grammar uses the terminal OPR to refer to operator symbols as
@@ -1283,9 +1420,11 @@ The following strings denote other tokens::
 以下字符串表示其他标记::
 {==+==}
 
-{-----}
+{==+==}
     `   (    )     {    }     [    ]    ,  ;   [.    .]  {.   .}  (.  .)  [:
-{-----}
+{==+==}
+    `   (    )     {    }     [    ]    ,  ;   [.    .]  {.   .}  (.  .)  [:
+{==+==}
 
 {==+==}
 The `slice`:idx: operator `..`:tok: takes precedence over other tokens that
@@ -1512,10 +1651,13 @@ The grammar's start symbol is `module`.
 语法的起始符号是 `module` 。
 {==+==}
 
-{-----}
+{==+==}
 .. include:: grammar.txt
    :literal:
-{-----}
+{==+==}
+.. include:: grammar.txt
+   :literal:
+{==+==}
 
 {==+==}
 Order of evaluation
@@ -1532,7 +1674,7 @@ imperative programming languages:
 求值顺序严格从左到右，由内到外，这是大多数其他强类型编程语言的典型做法:
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   var s = ""
 
@@ -1544,7 +1686,19 @@ imperative programming languages:
 
   doAssert s == "123"
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  var s = ""
+
+  proc p(arg: int): int =
+    s.add $arg
+    result = arg
+
+  discard p(p(1) + p(2))
+
+  doAssert s == "123"
+  ```
+{==+==}
 
 {==+==}
 Assignments are not special, the left-hand-side expression is evaluated before the
@@ -1553,7 +1707,7 @@ right-hand side:
 赋值也不特殊，左边的表达式在右边的表达式之前被求值:
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   var v = 0
   proc getI(): int =
@@ -1573,7 +1727,27 @@ right-hand side:
 
   doAssert b == [1, 0, 0]
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  var v = 0
+  proc getI(): int =
+    result = v
+    inc v
+
+  var a, b: array[0..2, int]
+
+  proc someCopy(a: var int; b: int) = a = b
+
+  a[getI()] = getI()
+
+  doAssert a == [1, 0, 0]
+
+  v = 0
+  someCopy(b[getI()], getI())
+
+  doAssert b == [1, 0, 0]
+  ```
+{==+==}
 
 {==+==}
 Rationale: Consistency with overloaded assignment or assignment-like operations,
@@ -1711,7 +1885,7 @@ problem.)
 访问和修改编译时变量的能力为常量表达式增加了灵活性，这会让那些来自其他静态类型语言的人惊讶。例如，下面的代码在 **编译时** 返回斐波那契数列的起始。(这是对定义常量灵活性的演示，而不是对解决这个问题的推荐风格)。
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   import std/strformat
 
@@ -1741,7 +1915,37 @@ problem.)
   static:
     echo displayFib
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  import std/strformat
+
+  var fibN {.compileTime.}: int
+  var fibPrev {.compileTime.}: int
+  var fibPrevPrev {.compileTime.}: int
+
+  proc nextFib(): int =
+    result = if fibN < 2:
+      fibN
+    else:
+      fibPrevPrev + fibPrev
+    inc(fibN)
+    fibPrevPrev = fibPrev
+    fibPrev = result
+
+  const f0 = nextFib()
+  const f1 = nextFib()
+
+  const displayFib = block:
+    const f2 = nextFib()
+    var result = fmt"Fibonacci sequence: {f0}, {f1}, {f2}"
+    for i in 3..12:
+      add(result, fmt", {nextFib()}")
+    result
+
+  static:
+    echo displayFib
+  ```
+{==+==}
 
 {==+==}
 Restrictions on Compile-Time Execution

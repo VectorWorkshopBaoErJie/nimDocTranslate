@@ -43,11 +43,15 @@ so that it can be used for debugging routines marked as `noSideEffect`.
 `func` 是无副作用过程的语法糖:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   func `+` (x, y: int): int
   ```
-{-----}
+{==+==}
+  ```nim
+  func `+` (x, y: int): int
+  ```
+{==+==}
 
 {==+==}
 To override the compiler's side effect analysis a `{.noSideEffect.}`
@@ -56,13 +60,19 @@ To override the compiler's side effect analysis a `{.noSideEffect.}`
 `cast` 编译指示可用于强制转换编译器的 `{.noSideEffect.}` 无副作用语义。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   func f() =
     {.cast(noSideEffect).}:
       echo "test"
   ```
-{-----}
+{==+==}
+  ```nim
+  func f() =
+    {.cast(noSideEffect).}:
+      echo "test"
+  ```
+{==+==}
 
 {==+==}
 **Side effects are usually inferred. The inference for side effects is
@@ -115,7 +125,7 @@ be used:
  `{.cast(gcsafe).}` 编译指示块可用于覆写编译器的GC安全语义。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var
     someGlobal: string = "some string here"
@@ -125,7 +135,17 @@ be used:
     {.cast(gcsafe).}:
       deepCopy(perThread, someGlobal)
   ```
-{-----}
+{==+==}
+  ```nim
+  var
+    someGlobal: string = "some string here"
+    perThread {.threadvar.}: string
+
+  proc setPerThread() =
+    {.cast(gcsafe).}:
+      deepCopy(perThread, someGlobal)
+  ```
+{==+==}
 
 {==+==}
 See also:
@@ -133,9 +153,11 @@ See also:
 另请参阅:
 {==+==}
 
-{-----}
+{==+==}
 - `Shared heap memory management <mm.html>`_ 。
-{-----}
+{==+==}
+- `Shared heap memory management <mm.html>`_ 。
+{==+==}
 
 {==+==}
 Effects pragma
@@ -153,7 +175,7 @@ effects up to the `effects`'s position:
 `effects` 编译指示用于协助程序员进行作用分析。这条语句可以使编译器输出所有被推断出的作用到 `effects` 的位置上:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc p(what: bool) =
     if what:
@@ -162,7 +184,16 @@ effects up to the `effects`'s position:
     else:
       raise newException(OSError, "OS")
   ```
-{-----}
+{==+==}
+  ```nim
+  proc p(what: bool) =
+    if what:
+      raise newException(IOError, "IO")
+      {.effects.}
+    else:
+      raise newException(OSError, "OS")
+  ```
+{==+==}
 
 {==+==}
 The compiler produces a hint message that `IOError` can be raised. `OSError`
@@ -599,7 +630,7 @@ the dot syntax:
 以隐式泛型的方式书写过程时，需要指定匹配的类型参数。这样，才能用 `.` 语法便捷的使用它们所包含的内容。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type Matrix[T, Rows, Columns] = object
     ...
@@ -607,7 +638,15 @@ the dot syntax:
   proc `[]`(m: Matrix, row, col: int): Matrix.T =
     m.data[col * high(Matrix.Columns) + row]
   ```
-{-----}
+{==+==}
+  ```nim
+  type Matrix[T, Rows, Columns] = object
+    ...
+
+  proc `[]`(m: Matrix, row, col: int): Matrix.T =
+    m.data[col * high(Matrix.Columns) + row]
+  ```
+{==+==}
 
 {==+==}
 Here are more examples that illustrate implicit generics:
@@ -835,7 +874,7 @@ at definition and the context at instantiation are considered:
 开放的符号可以在在两种不同的上下文中被找到: 一是其定义所处的上下文，二是实例中的上下文:
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   type
     Index = distinct int
@@ -847,7 +886,19 @@ at definition and the context at instantiation are considered:
 
   echo a == b # works!
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  type
+    Index = distinct int
+
+  proc `==` (a, b: Index): bool {.borrow.}
+
+  var a = (0, 0.Index)
+  var b = (0, 0.Index)
+
+  echo a == b # works!
+  ```
+{==+==}
 
 {==+==}
 In the example, the generic `==` for tuples (as defined in the system module)
@@ -1333,13 +1384,19 @@ also `varargs[untyped]` so that not even the number of parameters is fixed:
 除了 `untyped` 元类型阻止类型检查外， `varargs[untyped]` 中的参数数量也不确定。
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   template hideIdentifiers(x: varargs[untyped]) = discard
 
   hideIdentifiers(undeclared1, undeclared2)
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  template hideIdentifiers(x: varargs[untyped]) = discard
+
+  hideIdentifiers(undeclared1, undeclared2)
+  ```
+{==+==}
 
 {==+==}
 However, since a template cannot iterate over varargs, this feature is
@@ -1422,7 +1479,7 @@ In templates, identifiers can be constructed with the backticks notation:
 在模板中，标识符可以通过反引号标注进行构建:
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   template typedef(name: untyped, typ: typedesc) =
     type
@@ -1432,8 +1489,17 @@ In templates, identifiers can be constructed with the backticks notation:
   typedef(myint, int)
   var x: PMyInt
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  template typedef(name: untyped, typ: typedesc) =
+    type
+      `T name`* {.inject.} = typ
+      `P name`* {.inject.} = ref `T name`
 
+  typedef(myint, int)
+  var x: PMyInt
+  ```
+{==+==}
 
 {==+==}
 In the example, `name` is instantiated with `myint`, so \`T name\` becomes
@@ -1663,7 +1729,7 @@ The reason for this is that code like
 其原因如以下代码所示:
 {==+==}
 
-{-----}
+{==+==}
   ```nim  test = "nim c $1"
   type
     T = object
@@ -1673,7 +1739,17 @@ The reason for this is that code like
     let f = 34
     echo x.f, T(f: 4)
   ```
-{-----}
+{==+==}
+  ```nim  test = "nim c $1"
+  type
+    T = object
+      f: int
+
+  template tmp(x: T) =
+    let f = 34
+    echo x.f, T(f: 4)
+  ```
+{==+==}
 
 {==+==}
 should work as expected.
@@ -1931,7 +2007,7 @@ The macro call expands to:
 这个宏调用后将展开为以下代码:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   write(stdout, "a[0]")
   write(stdout, ": ")
@@ -1945,7 +2021,21 @@ The macro call expands to:
   write(stdout, ": ")
   writeLine(stdout, x)
   ```
-{-----}
+{==+==}
+  ```nim
+  write(stdout, "a[0]")
+  write(stdout, ": ")
+  writeLine(stdout, a[0])
+
+  write(stdout, "a[1]")
+  write(stdout, ": ")
+  writeLine(stdout, a[1])
+
+  write(stdout, "x")
+  write(stdout, ": ")
+  writeLine(stdout, x)
+  ```
+{==+==}
 
 {==+==}
 Arguments that are passed to a `varargs` parameter are wrapped in an array
@@ -2021,7 +2111,7 @@ The macro call expands to:
 这个宏调用后将展开为以下代码:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   write(stdout, "a[0]")
   write(stdout, ": ")
@@ -2035,7 +2125,21 @@ The macro call expands to:
   write(stdout, ": ")
   writeLine(stdout, x)
   ```
-{-----}
+{==+==}
+  ```nim
+  write(stdout, "a[0]")
+  write(stdout, ": ")
+  writeLine(stdout, a[0])
+
+  write(stdout, "a[1]")
+  write(stdout, ": ")
+  writeLine(stdout, a[1])
+
+  write(stdout, "x")
+  write(stdout, ": ")
+  writeLine(stdout, x)
+  ```
+{==+==}
 
 {==+==}
 However, the symbols `write`, `writeLine` and `stdout` are already bound

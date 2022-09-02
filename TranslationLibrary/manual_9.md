@@ -14,11 +14,15 @@ conjunction with the `exportc` pragma:
 一个使用了 `dynlib` 编译指示的过程，也能被导出为动态库。这样以来，它不需要参数，但必须结合 `exportc` 编译指示来使用:
 {==+==}
 
-{-----}
+{==+==}
   ```Nim
   proc exportme(): int {.cdecl, exportc, dynlib.}
   ```
-{-----}
+{==+==}
+  ```Nim
+  proc exportme(): int {.cdecl, exportc, dynlib.}
+  ```
+{==+==}
 
 {==+==}
 This is only useful if the program is compiled as a dynamic library via the
@@ -113,11 +117,15 @@ of the `global` pragma.
 此外，这意味着 `global` 编译指示的所有作用。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var checkpoints* {.threadvar.}: seq[string]
   ```
-{-----}
+{==+==}
+  ```nim
+  var checkpoints* {.threadvar.}: seq[string]
+  ```
+{==+==}
 
 {==+==}
 Due to implementation restrictions, thread-local variables cannot be
@@ -198,15 +206,21 @@ Object fields and global variables can be annotated via a `guard` pragma:
 对象字段和全局变量都可以使用 `guard` 编译指令进行标注:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import std/locks
 
   var glock: Lock
   var gdata {.guard: glock.}: int
   ```
-{-----}
+{==+==}
+  ```nim
+  import std/locks
 
+  var glock: Lock
+  var gdata {.guard: glock.}: int
+  ```
+{==+==}
 
 {==+==}
 The compiler then ensures that every access of `gdata` is within a `locks`
@@ -215,7 +229,7 @@ section:
 然后，编译器会确保每次访问 `gdata` 都在 `locks` 块中:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc invalid =
     # invalid: unguarded access:
@@ -226,7 +240,18 @@ section:
     {.locks: [glock].}:
       echo gdata
   ```
-{-----}
+{==+==}
+  ```nim
+  proc invalid =
+    # invalid: unguarded access:
+    echo gdata
+
+  proc valid =
+    # valid access:
+    {.locks: [glock].}:
+      echo gdata
+  ```
+{==+==}
 
 {==+==}
 Top level accesses to `gdata` are always allowed so that it can be initialized
@@ -246,7 +271,7 @@ that also implement some form of locking at runtime:
 它应该只在运行时中，同时能够实现某种形式的锁定的模板里使用:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   template lock(a: Lock; body: untyped) =
     pthread_mutex_lock(a)
@@ -256,7 +281,17 @@ that also implement some form of locking at runtime:
       finally:
         pthread_mutex_unlock(a)
   ```
-{-----}
+{==+==}
+  ```nim
+  template lock(a: Lock; body: untyped) =
+    pthread_mutex_lock(a)
+    {.locks: [a].}:
+      try:
+        body
+      finally:
+        pthread_mutex_unlock(a)
+  ```
+{==+==}
 
 
 {==+==}
@@ -266,7 +301,7 @@ model low level lockfree mechanisms:
 守卫不需要属于任何特定类型。它足够灵活到可以对低级无锁机制进行建模:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var dummyLock {.compileTime.}: int
   var atomicCounter {.guard: dummyLock.}: int
@@ -278,8 +313,19 @@ model low level lockfree mechanisms:
 
   echo atomicRead(atomicCounter)
   ```
-{-----}
+{==+==}
+  ```nim
+  var dummyLock {.compileTime.}: int
+  var atomicCounter {.guard: dummyLock.}: int
 
+  template atomicRead(x): untyped =
+    {.locks: [dummyLock].}:
+      memoryReadBarrier()
+      x
+
+  echo atomicRead(atomicCounter)
+  ```
+{==+==}
 
 {==+==}
 The `locks` pragma takes a list of lock expressions `locks: [a, b, ...]`
@@ -312,7 +358,7 @@ the expressiveness of the language:
 由于对象可以驻留在堆上或堆栈上，这么做大大地增强了语言的表现力:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   import std/locks
 
@@ -326,8 +372,21 @@ the expressiveness of the language:
       lock counters[i].L:
         inc counters[i].v
   ```
-{-----}
+{==+==}
+  ```nim
+  import std/locks
 
+  type
+    ProtectedCounter = object
+      v {.guard: L.}: int
+      L: Lock
+
+  proc incCounters(counters: var openArray[ProtectedCounter]) =
+    for i in 0..counters.high:
+      lock counters[i].L:
+        inc counters[i].v
+  ```
+{==+==}
 
 {==+==}
 The access to field `x.v` is allowed since its guard `x.L`  is active.
@@ -336,7 +395,7 @@ After template expansion, this amounts to:
 允许访问字段 `x.v` ，因为它守卫的 `x.L` 处于活动状态。当模板扩展后，就相当于:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc incCounters(counters: var openArray[ProtectedCounter]) =
     for i in 0..counters.high:
@@ -347,8 +406,18 @@ After template expansion, this amounts to:
         finally:
           pthread_mutex_unlock(counters[i].L)
   ```
-{-----}
-
+{==+==}
+  ```nim
+  proc incCounters(counters: var openArray[ProtectedCounter]) =
+    for i in 0..counters.high:
+      pthread_mutex_lock(counters[i].L)
+      {.locks: [counters[i].L].}:
+        try:
+          inc counters[i].v
+        finally:
+          pthread_mutex_unlock(counters[i].L)
+  ```
+{==+==}
 
 {==+==}
 There is an analysis that checks that `counters[i].L` is the lock that
@@ -373,11 +442,16 @@ This means the following compiles (for now) even though it really should not:
 (目前来说)这意味着如下的编译，哪怕实在不应该这么做:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   {.locks: [a[i].L].}:
     inc i
     access a[i].v
   ```
-{-----}
-
+{==+==}
+  ```nim
+  {.locks: [a[i].L].}:
+    inc i
+    access a[i].v
+  ```
+{==+==}

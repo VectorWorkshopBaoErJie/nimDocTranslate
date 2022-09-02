@@ -188,7 +188,7 @@ This can be fixed by explicitly using `result` or `return`:
 这可以通过显式使用 'result' 或 'return' 来修复:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc get_x(x: Foo): var seq[string] =
     case true
@@ -197,7 +197,16 @@ This can be fixed by explicitly using `result` or `return`:
     else:
       result = x.x
   ```
-{-----}
+{==+==}
+  ```nim
+  proc get_x(x: Foo): var seq[string] =
+    case true
+    of true:
+      result = x.x
+    else:
+      result = x.x
+  ```
+{==+==}
 
 {==+==}
 When statement
@@ -213,7 +222,7 @@ Example:
 示例:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   when sizeof(int) == 2:
     echo "running on a 16 bit system!"
@@ -224,7 +233,18 @@ Example:
   else:
     echo "cannot happen!"
   ```
-{-----}
+{==+==}
+  ```nim
+  when sizeof(int) == 2:
+    echo "running on a 16 bit system!"
+  elif sizeof(int) == 4:
+    echo "running on a 32 bit system!"
+  elif sizeof(int) == 8:
+    echo "running on a 64 bit system!"
+  else:
+    echo "cannot happen!"
+  ```
+{==+==}
 
 {==+==}
 The `when` statement is almost identical to the `if` statement with some
@@ -340,11 +360,15 @@ Example:
 比如:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   return 40 + 2
   ```
-{-----}
+{==+==}
+  ```nim
+  return 40 + 2
+  ```
+{==+==}
 
 {==+==}
 The `return` statement ends the execution of the current procedure.
@@ -354,12 +378,17 @@ sugar for:
  `return` 语句结束当前过程的执行。它只允许在过程中使用。如果有一个 `expr` , 将是一个语法糖:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   result = expr
   return result
   ```
-{-----}
+{==+==}
+  ```nim
+  result = expr
+  return result
+  ```
+{==+==}
 
 {==+==}
 `return` without an expression is a short notation for `return result` if
@@ -397,11 +426,15 @@ Example:
 示例:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   yield (1, 2, 3)
   ```
-{-----}
+{==+==}
+  ```nim
+  yield (1, 2, 3)
+  ```
+{==+==}
 
 {==+==}
 The `yield` statement is used instead of the `return` statement in
@@ -476,11 +509,15 @@ Example:
 示例:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   break
   ```
-{-----}
+{==+==}
+  ```nim
+  break
+  ```
+{==+==}
 
 {==+==}
 The `break` statement is used to leave a block immediately. If `symbol`
@@ -504,7 +541,7 @@ Example:
 示例:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   echo "Please tell me your password:"
   var pw = readLine(stdin)
@@ -512,8 +549,15 @@ Example:
     echo "Wrong password! Next try:"
     pw = readLine(stdin)
   ```
-{-----}
-
+{==+==}
+  ```nim
+  echo "Please tell me your password:"
+  var pw = readLine(stdin)
+  while pw != "12345":
+    echo "Wrong password! Next try:"
+    pw = readLine(stdin)
+  ```
+{==+==}
 
 {==+==}
 The `while` statement is executed until the `expr` evaluates to false.
@@ -539,14 +583,21 @@ statement is syntactic sugar for a nested block:
  `continue` 语句会导致循环结构进行下一次迭代，它只允许在循环中使用。continue语句是嵌套block的语法糖:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   while expr1:
     stmt1
     continue
     stmt2
   ```
-{-----}
+{==+==}
+  ```nim
+  while expr1:
+    stmt1
+    continue
+    stmt2
+  ```
+{==+==}
 
 {==+==}
 Is equivalent to:
@@ -554,7 +605,7 @@ Is equivalent to:
 等价于:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   while expr1:
     block myBlockName:
@@ -562,7 +613,15 @@ Is equivalent to:
       break myBlockName
       stmt2
   ```
-{-----}
+{==+==}
+  ```nim
+  while expr1:
+    block myBlockName:
+      stmt1
+      break myBlockName
+      stmt2
+  ```
+{==+==}
 
 {==+==}
 Assembler statement
@@ -617,7 +676,7 @@ If the GNU assembler is used, quotes and newlines are inserted automatically:
 如果使用GNU汇编器，则会自动插入引号和换行符: 
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc addInt(a, b: int): int =
     asm """
@@ -629,7 +688,19 @@ If the GNU assembler is used, quotes and newlines are inserted automatically:
       :"a"(`a`), "c"(`b`)
     """
   ```
-{-----}
+{==+==}
+  ```nim
+  proc addInt(a, b: int): int =
+    asm """
+      addl %%ecx, %%eax
+      jno 1
+      call `raiseOverflow`
+      1:
+      :"=a"(`result`)
+      :"a"(`a`), "c"(`b`)
+    """
+  ```
+{==+==}
 
 {==+==}
 Instead of:
@@ -637,7 +708,7 @@ Instead of:
 替代:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc addInt(a, b: int): int =
     asm """
@@ -649,7 +720,19 @@ Instead of:
       :"a"(`a`), "c"(`b`)
     """
   ```
-{-----}
+{==+==}
+  ```nim
+  proc addInt(a, b: int): int =
+    asm """
+      "addl %%ecx, %%eax\n"
+      "jno 1\n"
+      "call `raiseOverflow`\n"
+      "1: \n"
+      :"=a"(`result`)
+      :"a"(`a`), "c"(`b`)
+    """
+  ```
+{==+==}
 
 {==+==}
 Using statement
@@ -666,13 +749,19 @@ the same parameter names and types are used over and over. Instead of:
 `using` 语句在模块中反复使用相同的参数名称和类型提供了语法上的便利，而不必:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc foo(c: Context; n: Node) = ...
   proc bar(c: Context; n: Node, counter: int) = ...
   proc baz(c: Context; n: Node) = ...
   ```
-{-----}
+{==+==}
+  ```nim
+  proc foo(c: Context; n: Node) = ...
+  proc bar(c: Context; n: Node, counter: int) = ...
+  proc baz(c: Context; n: Node) = ...
+  ```
+{==+==}
 
 {==+==}
 One can tell the compiler about the convention that a parameter of
@@ -754,11 +843,15 @@ Example:
 示例: 
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var y = if x > 8: 9 else: 10
   ```
-{-----}
+{==+==}
+  ```nim
+  var y = if x > 8: 9 else: 10
+  ```
+{==+==}
 
 {==+==}
 An if expression always results in a value, so the `else` part is
@@ -795,7 +888,7 @@ The `case` expression is again very similar to the case statement:
  `case` 表达式与case语句非常相似:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var favoriteFood = case animal
     of "dog": "bones"
@@ -805,7 +898,17 @@ The `case` expression is again very similar to the case statement:
       echo "I'm not sure what to serve, but everybody loves ice cream"
       "ice cream"
   ```
-{-----}
+{==+==}
+  ```nim
+  var favoriteFood = case animal
+    of "dog": "bones"
+    of "cat": "mice"
+    elif animal.endsWith"whale": "plankton"
+    else:
+      echo "I'm not sure what to serve, but everybody loves ice cream"
+      "ice cream"
+  ```
+{==+==}
 
 {==+==}
 As seen in the above example, the case expression can also introduce side
@@ -832,7 +935,7 @@ does not open a new block scope.
  `block` 表达式几乎和block语句相同，但它是一个表达式，它使用block的最后一个表达式作为值。它类似于语句列表表达式，但语句列表表达式不会创建新的block作用域。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   let a = block:
     var fib = @[0, 1]
@@ -840,7 +943,15 @@ does not open a new block scope.
       fib.add fib[^1] + fib[^2]
     fib
   ```
-{-----}
+{==+==}
+  ```nim
+  let a = block:
+    var fib = @[0, 1]
+    for i in 0..10:
+      fib.add fib[^1] + fib[^2]
+    fib
+  ```
+{==+==}
 
 {==+==}
 Table constructor
@@ -929,7 +1040,7 @@ Type conversion can also be used to disambiguate overloaded routines:
 类型转换也可用于消除重载例程的歧义:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc p(x: int) = echo "int"
   proc p(x: string) = echo "string"
@@ -937,7 +1048,15 @@ Type conversion can also be used to disambiguate overloaded routines:
   let procVar = (proc(x: string))(p)
   procVar("a")
   ```
-{-----}
+{==+==}
+  ```nim
+  proc p(x: int) = echo "int"
+  proc p(x: string) = echo "string"
+
+  let procVar = (proc(x: string))(p)
+  procVar("a")
+  ```
+{==+==}
 
 {==+==}
 Since operations on unsigned numbers wrap around and are unchecked so are
@@ -980,11 +1099,15 @@ programming and are inherently unsafe.
 类型强转是一种粗暴的机制，用于解释表达式的位模式，就好像它将是另一种类型一样。类型强转仅用于低级编程，并且本质上是不安全的。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   cast[int](x)
   ```
-{-----}
+{==+==}
+  ```nim
+  cast[int](x)
+  ```
+{==+==}
 
 {==+==}
 The target type of a cast must be a concrete type, for instance, a target type
@@ -993,12 +1116,17 @@ that is a type class (which is non-concrete) would be invalid:
 强制转换的目标类型必须是具体类型，例如，类型类(非具体)的目标类型将是无效的:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type Foo = int or float
   var x = cast[Foo](1) # Error: cannot cast to a non concrete type: 'Foo'
   ```
-{-----}
+{==+==}
+  ```nim
+  type Foo = int or float
+  var x = cast[Foo](1) # Error: cannot cast to a non concrete type: 'Foo'
+  ```
+{==+==}
 
 {==+==}
 Type casts should not be confused with *type conversions,* as mentioned in the
@@ -1031,7 +1159,7 @@ or a `for` loop variable can be accomplished too:
  `addr` 运算符返回左值的地址。如果地址的类型是 `T`, 则 `addr` 运算符结果的类型为 `ptr T` 。地址总是一个未追踪引用的值。获取驻留在堆栈上的对象的地址是 **不安全的** , 因为指针可能比堆栈中的对象存在更久, 因此可以引用不存在的对象，我们可以得到变量的地址。为了更容易与其他编译语言(如C)互操作，检索 `let` 变量、参数或 `for` 循环变量的地址也可以完成:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   let t1 = "Hello"
   var
@@ -1044,7 +1172,20 @@ or a `for` loop variable can be accomplished too:
   # The following line also works
   echo repr(addr(t1))
   ```
-{-----}
+{==+==}
+  ```nim
+  let t1 = "Hello"
+  var
+    t2 = t1
+    t3 : pointer = addr(t2)
+  echo repr(addr(t2))
+  # --> ref 0x7fff6b71b670 --> 0x10bb81050"Hello"
+  echo cast[ptr string](t3)[]
+  # --> Hello
+  # The following line also works
+  echo repr(addr(t1))
+  ```
+{==+==}
 
 {==+==}
 The unsafeAddr operator
@@ -1060,12 +1201,17 @@ The `unsafeAddr` operator is a deprecated alias for the `addr` operator:
 `unsafeAddr` 操作符是 `addr` 操作符的已弃用别名:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   let myArray = [1, 2, 3]
   foreignProcThatTakesAnAddr(unsafeAddr myArray)
   ```
-{-----}
+{==+==}
+  ```nim
+  let myArray = [1, 2, 3]
+  foreignProcThatTakesAnAddr(unsafeAddr myArray)
+  ```
+{==+==}
 
 {==+==}
 Procedures
@@ -1327,7 +1473,7 @@ current module:
 如果声明的符号标有 `asterisk`:idx: "星号"，它从当前模块导出:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc exportedEcho*(s: string) = echo s
   proc `*`*(a: string; b: int): string =
@@ -1340,7 +1486,20 @@ current module:
     ExportedType* = object
       exportedField*: int
   ```
-{-----}
+{==+==}
+  ```nim
+  proc exportedEcho*(s: string) = echo s
+  proc `*`*(a: string; b: int): string =
+    result = newStringOfCap(a.len * b)
+    for i in 1..b: result.add a
+
+  var exportedVar*: int
+  const exportedConst* = 78
+  type
+    ExportedType* = object
+      exportedField*: int
+  ```
+{==+==}
 
 {==+==}
 Method call syntax
@@ -1366,14 +1525,21 @@ to supply any type of first argument for procedures:
 此方法调用语法不限于对象，它可用于为过程提供任何类型的第一个参数:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   echo "abc".len # is the same as echo len "abc"
   echo "abc".toUpper()
   echo {'a', 'b', 'c'}.card
   stdout.writeLine("Hallo") # the same as writeLine(stdout, "Hallo")
   ```
-{-----}
+{==+==}
+  ```nim
+  echo "abc".len # is the same as echo len "abc"
+  echo "abc".toUpper()
+  echo {'a', 'b', 'c'}.card
+  stdout.writeLine("Hallo") # the same as writeLine(stdout, "Hallo")
+  ```
+{==+==}
 
 {==+==}
 Another way to look at the method call syntax is that it provides the missing
@@ -1491,14 +1657,21 @@ backticks notation:
 {==+==}
 
 
-{-----}
+{==+==}
   ```nim
   proc `f=`(x: MyObject; value: string) =
     discard
 
   `f=`(myObject, "value")
   ```
-{-----}
+{==+==}
+  ```nim
+  proc `f=`(x: MyObject; value: string) =
+    discard
+
+  `f=`(myObject, "value")
+  ```
+{==+==}
 
 
 {==+==}
@@ -1619,15 +1792,21 @@ procedures:
 未命名过程可以用作lambda表达式传递给其他过程:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var cities = @["Frankfurt", "Tokyo", "New York", "Kyiv"]
 
   cities.sort(proc (x, y: string): int =
     cmp(x.len, y.len))
   ```
-{-----}
+{==+==}
+  ```nim
+  var cities = @["Frankfurt", "Tokyo", "New York", "Kyiv"]
 
+  cities.sort(proc (x, y: string): int =
+    cmp(x.len, y.len))
+  ```
+{==+==}
 
 {==+==}
 Procs as expressions can appear both as nested procs and inside top-level
@@ -1734,11 +1913,15 @@ The `func` keyword introduces a shortcut for a `noSideEffect`:idx: proc.
 The `func` 关键字为 `noSideEffect` 的过程引入了一个快捷方式。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   func binarySearch[T](a: openArray[T]; elem: T): int
   ```
-{-----}
+{==+==}
+  ```nim
+  func binarySearch[T](a: openArray[T]; elem: T): int
+  ```
+{==+==}
 
 {==+==}
 Is short for:
@@ -1746,13 +1929,15 @@ Is short for:
 是它的简写:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc binarySearch[T](a: openArray[T]; elem: T): int {.noSideEffect.}
   ```
-{-----}
-
-
+{==+==}
+  ```nim
+  proc binarySearch[T](a: openArray[T]; elem: T): int {.noSideEffect.}
+  ```
+{==+==}
 
 {==+==}
 Routines
@@ -1914,7 +2099,7 @@ The type of a parameter may be prefixed with the `var` keyword:
 参数的类型可以使用 var 关键字作为前缀:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc divmod(a, b: int; res, remainder: var int) =
     res = a div b
@@ -1927,7 +2112,20 @@ The type of a parameter may be prefixed with the `var` keyword:
   assert x == 1
   assert y == 3
   ```
-{-----}
+{==+==}
+  ```nim
+  proc divmod(a, b: int; res, remainder: var int) =
+    res = a div b
+    remainder = a mod b
+
+  var
+    x, y: int
+
+  divmod(8, 5, x, y) # modifies x and y
+  assert x == 1
+  assert y == 3
+  ```
+{==+==}
 
 {==+==}
 In the example, `res` and `remainder` are `var parameters`.
@@ -1939,7 +2137,7 @@ above example is equivalent to:
 在示例中,  `res` 和 `remainder` 是 `var parameters` 。可以通过过程修改Var参数，并且调用者可以看到更改。传递给var参数的参数必须是左值。Var参数实现为隐藏指针。上面的例子相当于:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc divmod(a, b: int; res, remainder: ptr int) =
     res[] = a div b
@@ -1951,7 +2149,19 @@ above example is equivalent to:
   assert x == 1
   assert y == 3
   ```
-{-----}
+{==+==}
+  ```nim
+  proc divmod(a, b: int; res, remainder: ptr int) =
+    res[] = a div b
+    remainder[] = a mod b
+
+  var
+    x, y: int
+  divmod(8, 5, addr(x), addr(y))
+  assert x == 1
+  assert y == 3
+  ```
+{==+==}
 
 {==+==}
 In the examples, var parameters or pointers are used to provide two
@@ -1960,7 +2170,7 @@ return values. This can be done in a cleaner way by returning a tuple:
 在示例中，var形参或指针用于提供两个返回值。这可以通过返回一个元组以一种更简洁的方式来完成:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc divmod(a, b: int): tuple[res, remainder: int] =
     (a div b, a mod b)
@@ -1970,7 +2180,17 @@ return values. This can be done in a cleaner way by returning a tuple:
   assert t.res == 1
   assert t.remainder == 3
   ```
-{-----}
+{==+==}
+  ```nim
+  proc divmod(a, b: int): tuple[res, remainder: int] =
+    (a div b, a mod b)
+
+  var t = divmod(8, 5)
+
+  assert t.res == 1
+  assert t.remainder == 3
+  ```
+{==+==}
 
 {==+==}
 One can use `tuple unpacking`:idx: to access the tuple's fields:
@@ -1978,14 +2198,19 @@ One can use `tuple unpacking`:idx: to access the tuple's fields:
 可以使用 `tuple unpacking` 来访问元组的字段
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var (x, y) = divmod(8, 5) # tuple unpacking
   assert x == 1
   assert y == 3
   ```
-{-----}
-
+{==+==}
+  ```nim
+  var (x, y) = divmod(8, 5) # tuple unpacking
+  assert x == 1
+  assert y == 3
+  ```
+{==+==}
 
 {==+==}
 **Note**: `var` parameters are never necessary for efficient parameter

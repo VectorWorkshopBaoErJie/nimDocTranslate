@@ -366,12 +366,17 @@ a `+` for dollars needs to be defined:
 可惜, 不允许 `d + 12.Dollar` ，因为 `+` 已被 `int` (以及其他)定义，而非 `Dollat` 。所以用于 `Dollar` 的 `+` 需要被这样定义:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc `+` (x, y: Dollar): Dollar =
     result = Dollar(int(x) + int(y))
   ```
-{-----}
+{==+==}
+  ```nim
+  proc `+` (x, y: Dollar): Dollar =
+    result = Dollar(int(x) + int(y))
+  ```
+{==+==}
 
 {==+==}
 It does not make sense to multiply a dollar with a dollar, but with a
@@ -380,7 +385,7 @@ number without unit; and the same holds for division:
 将一美元乘以一美元是没有意义的，但是可以乘以一个没有单位的数字，除法也一样:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc `*` (x: Dollar, y: int): Dollar =
     result = Dollar(int(x) * y)
@@ -390,7 +395,17 @@ number without unit; and the same holds for division:
 
   proc `div` ...
   ```
-{-----}
+{==+==}
+  ```nim
+  proc `*` (x: Dollar, y: int): Dollar =
+    result = Dollar(int(x) * y)
+
+  proc `*` (x: int, y: Dollar): Dollar =
+    result = Dollar(x * int(y))
+
+  proc `div` ...
+  ```
+{==+==}
 
 {==+==}
 This quickly gets tedious. The implementations are trivial and the compiler
@@ -402,13 +417,19 @@ it generates the above trivial implementations:
 这很快就会变得乏味。实现很简单，编译器不应该生成所有这些代码，而稍后又优化它 —— 美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示 `borrow`:idx: "借用"旨在解决这个问题； 原则上，它会生成上述简单的实现:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc `*` (x: Dollar, y: int): Dollar {.borrow.}
   proc `*` (x: int, y: Dollar): Dollar {.borrow.}
   proc `div` (x: Dollar, y: int): Dollar {.borrow.}
   ```
-{-----}
+{==+==}
+  ```nim
+  proc `*` (x: Dollar, y: int): Dollar {.borrow.}
+  proc `*` (x: int, y: Dollar): Dollar {.borrow.}
+  proc `div` (x: Dollar, y: int): Dollar {.borrow.}
+  ```
+{==+==}
 
 {==+==}
 But it seems all this boilerplate code needs to be repeated for the `Euro`
@@ -689,11 +710,15 @@ For parameters it currently creates implicitly generic routines:
 对于参数，它当前创建隐式常规例程:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc foo(a, b: auto) = discard
   ```
-{-----}
+{==+==}
+  ```nim
+  proc foo(a, b: auto) = discard
+  ```
+{==+==}
 
 {==+==}
 Is the same as:
@@ -701,11 +726,15 @@ Is the same as:
 和如下一样:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc foo[T1, T2](a: T1, b: T2) = discard
   ```
-{-----}
+{==+==}
+  ```nim
+  proc foo[T1, T2](a: T1, b: T2) = discard
+  ```
+{==+==}
 
 {==+==}
 However, later versions of the language might change this to mean "infer the
@@ -799,7 +828,7 @@ algorithm returns true:
 如果以下算法返回 true，则类型 `a` **隐式** 可转换为类型 `b` :
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc isImplicitlyConvertible(a, b: PType): bool =
     if isSubtype(a, b):
@@ -831,7 +860,39 @@ algorithm returns true:
     of proc:
       result = typeEquals(a, b) or compatibleParametersAndEffects(a, b)
   ```
-{-----}
+{==+==}
+  ```nim
+  proc isImplicitlyConvertible(a, b: PType): bool =
+    if isSubtype(a, b):
+      return true
+    if isIntLiteral(a):
+      return b in {int8, int16, int32, int64, int, uint, uint8, uint16,
+                   uint32, uint64, float32, float64}
+    case a.kind
+    of int:     result = b in {int32, int64}
+    of int8:    result = b in {int16, int32, int64, int}
+    of int16:   result = b in {int32, int64, int}
+    of int32:   result = b in {int64, int}
+    of uint:    result = b in {uint32, uint64}
+    of uint8:   result = b in {uint16, uint32, uint64}
+    of uint16:  result = b in {uint32, uint64}
+    of uint32:  result = b in {uint64}
+    of float32: result = b in {float64}
+    of float64: result = b in {float32}
+    of seq:
+      result = b == openArray and typeEquals(a.baseType, b.baseType)
+    of array:
+      result = b == openArray and typeEquals(a.baseType, b.baseType)
+      if a.baseType == char and a.indexType.rangeA == 0:
+        result = b == cstring
+    of cstring, ptr:
+      result = b == pointer
+    of string:
+      result = b == cstring
+    of proc:
+      result = typeEquals(a, b) or compatibleParametersAndEffects(a, b)
+  ```
+{==+==}
 
 {==+==}
 We used the predicate `typeEquals(a, b)` for the "type equality" property
@@ -870,7 +931,7 @@ algorithm returns true:
 如果下列算法返回true，则类型 `a` 是显示转换为类型 `b` :
 {==+==}
 
-{-----}
+{==+==}
  ```nim
   proc isIntegralType(t: PType): bool =
     result = isOrdinal(t) or t.kind in {float, float32, float64}
@@ -884,7 +945,21 @@ algorithm returns true:
     if isIntegralType(a) and isIntegralType(b): return true
     if isSubtype(a, b) or isSubtype(b, a): return true
   ```
-{-----}
+{==+==}
+ ```nim
+  proc isIntegralType(t: PType): bool =
+    result = isOrdinal(t) or t.kind in {float, float32, float64}
+
+  proc isExplicitlyConvertible(a, b: PType): bool =
+    result = false
+    if isImplicitlyConvertible(a, b): return true
+    if typeEquals(a, b): return true
+    if a == distinct and typeEquals(a.baseType, b): return true
+    if b == distinct and typeEquals(b.baseType, a): return true
+    if isIntegralType(a) and isIntegralType(b): return true
+    if isSubtype(a, b) or isSubtype(b, a): return true
+  ```
+{==+==}
 
 
 {==+==}
@@ -1000,7 +1075,7 @@ algorithm returns true::
 如果以下算法返回 true，则例程 `p` 比例程 `q` 匹配得更好:
 {==+==}
 
-{-----}
+{==+==}
   for each matching category m in ["exact match", "literal match",
                                   "generic match", "subtype match",
                                   "integral match", "conversion match"]:
@@ -1010,7 +1085,17 @@ algorithm returns true::
     else:
       return false
   return "ambiguous"
-{-----}
+{==+==}
+  for each matching category m in ["exact match", "literal match",
+                                  "generic match", "subtype match",
+                                  "integral match", "conversion match"]:
+    if count(p, m) > count(q, m): return true
+    elif count(p, m) == count(q, m):
+      discard "continue with next category m"
+    else:
+      return false
+  return "ambiguous"
+{==+==}
 
 {==+==}
 Some examples:
@@ -1018,7 +1103,7 @@ Some examples:
 一些例子:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc takesInt(x: int) = echo "int"
   proc takesInt[T](x: T) = echo "T"
@@ -1032,7 +1117,21 @@ Some examples:
   var z: range[0..4] = 0
   takesInt(z) # "T"
   ```
-{-----}
+{==+==}
+  ```nim
+  proc takesInt(x: int) = echo "int"
+  proc takesInt[T](x: T) = echo "T"
+  proc takesInt(x: int16) = echo "int16"
+
+  takesInt(4) # "int"
+  var x: int32
+  takesInt(x) # "T"
+  var y: int16
+  takesInt(y) # "int16"
+  var z: range[0..4] = 0
+  takesInt(z) # "T"
+  ```
+{==+==}
 
 {==+==}
 If this algorithm returns "ambiguous" further disambiguation is performed:
@@ -1100,7 +1199,7 @@ matches) is preferred:
 类似，对于泛型匹配，最特化的泛型类型(仍然匹配)是首选:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc gen[T](x: ref ref T) = echo "ref ref T"
   proc gen[T](x: ref T) = echo "ref T"
@@ -1109,8 +1208,16 @@ matches) is preferred:
   var ri: ref int
   gen(ri) # "ref T"
   ```
-{-----}
- 
+{==+==}
+ ```nim
+  proc gen[T](x: ref ref T) = echo "ref ref T"
+  proc gen[T](x: ref T) = echo "ref T"
+  proc gen[T](x: T) = echo "T"
+
+  var ri: ref int
+  gen(ri) # "ref T"
+  ```
+{==+==}
 
 {==+==}
 Overloading based on 'var T'
@@ -1189,13 +1296,19 @@ accomplishes:
 由于未声明为 `immediate` 的模板和宏参与重载解析，因此必须有一种方法将未解析的表达式传递给模板或宏。 这就是元类型 `untyped` 的任务:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   template rem(x: untyped) = discard
 
   rem unresolvedExpression(undeclaredIdentifier)
   ```
-{-----}
+{==+==}
+  ```nim
+  template rem(x: untyped) = discard
+
+  rem unresolvedExpression(undeclaredIdentifier)
+  ```
+{==+==}
 
 {==+==}
 A parameter of type `untyped` always matches any argument (as long as there is
@@ -1268,7 +1381,7 @@ a parameter typed as `untyped` (for unresolved expressions) or the type class
 yielding类型 `T` 的迭代器可以通过类型为 `untyped` (用于未解析的表达式)或类型类 `iterable` 或 `iterable[T]` (在类型检查和重载解析之后)的参数传递给模板或宏。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   iterator iota(n: int): int =
     for i in 0..<n: yield i
@@ -1284,9 +1397,7 @@ yielding类型 `T` 的迭代器可以通过类型为 `untyped` (用于未解析�
   assert not compiles(toSeq2(@[1,2])) # seq[int] is not an iterable
   assert toSeq2(items(@[1,2])) == @[1, 2] # but items(@[1,2]) is
   ```
-{-----}
-
-{-----}
+{==+==}
   ```nim
   iterator iota(n: int): int =
     for i in 0..<n: yield i
@@ -1302,7 +1413,41 @@ yielding类型 `T` 的迭代器可以通过类型为 `untyped` (用于未解析�
   assert not compiles(toSeq2(@[1,2])) # seq[int] is not an iterable
   assert toSeq2(items(@[1,2])) == @[1, 2] # but items(@[1,2]) is
   ```
-{-----}
+{==+==}
+
+{==+==}
+  ```nim
+  iterator iota(n: int): int =
+    for i in 0..<n: yield i
+
+  template toSeq2[T](a: iterable[T]): seq[T] =
+    var ret: seq[T]
+    assert a.typeof is T
+    for ai in a: ret.add ai
+    ret
+
+  assert iota(3).toSeq2 == @[0, 1, 2]
+  assert toSeq2(5..7) == @[5, 6, 7]
+  assert not compiles(toSeq2(@[1,2])) # seq[int] is not an iterable
+  assert toSeq2(items(@[1,2])) == @[1, 2] # but items(@[1,2]) is
+  ```
+{==+==}
+  ```nim
+  iterator iota(n: int): int =
+    for i in 0..<n: yield i
+
+  template toSeq2[T](a: iterable[T]): seq[T] =
+    var ret: seq[T]
+    assert a.typeof is T
+    for ai in a: ret.add ai
+    ret
+
+  assert iota(3).toSeq2 == @[0, 1, 2]
+  assert toSeq2(5..7) == @[5, 6, 7]
+  assert not compiles(toSeq2(@[1,2])) # seq[int] is not an iterable
+  assert toSeq2(items(@[1,2])) == @[1, 2] # but items(@[1,2]) is
+  ```
+{==+==}
 
 {==+==}
 Overload disambiguation
@@ -1355,7 +1500,7 @@ a parameter has different names between them.
 如果形参的名称不同，则可以分别调用具有相同类型签名的例程。
 {==+==}
 
-{-----}
+{==+==}
   ```Nim
   proc foo(x: int) =
     echo "Using x: ", x
@@ -1365,7 +1510,17 @@ a parameter has different names between them.
   foo(x = 2) # Using x: 2
   foo(y = 2) # Using y: 2
   ```
-{-----}
+{==+==}
+  ```Nim
+  proc foo(x: int) =
+    echo "Using x: ", x
+  proc foo(y: int) =
+    echo "Using y: ", y
+
+  foo(x = 2) # Using x: 2
+  foo(y = 2) # Using y: 2
+  ```
+{==+==}
 
 {==+==}
 Not supplying the parameter name in such cases results in an
@@ -1494,7 +1649,7 @@ however the discardable pragma does not work on templates as templates substitut
 但是可丢弃的编译指示不适用于模板，因为模板会替换掉 AST。 例如:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   {.push discardable .}
   template example(): string = "https://nim-lang.org"
@@ -1502,7 +1657,15 @@ however the discardable pragma does not work on templates as templates substitut
 
   example()
   ```
-{-----}
+{==+==}
+  ```nim
+  {.push discardable .}
+  template example(): string = "https://nim-lang.org"
+  {.pop.}
+
+  example()
+  ```
+{==+==}
 
 {==+==}
 This template will resolve into "https://nim-lang.org" which is a string literal and since {.discardable.} doesn't apply to literals, the compiler will error.
@@ -1516,7 +1679,7 @@ An empty `discard` statement is often used as a null statement:
 空的 `discard` 语句通常用于一个空的语句中:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc classify(s: string) =
     case s[0]
@@ -1524,7 +1687,15 @@ An empty `discard` statement is often used as a null statement:
     of '0'..'9': echo "a number"
     else: discard
   ```
-{-----}
+{==+==}
+  ```nim
+  proc classify(s: string) =
+    case s[0]
+    of SymChars, '_': echo "an identifier"
+    of '0'..'9': echo "a number"
+    else: discard
+  ```
+{==+==}
 
 {==+==}
 Void context
@@ -1556,21 +1727,33 @@ symbol also triggers a mandatory `void` context for the subsequent expressions:
   ```
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc valid*(): string =
     let x = 317
     "valid"
   ```
-{-----}
+{==+==}
+  ```nim
+  proc valid*(): string =
+    let x = 317
+    "valid"
+  ```
+{==+==}
 
-{-----}
+{==+==}
   ```nim
   proc valid*(): string =
     let x = 317
     "valid"
   ```
-{-----}
+{==+==}
+  ```nim
+  proc valid*(): string =
+    let x = 317
+    "valid"
+  ```
+{==+==}
 
 {==+==}
 Var statement
@@ -1588,13 +1771,19 @@ variables of the same type:
 Var 语句声明新的局部和全局变量并初始化它们。逗号分隔的变量列表可用于指定相同类型的变量:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var
     a: int = 0
     x, y, z: int
   ```
-{-----}
+{==+==}
+  ```nim
+  var
+    a: int = 0
+    x, y, z: int
+  ```
+{==+==}
 
 {==+==}
 If an initializer is given, the type can be omitted: the variable is then of the
@@ -1651,12 +1840,17 @@ The implicit initialization can be avoided for optimization reasons with the
 出于优化原因，可以使用 `noinit`:idx: "无初始化"编译指示来避免隐式初始化:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var
     a {.noinit.}: array[0..1023, char]
   ```
-{-----}
+{==+==}
+  ```nim
+  var
+    a {.noinit.}: array[0..1023, char]
+  ```
+{==+==}
 
 {==+==}
 If a proc is annotated with the `noinit` pragma, this refers to its implicit
@@ -1665,11 +1859,15 @@ If a proc is annotated with the `noinit` pragma, this refers to its implicit
 如果proc使用 `noinit` 编译指示，这指的是其隐式 `result` 变量:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc returnUndefinedValue: int {.noinit.} = discard
   ```
-{-----}
+{==+==}
+  ```nim
+  proc returnUndefinedValue: int {.noinit.} = discard
+  ```
+{==+==}
 
 {==+==}
 The implicit initialization can also be prevented by the `requiresInit`:idx:
@@ -1722,7 +1920,7 @@ Given the following distinct type definitions:
 给定以下不同的类型定义:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     Foo = object
@@ -1731,7 +1929,16 @@ Given the following distinct type definitions:
     DistinctFoo {.requiresInit, borrow: `.`.} = distinct Foo
     DistinctString {.requiresInit.} = distinct string
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    Foo = object
+      x: string
+
+    DistinctFoo {.requiresInit, borrow: `.`.} = distinct Foo
+    DistinctString {.requiresInit.} = distinct string
+  ```
+{==+==}
 
 {==+==}
 The following code blocks will fail to compile:
@@ -1739,7 +1946,7 @@ The following code blocks will fail to compile:
 下列代码块将会编译失败:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var foo: DistinctFoo
   foo.x = "test"
@@ -1751,7 +1958,19 @@ The following code blocks will fail to compile:
   s = "test"
   doAssert string(s) == "test"
   ```
-{-----}
+{==+==}
+  ```nim
+  var foo: DistinctFoo
+  foo.x = "test"
+  doAssert foo.x == "test"
+  ```
+
+  ```nim
+  var s: DistinctString
+  s = "test"
+  doAssert string(s) == "test"
+  ```
+{==+==}
 
 {==+==}
 But these will compile successfully:
@@ -1759,19 +1978,29 @@ But these will compile successfully:
 但这些将会编译成功:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   let foo = DistinctFoo(Foo(x: "test"))
   doAssert foo.x == "test"
   ```
-{-----}
+{==+==}
+  ```nim
+  let foo = DistinctFoo(Foo(x: "test"))
+  doAssert foo.x == "test"
+  ```
+{==+==}
 
-{-----}
+{==+==}
   ```nim
   let s = DistinctString("test")
   doAssert string(s) == "test"
   ```
-{-----}
+{==+==}
+  ```nim
+  let s = DistinctString("test")
+  doAssert string(s) == "test"
+  ```
+{==+==}
 
 {==+==}
 Let statement
@@ -1821,13 +2050,19 @@ identifier `_` can be used to ignore some parts of the tuple:
 在 `var` 或 `let` 语句中可以执行元组解包。 特殊标识符 `_` 可用于忽略元组的某些部分:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc returnsTuple(): (int, int, int) = (4, 2, 3)
 
   let (x, _, z) = returnsTuple()
   ```
-{-----}
+{==+==}
+  ```nim
+  proc returnsTuple(): (int, int, int) = (4, 2, 3)
+
+  let (x, _, z) = returnsTuple()
+  ```
+{==+==}
 
 {==+==}
 Const section
@@ -1888,12 +2123,17 @@ Even some code that has side effects is permitted in a static block:
 静态语句/表达式明确需要编译时执行。甚至在静态块中也允许一些具有副作用的代码:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   static:
     echo "echo at compile time"
   ```
-{-----}
+{==+==}
+  ```nim
+  static:
+    echo "echo at compile time"
+  ```
+{==+==}
 
 {==+==}
 `static` can also be used like a routine.
@@ -1950,7 +2190,7 @@ Example:
 示例:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var name = readLine(stdin)
 
@@ -1961,7 +2201,18 @@ Example:
   else:
     echo "Boring name..."
   ```
-{-----}
+{==+==}
+  ```nim
+  var name = readLine(stdin)
+
+  if name == "Andreas":
+    echo "What a nice name!"
+  elif name == "":
+    echo "Don't you have a name?"
+  else:
+    echo "Boring name..."
+  ```
+{==+==}
 
 {==+==}
 The `if` statement is a simple way to make a branch in the control flow:
@@ -1986,7 +2237,7 @@ in `{|  |}` in the following example:
 在 `if` 语句中，新的作用域在 `if`/`elif`/`else` 关键字之后立即开始，并在相应的 *那个* 块之后结束。 出于呈现的目的，在以下示例中，作用域被包含在 `{| |}` 中:
 {==+==}
 
-{-----}
+{==+==}
 ```nim
   if {| (let m = input =~ re"(\w+)=\w+"; m.isMatch):
     echo "key ", m[0], " value ", m[1]  |}
@@ -1995,4 +2246,13 @@ in `{|  |}` in the following example:
   else: {|
     echo "m not declared here"  |}
   ```
-{-----}
+{==+==}
+```nim
+  if {| (let m = input =~ re"(\w+)=\w+"; m.isMatch):
+    echo "key ", m[0], " value ", m[1]  |}
+  elif {| (let m = input =~ re""; m.isMatch):
+    echo "new m in this scope"  |}
+  else: {|
+    echo "m not declared here"  |}
+  ```
+{==+==}
