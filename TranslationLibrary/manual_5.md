@@ -75,7 +75,7 @@ starts with the prefix `m` per convention.
 Later versions of Nim can be more precise about the borrowing rule with
 a syntax like:
 {==+==}
-未来的Nim在借用规则上将会更加准确，比如下面的语句
+未来的Nim在借用规则上将会更加准确，比如下面的语句:
 {==+==}
 
 {-----}
@@ -90,8 +90,8 @@ location is derived from the second parameter (called
 'container' in this case). The syntax `var T from p` specifies a type
 `varTy[T, 2]` which is incompatible with `varTy[T, 1]`.
 {==+==}
-`var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例中称为“contaner”)。
-`var T from p` 语句指定了类型 `varTy[T, 2]` ，它不能与 `varTy[T, 1]` 类型兼容。
+`var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例中称为 'container' )。
+`var T from p` 语句指定了类型 `varTy[T, 2]` ，它与 `varTy[T, 1]` 类型不兼容。
 {==+==}
 
 {==+==}
@@ -108,7 +108,7 @@ of the language specification will be changed.
 See https://github.com/nim-lang/RFCs/issues/230 for more information.
 {==+==}
 **注意**: 本节文档仅描述当前版本的代码实现。这部分语言规范将会有变动。
-详情请查看链接 https://github.com/nim-lang/RFCs/issues/230
+详情请查看链接 https://github.com/nim-lang/RFCs/issues/230 。
 {==+==}
 
 {==+==}
@@ -122,7 +122,8 @@ to `p'(args, dest)` where `p'` is a variation of `p` that returns `void` and
 receives a hidden mutable parameter representing `result`.
 {==+==}
 返回值以例程的特殊变量 `result` :idx: 出现。这便为实现类似C++的"具名返回值优化" (`NRVO`:idx:) 机制创造了条件。
-NRVO 指的是对 `p` 内部 `result` 的操作会直接影响 `let/var dest = p(args)` (`dest` 的定义) 与 `dest = p(args)` (`dest` 的赋值) 中的目标 `dest` 。这是通过将 `dest = p(args)` 重写为 `p'(args, dest)` 来实现的，其中 `p'` 是 `p` 的变体，它返回 `void` 并且接收一个 `result` 的可变参数。
+NRVO 指的是对 `p` 内部 `result` 的操作会直接影响 `let/var dest = p(args)` (`dest` 的定义) 与 `dest = p(args)` (`dest` 的赋值) 中的目标 `dest` 。
+这是通过将 `dest = p(args)` 重写为 `p'(args, dest)` 来实现的，其中 `p'` 是 `p` 的变体，它返回 `void` 并且接收一个 `result` 的可变参数。
 {==+==}
 
 {==+==}
@@ -166,8 +167,8 @@ Let `T`'s be `p`'s return type. NRVO applies for `T`
 if `sizeof(T) >= N` (where `N` is implementation dependent),
 in other words, it applies for "big" structures.
 {==+==}
-让 `T`作为 `p` 的返回值。
-当 `sizeof(T) >= N` (`N` 的值依赖于具体实现) 时，NRVO 会将返回值申请为 `T` 。
+让 `T` 作为 `p` 的返回值。
+当 `sizeof(T) >= N` ( `N` 的值依赖于具体实现) 时，NRVO 会将返回值申请为 `T` 。
 换句话说，它会将返回值申请为 "较大" 的结构体。
 {==+==}
 
@@ -320,7 +321,7 @@ In the example the constructors `newLit` and `newPlus` are procs
 because they should use static binding, but `eval` is a method because it
 requires dynamic binding.
 {==+==}
-在这个例子中，构造器 `newLit` 和 `newPlus` 都是过程因为它们都使用静态方法匹配，但是 `eval` 是一个方法因为它需要动态方法匹配。
+在这个例子中，构造器 `newLit` 和 `newPlus` 都是过程，因为它们都使用静态方法匹配，但是 `eval` 是一个方法因为它需要动态方法匹配。
 {==+==}
 
 {==+==}
@@ -349,7 +350,7 @@ the effects that a call to `m` might cause.
 Multi-methods
 --------------
 {==+==}
-多版本方法(方法重写)
+多版本方法
 ----------------------------------------
 {==+==}
 
@@ -454,7 +455,7 @@ of a container. It relies on an `iterator`:idx: to do so. Like `while`
 statements, `for` statements open an `implicit block`:idx: so that they
 can be left with a `break` statement.
 {==+==}
-`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于迭代器 `iterator`:idx: 来实现。与 `while` 语句类似，`for` 语句打开了一个 `implicit block`:idx: ，这样可以与 `break` 语句搭配。
+`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于迭代器 `iterator`:idx: 来实现。与 `while` 语句类似，`for` 语句打开了一个 `implicit block`:idx: "隐式块"，这样可以与 `break` 语句搭配。
 {==+==}
 
 {==+==}
@@ -462,7 +463,7 @@ The `for` loop declares iteration variables - their scope reaches until the
 end of the loop body. The iteration variables' types are inferred by the
 return type of the iterator.
 {==+==}
-`for` 循环声明了迭代器变量 - 它们的生命周期持续到循环体的结束。迭代器的类型是由迭代器的返回值类型推断的。
+`for` 循环声明了迭代器变量 - 它们的生命周期持续到循环体的结束。迭代器的类型是由迭代器的返回值类型推断。
 {==+==}
 
 {==+==}
@@ -474,7 +475,10 @@ reached, the data is bound to the `for` loop variables and control continues
 in the body of the `for` loop. The iterator's local variables and execution
 state are automatically saved between calls. Example:
 {==+==}
-迭代器与过程类似，除了迭代器只在 `for` 循环的上下文中调用。迭代器提供了一种特殊的使用抽象类型的迭代方式。在 `for` 循环的执行过程中， `yield` 语句对迭代器的调用起到关键性的作用。当程序执行到 `yield` 语句时，数据会与 `for` 循环的当前变量绑定但循环体继续执行。迭代器的局部变量和执行语句会在循环之间自动保存。实例如下:
+迭代器与过程类似，除了迭代器只在 `for` 循环的上下文中调用。迭代器提供了一种特殊的使用抽象类型的迭代方式。
+在 `for` 循环的执行过程中， `yield` 语句对迭代器的调用起到关键性的作用。
+当程序执行到 `yield` 语句时，数据会与 `for` 循环的当前变量绑定但循环体继续执行。迭代器的局部变量和执行语句会在循环之间自动保存。
+实例如下:
 {==+==}
 
 {==+==}
@@ -525,7 +529,8 @@ as there are components in the tuple. The i'th iteration variable's type is
 the type of the i'th component. In other words, implicit tuple unpacking in a
 for loop context is supported.
 {==+==}
-如果迭代器遍历一个元组，则元组的元素便是迭代器的变量。第 i 次迭代的变量类型是元组第 i 个元素的类型。换句话说，循环上下文支持隐式元组拆包。
+如果迭代器遍历一个元组，则元组的元素便是迭代器的变量。
+第 i 次迭代的变量类型是元组第 i 个元素的类型。换句话说，循环上下文支持隐式元组拆包。
 {==+==}
 
 {==+==}
@@ -582,7 +587,8 @@ leading to zero overhead for the abstraction, but may result in a heavy
 increase in code size.
 {==+==}
 Nim 中有两种迭代器: *inline* (内联)和 *closure* (闭包)迭代器。
-`inline iterator`:idx: 内联迭代器指总是被编译器内联优化的迭代器，这样在运行时解释抽象的同时不需要付出额外的代价(零成本抽象)，但可能会导致代码体积大大增加。
+`inline iterator`:idx: 内联迭代器指总是被编译器内联优化的迭代器，
+这样在运行时解释抽象的同时不需要付出额外的代价(零成本抽象)，但可能会导致代码体积大大增加。
 {==+==}
 
 {==+==}
@@ -591,7 +597,7 @@ each `yield` statement appearing in the iterator code,
 so ideally the code should be refactored to contain a single yield when possible
 to avoid code bloat.
 {==+==}
-请警惕: 在使用内联迭代器时，循环体会被内联进循环中所有的 `yield` 语句里，所以在使用内联迭代器时，开发者应该尽量只使用一个 yield 语句以避免代码体积膨胀。
+请警惕:  在使用内联迭代器时，循环体会被内联进循环中所有的 `yield` 语句里，所以在使用内联迭代器时，开发者应该尽量只使用一个 yield 语句以避免代码体积膨胀。
 {==+==}
 
 {==+==}
@@ -661,7 +667,7 @@ The `iterator` type is always of the calling convention `closure`
 implicitly; the following example shows how to use iterators to implement
 a `collaborative tasking`:idx: system:
 {==+==}
-`iterator` 类型通常约定隐式使用 `closure` 闭包迭代器; 下面的例子展示了如何实现一个 `collaborative tasking`:idx: 系统: 
+`iterator` 类型通常约定隐式使用 `closure` 闭包迭代器; 下面的例子展示了如何实现一个 `collaborative tasking`:idx: "协作任务"系统: 
 {==+==}
 
 {-----}
@@ -788,7 +794,7 @@ Closure iterators are *resumable functions* and so one has to provide the
 arguments to every call. To get around this limitation one can capture
 parameters of an outer factory proc:
 {==+==}
-闭包迭代器是 *可恢复函数* ，因此每次调用必须提供参数。 可以给迭代器套一层“工厂”过程，通过捕获外部“工厂”过程的参数来绕过这个限制:
+闭包迭代器是 *可恢复函数* ，因此每次调用必须提供参数。可以给迭代器套一层"工厂"过程，通过捕获外部"工厂"过程的参数来绕过这个限制:
 {==+==}
 
 {-----}
@@ -909,7 +915,7 @@ A converter is like an ordinary proc except that it enhances
 the "implicitly convertible" type relation (see `Convertible relation
 <#type-relations-convertible-relation>`_):
 {==+==}
-转换器就像普通的过程，只不过它增强了“隐式可转换”类型关系 (参见`Convertible relation <#type-relations-convertible-relation>`_ )
+转换器就像普通的过程，只不过它增强了"隐式可转换"类型关系 (参见`Convertible relation <#type-relations-convertible-relation>`_ ):
 {==+==}
 
 {==+==}
@@ -1067,7 +1073,7 @@ listed in an `except` clause, the corresponding statements are executed.
 The statements following the `except` clauses are called
 `exception handlers`:idx:.
 {==+==}
-除非有异常 `e` 抛出，否则 `try` 之后的语句顺序执行。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: 。
+除非有异常 `e` 抛出，否则 `try` 之后的语句顺序执行。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: "异常处理"。
 {==+==}
 
 {==+==}
@@ -1232,7 +1238,7 @@ Custom exceptions
 {==+==}
 It is possible to create custom exceptions. A custom exception is a custom type:
 {==+==}
-您可以创建自定义异常。自定义异常就是自定义类性: 
+您可以创建自定义异常。自定义异常就是自定义类型: 
 {==+==}
 
 {-----}
@@ -1251,7 +1257,7 @@ Ending the custom exception's name with `Error` is recommended.
 {==+==}
 Custom exceptions can be raised just like any other exception, e.g.:
 {==+==}
-自定义异常可以像其他异常一样抛出， 例如: 
+自定义异常可以像其他异常一样抛出，例如: 
 {==+==}
 
 {-----}
@@ -1830,7 +1836,7 @@ Exception tracking is part of Nim's `effect system`:idx:. Raising an exception
 is an *effect*. Other effects can also be defined. A user defined effect is a
 means to *tag* a routine and to perform checks against this tag:
 {==+==}
-异常追踪是 Nim `effect system`:idx: 的一部分。抛出异常是一个 *effect* 。当然可以定义其他 effect 。用户定义的 effect 是对例程打上一个 *tag* 并检查这个 tag : 
+异常追踪是 Nim `effect system`:idx: "作用系统"的一部分。抛出异常是一个 *effect* 。当然可以定义其他 effect 。用户定义的 effect 是对例程打上一个 *tag* 并检查这个 tag : 
 {==+==}
 
 {==+==}
@@ -1871,7 +1877,7 @@ tag 跟踪的推断规则与异常追踪的推断规则类型。
 {==+==}
 There is also a way which can be used to forbid certain effects:
 {==+==}
-也有几种方式可以禁用某些effect:
+也有几种方式可以禁用某些effect"作用":
 {==+==}
 
 {==+==}
