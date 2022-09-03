@@ -2112,36 +2112,6 @@ The macro call expands to:
 {==+==}
 
 {==+==}
-  ```nim
-  write(stdout, "a[0]")
-  write(stdout, ": ")
-  writeLine(stdout, a[0])
-
-  write(stdout, "a[1]")
-  write(stdout, ": ")
-  writeLine(stdout, a[1])
-
-  write(stdout, "x")
-  write(stdout, ": ")
-  writeLine(stdout, x)
-  ```
-{==+==}
-  ```nim
-  write(stdout, "a[0]")
-  write(stdout, ": ")
-  writeLine(stdout, a[0])
-
-  write(stdout, "a[1]")
-  write(stdout, ": ")
-  writeLine(stdout, a[1])
-
-  write(stdout, "x")
-  write(stdout, ": ")
-  writeLine(stdout, x)
-  ```
-{==+==}
-
-{==+==}
 However, the symbols `write`, `writeLine` and `stdout` are already bound
 and are not looked up again. As the example shows, `bindSym` does work with
 overloaded symbols implicitly.
