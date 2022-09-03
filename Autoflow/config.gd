@@ -45,18 +45,24 @@ func TL_flow_objs_init():
             TL_entrys.append_array(_TL_files.get_TL_entrys())
         
         i["翻译词条"]=TL_entrys
-        
         TL_flow_obj_sorting_by_length(i) ## 按长度执行一次排序
         
+        if i["翻译词条"].size()>0:
+            #print("对第一个翻译词条字符串打印测试：",i["翻译词条"][0])
+            pass
+            
         if TL_flow_obj_in_test(i)==false:
-            print(i["源文件名称"],"反包含验证失败了")
+            print(i["源文件名称"],"反包含验证失败了。")
             return false
-
+        else:
+            print(i["源文件名称"],"反包含验证成功。")
+        
         print(i["源文件名称"],"当前所提取到的翻译词条数量为:",TL_entrys.size())
         if i["翻译模式"]=="精确对比":
             is_pass= TL_flow_obj_test(i)
             print(i["源文件名称"],"词条存在性验证结果",is_pass)
             pass
+    
     return is_pass  ## 返回验证结果
 
 
@@ -78,7 +84,7 @@ func TL_flow_obj_sorting_by_length(TL_flow_obj):
     var _TLL=TL_flow_obj["翻译词条"]
     for i in range(_TLL.size()):
         for u in range(i,_TLL.size()):
-            if _TLL[u].source_text.length()<_TLL[i].source_text.length():
+            if _TLL[u].source_text.length()>_TLL[i].source_text.length():
                 var c=_TLL[i]
                 _TLL[i]=_TLL[u]
                 _TLL[u]=c
@@ -101,6 +107,21 @@ func TL_flow_obj_in_test(TL_flow_obj):
         length-=1
     return is_pass
 
+
+func TL_flow_obj_merge(TL_flow_obj):
+    
+    var tar_doc_file:String=G.load_file(targetDoc_path+TL_flow_obj["源文件名称"])
+    var tar_doc_file_copy=tar_doc_file
+    
+    for i in TL_flow_obj["翻译词条"]:
+        tar_doc_file=tar_doc_file.replace(i.source_text,i.translation_text)
+        pass
+    for i in TL_flow_obj["翻译词条"]:
+        tar_doc_file_copy=tar_doc_file_copy.replace(i.source_text,"{-----}")
+        pass
+    G.save_file(tar_doc_file,G.dir_current_parent()+"products/"+TL_flow_obj["目标文件名称"])
+    G.save_file(tar_doc_file_copy,G.dir_current_parent()+"products/"+TL_flow_obj["目标遗留文件文件名称"])
+    
 
 
 

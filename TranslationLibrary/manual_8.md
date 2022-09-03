@@ -499,8 +499,8 @@ localPassC 编译指示
   ```
 {==+==}
   ```Nim
-  # Module A.nim
-  # Produces: A.nim.cpp
+  # 模块 A.nim
+  # 生成: A.nim.cpp
   {.localPassC: "-Wall -Werror".} # Passed when compiling A.nim.cpp
   ```
 {==+==}
@@ -844,18 +844,15 @@ For example:
   ```
 {==+==}
 
-
 {==+==}
 Produces:
-{==+==}
-生成:
-{==+==}
 
-{==+==}
   ```C
   x->CppMethod(1, 2, 3)
   ```
 {==+==}
+生成:
+
   ```C
   x->CppMethod(1, 2, 3)
   ```
@@ -933,15 +930,13 @@ For example:
 
 {==+==}
 Produces:
-{==+==}
-生成:
-{==+==}
 
-{==+==}
   ```C
   x = SystemManager::getSubsystem<System::Input>()
   ```
 {==+==}
+生成:
+
   ```C
   x = SystemManager::getSubsystem<System::Input>()
   ```
@@ -984,15 +979,13 @@ For example C++'s `new`:cpp: operator can be "imported" like this:
 
 {==+==}
 Produces:
-{==+==}
-生成:
-{==+==}
 
-{==+==}
   ```C
   x = new Foo(3, 4)
   ```
 {==+==}
+生成:
+
   ```C
   x = new Foo(3, 4)
   ```
@@ -1150,16 +1143,14 @@ Produces:
 
 {==+==}
   Produces:
-{==+==}
-  生成:
-{==+==}
 
-{==+==}
     ```C
 
     std::vector<int>::iterator x;
     ```
 {==+==}
+  生成:
+
     ```C
 
     std::vector<int>::iterator x;
