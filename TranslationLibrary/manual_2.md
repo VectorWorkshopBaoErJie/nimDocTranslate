@@ -422,9 +422,12 @@ This condition holds::
 这种情况成立::
 {==+==}
 
-{-----}
+{==+==}
   ord(false) == 0 and ord(true) == 1
-{-----}
+{==+==}
+  ord(false) == 0 and ord(true) == 1
+{==+==}
+
 
 {==+==}
 The operators `not, and, or, xor, <, <=, >, >=, !=, ==` are defined
@@ -493,14 +496,19 @@ specified. The values are ordered. Example:
 枚举类型定义了一个其值由指定的值组成的新类型，这些值是有序的。例如:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     Direction = enum
       north, east, south, west
   ```
-{-----}
-
+{==+==}
+  ```nim
+  type
+    Direction = enum
+      north, east, south, west
+  ```
+{==+==}
 
 {==+==}
 Now the following holds::
@@ -562,7 +570,7 @@ values to use:
 编译器支持内置的字符串化运算符 `$` 用于枚举。字符串化的效果是，可以通过显式给出要使用的字符串来控制:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     MyEnum = enum
@@ -571,7 +579,16 @@ values to use:
       valueC = 2,
       valueD = (3, "abc")
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    MyEnum = enum
+      valueA = (0, "my value A"),
+      valueB = "value B",
+      valueC = 2,
+      valueD = (3, "abc")
+  ```
+{==+==}
 
 {==+==}
 As can be seen from the example, it is possible to both specify a field's
@@ -818,13 +835,19 @@ string from a cstring:
 为cstring定义的 `$` 过程能够返回string。因此，从cstring获取nim的string可以这样:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   var str: string = "Hello!"
   var cstr: cstring = str
   var newstr: string = $cstr
   ```
-{-----}
+{==+==}
+  ```nim
+  var str: string = "Hello!"
+  var cstr: cstring = str
+  var newstr: string = $cstr
+  ```
+{==+==}
 
 {==+==}
 `cstring` literals shouldn't be modified.
@@ -993,7 +1016,7 @@ An array constructor can have explicit indexes for readability:
 数组构造器可以具有可读的显式索引:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     Values = enum
@@ -1006,7 +1029,21 @@ An array constructor can have explicit indexes for readability:
       valC: "C"
     ]
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    Values = enum
+      valA, valB, valC
+
+  const
+    lookupTable = [
+      valA: "A",
+      valB: "B",
+      valC: "C"
+    ]
+  ```
+{==+==}
+
 
 {==+==}
 If an index is left out, `succ(lastIndex)` is used as the index
@@ -1015,8 +1052,7 @@ value:
 如果省略索引，则使用 `succ(lastIndex)` 作为索引值:
 {==+==}
 
-
-{-----}
+{==+==}
   ```nim
   type
     Values = enum
@@ -1030,8 +1066,21 @@ value:
       "D", "e"
     ]
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    Values = enum
+      valA, valB, valC, valD, valE
 
+  const
+    lookupTable = [
+      valA: "A",
+      "B",
+      valC: "C",
+      "D", "e"
+    ]
+  ```
+{==+==}
 
 {==+==}
 Open arrays
@@ -1061,14 +1110,21 @@ supported because this is seldom needed and cannot be done efficiently.
  `openarray` 类型不能嵌套: 不支持多维开放数组，因为这种需求很少并且不能有效地完成。
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc testOpenArray(x: openArray[int]) = echo repr(x)
 
   testOpenArray([1,2,3])  # array[]
   testOpenArray(@[1,2,3]) # seq[]
   ```
-{-----}
+{==+==}
+  ```nim
+  proc testOpenArray(x: openArray[int]) = echo repr(x)
+
+  testOpenArray([1,2,3])  # array[]
+  testOpenArray(@[1,2,3]) # seq[]
+  ```
+{==+==}
 
 
 {==+==}
@@ -1214,14 +1270,21 @@ undetermined size:
 `UncheckedArray[T]` 类型是一种特殊的 `array` "数组"，编译器不检查它的边界。 这对于实现定制灵活大小的数组通常很有用。 另外，未检查数组可以这样转换为不确定大小的C数组:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     MySeq = object
       len, cap: int
       data: UncheckedArray[int]
   ```
-{-----}
+{==+==}
+  ```nim
+  type
+    MySeq = object
+      len, cap: int
+      data: UncheckedArray[int]
+  ```
+{==+==}
 
 {==+==}
 Produces roughly this C code:
@@ -1229,7 +1292,7 @@ Produces roughly this C code:
 生成的C代码大致是这样的:
 {==+==}
 
-{-----}
+{==+==}
   ```C
   typedef struct {
     NI len;
@@ -1237,7 +1300,15 @@ Produces roughly this C code:
     NI data[];
   } MySeq;
   ```
-{-----}
+{==+==}
+  ```C
+  typedef struct {
+    NI len;
+    NI cap;
+    NI data[];
+  } MySeq;
+  ```
+{==+==}
 
 {==+==}
 The base type of the unchecked array may not contain any GC'ed memory but this
@@ -1316,15 +1387,21 @@ trailing comma:
 可以使用括号和尾随逗号构造具有一个未命名字段的元组:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   proc echoUnaryTuple(a: (int,)) =
     echo a[0]
 
   echoUnaryTuple (1,)
   ```
-{-----}
+{==+==}
+  ```nim
+  proc echoUnaryTuple(a: (int,)) =
+    echo a[0]
 
+  echoUnaryTuple (1,)
+  ```
+{==+==}
 
 {==+==}
 In fact, a trailing comma is allowed for every tuple construction.
@@ -1798,9 +1875,11 @@ Set type
 ----------------
 {==+==}
 
-{-----}
+{==+==}
 .. include:: sets_fragment.txt
-{-----}
+{==+==}
+.. include:: sets_fragment.txt
+{==+==}
 
 {==+==}
 Reference and pointer types
@@ -1924,15 +2003,21 @@ This feature is useful if an object should only gain reference semantics:
 作为语法扩展，如果在类型部分中通过 `ref object` 或 `ptr object` 符号声明，则`object` 类型可以是匿名的。 如果对象只应获取引用语义，则此功能非常有用:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   type
     Node = ref object
       le, ri: Node
       data: int
   ```
-{-----}
-
+{==+==}
+  ```nim
+  type
+    Node = ref object
+      le, ri: Node
+      data: int
+  ```
+{==+==}
 
 {==+==}
 To allocate a new traced object, the built-in procedure `new` has to be used.
@@ -1998,13 +2083,17 @@ Into:
 那么上述代码可以变成:
 {==+==}
 
-{-----}
+{==+==}
   ```nim
   p[].field = 3
   action()
   ```
-{-----}
-
+{==+==}
+  ```nim
+  p[].field = 3
+  action()
+  ```
+{==+==}
 
 {==+==}
 *Note*: This is not comparable to C's "undefined behavior" for
