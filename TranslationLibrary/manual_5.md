@@ -766,6 +766,8 @@ a `collaborative tasking`:idx: system:
 {==+==}
 `iterator` 类型通常约定隐式使用 `closure` 闭包迭代器; 下面的例子展示了如何实现一个 `collaborative tasking`:idx: "协作任务"系统:
 {==+==}
+
+{==+==}
   ```nim
   # simple tasking:
   type
