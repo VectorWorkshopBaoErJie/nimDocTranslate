@@ -1,0 +1,82 @@
+集合类型是数学概念集合的模型。集合的基础类型只能是具有一定大小的序数类型，即:
+
+* `int8`-`int16`
+* `uint8`/`byte`-`uint16`
+* `char`
+* `enum`
+
+或等价物。对于有符号的整数，集合的基础类型被定义为 `0 .. MaxSetElements-1` 的范围，其中 `MaxSetElements` 目前总是 2^16 。
+
+原因是集合被实现为高性能的bit vector。
+试图用太大类型来声明集合将导致一个错误:
+
+```nim
+
+  var s: set[int64] # 错误: 集合太大，使用 `std/sets` 处理超过 2^16 元素的序数类型
+
+```
+
+
+**注意:** Nim还提供了 `hash sets <sets.html>`_ (你需要用 `import sets` 导入)，它没有这种限制。
+
+集合可以通过集合构造器来构造: `{}` 是空集。空集的类型与任何具体的集合类型兼容。
+构造器也可以用来包含元素(和元素范围)。
+
+  ```nim
+  type
+    CharSet = set[char]
+  var
+    x: CharSet
+  x = {'a'..'z', '0'..'9'} # 这构建了一个包含从'a' 到 'z' 的字母和从 '0' 到 '9' 的数字的集合。
+
+集合支持以下操作。
+
+==================    ========================================================
+运算                  含义
+==================    ========================================================
+`A + B`               两个集合的并集
+`A * B`               两个集合的交集
+`A - B`               两个集合的差集(A不包含B的元素)
+`A == B`              集合相等
+`A <= B`              子集关系(A是B的子集或等于B)
+`A < B`               严格子集关系(A是B的真子集)
+`e in A`              集合成员关系(A包含元素e)
+`e notin A`           A不包含元素e
+`contains(A, e)`      A包含元素e
+`card(A)`             A的基数(A中元素的数量)
+`incl(A, elem)`       相同于 `A = A + {elem}`
+`excl(A, elem)`       相同于 `A = A - {elem}`
+==================    ========================================================
+
+### 位域
+
+集合经常被用来为过程的 *标记* 定义类型。
+这是比定义整数常量更利落的解决方案(而且类型安全)，因为整数常量必须被 `or` "或"在一起。
+
+enum、set和cast可以像下面这样一起使用:
+
+  ```nim
+  type
+    MyFlag* {.size: sizeof(cint).} = enum
+      A
+      B
+      C
+      D
+    MyFlags = set[MyFlag]
+
+  proc toNum(f: MyFlags): int = cast[cint](f)
+  proc toFlags(v: int): MyFlags = cast[MyFlags](v)
+
+  assert toNum({}) == 0
+  assert toNum({A}) == 1
+  assert toNum({D}) == 8
+  assert toNum({A, C}) == 5
+  assert toFlags(0) == {}
+  assert toFlags(7) == {A, B, C}
+  ```
+
+要注意set是怎样将枚举值转换为2的幂值。
+
+如果在C中使用枚举和集合，请使用distinct cint。
+
+关于与C的互操作，请参阅 `bitsize pragma <manual.html#implementation-specific-pragmas-bitsize-pragma>`_ 。
