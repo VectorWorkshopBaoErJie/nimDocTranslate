@@ -46,7 +46,7 @@ About this document
 **Note**: This document is a draft! Several of Nim's features may need more
 precise wording. This manual is constantly evolving into a proper specification.
 {==+==}
-**注意**: 当前手册还是草案! Nim的一些功能需要更加准确的描述。本手册也在不断更新，以成为标准规范。
+**注意**: 当前手册还是草案! Nim的一些功能需要更加准确的描述。当前手册也在不断更新，使其成为规范。
 {==+==}
 
 {==+==}
@@ -81,14 +81,14 @@ The language constructs are explained using an extended BNF, in which `(a)*`
 means 0 or more `a`'s, `a+` means 1 or more `a`'s, and `(a)?` means an
 optional *a*. Parentheses may be used to group elements.
 {==+==}
-Nim语言结构使用"扩展BNF"解释， `(a)*` 表示0个或多个 `a` ， `a+` 表示1个或多个 `a` ， `(a)?` 表示一个可选的 *a* ，圆括号用来元素分组。
+Nim语言结构使用"扩展BNF"解释， `(a)*` 表示0个或多个 `a` ， `a+` 表示1个或多个 `a` ， `(a)?` 表示1个可选的 *a* ，用圆括号来元素分组。
 {==+==}
 
 {==+==}
 `&` is the lookahead operator; `&a` means that an `a` is expected but
 not consumed. It will be consumed in the following rule.
 {==+==}
-`&` 是查找运算符； `&a` 表示期望一个 `a` ，但没有用掉，而在之后的规则中被消耗。
+`&` 是先行运算符； `&a` 表示期望一个 `a` ，但没有用掉，而在之后的规则中被消耗。
 {==+==}
 
 {==+==}
@@ -97,7 +97,7 @@ precedence. `/` is the ordered choice that requires the parser to try the
 alternatives in the given order. `/` is often used to ensure the grammar
 is not ambiguous.
 {==+==}
- `|` 和 `/` 符号用来标记备选，优先级最低。`/` 是有序的选择，要求解析器按照给定的顺序来尝试备选项，`/` 常用来消除语法歧义。
+ `|` 和 `/` 符号用来标记备选项，优先级最低。`/` 是有序选择，要求解析器按照给定的顺序来尝试备选项，`/` 常用来消除语法二义性。
 {==+==}
 
 {==+==}
@@ -122,7 +122,7 @@ and `a ^* b` is short for `(a (b a)*)?`. Example::
 
   arrayConstructor = '[' expr ^* ',' ']'
 {==+==}
-二元 `^*` 运算符表示为0或更多，由第二个参数分开；`^+` 表示着1或更多。 `a ^+ b` 是 `a (b a)*` 的简写， `a ^* b` 则是 `(a (b a)*)?` 的简写。 例如::
+二元的 `^*` 运算符表示为0或更多，由第二个参数隔开；`^+` 表示1或更多。 `a ^+ b` 是 `a (b a)*` 的简写， `a ^* b` 则是 `(a (b a)*)?` 的简写。 例如::
 
   arrayConstructor = '[' expr ^* ',' ']'
 {==+==}
@@ -131,7 +131,7 @@ and `a ^* b` is short for `(a (b a)*)?`. Example::
 Other parts of Nim, like scoping rules or runtime semantics, are
 described informally.
 {==+==}
-Nim的其他，如作用域规则或运行时语义，使用非标准描述。
+Nim的其他，如作用域规则或运行时语义，使用非标准的描述。
 {==+==}
 
 
@@ -162,7 +162,7 @@ called the `scope`:idx: of the declaration. Scopes can be nested. The meaning
 of an identifier is determined by the smallest enclosing scope in which the
 identifier is declared unless overloading resolution rules suggest otherwise.
 {==+==}
- `identifier`:idx: "标识符"是变量、类型、过程等的名称声明符号，一个声明所适用的程序区域被称为该声明的 `scope`:idx: "作用域"，作用域可以嵌套，一个标识符的含义由标识符所声明的最小包围作用域决定，除非重载解析规则另有建议。
+ `identifier`:idx: "标识符"是变量、类型、过程等的名称声明符号，一个声明所适用的程序区域被称为该声明的 `scope`:idx: "作用域"，作用域可以嵌套，一个标识符的含义由标识符所声明的最小包围作用域决定，除非重载的解析规则另有建议。
 {==+==}
 
 {==+==}
@@ -193,7 +193,7 @@ on Compile-Time Execution <#restrictions-on-compileminustime-execution>`_ for
 details. We use the term `runtime`:idx: to cover both compile-time execution
 and code execution in the executable.
 {==+==}
-在典型的Nim程序中，大部分代码被编译到可执行文件中，然而，有些代码可能在 `compile-time`:idx: "编译期"执行，包括常量表达式、宏定义和宏定义使用的Nim过程。大部分的Nim代码支持编译期执行，但是有一些限制 -- 详情阅读 `关于编译时执行的限制 <#restrictions-on-compileminustime-execution>`_ 。我们使用术语 `runtime`:idx: "运行时"来涵盖编译期执行和可执行文件中的代码执行。
+在典型的Nim程序中，大部分代码被编译到可执行文件中，然而，有些代码可能在 `compile-time`:idx: "编译期"执行，包括常量表达式、宏定义和宏定义使用的Nim过程。大部分的Nim代码支持编译期执行，但是有一些限制 -- 详情阅读 `关于编译期执行限制 <#restrictions-on-compileminustime-execution>`_ 。我们使用术语 `runtime`:idx: "运行时"来涵盖编译期执行和可执行文件中的代码执行。
 {==+==}
 
 {==+==}
@@ -205,7 +205,7 @@ identifier meanings, and in some cases expression values. An error detected
 during semantic analysis is called a `static error`:idx:. Errors described in
 this manual are static errors when not otherwise specified.
 {==+==}
-编译器将Nim源代码解析成一个内部数据结构，称为 `abstract syntax tree`:idx: (`AST`:idx:) "抽象语法树"，在执行代码或将其编译为可执行文件之前，通过 `semantic analysis`:idx: "语义分析"对AST进行转换，增加了语义信息，如表达式类型、标识符的含义，以及在某些情况下的表达式值。在语义分析中检测到的错误被称为 `static error`:idx: "静态错误"，当前手册中描述的错误在没有其他约定时，是静态错误。
+编译器将Nim源码解析成称为 `abstract syntax tree`:idx: (`AST`:idx:) "抽象语法树"的内部数据结构，在执行代码或将其编译为可执行文件之前，通过 `semantic analysis`:idx: "语义分析"对AST进行转换，增加了语义信息，如表达式类型、标识符的含义，以及在某些情况下表达式的值。在语义分析中检测到的错误被称为 `static error`:idx: "静态错误"，当前手册中描述的错误在没有其他约定时，就是静态错误。
 {==+==}
 
 {==+==}
@@ -215,7 +215,7 @@ and reports at runtime. The method for reporting such errors is via
 provides a means to disable these `runtime checks`:idx:. See the section
 pragmas_ for details.
 {==+==}
-`panic`:idx: "恐慌"是在运行时检测和报告的错误，报告这种错误的方式是通过 *引发异常* 或 *致命错误* 结束，也提供了一种方法来禁用 `runtime checks`:idx: "运行时检查"，详情阅读标记一节。
+`panic`:idx: "恐慌"是在运行时检测和报告的错误，报告这种错误的方式是通过 *引发异常* 或 *致命错误* 而结束，提供了一种方法来禁用 `runtime checks`:idx: "运行时检查"，详情阅读对应编译指示部分。
 {==+==}
 
 {==+==}
@@ -224,7 +224,7 @@ implementation specific. Thus, the following program is invalid; even though the
 code purports to catch the `IndexDefect` from an out-of-bounds array access, the
 compiler may instead choose to allow the program to die with a fatal error.
 {==+==}
-恐慌的结果是一个异常还是一个致命的错误，是特定实现，因此，下面的程序无效，尽管代码试图捕获越界访问数组的 `IndexDefect` ，但编译器可能会以致命错误终结程序。
+恐慌的结果是异常还是致命的错误，是特定实现，因此，下面的程序无效，尽管代码试图捕获越界访问数组的 `IndexDefect` ，但编译器可能会以致命错误结束程序。
 {==+==}
 
 {==+==}
@@ -254,7 +254,7 @@ panic, if they are turned off the runtime errors are turned into
 exceptions. The benefit of `--panics:on`:option: is that it produces smaller binary
 code and the compiler has more freedom to optimize the code.
 {==+==}
-目前允许通过 `--panics:on|off`:option: 在不同方式之间切换，打开时，程序会因恐慌而终结，关闭时，运行时的错误会变为异常。 `--panics:on`:option: 的好处是产生更小的二进制代码，编译器可以更自由地优化。
+目前允许通过 `--panics:on|off`:option: 在不同方式之间切换，当打开时，程序会因恐慌而结束，当关闭时，运行时的错误会变为异常。 `--panics:on`:option: 的好处是产生更小的二进制代码，编译器可以更自由地优化。
 {==+==}
 
 {==+==}
@@ -263,7 +263,7 @@ detected and can cause the subsequent behavior of the computation to
 be arbitrary. Unchecked runtime errors cannot occur if only `safe`:idx:
 language features are used and if no runtime checks are disabled.
 {==+==}
-`unchecked runtime error`:idx: "未检查的运行时错误"是不能保证被检测到的错误，它可能导致计算产生意外后果，如果只使用 `safe`:idx: "安全"语言特性，并且没有禁用运行时检查，就不会产生未检查的运行时错误。
+`unchecked runtime error`:idx: "未检查的运行时错误"是不能保证被检测到的错误，它可能导致计算产生意外后果，如果只使用 `safe`:idx: "安全"的语言特性，并且没有禁用运行时检查，就不会产生这类错误。
 {==+==}
 
 {==+==}
@@ -276,7 +276,7 @@ expressions can be used as an input to semantic analysis (such as for defining
 array bounds), this flexibility requires the compiler to interleave semantic
 analysis and compile-time code execution.
 {==+==}
-`constant expression`:idx: "常量表达式"在对包含它的代码进行语义分析时，值就可以被计算出来。它从来不会是左值，也不会有副作用。常量表达式并不局限于语义分析的能力，例如常量折叠。它可以使用所支持的编译期执行的所有Nim语言特性。由于常量表达式可以作为语义分析时的输入，比如用于定义数组的边界，因为这种灵活性的要求，编译器交错进行语义分析和编译时代码执行。
+`constant expression`:idx: "常量表达式"在对包含它的代码进行语义分析时，值就可以被计算出来。它从来不会是左值，也不会有副作用。常量表达式并不局限于语义分析时求值的能力，例如常量折叠。它可以使用所支持编译期执行的所有Nim语言特性。由于常量表达式可以作为语义分析时的输入，比如用于定义数组的边界，鉴于这种灵活性要求，编译器交错进行语义分析和编译期代码执行。
 {==+==}
 
 {==+==}
@@ -287,7 +287,7 @@ analysis. We will see much later in this document that macro invocation not only
 requires this interleaving, but also creates a situation where semantic analysis
 does not entirely proceed top to bottom and left to right.
 {==+==}
-想象一下，语义分析在源代码中从上到下、从左到右地进行，而在必要的时候，为了计算后续语义分析所需要的数值，编译期的代码交错执行，这一点非常明确。我们将在本文的后面看到，宏调用不仅需要这种交错，而且还产生了，语义分析并不完全是自上而下、自左而右地进行的情况。
+想象一下，语义分析在源代码中从上到下、从左到右地进行，而在必要的时候，为了计算后续语义分析所需要的数值，编译期的代码交错执行。这一点非常明确，我们将在文档的后面进一步了解。宏调用不仅需要这种交错，而且还产生了，语义分析并不完全是自上而下、自左而右地进行的情况。
 {==+==}
 
 {==+==}
@@ -314,7 +314,7 @@ form using the ASCII sequence CR LF (return followed by linefeed), or the old
 Macintosh form using the ASCII CR (return) character. All of these forms can be
 used equally, regardless of the platform.
 {==+==}
-所有的Nim源文件都采用UTF-8编码(或其ASCII子集)，不支持其他编码。可以使用任何标准平台的线性终端序列 —— Unix形式使用ASCII LF(换行)，Windows形式使用ASCII序列CR LF(换行后返回)，或旧的Macintosh形式使用ASCII CR(返回)字符，无论在什么平台上，这些形式都可以无差别地使用。
+所有的Nim源文件都采用UTF-8编码(或其ASCII子集)，不支持其他编码。可以使用任何标准平台的线性序列终端 —— Unix形式使用ASCII LF(换行)，Windows形式使用ASCII序列CR LF(换行后返回)，或旧的Macintosh形式使用ASCII CR(返回)字符，无论在什么平台上，这些形式都可以无差别地使用。
 {==+==}
 
 {==+==}
@@ -339,7 +339,7 @@ following token with the preceding number of spaces; indentation is not
 a separate token. This trick allows parsing of Nim with only 1 token of
 lookahead.
 {==+==}
-缩进处理的实现方式如下，词法分析器用前导空格数来解释之后的标记，缩进不是单独的一个标记，这个技巧使得Nim解析时只需要向前查看1个token。
+缩进处理的实现方式如下，词法分析器用前导空格数来解释随后的token，缩进不是单独的token，这个技巧使得Nim解析时只需要先行查看1个token。
 {==+==}
 
 {==+==}
@@ -351,7 +351,7 @@ of the stack; `IND{=}` an indentation that has the same number of spaces. `DED`
 is another pseudo terminal that describes the *action* of popping a value
 from the stack, `IND{>}` then implies to push onto the stack.
 {==+==}
-语法分析器使用一个缩进级别的堆栈：该堆栈由计算空格的整数组成，语法分析器在对应的策略位置查询缩进信息，但忽略其他地方。伪终端 `IND{>}` 表示缩进比堆栈顶部的条目包含更多的空格， `IND{=}` 表示缩进有相同的空格数，`DED` 是另一个伪终端，表示从堆栈中弹出一个值的 *action* 动作， `IND{>}` 则意味着推到堆栈中。
+语法分析器使用缩进级别的堆栈：该堆栈由计算空格的整数组成，语法分析器在对应的策略位置查询缩进信息，而忽略其他地方。伪终端 `IND{>}` 表示缩进比堆栈顶部的条目包含更多的空格， `IND{=}` 表示缩进有相同的空格数，`DED` 是另一个伪终端，表示从堆栈中弹出一个值的 *action* 动作， `IND{>}` 则意味着推到堆栈中。
 {==+==}
 
 {==+==}
@@ -367,7 +367,7 @@ statements (simplified example)::
   stmt = IND{>} stmt ^+ IND{=} DED  # list of statements
        / simpleStmt                 # or a simple statement
 {==+==}
-用这个标记，我们现在可以很容易地定义核心语法：语句块(这是简化的例子)::
+用这个标记，我们现在可以容易地定义核心语法：语句块(以下简化的例子)::
 
   ifStmt = 'if' expr ':' stmt
            (IND{=} 'elif' expr ':' stmt)*
@@ -396,7 +396,7 @@ belong to the piece. If the next line only consists of a comment piece with
 no other tokens between it and the preceding one, it does not start a new
 comment:
 {==+==}
-注释在字符串或字符字面值之外的任意位置，以 `#` 字符开头，注释由 `comment pieces`:idx: "注释段"连接组成，一个注释段以 `#` 开始直到行尾，包括行末的字符。如果下一行只由一个注释段组成，在它和前面的注释段之间没有其他标记，就不会开启一个新的注释。
+注释在字符串或字符字面值之外的任意位置，以 `#` 字符开头，注释由 `comment pieces`:idx: "注释段"连接组成，一个注释段以 `#` 开始直到行尾，并包括行末的字符。如果下一行只由一个注释段组成，在它和前面的注释段之间没有其他标记，就不会开启一个新的注释。
 {==+==}
 
 {==+==}
@@ -559,7 +559,7 @@ The following keywords are reserved and cannot be used as identifiers:
 Some keywords are unused; they are reserved for future developments of the
 language.
 {==+==}
-有些关键词还未使用，它们被保留，提供语言未来拓展。
+有些关键词还未使用，它们被保留，提供给语言未来拓展。
 {==+==}
 
 {==+==}
@@ -594,7 +594,7 @@ Two identifiers are considered equal if the following algorithm returns true:
 That means only the first letters are compared in a case-sensitive manner. Other
 letters are compared case-insensitively within the ASCII range and underscores are ignored.
 {==+==}
-这意味着，在进行比较时，只有第一个字母是区分大小写的，其他字母在ASCII范围内不区分大小，下划线被忽略。
+这意味着，在进行比较时，只有第一个字母是区分大小写的，其他字母在ASCII范围内不区分大小，并忽略下划线。
 {==+==}
 
 {==+==}
@@ -614,7 +614,7 @@ Another advantage is that it frees the programmer from remembering
 the exact spelling of an identifier. The exception with respect to the first
 letter allows common code like `var foo: Foo` to be parsed unambiguously.
 {==+==}
-它允许程序员大多使用他们自己喜欢的拼写风格。不管是humpStyle"驼峰风格"还是snake_style"蛇形风格"，不同程序员编写的库不能使用不兼容的约定。一个按Nim思考的编辑器或IDE可以显示首选的标识符，另一个好处是，它使程序员不必记住标识符的准确拼写。第一个字母例外，是允许常见的如 `var foo: Foo` 这样的普通代码可以被明确地解析出来。
+它允许程序员使用自己喜欢的拼写风格。humpStyle"驼峰风格"还是snake_style"蛇形风格"，要求不同程序员编写的库不能使用不兼容的约定。而按Nim思考的编辑器或IDE可以显示首选的标识符，另一个好处是，它使程序员不必记住标识符的准确拼写。第一个字母例外的原因，是允许明确解析如 `var foo: Foo` 常见代码。
 {==+==}
 
 {==+==}
@@ -622,7 +622,7 @@ Note that this rule also applies to keywords, meaning that `notin` is
 the same as `notIn` and `not_in` (all-lowercase version (`notin`, `isnot`)
 is the preferred way of writing keywords).
 {==+==}
-注意这个规则也适用于关键字，也就是说 `notin` 与 `notIn` 和 `not_in` 相同 (关键字书写方式首选全小写 (`notin`, `isnot`) )。
+需注意，这个规则也适用于关键字，也就是说 `notin` 与 `notIn` 和 `not_in` 相同 (关键字书写方式首选全小写方式 (`notin`, `isnot`) )。
 {==+==}
 
 {==+==}
@@ -630,7 +630,7 @@ Historically, Nim was a fully `style-insensitive`:idx: language. This meant that
 it was not case-sensitive and underscores were ignored and there was not even a
 distinction between `foo` and `Foo`.
 {==+==}
-Nim曾经是一种完全 `style-insensitive`:idx: "大小写不敏感"的语言，这意味着它不区分大小写，忽略下划线，甚至 `foo` 和 `Foo` 之间没有区别。
+Nim曾经是一种 `style-insensitive`:idx: 完全"大小写不敏感"的语言，意味着不区分大小写，忽略下划线，甚至 `foo` 和 `Foo` 之间没有区别。
 {==+==}
 
 {==+==}
@@ -826,8 +826,8 @@ Produces::
 Raw string literals
 -------------------
 {==+==}
-原始字符串
---------------------
+原始字符串字面值
+----------------------------------------
 {==+==}
 
 {==+==}
@@ -887,7 +887,7 @@ quotes introduce a triple quoted string literal. `r"""` is the same
 as `"""` since triple quoted string literals do not interpret escape
 sequences either.
 {==+==}
-不能用 `r""""` 这个标记，因为原始字符串中引入了三引号的字符串字面值。 `r"""` 与 `"""` 是相同的，三引号原始字符串字面值也不解释转义字符。
+不能用 `r""""` 这个标记，因为原始字符串中又引入了三引号的字符串字面值。 `r"""` 与 `"""` 是相同的，三引号原始字符串字面值也不解释转义字符。
 {==+==}
 
 {==+==}
@@ -914,7 +914,7 @@ raw string literal as its only argument. Generalized raw string literals
 are especially convenient for embedding mini languages directly into Nim
 (for example regular expressions).
 {==+==}
- `identifier"string literal"` (标识符和开头的引号之间没有空格) 结构是广义的原始字符串字面值。它是 `identifier(r"string literal")` 构造的简写方式，它表示以原始字符串字面值为唯一参数的常规调用。广义的原始字符串字面值的意义，在于方便的将mini语言直接嵌入到Nim中，例如正则表达式。
+ `identifier"string literal"` (标识符和开头的引号之间没有空格) 结构是广义的原始字符串字面值。它是 `identifier(r"string literal")` 结构的简写方式，它表示以原始字符串字面值为唯一参数的常规调用。广义的原始字符串字面值的意义，在于方便的将mini语言直接嵌入到Nim中，例如正则表达式。
 {==+==}
 
 {==+==}
@@ -940,7 +940,7 @@ is not allowed as it may be wider than one character (it can be the pair
 CR/LF). Here are the valid `escape sequences`:idx: for character
 literals:
 {==+==}
-字符串用单引号 `''` 括起来，可以包含与字符串相同的转义字符 —— 但有一种例外：不允许与平台有关的 `newline`:idx: (``\p``) "换行符"，因为它可能比一个字符宽(它可能是一对CR/LF)。下面是有效的 `escape sequences`:idx: "转义字符"字面值。
+字符字面值用单引号 `''` 括起来，可以包含与字符串相同的转义字符 —— 但有一种例外：不允许与平台有关的 `newline`:idx: (``\p``) "换行符"，因为它可能比一个字符宽(它可能是一对CR/LF)。下面是有效的 `escape sequences`:idx: "转义字符"字面值。
 {==+==}
 
 {==+==}
@@ -989,7 +989,7 @@ literals:
 {==+==}
 A character is not a Unicode character but a single byte.
 {==+==}
-一个字符不是一个Unicode字符，而是一个单字节。
+一个字符不是一个Unicode字符，而是单字节。
 {==+==}
 
 {==+==}
@@ -1013,7 +1013,7 @@ backtick token and the character literal. This special case ensures that a decla
 like ``proc `'customLiteral`(s: string)`` is valid. ``proc `'customLiteral`(s: string)``
 is the same as ``proc `'\''customLiteral`(s: string)``.
 {==+==}
-如果前面有一个回车符，那么不以 `'` 结尾的字符字面值将被解释为 `'` ，此时前面的回车符和字符字面值之间不能有空格，这种特殊情况是为了保证像 ``proc `'customLiteral`(s: string)`` 这样的声明有效。 ``proc `'customLiteral`(s: string)`` 与 ``proc `'\''customLiteral`(s: string)`` 相同。
+如果前面有一个反引号token，则不以 `'` 结尾的字符字面值被解释为 `'` 。在前面的反引号标记和字符字面值之间不能有空格。这种特殊情况是为了保证像 ``proc `'customLiteral`(s: string)`` 这样的声明有效。 ``proc `'customLiteral`(s: string)`` 与 ``proc `'\''customLiteral`(s: string)`` 相同。
 {==+==}
 
 {==+==}
@@ -1123,7 +1123,7 @@ for readability. Integer and floating-point literals may be given in decimal (no
 prefix), binary (prefix `0b`), octal (prefix `0o`), and hexadecimal
 (prefix `0x`) notation.
 {==+==}
-从描述中可以看出，数值字面值可以包含下划线，以便于阅读。整数和浮点数可以用十进制(无前缀)、二进制(前缀 `0b` )、八进制(前缀 `0o` )和十六进制(前缀 `0x` )标记表示。
+从描述中可以看出，数值字面值可以包含下划线，以便于阅读。整数和浮点数可以用十进制(无前缀)、二进制(前缀 `0b` )、八进制(前缀 `0o` )和十六进制(前缀 `0x` )注解表示。
 {==+==}
 
 {==+==}
@@ -1132,7 +1132,7 @@ to be part of the literal is a late addition to the language. The rationale is t
 an expression `-128'i8` should be valid and without this special case, this would
 be impossible -- `128` is not a valid `int8` value, only `-128` is.
 {==+==}
-像 `-1` 这样的数值字面值中的一元减号 `-` 是字面值的一部分，这是后来添加到语言中的，原因是表达式 `-128'i8` 应该是有效的。如果没有这种特殊情况，则这将不被允许 -- `128` 不是有效的 `int8` 值，只有 `-128` 是有效的。
+像 `-1` 这样的数值字面值中的一元减号 `-` 是字面值的一部分，这是后来被添加到语言中的，原因是表达式 `-128'i8` 应该是有效的。如果没有这种例外，则不允许 -- `128` ，它将不是有效的 `int8` 值，只有 `-128` 有效。
 {==+==}
 
 {==+==}
@@ -1142,7 +1142,7 @@ preceding character has to be in the
 set `{' ', '\t', '\n', '\r', ',', ';', '(', '[', '{'}`. This set was designed to
 cover most cases in a natural manner.
 {==+==}
-对于 `unary_minus` 规则，有一些限制，但在正式语法中没有提及。 `-` 是数值字面值的一部分时，前面的字符必须在 `{' ', '\t', '\n', '\r', ',', ';', '(', '[', '{'}` 集合中，这个设计是为了更合理的方式涵盖大多数情况。
+对于 `unary_minus` 规则，有一些限制，这在正式语法中没有提及。 `-` 是数值字面值的一部分时，前面的字符必须在 `{' ', '\t', '\n', '\r', ',', ';', '(', '[', '{'}` 集合中，这个设计是为了更合理的方式涵盖大多数情况。
 {==+==}
 
 {==+==}
@@ -1257,7 +1257,7 @@ notation:
 `0B0_10001110100_0000101001000111101011101111111011000101001101001001'f64`
 is approximately 1.72826e35 according to the IEEE floating-point standard.
 {==+==}
-浮点数字面值也可以采用二进制、八进制或十六进制的标记:
+浮点数字面值也可以采用二进制、八进制或十六进制的注解:
 `0B0_10001110100_0000101001000111101011101111111011000101001101001001'f64` 
 根据IEEE浮点标准，约为1.72826e35。
 {==+==}
@@ -1269,7 +1269,7 @@ therefore the checking is done on bit width and not on value range.
 Hence: 0b10000000'u8 == 0x80'u8 == 128, but, 0b10000000'i8 == 0x80'i8 == -1
 instead of causing an overflow error.
 {==+==}
-字面值必须匹配数据类型，例如， `333'i8` 是一个无效的字面值。以非10进制表示的字面值主要用于标记和比特位模式，因此检查是对位宽而不是值范围进行的，因此: 0b10000000'u8 == 0x80'u8 == 128，但是， 0b10000000'i8 == 0x80'i8 == -128 而不是 -1。
+字面值必须匹配数据类型，例如， `333'i8` 是一个无效的字面值。以非10进制表示的字面值主要用于标记和比特位模式，因此检查是对位宽而不是值范围进行的，所以: 0b10000000'u8 == 0x80'u8 == 128，但是， 0b10000000'i8 == 0x80'i8 == -128 而不是 -1。
 {==+==}
 
 {==+==}
@@ -1284,7 +1284,7 @@ to a proc, template, macro or other callable identifier that is passed the
 string containing the literal. The callable identifier needs to be declared
 with a special ``'`` prefix:
 {==+==}
-如果后缀不是预定义标记，那么后缀会被认为是对proc过程、template模板、macro宏或其他可调用标识符的调用，包含字面值的字符串被传递给该标识符。可调用标识符需要用一个特殊的 ``'`` 前缀来声明。
+如果后缀未预定义，那么后缀会被认为是对proc过程、template模板、macro宏或其他可调用标识符的调用，包含字面值的字符串被传递给该标识符。可调用标识符需要用一个特殊的 ``'`` 前缀来声明。
 {==+==}
 
 {==+==}
@@ -1509,7 +1509,7 @@ If a unary operator's first character is `@` it is a `sigil-like`:idx:
 operator which binds stronger than a `primarySuffix`: `@x.abc` is parsed
 as `(@x).abc` whereas `$x.abc` is parsed as `$(x.abc)`.
 {==+==}
-如果一个一元运算符的第一个字符是 `@` ，它就是一个 `sigil-like`:idx: "缩写"运算符，比 `primarySuffix` 的结合性更强: `@x.abc` 被解析为 `(@x).abc` ，而 `$x.abc` 被解析为 `$(x.abc)` 。 
+如果一个一元运算符的第一个字符是 `@` ，它就是一个 `sigil-like`:idx: 运算符，比 `primarySuffix` 的结合性更强: `@x.abc` 被解析为 `(@x).abc` ，而 `$x.abc` 被解析为 `$(x.abc)` 。 
 {==+==}
 
 {==+==}
@@ -1599,7 +1599,7 @@ whitespace (this parsing change was introduced with version 0.13.0):
 Spacing also determines whether `(a, b)` is parsed as an argument list
 of a call or whether it is parsed as a tuple constructor:
 {==+==}
-空格也决定了 `(a, b)` 是被解析为一个调用的参数列表，还是被解析为一个元组构造。
+空格也决定了 `(a, b)` 是被解析为调用的参数列表，还是被解析为元组构造。
 {==+==}
 
 {==+==}
@@ -1634,7 +1634,7 @@ Terminal symbol in the grammar: `DOTLIKEOP`.
 Dot-like operators are operators starting with `.`, but not with `..`, for e.g. `.?`;
 they have the same precedence as `.`, so that `a.?b.c` is parsed as `(a.?b).c` instead of `a.?(b.c)`.
 {==+==}
-点类运算符是以 `.` 开头的运算符，但不是以 `..` 开头的，例如 `.?` ，它们的优先级与 `.` 相同，因此 `a.?b.c` 被解析为 `(a.?b).c` ，而不是 `a.? (b.c)` 。
+点类运算符是以 `.` 开头的运算符，但不是以 `..` 开头，例如 `.?` ，它们的优先级与 `.` 相同，因此 `a.?b.c` 被解析为 `(a.?b).c` ，而不是 `a.? (b.c)` 。
 {==+==}
 
 {==+==}
@@ -1805,7 +1805,7 @@ reorderings that have been passed to named parameters:
     s.add "q"
     result = 3
 
-  # 由于模板扩展的语义，求值顺序是 'b' 在 'a' 之前。
+  # 由于模板扩展语义，求值顺序是 'b' 在 'a' 之前。
   template swapArgs(a, b): untyped =
     b + a
 
@@ -1826,7 +1826,7 @@ reorderings that have been passed to named parameters:
 {==+==}
 Rationale: This is far easier to implement than hypothetical alternatives.
 {==+==}
-原由:这比设想的替代方案容易实现得多。
+原由: 这比设想的替代方案容易实现。
 {==+==}
 
 {==+==}
@@ -1859,7 +1859,7 @@ expression:
 * 内置运算符
 * 先前声明的常量和编译时变量
 * 先前声明的宏和模板
-* 先前声明的过程，除了可能修改编译时变量外，没有任何副作用
+* 先前声明的过程，除了可能修改编译期变量外，没有任何副作用
 {==+==}
 
 {==+==}
@@ -1871,7 +1871,7 @@ modify them. However, the code in such a block must still adhere to the
 restrictions listed above for referencing values and operations outside the
 block.
 {==+==}
-常量表达式可以包含代码块，这些代码块是可以在内部使用编译时支持的所有Nim功能(详见下面的章节)。在这样的代码块中，可以声明变量，随后读取和更新它们，或者声明变量并将它们传递给其修改值的过程。这样的代码块中的代码，仍须遵守上面列出的关于引用该代码块外的值和运算的限制。
+常量表达式可以包含代码块，这些代码块可以在编译期内部支持使用的所有Nim特性(详见下面的章节)。在这样的代码块中，可以声明变量，随后读取和更新它们，或者声明变量并将它们传递给其修改值的过程。这样的代码块中的代码，仍须遵守上面列出的关于引用该代码块外的值和运算的限制。
 {==+==}
 
 {==+==}
@@ -1882,7 +1882,7 @@ of the Fibonacci series **at compile-time**. (This is a demonstration of
 flexibility in defining constants, not a recommended style for solving this
 problem.)
 {==+==}
-访问和修改编译时变量的能力为常量表达式增加了灵活性，这会让那些来自其他静态类型语言的人惊讶。例如，下面的代码在 **编译时** 返回斐波那契数列的起始。(这是对定义常量灵活性的演示，而不是对解决这个问题的推荐风格)。
+访问和修改编译期变量的能力为常量表达式增加了灵活性，这会让那些来自其他静态类型语言的人惊讶。例如，下面的代码在 **编译期** 返回斐波那契数列的起始。(这是对定义常量灵活性的演示，而不是解决这个问题的推荐风格)。
 {==+==}
 
 {==+==}
@@ -1980,13 +1980,13 @@ language features:
 The use of wrappers that use FFI and/or `cast` is also disallowed. Note that
 these wrappers include the ones in the standard libraries.
 {==+==}
-不允许使用 FFI 和/或 `cast` 的包装器。请注意，这些包装器包括标准库中的包装器。
+不允许使用 FFI 和/或 `cast` 的包装器。请注意，这也包括标准库中的包装器。
 {==+==}
 
 {==+==}
 Some or all of these restrictions are likely to be lifted over time.
 {==+==}
-随着时间的推移，部分或所有这些限制可能会被取消。
+随着时间的推移，可能会取消这些部分或所有限制。
 {==+==}
 
 {==+==}
@@ -2002,7 +2002,7 @@ All expressions have a type that is known during semantic analysis. Nim
 is statically typed. One can declare new types, which is in essence defining
 an identifier that can be used to denote this custom type.
 {==+==}
-在语义分析中是已知的，所有的表达式都有一个类型。Nim是静态类型语言。可以声明新的类型，这实质上是定义了一个标识符，用来表示这个自定义类型。
+在语义分析期间，所有的表达式都有一个已知类型。Nim是静态类型语言。可以声明新的类型，实质上是定义了一个标识符，用来表示这个自定义类型。
 {==+==}
 
 {==+==}
