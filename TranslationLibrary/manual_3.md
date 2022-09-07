@@ -13,8 +13,8 @@ traced references, strings, or sequences: in order to free everything properly,
 the built-in procedure `reset` has to be called before freeing the untraced
 memory manually:
 {==+==}
-特别要注意的是，如果一个未被跟踪的对象包含被跟踪的对象，例如跟踪的引用，字符串，或序列:为了使得所有对象正确释放，
-在释放未被跟踪的内存之前，要手动调用内置过程 `reset` :
+特别要注意的是，如果一个未被追踪的对象包含被追踪的对象，例如追踪的引用，字符串，或序列。为了使得所有对象正确释放，
+在释放未被追踪的内存之前，要手动调用内置过程 `reset` :
 {==+==}
 
 {==+==}
@@ -45,7 +45,7 @@ memory manually:
   # 在垃圾回收(GC)堆上创建一个新的字符串:
   d.s = "abc"
 
-  # 知GC不再需要这个字符串:
+  # 告知GC不再需要这个字符串:
   reset(d.s)
 
   # 释放内存:
@@ -64,9 +64,8 @@ done if it is unavoidable: it breaks type safety and bugs can lead to
 mysterious crashes.
 {==+==}
 如果不调用 `reset` ，就绝不会释放分配给 `d.s` 字符串的内存。这个例子从程序底层来说，表现出两个重要的特性: `sizeof` 过程返回一个类型或值的字节大小。 `cast` 操作符可以避开类型系统:
-编译器强制将 `alloc0` (会返回一个未定义类型的指针)的结果认定为 `ptr Data` 类型。只有在不可避免的情况下才需要进行转换，因为它破坏了类型安全，bug可能导致未知的崩溃。
+编译器强制将 `alloc0` (会返回一个未定义类型的指针)的结果认定为 `ptr Data` 类型。只有在不可避免的情况下才需要进行转换，因为它破坏了类型安全，未知的bug可能导致崩溃。
 {==+==}
-
 
 {==+==}
 The example only works because the memory is initialized to zero
@@ -80,7 +79,7 @@ details like this when mixing garbage-collected data with unmanaged memory.
 {==+==}
 .. XXX finalizers for traced objects
 {==+==}
-.. XXX 终结器，用于跟踪对象
+.. XXX 终结器，用于追踪对象
 {==+==}
 
 {==+==}
@@ -95,7 +94,7 @@ Procedural type
 A procedural type is internally a pointer to a procedure. `nil` is
 an allowed value for a variable of a procedural type.
 {==+==}
-过程类型是一个指向过程的内部指针。对于一个过程类型的变量来说，允许被赋值 `nil` 。
+过程类型是指向过程的内部指针。对于过程类型的变量来说，允许被赋值 `nil` 。
 {==+==}
 
 {==+==}
@@ -148,7 +147,7 @@ Examples:
 
   proc setOnMouseMove(mouseMoveEvent: OnMouseMove) = discard
 
-  # 好的, 'onMouseMove' 有默认的调用约定 可以兼容 'closure':
+  # 'onMouseMove' 有默认的调用约定 可以兼容 'closure':
   setOnMouseMove(onMouseMove)
   ```
 {==+==}
@@ -160,13 +159,13 @@ compatible if they have the same calling convention. As a special extension,
 a procedure of the calling convention `nimcall` can be passed to a parameter
 that expects a proc of the calling convention `closure`.
 {==+==}
-过程类型的一个细微问题是，过程的调用约定会影响类型的兼容性: 过程类型只有在调用约定相同的情况下才兼容。特殊的扩展是，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
+过程类型的一个底层细节问题是，过程的调用约定会影响类型的兼容性: 过程类型只有在调用约定相同的情况下才兼容。有个特殊的延伸，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
 {==+==}
 
 {==+==}
 Nim supports these `calling conventions`:idx:\:
 {==+==}
-Nim支持下列 `calling conventions`:idx:\ "调用约定":
+Nim支持下列 `calling conventions`:idx: "调用约定":
 {==+==}
 
 {==+==}
@@ -187,7 +186,7 @@ Nim支持下列 `calling conventions`:idx:\ "调用约定":
     and another one for the pointer to implicitly passed environment.
 {==+==}
 `closure`:idx:
-    对于缺少任意编译指示注解的过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐藏的隐式参数(一个 *environment* )。拥有调用约定 `closure` 的函数变量占两个机器字: 一个是用于函数指针，另一个用于隐式传递环境指针。
+    是没有任意编译指示注解过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐式参数(一个 *environment* )。拥有调用约定 `closure` 的函数变量占两个机器字: 一个是用于函数指针，另一个用于隐式传递环境指针。
 {==+==}
 
 {==+==}
@@ -238,7 +237,7 @@ Nim支持下列 `calling conventions`:idx:\ "调用约定":
     the C `__fastcall` means.
 {==+==}
 `fastcall`:idx:
-    FastCall意味着对于不同的C编译器有所不同。意味着得获得C `__fastcall` 表示。
+    FastCall意味着对于不同的C编译器有所不同。意味着获得C `__fastcall` 表示。
 {==+==}
 
 {==+==}
@@ -256,7 +255,7 @@ Nim支持下列 `calling conventions`:idx:\ "调用约定":
     interrupts.
 {==+==}
 `syscall`:idx:
-    在C中syscall约定和 `__syscall`:c: 是一样的。它用于中断。
+    在C中syscall约定和 `__syscall`:c: 是一样的，应用于中断。
 {==+==}
 
 {==+==}
@@ -267,7 +266,7 @@ Nim支持下列 `calling conventions`:idx:\ "调用约定":
     improve speed.
 {==+==}
 `noconv`:idx:
-    生成的C代码将不会有任何的显示调用约定，因此会使用C编译的默认调用约定。这个是需要的，因为Nim默认会对过程使用 `falsecall` 调用约定来提升速度。
+    生成的C代码将不会有任何的显示调用约定，因此会使用C编译的默认调用约定。有时需要这个，因为Nim默认会对过程使用 `falsecall` 调用约定来提升速度。
 {==+==}
 
 {==+==}
@@ -282,7 +281,7 @@ proc inside of a proc). For an inner proc an analysis is performed whether it
 accesses its environment. If it does so, it has the calling convention
 `closure`, otherwise it has the calling convention `nimcall`.
 {==+==}
-默认的调用约定是 `nimcall` ，除非它是一个内部过程(一个过程中的过程)。对于一个内部过程，将分析它是否访问其环境。如果它访问了环境，就采用 `closure` 调用约定，否则就采用 `nimcall` 调用约定。
+默认的调用约定是 `nimcall` ，除非它是一个内部过程(一个过程中的过程)。对于一个内部过程，将分析它是否访问其环境，如果它访问了环境，就采用 `closure` 调用约定，否则就采用 `nimcall` 调用约定。
 {==+==}
 
 {==+==}
@@ -301,7 +300,7 @@ and its base type. Explicit type conversions from a distinct type to its
 base type and vice versa are allowed. See also `distinctBase` to get the
 reverse operation.
 {==+==}
-`distinct` 类型是源于 `base type`:idx: "基类"的一个新类型，但它与它的基类并不一致，它是一个特定的基本属性，而且 **不** 意味着它和它的基类型之间存在子类型关系。允许显式将distinct类型转换到它基类型，反之亦然。另请参阅 `distinctBase` 以获取反向操作相关的信息。
+`distinct` 类型是源于 `base type`:idx: "基类"的新类型，一个重要的特性是，它和它的基类型之间 **不** 是子类型关系。但允许显式将distinct类型转换到它的基类型，反之亦然。请参阅 `distinctBase` 以获得反向操作相关的信息。
 {==+==}
 
 {==+==}
@@ -363,7 +362,8 @@ Unfortunately, `d + 12.Dollar` is not allowed either,
 because `+` is defined for `int` (among others), not for `Dollar`. So
 a `+` for dollars needs to be defined:
 {==+==}
-可惜, 不允许 `d + 12.Dollar` ，因为 `+` 已被 `int` (以及其他)定义，而非 `Dollat` 。所以用于 `Dollar` 的 `+` 需要被这样定义:
+可惜, 不允许 `d + 12.Dollar` ，因为 `+` 已被 `int` (以及其他)定义，而非 `Dollat` 。
+所以用于 `Dollar` 的 `+` 需要被这样定义:
 {==+==}
 
 {==+==}
@@ -414,7 +414,7 @@ should not generate all this code only to optimize it away later - after all
 The pragma `borrow`:idx: has been designed to solve this problem; in principle,
 it generates the above trivial implementations:
 {==+==}
-这很快就会变得乏味。实现很简单，编译器不应该生成所有这些代码，而稍后又优化它 —— 美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示 `borrow`:idx: "借用"旨在解决这个问题； 原则上，它会生成上述简单的实现:
+这很快就会变得乏味。这些实现是细微而作用不明显的，编译器不应该生成所有这些代码，而稍后又优化掉 —— 美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示 `borrow`:idx: "借用"旨在解决这个问题； 原则上，它会生成上述简单的实现:
 {==+==}
 
 {==+==}
@@ -435,7 +435,7 @@ it generates the above trivial implementations:
 But it seems all this boilerplate code needs to be repeated for the `Euro`
 currency. This can be solved with templates_.
 {==+==}
-但似乎上述所有的样板要在 `Euro` 货币上都要重复一遍。这个可以使用 templates_ 来解决。
+但似乎上述所有的样板要在 `Euro` 货币上重复一遍。这个可以使用 templates_ 来解决。
 {==+==}
 
 {==+==}
@@ -506,7 +506,7 @@ currency. This can be solved with templates_.
 The borrow pragma can also be used to annotate the distinct type to allow
 certain builtin operations to be lifted:
 {==+==}
-borrow编译指示也可用于注解distinct类型，以提升某些内置操作:
+borrow编译指示也可用于distinct类型注解，以提升某些内置操作:
 {==+==}
 
 {==+==}
@@ -544,7 +544,7 @@ borrow编译指示也可用于注解distinct类型，以提升某些内置操作
 {==+==}
 Currently, only the dot accessor can be borrowed in this way.
 {==+==}
-目前只有点访问器可以通过这个方式borrow
+目前只有点访问器可以通过这个方式借用。
 {==+==}
 
 {==+==}
@@ -628,7 +628,7 @@ It is an essential property of abstract types that they **do not** imply a
 subtype relation between the abstract type and its base type. Explicit type
 conversions from `string` to `SQL` are allowed:
 {==+==}
-抽象类型有一个重要的属性是，抽象类型与它们的子类型之间没有父子关系。允许显示将 `string` 类型转换到 `SQL` :
+抽象类型一个重要的属性是，抽象类型与它们的子类型之间没有父子关系。允许显示将 `string` 类型转换到 `SQL` :
 {==+==}
 
 {==+==}
@@ -654,13 +654,13 @@ conversions from `string` to `SQL` are allowed:
   import std/[strutils, sequtils]
 
   proc properQuote(s: string): SQL =
-    # 为SQL语句正确引用字符串
+    # 正确地为SQL语句引用字符串
     return SQL(s)
 
   proc `%` (frmt: SQL, values: openarray[string]): SQL =
     # 引用每个参数:
     let v = values.mapIt(properQuote(it))
-    # 我们需要一个临时类型为了类型转换 :-(
+    # 我们需要一个临时类型用到类型转换 :-(
     type StrSeq = seq[string]
     # 调用 strutils.`%`:
     result = SQL(string(frmt) % StrSeq(v))
@@ -676,7 +676,7 @@ looking `SQL` string literals. The hypothetical `SQL` type actually
 exists in the library as the `SqlQuery type <db_common.html#SqlQuery>`_ of
 modules like `db_sqlite <db_sqlite.html>`_.
 {==+==}
-由于 `"".SQL` 被转换为 `SQL("")` ，因此良好的 `SQL` 字符串文本不需要新的语法。假定的 `SQL` 类型实际作为  `SqlQuery type <db_common.html#SqlQuery>`_ 的模块存在于库中，例如 `db_sqlite <db_sqlite.html>`_ 。
+由于 `"".SQL` 被转换为 `SQL("")` ，因此 `SQL` 字符串文本不需要新的语法。可以假定 `SQL` 类型实际作为  `SqlQuery type <db_common.html#SqlQuery>`_ 的模块存在于库中，例如 `db_sqlite <db_sqlite.html>`_ 。
 {==+==}
 
 {==+==}
@@ -723,7 +723,7 @@ For parameters it currently creates implicitly generic routines:
 {==+==}
 Is the same as:
 {==+==}
-和如下一样:
+和下面一样:
 {==+==}
 
 {==+==}
@@ -741,7 +741,8 @@ However, later versions of the language might change this to mean "infer the
 parameters' types from the body". Then the above `foo` would be rejected as
 the parameters' types can not be inferred from an empty `discard` statement.
 {==+==}
-但是，该语言的后续版本可能会将其更改为"从主体推断参数类型"。从而上面的 `foo` 将会被拒绝，因为无法从一个空的 `discard` 语句中推断出参数的类型。
+但是，语言的后续版本可能会将其更改为"从主体推断参数类型"。
+从而上面的 `foo` 将会被拒绝，因为无法从一个空的 `discard` 语句中推断出参数的类型。
 {==+==}
 
 {==+==}
@@ -756,7 +757,7 @@ Type relations
 The following section defines several relations on types that are needed to
 describe the type checking done by the compiler.
 {==+==}
-以下部分定义了描述编译器完成的类型检查所需的几种类型关系。
+以下部分定义了描述编译器完成类型检查所需的几种类型关系。
 {==+==}
 
 {==+==}
@@ -792,7 +793,7 @@ If object `a` inherits from `b`, `a` is a subtype of `b`.
 This subtype relation is extended to the types `var`, `ref`, `ptr`.
 If `A` is a subtype of `B` and `A` and `B` are `object` types then:
 {==+==}
-子类型关系被拓展到类型 `var` , `ref` , `prt` 。如果 `A` 是 `B` 的子类型， `A` 和 `B` 是 `object` 类型那么:
+子类型关系被延伸到类型 `var` , `ref` , `prt` 。如果 `A` 是 `B` 的子类型， `A` 和 `B` 是 `object` 类型那么:
 {==+==}
 
 {==+==}
@@ -906,7 +907,7 @@ and the predicate `isSubtype(a, b)` for the "subtype relation".
 Implicit conversions are also performed for Nim's `range` type
 constructor.
 {==+==}
-Nim 的 `range` 类型构造函数也执行隐式转换。
+Nim 的 `range` 类型构造器也执行隐式转换。
 {==+==}
 
 {==+==}
@@ -921,7 +922,7 @@ parameter's type. Then an implicit conversion from `A` to `F`
 exists if `a0 >= low(F) and b0 <= high(F)` and both `T` and `F`
 are signed integers or if both are unsigned integers.
 {==+==}
-让 `A = range[a0..b0]` 为参数的类型， `F` 为形参的类型。如果 `a0 >= low(F) 和 b0 <= high(F)` 并且 `T` 和 `F` 都是有符号整数或两者都是无符号整数，则存在从 `A` 到 `F` 的隐式转换。
+让 `A = range[a0..b0]` 为实参类型， `F` 为形参类型。如果 `a0 >= low(F) and b0 <= high(F)` 并且 `T` 和 `F` 都是有符号整数或两者都是无符号整数，则存在从 `A` 到 `F` 隐式转换。
 {==+==}
 
 {==+==}
@@ -995,7 +996,7 @@ The convertible relation can be relaxed by a user-defined type
   # 隐式转换变化在这里发生
   x = chr
   echo x # => 97
-  # 另一个也可以使用显式形式
+  # 也可以使用显式形式
   x = chr.toInt
   echo x # => 97
   ```
@@ -1029,7 +1030,7 @@ Every arg in args needs to match. There are multiple different categories how an
 argument can match. Let `f` be the formal parameter's type and `a` the type
 of the argument.
 {==+==}
-args 中的每个 arg 都需要匹配。一个实参可以匹配多个不同的类别。假设 `f` 是形参的类型，`a` 是参数的类型。
+args 中的每个 arg 都需要匹配。一个实参可以匹配多个不同的类别。假设 `f` 是形参类型，`a` 是实参类型。
 {==+==}
 
 {==+==}
@@ -1063,16 +1064,15 @@ literal match and that is better than a generic match etc. In the following,
 `count(p, m)` counts the number of matches of the matching category `m`
 for the routine `p`.
 {==+==}
-在下文中，`count(p, m)` 计算例程 `p` 的匹配类别 `m` 的匹配数。
-
-这些匹配类别有一个优先级: 精确匹配比字面值匹配更好，比常规匹配更好，等等。在下面的代码中，`count(p, m)` 计算了例程 `p` 匹配类别 `m` 的匹配次数。
+这些匹配类别有优先级: 精确匹配比字面值匹配更好，比常规匹配更好，等等。
+在下面的代码中，`count(p, m)` 计算例程 `p` 匹配类别 `m` 的匹配次数。
 {==+==}
 
 {==+==}
 A routine `p` matches better than a routine `q` if the following
 algorithm returns true::
 {==+==}
-如果以下算法返回 true，则例程 `p` 比例程 `q` 匹配得更好:
+如果以下算法返回 true，则例程 `p` 比例程 `q` 匹配得更好::
 {==+==}
 
 {==+==}
@@ -1139,7 +1139,7 @@ If the argument `a` matches both the parameter type `f` of `p`
 and `g` of `q` via a subtyping relation, the inheritance depth is taken
 into account:
 {==+==}
-如果此算法返回 "ambiguous" "歧义"，则执行进一步消除歧义: 如果参数 `a` 通过子类型关系同时匹配 `p` 的参数类型 `f` 和 `q` 的 `g`，则考虑继承深度:
+如果这个算法返回 "ambiguous" "歧义"，则执行进一步消除歧义: 如果参数 `a` 通过子类型关系同时匹配 `p` 的参数类型 `f` 和 `q` 的 `g`，则考虑继承深度:
 {==+==}
 
 {==+==}
@@ -1233,7 +1233,7 @@ in addition to the ordinary type checking,
 the argument is checked to be an `l-value`:idx:.
 `var T` matches better than just `T` then.
 {==+==}
-如果形参 `f` 是 `var T` 类型，除了普通类型检查外，参数会被检查为 `l-value`:idx: "左值" 。`var T` 比 `T` 更好匹配。
+如果形参 `f` 是 `var T` 类型，并且进行普通类型检查，参数会被检查为 `l-value`:idx: "左值" 。`var T` 比 `T` 更好匹配。
 {==+==}
 
 {==+==}
@@ -1276,7 +1276,7 @@ the argument is checked to be an `l-value`:idx:.
 Lazy type resolution for untyped
 --------------------------------
 {==+==}
-无类型的惰性类型解析
+untyped惰性类型解析
 ----------------------------------------
 {==+==}
 
@@ -1284,7 +1284,7 @@ Lazy type resolution for untyped
 **Note**: An `unresolved`:idx: expression is an expression for which no symbol
 lookups and no type checking have been performed.
 {==+==}
-`unresolved`:idx: "未解析"表达式是没有符号的表达式，不执行查找和类型检查。
+**注意**: `unresolved`:idx: "未解析"表达式是没有标识符的表达式，不执行查找和类型检查。
 {==+==}
 
 {==+==}
@@ -1293,7 +1293,8 @@ in overloading resolution, it's essential to have a way to pass unresolved
 expressions to a template or macro. This is what the meta-type `untyped`
 accomplishes:
 {==+==}
-由于未声明为 `immediate` 的模板和宏参与重载解析，因此必须有一种方法将未解析的表达式传递给模板或宏。 这就是元类型 `untyped` 的任务:
+因为没有声明为 `immediate` 的模板和宏会参与重载解析，因此必须有一种方法将未解析的表达式传递给模板或宏。 
+这就是元类型 `untyped` 的任务:
 {==+==}
 
 {==+==}
@@ -1321,7 +1322,7 @@ any argument passed to it).
 But one has to watch out because other overloads might trigger the
 argument's resolution:
 {==+==}
-但是必须小心，因为其他重载可能会触发参数解析:
+但须小心，因为其他重载可能会触发参数解析:
 {==+==}
 
 {==+==}
@@ -1419,7 +1420,7 @@ yielding类型 `T` 的迭代器可以通过类型为 `untyped` (用于未解析�
 Overload disambiguation
 =======================
 {==+==}
-重载disambiguation
+重载歧义消除
 ====================================
 {==+==}
 
@@ -1429,7 +1430,7 @@ overload resolution called *overload disambiguation* that is performed when an
 overloaded symbol is used in a context where there is additional type information
 available. Let `p` be an overloaded symbol. These contexts are:
 {==+==}
-对于例程调用，执行 "重载解析" 。 有一种称为 *overload disambiguation* *重载歧义消除* 的弱形式的重载解析，当重载符号用于有附加类型信息可用的上下文中时执行。 假设 `p` 成为重载符号， 则上下文是:
+对于例程调用，会进行 "重载解析" 。有一种较弱的重载解析形式，称为 *overload disambiguation* *重载歧义消除* ，当重载符号在有额外类型信息的情况下被使用时，会执行。假设 `p` 是一个重载符号。则上下文是:
 {==+==}
 
 {==+==}
@@ -1441,7 +1442,7 @@ available. Let `p` be an overloaded symbol. These contexts are:
 - In a declaration like `x: T = p` when `T` is a `proc` type.
 {==+==}
 - 当 `q` 的相应形式参数是 `proc` 类型时，在函数调用 `q(..., p, ...)` 中。 如果 `q` 本身被重载，则必须考虑 `q` 和 `p` 的每种解释的笛卡尔积。
-- 在一个对象构造函数中 `Obj(..., field: p, ...)` 当 `field` 是 `proc` 类型。类似的规则也适用于 array/set/tuple 的构造函数。
+- 在一个对象构造函数中 `Obj(..., field: p, ...)` 当 `field` 是 `proc` 类型。类似的规则也适用于 array/set/tuple 的构造器。
 - 有这样的声明 `x: T = p` 当 `T` 是 `proc` 类型。
 {==+==}
 
@@ -1519,7 +1520,7 @@ assignments, calls, or the `return` statement; complex statements can
 contain other statements. To avoid the `dangling else problem`:idx:, complex
 statements always have to be indented. The details can be found in the grammar.
 {==+==}
-语句被分成  `simple statements`:idx: "简单语句" 和 `complex statements`:idx: "复杂语句" 。单语句是不能包含其他语句的语句，如赋值、调用或 `return` 语句； 复杂语句包含其他语句。 为了避免  `dangling else problem`:idx: "不确定性问题"，复杂的语句总是必须缩进, 细节可以在语法一节中找到。
+语句分成 `simple statements`:idx: "简单语句" 和 `complex statements`:idx: "复杂语句" 。简单语句是不能包含其他语句的语句，如赋值、调用或 `return` 语句；复杂语句包含其他语句。为了避免 `dangling else problem`:idx: "不确定性问题"，复杂语句必须缩进, 细节可以查看语法一节。
 {==+==}
 
 {==+==}
@@ -1538,7 +1539,7 @@ of `(stmt1; stmt2; ...; ex)` is the type of `ex`. All the other statements
 must be of type `void`. (One can use `discard` to produce a `void` type.)
 `(;)` does not introduce a new scope.
 {==+==}
-语句也可以出现在看起来像 `(stmt1; stmt2; ...; ex)` 这样的形式。 这称为语句列表表达式或 `(;)` 。 `(stmt1; stmt2; ...; ex)` 的类型是 `ex` 类型。 所有其他语句必须是 `void` 类型。 (可以使用 `discard` 来生成 `void` 类型。) `(;)` 不会引入新的作用域。
+语句也可以出现 `(stmt1; stmt2; ...; ex)` 这样的形式。这称为语句列表表达式或 `(;)` 。 `(stmt1; stmt2; ...; ex)` 的类型是 `ex` 类型。其他语句必须是 `void` 类型。(可以使用 `discard` 来生成 `void` 类型。) `(;)` 不会引入新的作用域。
 {==+==}
 
 {==+==}
@@ -1576,7 +1577,7 @@ The `discard` statement evaluates its expression for side-effects and
 throws the expression's resulting value away, and should only be used
 when ignoring this value is known not to cause problems.
 {==+==}
-`discard` 语句评估其表达式的副作用并将表达式的结果值丢弃，并且只应在已知忽略此值不会导致问题时使用。
+`discard` 语句评估其表达式的副作用并将表达式的结果值丢弃，并且应在已知忽略此值不会导致问题时使用。
 {==+==}
 
 {==+==}
@@ -1590,7 +1591,7 @@ a static error.
 The return value can be ignored implicitly if the called proc/iterator has
 been declared with the `discardable`:idx: pragma:
 {==+==}
-如果调用的 proc/iterator 已使用 `discardable`:idx: "可废弃的"编译指示声明，则可以隐式忽略返回值:
+如果调用的 proc/iterator 已使用 `discardable`:idx: "可丢弃"编译指示声明，则可以隐式忽略返回值:
 {==+==}
 
 {==+==}
@@ -1612,7 +1613,7 @@ been declared with the `discardable`:idx: pragma:
 {==+==}
 however the discardable pragma does not work on templates as templates substitute the AST in place. For example:
 {==+==}
-但是可丢弃的编译指示不适用于模板，因为模板会替换掉 AST。 例如:
+但是可丢弃编译指示不适用于模板，因为模板会替换掉 AST。 例如:
 {==+==}
 
 {==+==}
@@ -1642,7 +1643,7 @@ This template will resolve into "https://nim-lang.org" which is a string literal
 {==+==}
 An empty `discard` statement is often used as a null statement:
 {==+==}
-空的 `discard` 语句通常用于一个空的语句中:
+ `discard` 语句常用于空语句中:
 {==+==}
 
 {==+==}
@@ -1667,7 +1668,7 @@ An empty `discard` statement is often used as a null statement:
 Void context
 ------------
 {==+==}
-空下上文
+Void下上文
 ----------------
 {==+==}
 
@@ -1676,7 +1677,7 @@ In a list of statements, every expression except the last one needs to have the
 type `void`. In addition to this rule an assignment to the builtin `result`
 symbol also triggers a mandatory `void` context for the subsequent expressions:
 {==+==}
-在语句列表中，除了最后一个表达式之外，每个表达式都需要类型为 `void` 。除了这个规则，对内置 `result` 符号的赋值也会为后续的表达式触发一个强制的 `void` 上下文:
+在语句列表中，除了最后一个表达式之外，每个表达式类型需要为 `void` 。除了这个规则，对内置 `result` 标识符的赋值也会为后续的表达式触发强制的 `void` 上下文:
 {==+==}
 
 {==+==}
@@ -1780,8 +1781,8 @@ string                          `""`
 tuple[x: A, y: B, ...]          (default(A), default(B), ...)
                                 (analogous for objects)
 array[0..., T]                  [default(T), ...]
-range[T]                        default(T); 这个可能会超出有效范围
-T = enum                        cast[T]\(0); 这个可能是一个非法值
+range[T]                        default(T); 这可能会超出有效范围
+T = enum                        cast[T]\(0); 这可能是一个无效值
 ============================    ==========================================================
 {==+==}
 
@@ -1869,7 +1870,7 @@ the variable has been initialized and does not rely on syntactic properties:
 {==+==}
 Given the following distinct type definitions:
 {==+==}
-给定以下不同的类型定义:
+给出以下distinct类型定义:
 {==+==}
 
 {==+==}
@@ -1984,7 +1985,7 @@ when they are declared. The only exception to this is if the `{.importc.}`
 pragma (or any of the other `importX` pragmas) is applied, in this case the
 value is expected to come from native code, typically a C/C++ `const`.
 {==+==}
-由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义一个值。 唯一的例外是如果应用了 `{.importc.}` 编译指示(或任何其他 `importX` 编译指示)，在这种情况下，值应该来自本机代码，通常是 C/C++ `const` 。
+由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义值。唯一的例外是如果应用了 `{.importc.}` 编译指示(或任何其他 `importX` 编译指示)，在这种情况下，值应该来自本地代码，通常是 C/C++ `const` 。
 {==+==}
 
 {==+==}
@@ -1999,7 +2000,7 @@ Tuple unpacking
 In a `var` or `let` statement tuple unpacking can be performed. The special
 identifier `_` can be used to ignore some parts of the tuple:
 {==+==}
-在 `var` 或 `let` 语句中可以执行元组解包。 特殊标识符 `_` 可用于忽略元组的某些部分:
+在 `var` 或 `let` 语句中可以执行元组解包。特定标识符 `_` 可用于忽略元组的某些部分:
 {==+==}
 
 {==+==}
@@ -2072,7 +2073,7 @@ Static statement/expression
 A static statement/expression explicitly requires compile-time execution.
 Even some code that has side effects is permitted in a static block:
 {==+==}
-静态语句/表达式明确需要编译时执行。甚至在静态块中也允许一些具有副作用的代码:
+静态语句/表达式明确要求编译期执行。甚至在静态块中也允许一些具有副作用的代码:
 {==+==}
 
 {==+==}
@@ -2109,11 +2110,11 @@ Even some code that has side effects is permitted in a static block:
   ```nim
   proc getNum(a: int): int = a
 
-  # 以下，在编译时调用 "echo getNum(123)" 
+  # 以下，在编译期调用 "echo getNum(123)" 
   static:
     echo getNum(123)
 
-  # 下面的调用在编译时计算 "getNum(123)" ，但其结果在运行时使用。
+  # 下面的调用在编译期计算 "getNum(123)" ，但其结果在运行时使用。
   echo static(getNum(123))
   ```
 {==+==}
@@ -2125,7 +2126,7 @@ see `Restrictions on Compile-Time Execution
 It's a static error if the compiler cannot execute the block at compile
 time.
 {==+==}
-在编译时可以执行哪些 Nim 代码是有限制的；详情参阅 `Restrictions on Compile-Time Execution <#restrictions-on-compileminustime-execution>`_ 。如果编译器无法在编译时执行该块，则会是一个静态错误。
+在编译期可以执行哪些 Nim 代码是有限制的；详情参阅 `Restrictions on Compile-Time Execution <#restrictions-on-compileminustime-execution>`_ 。如果编译器无法在编译期执行该块，则会是静态错误。
 {==+==}
 
 {==+==}
@@ -2176,7 +2177,7 @@ the `:` are executed. This goes on until the last `elif`. If all
 conditions fail, the `else` part is executed. If there is no `else`
 part, execution continues with the next statement.
 {==+==}
-`if` 语句是在控制流中创建分支的一种简单方法: 计算关键字 `if` 后的表达式，如果为真，则执行 `:` 后的相应语句。 否则，计算 `elif` 之后的表达式(如果有 `elif` 分支)。 如果所有条件都失败，则执行 `else` 部分。 如果没有 `else` 部分，则继续执行下一条语句。
+`if` 语句是在控制流中创建分支的简单方法: 计算关键字 `if` 后的表达式，如果为真，则执行 `:` 后的相应语句。否则，计算 `elif` 之后的表达式(如果有 `elif` 分支)。如果所有条件都失败，则执行 `else` 部分。 如果没有 `else` 部分，则继续执行下一条语句。
 {==+==}
 
 {==+==}
@@ -2186,7 +2187,8 @@ corresponding *then* block.
 For visualization purposes the scopes have been enclosed
 in `{|  |}` in the following example:
 {==+==}
-在 `if` 语句中，新的作用域在 `if`/`elif`/`else` 关键字之后立即开始，并在相应的 *那个* 块之后结束。 出于呈现的目的，在以下示例中，作用域被包含在 `{| |}` 中:
+在 `if` 语句中，新的作用域在 `if`/`elif`/`else` 关键字之后立即开始，并在相应的 *那个* 块之后结束。
+出于呈现的目的，在以下示例中，作用域被包含在 `{| |}` 中:
 {==+==}
 
 {==+==}
