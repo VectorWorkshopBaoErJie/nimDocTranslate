@@ -185,7 +185,7 @@ won't work:
 {==+==}
 This can be fixed by explicitly using `result` or `return`:
 {==+==}
-这可以通过显式使用 'result' 或 'return' 来修复:
+这可以通过显式使用 `result` 或 `return` 来修复:
 {==+==}
 
 {==+==}
@@ -343,7 +343,7 @@ A `when nimvm` statement must meet the following requirements:
 * 它的表达式必须是 `nimvm` 。不允许使用的复杂表达式。
 * 它必须不含有 `elif` 分支。
 * 必须含有 `else` 分支。
-* 分支中的代码不能影响 `when nimvm` 语句后面的代码的语义. 比如它不能定义后续代码中使用的符号。
+* 分支中的代码不能影响 `when nimvm` 语句后面的代码的语义。比如它不能定义后续代码中使用的符号。
 {==+==}
 
 {==+==}
@@ -396,7 +396,7 @@ the proc has a return type. The `result`:idx: variable is always the return
 value of the procedure. It is automatically declared by the compiler. As all
 variables, `result` is initialized to (binary) zero:
 {==+==}
-如果proc有返回类型，不带表达式的 `return` 是 `return result` 的简短表示法.
+如果proc有返回类型，不带表达式的 `return` 是 `return result` 的简短表示.
 变量 `result`:idx: 始终是过程的返回值。它由编译器自动声明。与所有变量一样, `result` 初始化为(二进制)0:
 {==+==}
 
@@ -1003,9 +1003,9 @@ has lots of advantages:
 * Apart from the minimal syntactic sugar, the language core does not need to
   know about tables.
 {==+==}
-* 保留了(键, 值)对的顺序, 因此很容易支持有序的字典，例如`{key: val}.newOrderedTable`。
-* 表字面值可以放入 const 部分，编译器可以很容易地将它放入可执行文件的数据部分，就像数组一样，生成的数据部分只需要很少的内存。
-* 每个表的实现 在语法上都是一样的。
+* 保留了(键, 值)对的顺序, 因此很容易支持有序的字典，例如 `{key: val}.newOrderedTable` 。
+* 表字面值可以放入 `const` 部分，编译器可以很容易地将它放入可执行文件的数据部分，就像数组一样，生成的数据部分只需要很少的内存。
+* 每个表的实现在语法上都是一样的。
 * 除了最小的语法糖之外, 语言核心不需要了解表。
 {==+==}
 
@@ -1232,7 +1232,7 @@ until either the beginning of the parameter list, a semicolon separator, or an
 already typed parameter, is reached. The semicolon can be used to make
 separation of types and subsequent identifiers more distinct.
 {==+==}
-大多数编程语言称之为 `methods`:idx "方法"或 `functions`:idx "函数"在Nim中称为 `procedures`:idx "过程"。过程声明由标识符、零个或多个形式参数、返回值类型和代码块组成，形式参数声明为由逗号或分号分隔的标识符列表。形参由 `: typename` 给出一个类型。该类型适用于紧接其之前的所有参数，直到达到参数列表的开头，分号分隔符或已经键入的参数。
+大多数编程语言称之为 `methods`:idx "方法"或 `functions`:idx "函数"在Nim中称为 `procedures`:idx "过程"。过程声明由标识符、零个或多个形参、返回值类型和代码块组成，形参声明为由逗号或分号分隔的标识符列表。形参由 `: typename` 给出一个类型。该类型适用于紧接其之前的所有参数，直到达到参数列表的开头，分号分隔符或已经键入的参数。
 分号可用于使类型和后续标识符的分隔更加清晰。
 {==+==}
 
@@ -1252,7 +1252,7 @@ separation of types and subsequent identifiers more distinct.
   # 只使用逗号
   proc foo(a, b: int, c, d: bool): int
 
-  # 使用分号进行视觉区分
+  # 使用分号进行显示上的区分
   proc foo(a, b: int; c, d: bool): int
 
   # 会失败: a是无类型的, 因为 ';' 停止类型传播
@@ -1386,7 +1386,7 @@ Calling a procedure can be done in many ways:
   ```nim
   proc callme(x, y: int, s: string = "", c: char, b: bool = false) = ...
 
-  # 带位置参数的调用     # 参数绑定:
+  # 带位置参数的调用                    # 参数绑定:
   callme(0, 1, "abc", '\t', true)       # (x=0, y=1, s="abc", c='\t', b=true)
   # 使用命名参数和位置参数调用:
   callme(y=1, x=0, "abd", '\t')         # (x=0, y=1, s="abd", c='\t', b=false)
@@ -1545,7 +1545,7 @@ to supply any type of first argument for procedures:
 Another way to look at the method call syntax is that it provides the missing
 postfix notation.
 {==+==}
-查看方法调用语法的另一种方法是它提供了缺少的后缀表示法。
+查看方法调用语法的另一种方法是它提供了缺损的后缀表示法。
 {==+==}
 
 {==+==}
@@ -1618,13 +1618,13 @@ Nim不需要 *get-properties* :使用 *方法调用语法* 调用的普通get-pr
 
   proc `host=`*(s: var Socket, value: int) {.inline.} =
     ## hostAddr的setter.
-    ## 它访问'host'字段并且不是对 ``host =`` 的递归调用, 如果内置的点访问方法可用, 则首选点访问:
+    ## 它访问 'host' 字段并且不是对 `host =` 的递归调用, 如果内置的点访问方法可用, 则首选点访问:
     s.host = value
 
   proc host*(s: Socket): int {.inline.} =
     ##hostAddr的getter
     ## This accesses the 'host' field and is not a recursive call to
-    ## 它访问'host'字段并且不是对 ``host`` 的递归调用, 如果内置的点访问方法可用, 则首选点访问:
+    ## 它访问 'host' 字段并且不是对 `host` 的递归调用, 如果内置的点访问方法可用, 则首选点访问:
     s.host
   ```
 {==+==}
@@ -1682,7 +1682,8 @@ ensure that object fields and accessors can have the same name. Within the
 module `x.f` is then always interpreted as field access and outside the
 module it is interpreted as an accessor proc call.
 {==+==}
- `f=` 可以在模式 `x.f = value` 中隐式调用，当且仅当 `x` 的类型没有名为 `f` 的字段或者 `f` 时在当前模块中不可见。这些规则确保对象字段和访问者可以具有相同的名称。在模块 `x.f` 中总是被解释为字段访问，在模块外部它被解释为访问器proc调用。
+ `f=` 可以在模式 `x.f = value` 中隐式调用，当且仅当 `x` 的类型没有名为 `f` 的字段或者 `f` 时在当前模块中不可见。
+ 这些规则确保对象字段和访问者可以具有相同的名称。在模块 `x.f` 中总是被解释为字段访问，在模块外部它被解释为访问器proc调用。
 {==+==}
 
 {==+==}
@@ -1758,7 +1759,10 @@ the closure and its enclosing scope (i.e. any modifications made to them are
 visible in both places). The closure environment may be allocated on the heap
 or on the stack if the compiler determines that this would be safe.
 {==+==}
-过程可以出现在模块的顶层，也可以出现在其他作用域中，在这种情况下，它们称为嵌套过程。嵌套的过程可以从其封闭的作用域访问局部变量，这就变成了一个闭包。任何捕获的变量都存储在闭包(它的环境)的隐藏附加参数中，并且它们通过闭包及其封闭作用域的引用来访问(即, 对它们进行的任何修改在两个地方都是可见的)。如果编译器确定这是安全的，则可以在堆上或堆栈上分配闭包环境。
+过程可以出现在模块的顶层，也可以出现在其他作用域中，在这种情况下，它们称为嵌套过程。
+嵌套的过程可以从其封闭的作用域访问局部变量，这就变成了一个闭包。
+任何捕获的变量都存储在闭包(它的环境)的隐藏附加参数中，并且它们通过闭包及其封闭作用域的引用来访问(即, 对它们进行的任何修改在两个地方都是可见的)。
+如果编译器确定这是安全的，则可以在堆上或堆栈上分配闭包环境。
 {==+==}
 
 {==+==}
@@ -1863,7 +1867,8 @@ The proc expression represented by the `do` block is appended to the routine
 call as the last argument. In calls using the command syntax, the `do` block
 will bind to the immediately preceding expression rather than the command call.
 {==+==}
-`do` 写在包含常规程序参数的括号之后。由 `do` 块表示的proc表达式作为最后一个参数附加到例程调用。 在使用命令语法的调用中, `do` 块将绑定到紧接在前面的表达式，而不是命令调用。
+`do` 写在包含常规程序参数的括号之后。由 `do` 块表示的proc表达式作为最后一个参数附加到例程调用。
+在使用命令语法的调用中, `do` 块将绑定到紧接在前面的表达式，而不是命令调用。
 {==+==}
 
 {==+==}
@@ -1872,7 +1877,8 @@ however `do` without parameters or pragmas is treated as a normal statement
 list. This allows macros to receive both indented statement lists as an
 argument in inline calls, as well as a direct mirror of Nim's routine syntax.
 {==+==}
-带参数列表或pragma列表的 `do` 对应于匿名的 `proc` , 但是不带参数或程序中的 `do` 被视为正常的语句列表。 这允许宏接收缩进语句列表作为内联调用的参数， 以及Nim例程语法的直接镜像。
+带参数列表或pragma列表的 `do` 对应于匿名的 `proc` ,但是不带参数或程序中的 `do` 被视为正常的语句列表。
+这允许宏接收缩进语句列表作为内联调用的参数，以及Nim例程语法的直接镜像。
 {==+==}
 
 {==+==}
@@ -1968,7 +1974,9 @@ A type bound operator is a `proc` or `func` whose name starts with `=` but isn't
 A type bound operator declared for a type applies to the type regardless of whether
 the operator is in scope (including if it is private).
 {==+==}
-类型绑定操作符是 `proc` 或 `func` ， 其名称以 `=` 开始， 但不是操作符(即只包含符号，如 `==` )。这些与setter无关(参见 `properties <manual.html#procedures-properties>`_ ), 它们以 `=` 结尾。为类型声明的类型绑定操作符将应用于该类型，无论操作符是否在作用域中(包括是否为私有)。
+类型绑定操作符是 `proc` 或 `func` ， 其名称以 `=` 开始， 但不是操作符(即只包含符号，如 `==` )。
+这些与setter无关(参见 `properties <manual.html#procedures-properties>`_ ), 它们以 `=` 结尾。
+为类型声明的类型绑定操作符将应用于该类型，无论操作符是否在作用域中(包括是否为私有)。
 {==+==}
 
 {==+==}
@@ -2030,7 +2038,8 @@ the implementation is automatically lifted to structured types. For instance,
 if the type `T` has an overridden assignment operator `=`, this operator is
 also used for assignments of the type `seq[T]`.
 {==+==}
-这些操作可以被 *overridden* , 而不是 *overloaded* 。 这意味着实现会自动提升为结构化类型. 例如，如果类型 `T` 有一个覆盖的赋值操作符 `=` , 这个操作符也用于类型 `seq[T]` 的赋值。
+这些操作可以被 *overridden* , 而不是 *overloaded* 。这意味着实现会自动提升为结构化类型。
+例如，如果类型 `T` 有一个覆盖的赋值操作符 `=` ,这个操作符也用于类型 `seq[T]` 的赋值。
 {==+==}
 
 {==+==}
@@ -2041,7 +2050,8 @@ This also means that one cannot override `deepCopy` for both `ptr T` and
 `ref T` at the same time, instead a distinct or object helper type has to be
 used for one pointer type.
 {==+==}
-由于这些操作被绑定到一个类型，为了实现的简单性，它们必须绑定到一个名义类型; 这意味着一个被重写的 `deepCopy` 的 `ref T` 是真正绑定到 `T` 而不是 `ref T` 。这也意味着，一个不能覆盖 `deepCopy` 的 `ptr T` 和 `ref T` 同时，相反，一个不同的或对象helper类型必须用于一个指针类型。
+由于这些操作被绑定到一个类型，为了实现的简单性，它们必须绑定到一个名义类型; 这意味着一个被重写的 `deepCopy` 的 `ref T` 是真正绑定到 `T` 而不是 `ref T` 。
+这也意味着，一个不能覆盖 `deepCopy` 的 `ptr T` 和 `ref T` 同时，相反，一个不同的或对象helper类型必须用于一个指针类型。
 {==+==}
 
 {==+==}
@@ -2079,7 +2089,8 @@ to `f`::
   declared, defined, definedInScope, compiles, sizeof,
   is, shallowCopy, getAst, astToStr, spawn, procCall
 
-因此, 它们更像关键字而不是普通标识符，与关键字不同的是, 重定义可能会在 system_ 模块中 `shadow`:idx: 定义。从这个列表中，下面的内容不应该用点符号 `x.f` , 因为 `x` 在传递给 `f` 之前不能进行类型检查::
+因此, 它们更像关键字而不是普通标识符，与关键字不同的是, 重定义可能会在 system_ 模块中 `shadow`:idx: 定义。
+从这个列表中，下面的内容不应该用点符号 `x.f` , 因为 `x` 在传递给 `f` 之前不能进行类型检查::
 
   declared, defined, definedInScope, compiles, getAst, astToStr
 {==+==}
@@ -2134,7 +2145,8 @@ visible to the caller. The argument passed to a var parameter has to be
 an l-value. Var parameters are implemented as hidden pointers. The
 above example is equivalent to:
 {==+==}
-在示例中,  `res` 和 `remainder` 是 `var parameters` 。可以通过过程修改Var参数，并且调用者可以看到更改。传递给var参数的参数必须是左值。Var参数实现为隐藏指针。上面的例子相当于:
+在示例中, `res` 和 `remainder` 是 `var parameters` 。可以通过过程修改Var参数，并且调用者可以看到更改。
+传递给var参数的参数必须是左值。Var参数实现为隐藏指针。上面的例子相当于:
 {==+==}
 
 {==+==}
