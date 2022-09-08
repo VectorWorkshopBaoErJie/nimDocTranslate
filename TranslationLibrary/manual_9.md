@@ -11,7 +11,7 @@ With the `dynlib` pragma, a procedure can also be exported to
 a dynamic library. The pragma then has no argument and has to be used in
 conjunction with the `exportc` pragma:
 {==+==}
-一个使用了 `dynlib` 编译指示的过程，也能被导出为动态库。这样以来，它不需要参数，但必须结合 `exportc` 编译指示来使用:
+一个使用了 `dynlib` 编译指示的过程，也能被导出为动态库。这时，它不需要参数，但必须结合 `exportc` 编译指示来使用:
 {==+==}
 
 {==+==}
@@ -47,8 +47,9 @@ for the low-level thread API. There are also high-level parallelism constructs
 available. See `spawn <manual_experimental.html#parallel-amp-spawn>`_ for
 further details.
 {==+==}
-要启用线程支持，需要使用 `--threads:on`:option: 命令行开关。同时，system_模块包含几个线程基元。
-关于底层的线程API，请参阅 `channels <channels_builtin.html>`_ 模块。还有一些高层次的并行结构可用。详情请见 `spawn <manual_experimental.html#parallel-amp-spawn>`_ 。
+使用 `--threads:on`:option: 命令行开关启用线程支持。启用后 system_ 模块会包含几个线程原语。
+关于底层线程 API，请参阅 `channels <channels_builtin.html>`_ 模块。还有一些高层次的并行结构可用，详情请见
+`spawn <manual_experimental.html#parallel-amp-spawn>`_ 。
 {==+==}
 
 {==+==}
@@ -58,9 +59,9 @@ collected) heap, and sharing of memory is restricted to global variables. This
 helps to prevent race conditions. GC efficiency is improved quite a lot,
 because the GC never has to stop other threads and see what they reference.
 {==+==}
-相较于其他的通用编程语言(C, Pascal, Java)，Nim 中线程的内存模型是相当与众不同的：
+相较于其他的通用编程语言(C，Pascal，Java)，Nim 中线程的内存模型是相当与众不同的：
 每个线程都有它自己的(垃圾回收)堆，内存共享也仅限于全局变量。这样有助于防止竞态条件。
-因为 GC 永远不必停止其他线程，并查看它们到底引用了什么。故而 GC 的效率也得以被大大提升。
+因为 GC 永远不必停止其他线程，并查看它们到底引用了什么，故而 GC 的效率也大大提升。
 {==+==}
 
 {==+==}
@@ -69,7 +70,8 @@ The only way to create a thread is via `spawn` or
 any of its parameters contain a `ref` or `closure` type. This enforces
 the *no heap sharing restriction*.
 {==+==}
-只有通过 `spawn` 或者 `createThread` 才能创建一个线程。被调用的过程不得使用 `var` 声明参数，参数类型也不得包含 `ref` 或 `closure` 。
+只能通过 `spawn` 或者 `createThread` 创建线程。被调用的过程不得使用 `var` 声明参数，参数类型也不得包含 `ref` 或 `closure` 。
+强制实行*无堆共享限制*。
 {==+==}
 
 {==+==}
@@ -88,16 +90,15 @@ that it is invalid to construct a data structure that consists of memory
 allocated from different (thread-local) heaps.
 {==+==}
 出于可读性的考虑，作为新线程执行的程序应该用 `thread` 编译指示进行标记。
-编译器会检查是否违反了 `no heap sharing restriction`:idx:\: "无堆共享限制"
-这个限制意味着，无法构造由不同(线程本地)堆分配的内存组成的数据结构。
+编译器会检查是否违反了 `no heap sharing restriction`:idx: "无堆共享限制"：
+这个限制的意思是，由来自不同的(线程本地)堆上的内存所组成的数据结构是无效的。
 {==+==}
 
 {==+==}
 A thread proc is passed to `createThread` or `spawn` and invoked
-indirectly; so the `thread` pragma implies `procvar`.
+indirectly.
 {==+==}
-一个线程过程被传递给 `createThread` 或 `spawn` ，并被间接调用；
-因此，`thread` 编译指示等价于 `procvar` 。
+线程过程被传递给 `createThread` 或 `spawn` ，并间接调用。
 {==+==}
 
 {==+==}
@@ -166,7 +167,7 @@ Guards and locks
 Nim provides common low level concurrency mechanisms like locks, atomic
 intrinsics or condition variables.
 {==+==}
-Nim 提供了诸如锁、原子性内部函数和条件变量这样的常见底层并发机制。
+Nim 提供了诸如锁、原子性内部函数或条件变量这样的常见底层并发机制。
 {==+==}
 
 {==+==}
@@ -258,8 +259,8 @@ Top level accesses to `gdata` are always allowed so that it can be initialized
 conveniently. It is *assumed* (but not enforced) that every top level statement
 is executed before any concurrent action happens.
 {==+==}
-为了能够方便地初始化，始终允许了对 `gdata` 的顶级访问。
-这样 *假设* (但不强制)的前提是，所有顶级语句都执行在未发生并发操作之前。
+为了能够方便地初始化，始终允许在顶层访问 `gdata`。
+*假定* (但不强制)所有顶层语句都在发生并发操作之前执行。
 {==+==}
 
 {==+==}
@@ -267,8 +268,8 @@ The `locks` section deliberately looks ugly because it has no runtime
 semantics and should not be used directly! It should only be used in templates
 that also implement some form of locking at runtime:
 {==+==}
-我们故意让 `locks` 块看起来很丑，因为它没有运行时的语意，不应该被直接使用！
-它应该只在运行时中，同时能够实现某种形式的锁定的模板里使用:
+我们故意让 `locks` 块看起来很丑，因为它没有运行时的语意，也不应该被直接使用！
+它应该只在模板里出现，再由模板实现运行时的加锁操作:
 {==+==}
 
 {==+==}
@@ -298,7 +299,7 @@ that also implement some form of locking at runtime:
 The guard does not need to be of any particular type. It is flexible enough to
 model low level lockfree mechanisms:
 {==+==}
-守卫不需要属于任何特定类型。它足够灵活到可以对低级无锁机制进行建模:
+守卫不需要属于某种特定类型。它足够灵活，可以对低级无锁机制建模:
 {==+==}
 
 {==+==}
@@ -332,8 +333,8 @@ The `locks` pragma takes a list of lock expressions `locks: [a, b, ...]`
 in order to support *multi lock* statements. Why these are essential is
 explained in the `lock levels <#guards-and-locks-lock-levels>`_ section.
 {==+==}
-为了支持 *多锁* 语句，`locks` 编译指令采用了锁表达式 `locks: [a, b, ...]` 。
-在 `lock levels <#guards-and-locks-lock-levels>`_ 章节中对这样做的原因进行了解释。
+为了支持 *多锁* 语句，`locks` 编译指示后面是锁表达式的列表 `locks: [a, b, ...]` 。
+在 `lock levels <#guards-and-locks-lock-levels>`_ 章节中对这样做的重要性进行了解释。
 {==+==}
 
 
@@ -348,14 +349,14 @@ The `guard` annotation can also be used to protect fields within an object.
 The guard then needs to be another field within the same object or a
 global variable.
 {==+==}
-`guard` 注解也可以用于保护对象中的字段。然后，需要用同一个对象或者全局变量中的另一个字段作为守卫。
+`guard` 注解也可以用于保护对象中的字段。这时，需要用同一个对象的另一个字段或者一个全局变量作为守卫。
 {==+==}
 
 {==+==}
 Since objects can reside on the heap or on the stack, this greatly enhances
 the expressiveness of the language:
 {==+==}
-由于对象可以驻留在堆上或堆栈上，这么做大大地增强了语言的表现力:
+由于对象可以驻留在堆上或栈上，这就大大地增强了语言的表达能力:
 {==+==}
 
 {==+==}
@@ -392,7 +393,7 @@ the expressiveness of the language:
 The access to field `x.v` is allowed since its guard `x.L`  is active.
 After template expansion, this amounts to:
 {==+==}
-允许访问字段 `x.v` ，因为它守卫的 `x.L` 处于活动状态。当模板扩展后，就相当于:
+有 `x.L` 的守卫就可以访问字段 `x.v`。模板展开后得到:
 {==+==}
 
 {==+==}
@@ -425,21 +426,21 @@ corresponds to the protected location `counters[i].v`. This analysis is called
 `path analysis`:idx: because it deals with paths to locations
 like `obj.field[i].fieldB[j]`.
 {==+==}
-有一个分析器，可以检查 `counters[i].L` 是否是对应受保护地址 `counters[i].v` 的锁。
-因为这个分析器能够处理像 `obj.field[i].fieldB[j]` 这样的地址的路径，所以我们叫它 `path analysis`:idx: "路径分析"。
+编译器会分析检查 `counters[i].L` 是否是用于受保护位置 `counters[i].v` 的那个锁。
+因为这个分析能够处理像 `obj.field[i].fieldB[j]` 这样的路径，所以我们叫它 `path analysis`:idx: "路径分析"。
 {==+==}
 
 {==+==}
 The path analysis is **currently unsound**, but that doesn't make it useless.
 Two paths are considered equivalent if they are syntactically the same.
 {==+==}
-路径分析器 **目前不健全** ，但它不是不能用。如果两条路径在语法上相同，则会被认为相互等效。
+路径分析 **目前不健全** ，但也不是一点儿用都没有。如果两条路径在语法上相同，则认为是等价的。
 {==+==}
 
 {==+==}
 This means the following compiles (for now) even though it really should not:
 {==+==}
-(目前来说)这意味着如下的编译，哪怕实在不应该这么做:
+这意味着下面的代码(目前)可以编译通过，虽然真不应该如此：
 {==+==}
 
 {==+==}
