@@ -2,7 +2,7 @@
 experimental pragma
 -------------------
 {==+==}
-expermimental 的编译指示
+expermimental 编译指示
 ------------------------------------------------
 {==+==}
 
@@ -13,7 +13,7 @@ too unstable for an otherwise stable release or that the future of the feature
 is uncertain (it may be removed at any time). See the
 `experimental manual <manual_experimental.html>`_ for more details.
 {==+==}
-`expermimental` 编译指示用于启用实验性的语言功能。取决于具体的特性，意味着，特性要么被认为过于不稳定，要么并不确定，可能随时被删除。详情参阅 `experimental manual <manual_experimental.html>`_ 。
+`expermimental` 编译指示用于启用实验性的语言特性。也就是说，具体到每个特性，有的过于不稳定，无法发布；有的前景不明朗(可能随时被删除)。详情参阅 `experimental manual <manual_experimental.html>`_ 。
 {==+==}
 
 {==+==}
@@ -48,7 +48,7 @@ Example:
   proc useParallel() =
     parallel:
       for i in 0..4:
-        spawn threadedEcho("echo in parallel", i)
+        spawn threadedEcho("并行地使用 echo ", i)
 
   useParallel()
   ```
@@ -61,7 +61,7 @@ rest of the module it's enabled in. This is problematic for macro and generic
 instantiations that cross a module scope. Currently, these usages have to be
 put into a `.push/pop` environment:
 {==+==}
-作为顶层声明，expermimental 编译指示为它所启用的模块的其他部分启用一个特性。这对于跨越模块作用域的宏和泛型实例有问题。目前，这些用法必须放到 `.push/pop` 环境中:
+expermimental 编译指示是顶层语句，模块里出现了这个编译指示之后，它所启用的特性就一直有效。这会给宏和泛型实例的使用带来问题，因为它们可以跨越模块作用域。目前，必须在 `.push/pop` 环境中使用以避免问题:
 {==+==}
 
 {==+==}
@@ -80,11 +80,11 @@ put into a `.push/pop` environment:
   ```nim
   # client.nim
   proc useParallel*[T](unused: T) =
-    # use a generic T here to show the problem.
+    # 这里使用泛型 T 演示问题.
     {.push experimental: "parallel".}
     parallel:
       for i in 0..4:
-        echo "echo in parallel"
+        echo "并行输出"
 
     {.pop.}
   ```
@@ -109,10 +109,10 @@ Implementation Specific Pragmas
 This section describes additional pragmas that the current Nim implementation
 supports but which should not be seen as part of the language specification.
 {==+==}
-实现特定的编译指示
+与实现紧密相关的编译指示
 ====================================
 
-本节介绍当前Nim实现所支持的额外的编译指示，但不应将其视为语言规范的一部分。
+本节介绍当前 Nim 实现所支持的额外的编译指示。不要把它们视为语言规范的一部分。
 {==+==}
 
 {==+==}
@@ -176,7 +176,7 @@ alignment requirement of the type are ignored.
 Align 编译指示
 ----------------------------
 
-`align`:idx: "对齐"编译指示是针对变量和对象字段成员的。它用于修改所声明的实体的字节对齐要求。参数必须是 2 的幂。 有效的非 0 对齐的编译指示存在同时声明的时候，弱的编译指示会被忽略。与类型的对齐要求相比较弱的对齐编译指示的声明也会被忽略。
+`align`:idx: 编译指示是针对变量和对象字段成员的，用于修改所声明的实体的字节对齐要求。其参数必须是常数，是 2 的整数次幂。同一个声明存在多个有效的非 0 对齐的编译指示时，较弱的编译指示会被忽略。与类型的对齐要求相比，较弱的对齐编译指示的声明也会被忽略。
 {==+==}
 
 {==+==}
@@ -205,17 +205,17 @@ Align 编译指示
     sseType = object
       sseData {.align(16).}: array[4, float32]
 
-    # every object will be aligned to 128-byte boundary
+    # 每个对象都按 128 字节边界对齐
     Data = object
       x: char
-      cacheline {.align(128).}: array[128, char] # over-aligned array of char,
+      cacheline {.align(128).}: array[128, char] # 超量对齐的字符数组
 
   proc main() =
     echo "sizeof(Data) = ", sizeof(Data), " (1 byte + 127 bytes padding + 128-byte array)"
-    # output: sizeof(Data) = 256 (1 byte + 127 bytes padding + 128-byte array)
-    echo "alignment of sseType is ", alignof(sseType)
-    # output: alignment of sseType is 16
-    var d {.align(2048).}: Data # this instance of data is aligned even stricter
+    # 输出: sizeof(Data) = 256 (1 byte + 127 bytes padding + 128-byte array)
+    echo "sseType 的对齐长度是 ", alignof(sseType)
+    # 输出: sseType 的对齐长度是 16
+    var d {.align(2048).}: Data # Data 的这个实例的对齐要求更加严格
 
   main()
   ```
@@ -246,9 +246,9 @@ verbose name like `unsafeAssumeNoAlias`.)
 Noalias 编译指示
 --------------------------------
 
-从 Nim 编译器版本 1.4 ，有一个 `.noalias` 注解用于变量和参数。它被直接映射到 C/C++ 的 `restrict`:c: 关键字，表示底层指向内存中的一个独特地址，此地址不存在其他别名。 *unchecked* 遵守此别名限制。 如果违反了限制，后端优化器可以自主编译代码。这是一个 **不安全的** 语言功能。
+从 Nim 编译器版本 1.4 开始，有一个用于变量和参数的 `.noalias` 注解。它被直接映射到 C/C++ 的 `restrict`:c: 关键字，表示底层指向内存中的一个独占地址，此地址不存在其他别名。编译器 *不检查* 代码是否遵守了此别名限制。如果违反了限制，后端优化器就完全有可能错误地编译代码。这是一个 **不安全的** 语言功能。
 
-理想情况下，在Nim之后的版本中，该限制将在编译期强制执行。(这也是为什么选择 `noalias` 的名称，而不是描述更详细的名称，如 `unsafeAssumeNoAlias` 。)
+理想情况下，在 Nim 之后的版本中，该限制将在编译时得以检查确认。(这也是为什么选择了 `noalias` 做名称，而不是描述更详细的名称，如 `unsafeAssumeNoAlias` 。)
 {==+==}
 
 {==+==}
@@ -262,7 +262,7 @@ in C/C++).
 {==+==}
 Volatile 编译指示
 ----------------------------------
-`volatile` 编译指示仅用于变量。它声明变量为 `volatile`:c: ,不论 C/C++ 中 volatile 代表什么含义 (其语义在 C/C++中没有明确定义)。
+`volatile` 编译指示仅用于变量。它声明变量为 `volatile`:c:，不论 C/C++ 中 volatile 代表什么含义 (其语义在 C/C++中没有明确定义)。
 
 **注意**: LLVM 后端不存在这种编译指示。
 {==+==}
@@ -277,7 +277,7 @@ the C code. For example:
 {==+==}
 nodecl 编译指示
 ------------------------------
-`nodell` 编译指示可以应用于几乎任何标识符(变量、过程、类型等)。有时在与 C 的互操作上很有用: nodell编译指示会告知Nim,不要生成在 C 代码中的标识符的声明。例如:
+`nodecl` 编译指示可以应用于几乎任何标识符(变量、过程、类型等)，在与 C 的互操作时往往很有用: 它告诉 Nim，不要在 C 代码中声明这个标识符。例如:
 {==+==}
 
 {==+==}
@@ -289,8 +289,8 @@ nodecl 编译指示
 {==+==}
   ```Nim
   var
-    EACCES {.importc, nodecl.}: cint # pretend EACCES was a variable, as
-                                     # Nim 不知道他的值
+    EACCES {.importc, nodecl.}: cint # 把 EACCES 假装成变量，
+                                     # Nim 不知道它的值
   ```
 {==+==}
 
@@ -313,7 +313,7 @@ and instead, the generated code should contain an `#include`:c:\:
 {==+==}
 Header 编译指示
 ------------------------------
-`header` 编译指示和 `nodecl` 编译指示非常相似: 可以应用于几乎所有的标识符，并指定它不应该被声明，与之相反，生成的代码应该包含一个 `#include`:c:\: 。
+`header` 编译指示和 `nodecl` 编译指示非常相似: 可以应用于几乎所有的标识符，并指定它不应该被声明，与之相反，生成的代码应该包含一个 `#include`:c:\:
 {==+==}
 
 {==+==}
@@ -326,7 +326,7 @@ Header 编译指示
   ```Nim
   type
     PFile {.importc: "FILE*", header: "<stdio.h>".} = distinct pointer
-      # import C's FILE* type; Nim will treat it as a new pointer type
+      # 引入 C 的 FILE* 类型；Nim 把它视为一个新的指针类型
   ```
 {==+==}
 
@@ -338,7 +338,7 @@ encloses the header file in `""`:c: in the generated C code.
 
 **Note**: This will not work for the LLVM backend.
 {==+==}
-`header` 编译指示总是需要一个字符串常量。这个字符串常量包含头文件。像C语言一样，系统头文件被括在角括号中: `<>`:c: 。如果没有给出角括号，Nim会在生成的C代码中把头文件括在 `""`:c: 中。
+`header` 编译指示总是需要一个字符串常量。这个字符串常量包含头文件: 像 C 语言里经常发生的那样，系统头文件被括在尖括号中: `<>`:c: 。如果没有给出尖括号，Nim 生成 C 代码时就把头文件括在 `""`:c: 中。
 
 **注意**: LLVM 后端不存在这种编译指示。
 {==+==}
@@ -376,7 +376,7 @@ with the project:
 {==+==}
 Compile 编译指示
 --------------------------------
-`compile` 编译指示可以用来编译和链接一个C/C++源文件与项目:
+`compile` 编译指示用来把 C/C++ 源文件与项目一同编译和链接:
 {==+==}
 
 {==+==}
@@ -394,13 +394,13 @@ Compile 编译指示
 has changed. One can use the `-f`:option: command-line option to force
 the recompilation of the file.
 {==+==}
-**注意**: Nim 通过计算SHA1校验和，并且只在文件有变化时才重新编译。可以使用 `-f`:option: 命令行选项来强制重新编译文件。
+**注意**: Nim 会计算 SHA1 校验和，只在文件变化时才重新编译。使用 `-f`:option: 命令行选项可以强制重新编译文件。
 {==+==}
 
 {==+==}
 Since 1.4 the `compile` pragma is also available with this syntax:
 {==+==}
-从 1.4 开始， `compile` 编译指示也可以使用此语法:
+从 1.4 开始， `compile` 编译指示也可以使用这种语法:
 {==+==}
 
 {==+==}
@@ -417,7 +417,7 @@ Since 1.4 the `compile` pragma is also available with this syntax:
 As can be seen in the example, this new variant allows for custom flags
 that are passed to the C compiler when the file is recompiled.
 {==+==}
-可以从例子中看出，这个新变量允许在文件重新编译时将自定义标志传递给C编译器。
+从例子中可以看出，这个新写法允许在文件重新编译时将自定义标志传递给 C 编译器。
 {==+==}
 
 {==+==}
@@ -488,7 +488,7 @@ the pragma resides in:
 {==+==}
 localPassC 编译指示
 --------------------------------------
-`localPassC` 编译指示可以用来向C编译器传递额外的参数，但只适用于由编译指示所在的Nim模块生成的C/C++文件:
+`localPassC` 编译指示可以向 C 编译器传递额外的参数，但只适用于由编译指示所在的 Nim 模块生成的 C/C++ 文件:
 {==+==}
 
 {==+==}
@@ -501,7 +501,7 @@ localPassC 编译指示
   ```Nim
   # 模块 A.nim
   # 生成: A.nim.cpp
-  {.localPassC: "-Wall -Werror".} # Passed when compiling A.nim.cpp
+  {.localPassC: "-Wall -Werror".} # 当编译 A.nim.cpp 时传递
   ```
 {==+==}
 
@@ -513,7 +513,7 @@ like one would be using the command-line switch `--passl`:option:\:
 {==+==}
 passl 编译指示
 ----------------------------
-`passc` 编译指示可以用来传递额外参数到 C 链接器，就像在命令行使用的 `--passc`:option:\:
+`passl` 编译指示可以把额外参数传递到 C 链接器，就像在命令行使用的 `--passl`:option:\:
 {==+==}
 
 {==+==}
@@ -556,7 +556,7 @@ Example:
 {==+==}
 Emit 编译指示
 --------------------------
-`emit` 编译指示可以用来直接影响编译器代码生成器的输出。这样一来，该代码就不能被其他代码生成器/后端所移植。我们非常不鼓励使用这种方法。然而，它对与 `C++`:idx: 或 `Objective C`:idx: 代码的接口非常有用。
+`emit` 编译指示可以直接影响编译器代码生成器的输出。这样一来，代码将无法移植到其他代码生成器/后端，非常不鼓励使用这种方法。然而，它对于实现与 `C++`:idx: 或 `Objective C`:idx: 代码的接口非常有用。
 
 示例:
 {==+==}
@@ -585,7 +585,7 @@ Emit 编译指示
   {.push stackTrace:off.}
   proc embedsC() =
     var nimVar = 89
-    # access Nim symbols within an emit section outside of string literals:
+    # 在 emit 内、字符串字面值以外访问 Nim 符号
     {.emit: ["""fprintf(stdout, "%d\n", cvariable + (int)""", nimVar, ");"].}
   {.pop.}
 
@@ -597,7 +597,7 @@ Emit 编译指示
 ``nimbase.h`` defines `NIM_EXTERNC`:c: C macro that can be used for
 `extern "C"`:cpp: code to work with both `nim c`:cmd: and `nim cpp`:cmd:, e.g.:
 {==+==}
-`nimbase.h` 定义了 `NIM_EXTERNC`:c: C宏，可以用于 `extern "C"`:cpp: 代码可以同时用于 `nim c`:cmd: 和 `nim cpp`:cmd: , 例如:
+`nimbase.h` 定义了 `NIM_EXTERNC`:c: C 宏，用于 `extern "C"`:cpp: 代码，与 `nim c`:cmd: 和 `nim cpp`:cmd: 兼容，例如:
 {==+==}
 
 {==+==}
@@ -625,7 +625,7 @@ Emit 编译指示
   is a single string literal, Nim symbols can be referred to via backticks.
   This usage is however deprecated.
 {==+==}
-.. note:: 为了向后兼容，如果 `emit` 语句的参数是单一的字符串字面值，Nim标识符可以通过反引号引起来。但这种用法已经废弃。
+.. note:: 为了向后兼容，如果 `emit` 语句的参数是单一的字符串字面值，可以通过反引号引用 Nim 标识符。但这种用法已经废弃。
 {==+==}
 
 {==+==}
@@ -633,7 +633,7 @@ For a top-level emit statement, the section where in the generated C/C++ file
 the code should be emitted can be influenced via the prefixes
 `/*TYPESECTION*/`:c: or `/*VARSECTION*/`:c: or `/*INCLUDESECTION*/`:c:\:
 {==+==}
-对于一个顶层 emit 声明，在生成的 C/C++ 文件中，代码应该被 emit 标记的部分可以通过前缀 `/*TYPESECTION*/`:c: 或 `/*VARSECTION*/`:c: 或 `/*INCLUDESECTION*/`:c:\: 来影响。
+顶层 emit 语句所输出的代码混杂在所生成的 C/C++ 文件中，其位置可通过前缀 `/*TYPESECTION*/`:c:、`/*VARSECTION*/`:c: 或 `/*INCLUDESECTION*/`:c: 加以影响:
 {==+==}
 
 {==+==}
@@ -681,7 +681,7 @@ to know all the details described here.
 ImportCpp 编译指示
 ------------------------------------
 
-**注意**: `c2nim <https://github.com/nim-lang/c2nim/blob/master/doc/c2nim.rst>`_ 可以解析C++的大的子集，并且知道 `importcpp` 编译指示的模式语言。不需要知道这里描述的所有细节。
+**注意**: `c2nim <https://github.com/nim-lang/c2nim/blob/master/doc/c2nim.rst>`_ 可以解析 C++ 的一个大的子集，并且知道 `importcpp` 编译指示所使用的模式语言。没必要了解这里描述的所有细节。
 {==+==}
 
 {==+==}
@@ -692,8 +692,8 @@ in general. The generated code then uses the C++ method calling
 syntax: `obj->method(arg)`:cpp:. In combination with the `header` and `emit`
 pragmas this allows *sloppy* interfacing with libraries written in C++:
 {==+==}
-类似于C语言的 `importc pragma <#foreign-function-interface-importc-pragma>`_ ， `importcpp` 编译指示可以用来导入 `C++`:idx: 方法或一般的C++ 标识符。
-生成的代码使用C++方法调用语法: `obj->method(arg)`:cpp: 。与 `header` 和 `emit` 语义相结合，这允许 *sloppy* *宽松的* 与用C++编写的库对接。
+类似于 `importc pragma for C <#foreign-function-interface-importc-pragma>`_ ，`importcpp` 编译指示通常可以用来导入 `C++`:idx: 方法或 C++ 标识符。
+生成的代码使用 C++ 的方法调用语法: `obj->method(arg)`:cpp: 。与 `header` 和 `emit` 编译指示相结合，可与用 C++ 编写的库 *宽松* 对接。
 {==+==}
 
 {==+==}
@@ -726,7 +726,7 @@ pragmas this allows *sloppy* interfacing with libraries written in C++:
   ```
 {==+==}
   ```Nim
-  # Horrible example of how to interface with a C++ engine ... ;-)
+  # 关于如何与 C++ 引擎对接的可怕示例 ... ;-)
 
   {.link: "/usr/lib/libIrrlicht.so".}
 
@@ -759,7 +759,7 @@ The compiler needs to be told to generate C++ (command `cpp`:option:) for
 this to work. The conditional symbol `cpp` is defined when the compiler
 emits C++ code.
 {==+==}
-需要告知编译器生成C++(命令 `cpp`:option: )，才能工作。条件标识符 `cpp` 在编译器生成C++代码时被定义。
+这个例子需要告知编译器生成 C++ (命令 `cpp`:option: ) 才能工作。编译器生成 C++ 代码时会定义条件标识符 `cpp`。
 {==+==}
 
 {==+==}
@@ -773,7 +773,7 @@ The *sloppy interfacing* example uses `.emit` to produce `using namespace`:cpp:
 declarations. It is usually much better to instead refer to the imported name
 via the `namespace::identifier`:cpp: notation:
 {==+==}
-这个 *sloppy interfacing* 例子使用 `.emit` 来生成 `using namespace`:cpp: 声明。通常，通过 `namespace::identifier`:cpp: 标识符来引用导入的名称会好很多:
+这个 *宽松对接* 的例子使用了 `.emit` 来生成 `using namespace`:cpp: 声明。通过 `namespace::identifier`:cpp: 标识符来引用导入的名称往往会更好:
 {==+==}
 
 {==+==}
@@ -800,7 +800,7 @@ annotated with the C++ enum type, like in this example:
 {==+==}
 ### Importcpp 应用于枚举
 
-`importcpp` 应用于枚举类型时，数字枚举值被注解为C++枚举类型，就像在这个例子中: `((TheCppEnum)(3))`:cpp: 。(这已是最简单的实现方式。)
+`importcpp` 应用于枚举类型时，数字枚举值都会标注 C++ 枚举类型，就像这样: `((TheCppEnum)(3))`:cpp: 。(事实上这已是最简单的实现方式。)
 {==+==}
 
 {==+==}
@@ -811,7 +811,7 @@ language for maximum flexibility:
 {==+==}
 ### Importcpp 应用于过程
 
-请注意，过程的 `importcpp` 变量使用了一种有些隐晦的范式语言，以获得最大的灵活性:
+请注意，用于过程的 `importcpp` 使用了一种有些隐晦的模式语言，以获得最大的灵活性:
 {==+==}
 
 {==+==}
@@ -823,9 +823,9 @@ language for maximum flexibility:
 
 For example:
 {==+==}
-- 哈希 ``#`` 符号会被第一个或下一个参数所取代。
-- 哈希符号加个点 ``#.`` 表示调用应该使用 C++ 的点或箭头符号。
-- 符号 ``@`` 被剩余参数替换。通过逗号分隔。
+- 井号 ``#`` 会被第一个或下一个参数所取代。
+- 井号加个点 ``#.`` 表示调用应该使用 C++ 的点或箭头符号。
+- 符号 ``@`` 被剩余参数替换，通过逗号分隔。
 
 例如:
 {==+==}
@@ -864,7 +864,7 @@ As a special rule to keep backward compatibility with older versions of the
 character (any of ``# ' @``) at all, C++'s
 dot or arrow notation is assumed, so the above example can also be written as:
 {==+==}
-作为一项特殊规则，为了保持与旧版本的 `importcpp` 编译指示的向后兼容性，如果没有任何特殊的模式字符 ( ``# ' @`` 中的任意一个 )，就会假定为C++的点或箭头符号，所以上述例子也可以写成:
+有一项特殊规则: 为了保持与旧版本的 `importcpp` 编译指示的向后兼容性，如果没有任何特殊的模式字符 ( ``# ' @`` 中的任意一个 )，就会假定使用 C++ 的点或箭头符号。所以上述例子也可以写成:
 {==+==}
 
 {==+==}
@@ -881,7 +881,7 @@ dot or arrow notation is assumed, so the above example can also be written as:
 Note that the pattern language naturally also covers C++'s operator overloading
 capabilities:
 {==+==}
-请注意，模式语言当然也包括C++的操作符重载的能力:
+请注意，模式语言当然也具有 C++ 操作符重载的能力:
 {==+==}
 
 {==+==}
@@ -906,8 +906,8 @@ capabilities:
 
 For example:
 {==+==}
-- 撇号 ``'`` 后面是 0..9 范围内的整数 ``i`` ，被第i个参数 *type* 替换。第0个位置是返回值类型。这可以用来向C++函数模板传递类型。
-在 ``'`` 和数字之间，可以用星号来获得该类型的基本类型。(所以它从类型中拿走星号，如 `T*`:c: 变成了 `T` 。)两个星号可以用来获取元素类型的类型等。
+- 撇号 ``'`` 后面跟着 0..9 范围内的整数 ``i`` ，被第 i 个参数的 *类型* 替换。第 0 个位置是返回值类型。这可以用来向 C++ 函数模板传递类型。
+在 ``'`` 和数字之间，用星号来获得该类型的基本类型。(也就是说，它从类型中“拿走星号”，如 `T*`:c: 变成 `T` 。)两个星号可以用来获取元素类型的元素类型，等等。
 
 例如:
 {==+==}
@@ -948,13 +948,13 @@ Produces:
   temporary location. This is only required to circumvent a limitation of the
   current code generator.
 {==+==}
-- `#@` 是支持 `cnew` 操作的特殊情况。它使调用表达式直接被内联，而不需要通过一个临时地址。这只是为了规避当前代码生成器的限制。
+- `#@` 用来支持 `cnew` 操作这一特殊情况。它使调用表达式直接被内联，而不需要经过一个临时地址。这只是为了规避当前代码生成器的限制。
 {==+==}
 
 {==+==}
 For example C++'s `new`:cpp: operator can be "imported" like this:
 {==+==}
-例如，C++中 `new`:cpp: 运算符可以像这样 "imported" 导入:
+例如，C++中 `new`:cpp: 运算符可以像这样“导入”:
 {==+==}
 
 {==+==}
@@ -970,7 +970,7 @@ For example C++'s `new`:cpp: operator can be "imported" like this:
   ```nim
   proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
 
-  # constructor of 'Foo':
+  # 'Foo' 的构造函数:
   proc constructFoo(a, b: cint): Foo {.importcpp: "Foo(@)".}
 
   let x = cnew constructFoo(3, 4)
@@ -995,7 +995,7 @@ Produces:
 However, depending on the use case `new Foo`:cpp: can also be wrapped like this
 instead:
 {==+==}
-然而，根据使用情况 `new Foo`:cpp: 也可以像这样包裹:
+然而，根据使用情况 `new Foo`:cpp: 也可以像这样包装:
 {==+==}
 
 {==+==}
@@ -1024,8 +1024,8 @@ faster C++ code since construction then doesn't invoke the copy constructor:
 {==+==}
 ### 包装构造函数
 
-有时候C++类有一个私有的构造函数，所以代码 `Class c = Class(1,2);`:cpp: 不正确，而应该是 `Class c(1,2);`:cpp: 。
-要达到这种效果，包装一个 C++ 构造函数的 Nim 过程需要使用附加注解的 `constructor`:idx: 编译指示，这个编译指示也有助于生成更快的 C++ 代码，因为构造时不会调用拷贝构造器:
+有时候 C++ 类的拷贝构造函数是私有的，所以不能生成 `Class c = Class(1,2);`:cpp:，而应该是 `Class c(1,2);`:cpp: 。
+要达到这个目的，需要给包装 C++ 构造函数的 Nim 过程加上 `constructor`:idx: 编译指示。这个编译指示也有助于生成更快的 C++ 代码，因为这样一来构造时就不会再调用拷贝构造函数:
 {==+==}
 
 {==+==}
@@ -1035,7 +1035,7 @@ faster C++ code since construction then doesn't invoke the copy constructor:
   ```
 {==+==}
   ```nim
-  # a better constructor of 'Foo':
+  # 'Foo' 的更好的构造函数:
   proc constructFoo(a, b: cint): Foo {.importcpp: "Foo(@)", constructor.}
   ```
 {==+==}
@@ -1049,10 +1049,10 @@ not wrapping the destructor at all! However, when it needs to be invoked
 explicitly, it needs to be wrapped. The pattern language provides
 everything that is required:
 {==+==}
-### 包装析构器
+### 包装析构函数
 
-由于Nim直接生成C++，任何析构函数都会在作用域退出时被C++编译器隐式调用。这意味着，通常我们可以不包装析构函数！
-但是，当它需要显式调用时，就需要包装。模式语言提供了所需一切。
+由于 Nim 直接生成C++，任何析构函数都会在作用域退出时被 C++ 编译器隐式调用。这意味着，通常我们可以不包装析构函数！
+但是，当需要显式调用它时，就需要包装。模式语言提供了所需一切:
 {==+==}
 
 {==+==}
@@ -1074,7 +1074,7 @@ language for object types:
 {==+==}
 ### Importcpp 应用于对象
 
-通用的 `importcpp` 对象被映射到C++模板。这意味着可以很容易地导入C++的模板，而不需要对象类型的模式语言:
+C++ 模板被映射成 `importcpp` 泛型对象。这意味着可以很容易地导入 C++ 模板，不需要再为对象类型设计模式语言:
 {==+==}
 
 {==+==}
@@ -1169,7 +1169,7 @@ calling syntax: ``obj.method(arg)``.
 ImportJs 编译指示
 ----------------------------------
 
-类似于 `importcpp pragma for C++ <#implementation-specific-pragmas-importcpp-pragma>`_ , `importjs` 编译指示可以用来导入 JavaScript 的方法或者符号。生成的代码会使用 Javascript 方法调用语法: `obj.method(arg)` 。
+类似于 `importcpp pragma for C++ <#implementation-specific-pragmas-importcpp-pragma>`_ ，`importjs` 编译指示可以用来导入 JavaScript 的方法或者符号。生成的代码会使用 Javascript 的方法调用语法: `obj.method(arg)` 。
 {==+==}
 
 {==+==}
@@ -1184,7 +1184,7 @@ allows *sloppy* interfacing with libraries written in Objective C:
 {==+==}
 ImportObjC 编译指示
 --------------------------------------
-类似于 `importc pragma for C <#foreign-function-interface-importc-pragma>`_ , `importobjc` 编译指示可以用来导入 `Objective C`:idx: 的方法。生成的代码会使用 Objective C 的方法调用语法: `[obj method param1: arg]` 。 结合 `header` 和 `emit` 编译指示，这允许 *sloppy* 接口使用 Objective C 的库:
+类似于 `importc pragma for C <#foreign-function-interface-importc-pragma>`_ ，`importobjc` 编译指示可以用来导入 `Objective C`:idx: 的方法。生成的代码会使用 Objective C 的方法调用语法: `[obj method param1: arg]` 。 与 `header` 和 `emit` 编译指示相结合，可与用 Objective C 编写的库 *宽松* 对接:
 {==+==}
 
 {==+==}
@@ -1226,7 +1226,7 @@ ImportObjC 编译指示
   ```
 {==+==}
   ```Nim
-  # horrible example of how to interface with GNUStep ...
+  # 关于如何与 GNUStep 对接的可怕示例...
 
   {.passl: "-lobjc".}
   {.emit: """
@@ -1268,7 +1268,7 @@ The compiler needs to be told to generate Objective C (command `objc`:option:) f
 this to work. The conditional symbol ``objc`` is defined when the compiler
 emits Objective C code.
 {==+==}
-需要告知编译器生成 Objective C(命令 `objc`:option: ) 才能工作。当编译器输出 Objective C 代码时，条件标识符 `objc` 会被定义。
+这个例子需要告知编译器生成 Objective C (命令 `objc`:option: ) 才能工作。当编译器输出 Objective C 代码时会定义条件标识符 `objc`。
 {==+==}
 
 {==+==}
@@ -1284,16 +1284,17 @@ The `codegenDecl` pragma can be used to directly influence Nim's code
 generator. It receives a format string that determines how the variable
 or proc is declared in the generated code.
 {==+==}
-`codegenDecl` 编译指示可以直接影响Nim的代码生成器。它接受一个格式字符串，用于决定变量或过程如何在生成的代码中声明。
+`codegenDecl` 编译指示可以直接影响 Nim 的代码生成器。它接受一个格式字符串，用于决定变量或过程如何在生成的代码中声明。
 {==+==}
 
 {==+==}
-For variables, $1 in the format string represents the type of the variable
-and $2 is the name of the variable.
+For variables, $1 in the format string represents the type of the variable,
+$2 is the name of the variable, and each appearance of $# represents $1/$2
+respectively according to its position.
 
 The following Nim code:
 {==+==}
-对于变量，格式字符串中的$1表示变量的类型，$2表示变量的名称。
+对于变量，格式字符串中的 $1 表示变量的类型，$2 表示变量的名称，$# 按出现的先后顺序依次表示 $1、$2。
 
 以下 Nim 代码:
 {==+==}
@@ -1328,11 +1329,12 @@ will generate this C code:
 
 {==+==}
 For procedures, $1 is the return type of the procedure, $2 is the name of
-the procedure, and $3 is the parameter list.
+the procedure, $3 is the parameter list, and each appearance of $# represents
+$1/$2/$3 respectively according to its position.
 
 The following nim code:
 {==+==}
-就程序而言，$1是程序的返回值类型，$2是程序的名字，$3是参数列表。
+对过程而言，$1是过程的返回值类型，$2是过程的名字，$3是参数列表，$# 按出现的先后顺序依次表示 $1、$2、$3。
 
 以下 Nim 代码:
 {==+==}
@@ -1369,14 +1371,14 @@ will generate this code:
 `cppNonPod` pragma
 ------------------
 
-The `.cppNonPod` pragma should be used for non-POD `importcpp` types so that they
+The `cppNonPod` pragma should be used for non-POD `importcpp` types so that they
 work properly (in particular regarding constructor and destructor) for
-`.threadvar` variables. This requires `--tlsEmulation:off`:option:.
+`threadvar` variables. This requires `--tlsEmulation:off`:option:.
 {==+==}
 `cppNonPod` 编译指示
 ----------------------------------------
 
-`.cppNonPod` 编译指示应该用于非POD `importcpp` 类型，以便他们 `.threadvar` 变量正常工作(尤其是对构造器和析构器而言)。这需要 `--tlsEmulation:off`:option: 。
+`importcpp` 非 POD 类型时应该加上 `cppNonPod` 编译指示，这样用作 `threadvar` 变量时才可能正常工作(尤其是对构造函数和析构函数而言)。这需要 `--tlsEmulation:off`:option: 。
 {==+==}
 
 {==+==}
@@ -1405,12 +1407,12 @@ the `-d/--define`:option: option at compile time.
 The implementation currently provides the following possible options (various
 others may be added later).
 {==+==}
-编译期定义的编译指示
+编译期的 define 编译指示
 ----------------------------------------
 
-这里列出的编译指示可以用来在编译时接受 `-d/-define`:option: 可选的选项值。
+这里列出的编译指示可以用来在编译时接收来自 `-d/-define`:option: 命令行参数的值。
 
-当前的提供了以下可能的选项 (以后可能会添加其他选项)。
+当前提供了以下编译指示 (以后可能增加)。
 {==+==}
 
 {==+==}
@@ -1423,12 +1425,12 @@ pragma             description
 =================  ============================================
 {==+==}
 
-=================  ============================================ 
-编译指示           描述 
-=================  ============================================ 
-`intdefine`:idx:   编译时定义读取为整数类型 
-`strdefine`:idx:   编译时定义读取为 string 类型 
-`booldefine`:idx:  编译时定义读取为 bool 类型 
+=================  ============================================
+编译指示           描述
+=================  ============================================
+`intdefine`:idx:   在编译时将 define 读取为整数类型
+`strdefine`:idx:   在编译时将 define 读取为字符串类型
+`booldefine`:idx:  在编译时将 define 读取为布尔类型
 =================  ============================================
 {==+==}
 
@@ -1460,7 +1462,7 @@ In the above example, providing the `-d`:option: flag causes the symbol
 `-d:FooBar=42`:option: were to be omitted, the default value of 5 would be
 used. To see if a value was provided, `defined(FooBar)` can be used.
 {==+==}
-在上述例子中，提供 `-d`:option: 标志使得符号 `FooBar` 在编译时被覆盖，打印出 42。 如果删除 `-d:FooBar=42`:option: ，则使用默认值5。要查看是否提供了值，可以使用 `defined(FooBar)` 。
+在上述例子中，`-d`:option: 标志在编译时覆盖 `FooBar` 的默认值，打印出 42。如果删除 `-d:FooBar=42`:option:，则使用默认值5。可以使用 `defined(FooBar)` 判断是否为它提供了值。
 {==+==}
 
 {==+==}
@@ -1492,7 +1494,7 @@ Example:
 pragma 编译指示
 ------------------------------
 
-`pragma` 编译指示可以用来声明用户自定义的编译指示。这是有用的，因为Nim的模板和宏不会影响编译指示。用户定义的编译指示与所有其他符号有不同的模块作用域。它们不能从模块中导入。
+`pragma` 编译指示可以用来声明用户定义的编译指示。这是有用的，因为 Nim 的模板和宏不会影响编译指示。用户定义的编译指示处于与所有其他符号都不同的模块作用域。它们不能从模块中导入。
 
 示例:
 {==+==}
@@ -1524,7 +1526,7 @@ In the example, a new pragma named `rtl` is introduced that either imports
 a symbol from a dynamic library or exports the symbol for dynamic library
 generation.
 {==+==}
-在这个例子中，引入了一个名为 `rtl` 的新编译指示，它可以从动态库中导入一个符号，也可以为动态库的生成导出该符号。
+在这个例子中，引入了一个名为 `rtl` 的新编译指示，它表示要么从动态库中导入符号，要么为生成动态库而导出符号。
 {==+==}
 
 {==+==}
@@ -1534,9 +1536,9 @@ It is possible to define custom typed pragmas. Custom pragmas do not affect
 code generation directly, but their presence can be detected by macros.
 Custom pragmas are defined using templates annotated with pragma `pragma`:
 {==+==}
-自定义注解
+定制注解
 --------------------
-这可以定义自定义类型的编译指示。 自定义编译指示不会直接影响代码生成，但可以被宏检测。使用编译指示 `pragma` 注解模板来定义自定义编译指示:
+可以定制带类型的编译指示。定制的编译指示不会直接影响代码生成，但宏可以检测到它们的存在。给模板加上 `pragma` 编译指示就能定义定制的编译指示:
 {==+==}
 
 {==+==}
@@ -1559,7 +1561,7 @@ Custom pragmas are defined using templates annotated with pragma `pragma`:
 Consider this stylized example of a possible Object Relation Mapping (ORM)
 implementation:
 {==+==}
-这个是可能的对象关系映射 (ORM) 实现的典型例子:
+考查这个有风格的例子，它是关于对象关系映射 (ORM) 的一个合理实现:
 {==+==}
 
 {==+==}
@@ -1582,7 +1584,7 @@ implementation:
   ```
 {==+==}
   ```nim
-  const tblspace {.strdefine.} = "dev" # switch for dev, test and prod environments
+  const tblspace {.strdefine.} = "dev" # 控制开发、测试、生成环境的开关
 
   type
     User {.dbTable("users", tblspace).} = object
@@ -1608,8 +1610,8 @@ template call syntaxes. All arguments are typed and follow standard
 overload resolution rules for templates. Therefore, it is possible to have
 default values for arguments, pass by name, varargs, etc.
 {==+==}
-在本例中，自定义编译指示被用来描述Nim对象如何被映射到关系数据库的模式中。自定义编译指示可以有零个或多个参数。为了传递多个参数，请使用模板调用语法之一。
-所有的参数都有类型，并且遵循模板的标准重载解析规则。因此，可为参数设置默认值，传递名称，varargs等。
+在本例中，通过定制的编译指示来描述 Nim 对象如何被映射到关系数据库的模式中。定制的编译指示可以有零个或多个参数。请使用模板调用语法来传递多个参数。
+所有的参数都有类型，并且遵循模板的标准重载解析规则。因此，可以为参数设置默认值，可以通过名称传递，可以使用可变参数，等等。
 {==+==}
 
 {==+==}
@@ -1617,7 +1619,7 @@ Custom pragmas can be used in all locations where ordinary pragmas can be
 specified. It is possible to annotate procs, templates, type and variable
 definitions, statements, etc.
 {==+==}
-自定义编译指示可以在所有可以指定通常编译指示的地方使用。可以用来注解过程、模板、类型和变量 定义、语句等。
+所有可以使用普通编译指示的地方，都可以使用定制的编译指示，为过程、模板、类型和变量定义、语句等添加注解。
 {==+==}
 
 {==+==}
@@ -1629,10 +1631,10 @@ representation.
 
 More examples with custom pragmas:
 {==+==}
-宏模块包括可以用来简化自定义编译指示访问的辅助工具 `hasCustomPragma` ， `getCustomPragmaVal` 。详情参阅 `macros <macros.html>`_ 模块文档。
-这些宏并不神奇，它们所做的一切也可以通过逐个遍历对象表示的AST来实现。
+macros 模块含有辅助工具 `hasCustomPragma` 和 `getCustomPragmaVal`，用来简便地访问定制的编译指示。详情参阅 `macros <macros.html>`_ 模块文档。
+这些宏并没有魔法，它们所做的一切都能通过逐个遍历对象表示的 AST 来实现。
 
-更多自定义编译指示示例:
+更多关于定制的编译指示的示例:
 {==+==}
 
 {==+==}
@@ -1660,7 +1662,7 @@ More examples with custom pragmas:
 {==+==}
 - Adopting type for gui inspector in a game engine:
 {==+==}
-- 添加类型用于游戏引擎中 gui 检查:
+- 在游戏引擎中为 gui 查看器添加类型:
 {==+==}
 
 {==+==}
@@ -1691,7 +1693,7 @@ where this is possible include when attached to routine (procs, iterators, etc.)
 declarations or routine type expressions. The compiler will perform the
 following simple syntactic transformations:
 {==+==}
-有时可以用编译指示语法来调用宏和模板。可以这样做的情况包括附加到例程(过程、迭代器等)声明或例程类型表达式上。编译器将执行以下简单的语法转换:
+有时可以用编译指示语法来调用宏和模板，比如用在例程(过程、迭代器等)声明或例程类型表达式上。编译器执行以下简单的语法转换:
 {==+==}
 
 {==+==}
@@ -1762,8 +1764,8 @@ from left to right will be evaluated. This macro can then choose to keep
 the remaining macro pragmas in its output, and those will be evaluated in
 the same way.
 {==+==}
-当多个宏编译指示应用于同一个定义时，从左到右的第一个将被评估。
-然后，这个宏可以选择在其输出中保留其余的宏语法，这些语法将以同样的方式被评估。
+当多个宏编译指示应用于同一个定义时，从左到右的第一个将先被求值。
+然后，这个宏可以选择是否在其输出中保留其余的宏编译指示。保留下的那些宏编译指示的求值方式依此类推。
 {==+==}
 
 {==+==}
@@ -1772,7 +1774,7 @@ variable and constant declarations, but this behavior is considered to be
 experimental and is documented in the `experimental manual
 <manual_experimental.html#extended-macro-pragmas>`_ instead.
 {==+==}
-还有一些宏编译指示的应用例子，例如类型、变量和常量声明等。但这种使用方式被认为是实验性的，所以被记录在 `experimental manual <manual_experimental.html#extended-macro-pragmas>`_ "实验性手册"中。
+还有一些宏编译指示的应用例子，例如类型、变量和常量声明等。但这些使用方式是实验性的，所以记录在 `experimental manual <manual_experimental.html#extended-macro-pragmas>`_ 中。
 {==+==}
 
 {==+==}
@@ -1786,7 +1788,7 @@ are documented here.
 外部函数接口
 ========================
 
-Nim的 `FFI`:idx: (外部函数接口)很宽泛，这里只记录了能扩展到其他未来后端(如LLVM/JavaScript后端) 的部分。
+Nim 的 `FFI`:idx: (外部函数接口) 很广博，这里只讲述将来会推广到其他后端(如 LLVM/JavaScript 后端) 的部分。
 {==+==}
 
 {==+==}
@@ -1799,7 +1801,7 @@ spelled*:
 {==+==}
 Importc 编译指示
 --------------------------------
-`importc` 编译指示提供了一种从C语言导入程序或变量的方法。可选参数是一个包含C语言标识符的字符串。如果没有这个参数，C语言的名称就是Nim的标识符 *完全一样* :
+`importc` 编译指示提供了一种从 C 语言导入程序或变量的方法。可选参数是一个包含 C 标识符的字符串。如果没有这个参数，C 名称就和 Nim 的标识符 *一字不差*:
 {==+==}
 
 {==+==}
@@ -1815,7 +1817,7 @@ Importc 编译指示
 When `importc` is applied to a `let` statement it can omit its value which
 will then be expected to come from C. This can be used to import a C `const`:c:\:
 {==+==}
-当 `importc` 被应用于 `let` 语句时，它可以忽略其值，这将被期望来自C。这可以用来导入 C `const`:c:\:
+当 `importc` 应用于 `let` 语句时不需要提供值，因为这时期望从 C 取得值。这个用法能够导入 C `const`:c:\:
 {==+==}
 
 {==+==}
@@ -1840,7 +1842,7 @@ JS backend for JS objects and functions. Other backends do provide
 the same feature under the same name. Also, when the target language
 is not set to C, other pragmas are available:
 {==+==}
-注意，这个编译指示曾在JS后端JS对象和函数上被滥用。其他后端在相同的名称下提供相同的功能。此外，如果目标语言没有设置为C，还可以使用其他编译指令:
+注意，这个编译指示曾在 JS 后端滥用，用来导入 JS 对象和函数。其他后端也支持这个编译指示，功能相同。另外，当目标语言不是 C 时，还有其他的编译指示:
 {==+==}
 
 {==+==}
@@ -1854,10 +1856,14 @@ is not set to C, other pragmas are available:
 {==+==}
 
 {==+==}
+The string literal passed to `importc` can be a format string:
+
   ```Nim
   proc p(s: cstring) {.importc: "prefix$1".}
   ```
 {==+==}
+传递给 `importc` 的字符串字面量可以是一个格式化字符串:
+
   ```Nim
   proc p(s: cstring) {.importc: "prefix$1".}
   ```
@@ -1867,7 +1873,7 @@ is not set to C, other pragmas are available:
 In the example, the external name of `p` is set to `prefixp`. Only ``$1``
 is available and a literal dollar sign must be written as ``$$``.
 {==+==}
-例如， `p` 的外部名称设置为 `prefixp` 。只有 ``$1`` 可用，并且美元符号必须写成``$$``。
+在这个例子里，`p` 的外部名称被设置为 `prefixp`。只有 ``$1`` 可用，美元符号必须写成 ``$$``。
 {==+==}
 
 {==+==}
@@ -1884,7 +1890,7 @@ procedure to C. Enums and constants can't be exported. The optional argument
 is a string containing the C identifier. If the argument is missing, the C
 name is the Nim identifier *exactly as spelled*:
 {==+==}
-`exportc` 编译指示提供了一种将类型、变量或过程导出到C的手段。枚举和常量不能导出。可选参数是包含 C 标识符的字符串。如果参数缺失，C的名字就会和Nim标识符 *完全一样* :
+`exportc` 编译指示提供了一种将类型、变量或过程导出到 C 的手段。枚举和常量不能导出。可选参数是包含 C 标识符的字符串。如果参数缺失，C 名字就和 Nim 标识符 *一字不差* :
 {==+==}
 
 {==+==}
@@ -1903,9 +1909,9 @@ the same feature under the same name.
 
 The string literal passed to `exportc` can be a format string:
 {==+==}
-请注意这个编译指示有时候不正确: 因为其他后端也用相同名称提供了这个功能。
+请注意这个编译指示的名称有点用词不当: 因为其他后端也通过这个名称提供了相同功能。
 
-传递给 `exportc` 可以是一个格式化的字符串:
+传递给 `exportc` 的字符串字面量可以是一个格式化字符串:
 {==+==}
 
 {==+==}
@@ -1928,9 +1934,9 @@ If the symbol should also be exported to a dynamic library, the `dynlib`
 pragma should be used in addition to the `exportc` pragma. See
 `Dynlib pragma for export <#foreign-function-interface-dynlib-pragma-for-export>`_.
 {==+==}
-例如， `p` 的外部名称会被设置为 `prefixp` 。只有 ``$1`` 可用，美元符号必须写成 ``$$`` 。
+在这个例子里，`p` 的外部名称被设置为 `prefixp`。只有 ``$1`` 可用，美元符号必须写成 ``$$`` 。
 
-如果需要符号也应导出到动态库， `dynlib` 编译指示需要和 `exportc` 编译指示一起使用。请参阅 `Dynlib pragma for export <#foreign-function-interface-dynlib-pragma-for-export>`_ 。
+需要符号导出到动态库时，需要一起使用 `dynlib` 编译指示和 `exportc` 编译指示。请参阅 `Dynlib pragma for export <#foreign-function-interface-dynlib-pragma-for-export>`_ 。
 {==+==}
 
 {==+==}
@@ -1941,7 +1947,7 @@ mangling. The string literal passed to `extern` can be a format string:
 {==+==}
 Extern 编译指示
 ------------------------------
-像 `exportc` 或 `importc`一样, `extern` 编译指示会影响名称混淆。传递给 `extern` 可以是一个格式化的字符串:
+像 `exportc` 或 `importc`一样, `extern` 编译指示也能影响名称混淆。传递给 `extern` 的字符串字面量可以是一个格式化字符串:
 {==+==}
 
 {==+==}
@@ -1960,7 +1966,7 @@ Extern 编译指示
 In the example, the external name of `p` is set to `prefixp`. Only ``$1``
 is available and a literal dollar sign must be written as ``$$``.
 {==+==}
-例如， `p` 的外部名称会被设置为 `prefixp`。只有 ``$1`` 可用，美元符号必须写成 ``$$`` 。
+在这个例子里，`p` 的外部名称被设置为 `prefixp`。只有 ``$1`` 可用，美元符号必须写成 ``$$`` 。
 {==+==}
 
 {==+==}
@@ -1975,7 +1981,7 @@ Bycopy 编译指示
 The `bycopy` pragma can be applied to an object or tuple type and
 instructs the compiler to pass the type by value to procs:
 {==+==}
-`bycopy` 编译指示可以应用于对象或元组类型，指示编译器按值类型传递给过程:
+`bycopy` 编译指示可以用于对象或元组类型，指示编译器给过程传递此类型的参数时采用值传递的方式:
 {==+==}
 
 {==+==}
@@ -1995,7 +2001,7 @@ instructs the compiler to pass the type by value to procs:
 {==+==}
 The Nim compiler automatically determines whether a parameter is passed by value or by reference based on the parameter type's size. If a parameter must be passed by value or by reference, (such as when interfacing with a C library) use the bycopy or byref pragmas.
 {==+==}
-Nim编译器根据参数类型的大小自动决定参数是根据值传递的还是按引用传递。如果一个参数必须通过值或引用传递(例如当与 C 库对接时)，请使用 bycopy 或 byref 编译指示。
+Nim 编译器根据参数类型的大小自动决定采用值传递还是引用传递。如果一个参数必须通过值传递或引用传递(例如当与 C 库对接时)，请使用 bycopy 或 byref 编译指示。
 {==+==}
 
 {==+==}
@@ -2010,7 +2016,7 @@ Byref 编译指示
 The `byref` pragma can be applied to an object or tuple type and instructs
 the compiler to pass the type by reference (hidden pointer) to procs.
 {==+==}
-`byref` 编译指示可以应用于对象或元组类型，指示编译器按引用传递类型(隐藏指针)给过程:
+`byref` 编译指示可以用于对象或元组类型，指示编译器给过程传递此类型的参数时采用引用(隐藏起来的指针)传递的方式:
 {==+==}
 
 {==+==}
@@ -2023,7 +2029,7 @@ strings automatically:
 {==+==}
 Varargs 编译指示
 --------------------------------
-`varargs` 编译指示只能应用于过程(和过程类型)。它会告知Nim, 在最后一个指定的参数之后, 过程还可以接受一个变量作为参数。Nim字符串值将会自动转换为C字符串:
+`varargs` 编译指示只能用于过程(和过程类型)。它告知 Nim 在最后一个指定的参数之后，过程还可以接受数目不定的若干参数。Nim 字符串值将会自动转换为 C 字符串:
 {==+==}
 
 {==+==}
@@ -2036,7 +2042,7 @@ Varargs 编译指示
   ```Nim
   proc printf(formatstr: cstring) {.nodecl, varargs.}
 
-  printf("hallo %s", "world") # "world" will be passed as C string
+  printf("%s 内侯!", "世界") # "世界" 作为 C 字符串传递
   ```
 {==+==}
 
@@ -2054,9 +2060,9 @@ should scan unions conservatively.
 {==+==}
 Union 编译指示
 ----------------------------
-`Union` 编译指示可以应用于任意 `object` 类型。这意味着一个对象字段的所有都会在内存中被覆盖。这在生成的 C/C++ 代码中产生了 `union`:c: 而不是 `struct`:c:。对象声明不能使用继承或任何 GC 过但目前未检查的内存。
+`union` 编译指示可以应用于任意 `object` 类型，表示这个对象的每个字段在内存中都重叠在一起。生成 C/C++ 代码时将产生联合体(`union`:c:)而不是结构体(`struct`:c:)。声明这个对象时禁止使用继承、禁止使用带 GC 的内存，但目前编译器不做这个检查。
 
-**未来的方向**: 应该允许 GC 回收过的内存，而GC 应该保守地扫描 union 共用体。
+**未来的方向**: 应该允许联合体使用带 GC 的内存，而 GC 应该保守地扫描联合体。
 {==+==}
 
 {==+==}
@@ -2073,10 +2079,10 @@ a static error. Usage with inheritance should be defined and documented.
 {==+==}
 Packed 编译指示
 ------------------------------
-`packed` 编译指示可以应用于任意 `object` 类型。它确保一个对象的字段在内存中连续打包。
-它对于存储网络或硬件驱动的数据包或消息，以及与C语言的互操作中非常有用。将packed编译指示与继承相结合是未定义的，它不应该被用于GC的内存(ref's)。
+`packed` 编译指示可以用于任意 `object` 类型，确保对象里的字段一个接一个地紧密排放。
+当需要访问网络、硬件驱动，或者与 C 语言进行互操作时，这个编译指示非常有用。将 packed 编译指示与继承相结合是未定义的。它也不应该用于带 GC 的内存(使用引用)。
 
-**未来方向**: 在packed 编译指示中使用 GC 的内存将导致静态错误。继承用法应加以定义和文档记录。
+**未来方向**: 在 packed 编译指示中使用带 GC 的内存将导致静态错误。继承用法应加以定义并写进文档。
 {==+==}
 
 {==+==}
@@ -2086,10 +2092,10 @@ With the `dynlib` pragma, a procedure or a variable can be imported from
 a dynamic library (``.dll`` files for Windows, ``lib*.so`` files for UNIX).
 The non-optional argument has to be the name of the dynamic library:
 {==+==}
-Dynlib 编译指示用于导入
+用于导入的 dynlib 编译指示
 ------------------------------------------------
-使用 `dynlib` 编译指示，过程或变量可以从动态库中导入(`.dll` Windows 文件, `lib*.so` UNIX 文件)。
-非可选参数必须是动态库的名称:
+使用 `dynlib` 编译指示从动态库(Windows 上的 `.dll` 文件, UNIX 上的 `lib*.so` 文件)中导入过程或变量。
+必须把动态库的名称写在参数里:
 {==+==}
 
 {==+==}
@@ -2154,7 +2160,7 @@ string expressions in general:
   libtcl8.3.so.1
   libtcl8.3.so.0
 
-`dynlib` 编译指示不仅支持作为参数的常量字符串，而且还支持常南侧的字符串表达式:
+`dynlib` 编译指示不仅支持作为参数的常量字符串，还支持普通的字符串表达式:
 {==+==}
 
 {==+==}
@@ -2179,7 +2185,7 @@ string expressions in general:
     if fileExists(result): return
     result = "mylib2.dll"
     if fileExists(result): return
-    quit("could not load dynamic library")
+    quit("无法加载动态库")
 
   proc myImport(s: cstring) {.cdecl, importc, dynlib: getDllName().}
   ```
@@ -2189,7 +2195,7 @@ string expressions in general:
 **Note**: Patterns like ``libtcl(|8.5|8.4).so`` are only supported in constant
 strings, because they are precompiled.
 {==+==}
-**注意**: 类似 ``libtcl(|8.5|8.4).so`` 只支持常量字符串，因为它们是预编译的。
+**注意**: 类似 ``libtcl(|8.5|8.4).so`` 的形式只支持常量字符串，因为它们是预编译的。
 {==+==}
 
 {==+==}
@@ -2204,5 +2210,5 @@ because of order of initialization problems.
 the `--dynlibOverride:name`:option: command-line option. The
 `Compiler User Guide <nimc.html>`_ contains further information.
 {==+==}
-**注意**: `dynlib`导入可以通过 `--dynlibOverride:name`:option: 命令行选项进行覆盖。更多信息查看 `Compiler User Guide <nimc.html>`_ 。
+**注意**: `--dynlibOverride:name`:option: 命令行选项能覆盖 `dynlib` 导入。更多信息查看 `Compiler User Guide <nimc.html>`_ 。
 {==+==}
