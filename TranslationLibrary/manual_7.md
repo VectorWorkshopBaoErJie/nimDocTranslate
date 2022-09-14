@@ -24,7 +24,7 @@ as arguments if called in statement form.
     # to perform the task
   do:
     # code to undo it
-  
+
   let num = 12
   # a single colon may be used if there is no initial block
   match (num mod 3, num mod 5):
@@ -628,8 +628,8 @@ interpretation, where `c` is an iterator, is preferred over the
 other interpretations, but this behavior can be changed by
 passing `typeOfProc` as the second argument to `typeof`:
 {==+==}
-如果 `typeof` 被用来判断函数(或迭代子、变换器)调用 `c(X)` 的结果的类型(这里，`X` 代表可能为空的参数列表)，
-解释代码时，与其它方式相比，优先考虑把 `c` 视作迭代子。通过给 `typeof` 传入第二个参数 `typeOfProc` 可以改变这种行为。
+如果 `typeof` 被用来判断函数(或迭代器、变换器)调用 `c(X)` 的结果的类型(这里，`X` 代表可能为空的参数列表)，
+解释代码时，与其它方式相比，优先考虑把 `c` 视作迭代器。通过给 `typeof` 传入第二个参数 `typeOfProc` 可以改变这种行为。
 {==+==}
 
 {==+==}
@@ -647,7 +647,7 @@ passing `typeOfProc` as the second argument to `typeof`:
   iterator split(s: string): string = discard
   proc split(s: string): seq[string] = discard
 
-  # 由于迭代子是优先考虑的解释方式，下面的类型是 `string`:
+  # 由于迭代器是优先考虑的解释方式，下面的类型是 `string`:
   assert typeof("a b c".split) is string
 
   assert typeof("a b c".split, typeOfProc) is seq[string]
@@ -1169,7 +1169,7 @@ procedure or iterator overloading purposes.
 对于在块(block)的声明部分里声明的变量，其作用域从其声明处开始，直到块的末尾结束。
 如果一个块里包含另一个块，在这个块里又再次声明了这个标识符，那么，在这个内部的块里，第二个声明有效。
 当离开这个内部的块时，第一个声明又一次有效。在同一个块里，同一个标识符不能被重复定义，
-除非是为了过程或者迭代子重载之目的。
+除非是为了过程或者迭代器重载之目的。
 {==+==}
 
 {==+==}
@@ -1213,7 +1213,7 @@ If a module imports an identifier by two different modules, each occurrence of
 the identifier has to be qualified unless it is an overloaded procedure or
 iterator in which case the overloading resolution takes place:
 {==+==}
-如果一个模块从两个不同模块里导入了相同的标识符，那么每次使用它时都必须加上限定，除非它是一个重载的过程或者迭代子，
+如果一个模块从两个不同模块里导入了相同的标识符，那么每次使用它时都必须加上限定，除非它是一个重载的过程或者迭代器，
 这时重载解析会进来解决多义性:
 {==+==}
 
@@ -1675,7 +1675,7 @@ annotate a symbol (like an iterator or proc). The *usage* of the symbol then
 triggers a static error. This is especially useful to rule out that some
 operation is valid due to overloading and type conversions:
 {==+==}
-可以给符号(比如迭代子或者过程)附加 `error` 编译指示。 *使用* 这个符号将触发静态错误。
+可以给符号(比如迭代器或者过程)附加 `error` 编译指示。 *使用* 这个符号将触发静态错误。
 当需要排除某些由于重载和类型转换导致的合法操作时，这个 `error` 就派上用场了:
 {==+==}
 
@@ -2190,7 +2190,7 @@ identifier that can be used to enable or disable it:
 {==+==}
 禁用某些消息
 ------------------------
-Nim 产生的某些警告和提示消息(如"line too long")可能令人厌烦。为此提供了一种禁用消息的机制: 
+Nim 产生的某些警告和提示消息(如"line too long")可能令人厌烦。为此提供了一种禁用消息的机制:
 每条提示和警告消息都关联了一个符号。这个符号就是消息的标识符，把它放到编译指示后面的方括号里就可以使能或者禁用这条消息:
 {==+==}
 
