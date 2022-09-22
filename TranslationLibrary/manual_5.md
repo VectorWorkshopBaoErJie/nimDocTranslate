@@ -10,7 +10,7 @@ Var 返回类型
 A proc, converter, or iterator may return a `var` type which means that the
 returned value is an l-value and can be modified by the caller:
 {==+==}
-过程，转换器或者迭代器可能会返回 `var` 类型，它意味着返回值是一个左值并且可以被调用者修改:
+过程、转换器或者迭代器可以返回 `var` 类型，表示返回的是一个左值，调用者可以修改它:
 {==+==}
 
 {==+==}
@@ -39,7 +39,7 @@ returned value is an l-value and can be modified by the caller:
 It is a static error if the implicitly introduced pointer could be
 used to access a location beyond its lifetime:
 {==+==}
-如果隐式创建的指针指向的内存地址有被回收的可能，则会导致静态错误:
+如果利用隐式创建的指向某东西的指针有可能这个东西的生存期之外继续访问它，那末编译器会报告静态错误:
 {==+==}
 
 {==+==}
@@ -52,14 +52,14 @@ used to access a location beyond its lifetime:
   ```nim
   proc writeAccessToG(): var int =
     var g = 0
-    result = g # Error!
+    result = g # 错误!
   ```
 {==+==}
 
 {==+==}
 For iterators, a component of a tuple return type can have a `var` type too:
 {==+==}
-对于迭代器来说，当元组作为返回值时，元组的元素也可以是 `var` 类型:
+当迭代器返回元组时，元组的元素也可以是 `var` 类型:
 {==+==}
 
 {==+==}
@@ -92,14 +92,14 @@ starts with the prefix `m` per convention.
 {==+==}
 ### Future directions
 {==+==}
-### 将来的改进方向
+### 未来的方向
 {==+==}
 
 {==+==}
 Later versions of Nim can be more precise about the borrowing rule with
 a syntax like:
 {==+==}
-未来的Nim在借用规则上将会更加准确，比如下面的语句:
+新版本的 Nim 借用规则将更加准确，比如使用这样的语法:
 {==+==}
 
 {==+==}
@@ -118,8 +118,8 @@ location is derived from the second parameter (called
 'container' in this case). The syntax `var T from p` specifies a type
 `varTy[T, 2]` which is incompatible with `varTy[T, 1]`.
 {==+==}
-`var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例中称为 'container' )。
-`var T from p` 语句指定了类型 `varTy[T, 2]` ，它与 `varTy[T, 1]` 类型不兼容。
+这里的 `var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例的 'container')。
+`var T from p` 语句指定了类型 `varTy[T, 2]`，与 `varTy[T, 1]` 类型不兼容。
 {==+==}
 
 {==+==}
@@ -135,7 +135,7 @@ NRVO
 of the language specification will be changed.
 See https://github.com/nim-lang/RFCs/issues/230 for more information.
 {==+==}
-**注意**: 本节文档仅描述当前版本的代码实现。这部分语言规范将会有变动。
+**注意**: 本节文档仅描述当前的实现。这部分语言规范将会有变动。
 详情请查看链接 https://github.com/nim-lang/RFCs/issues/230 。
 {==+==}
 
@@ -149,9 +149,9 @@ in `let/var dest = p(args)` (definition of `dest`) and also in `dest = p(args)`
 to `p'(args, dest)` where `p'` is a variation of `p` that returns `void` and
 receives a hidden mutable parameter representing `result`.
 {==+==}
-返回值以例程的特殊变量 `result` :idx: 出现。这便为实现类似C++的"具名返回值优化" (`NRVO`:idx:) 机制创造了条件。
-NRVO 指的是对 `p` 内部 `result` 的操作会直接影响 `let/var dest = p(args)` (`dest` 的定义) 与 `dest = p(args)` (`dest` 的赋值) 中的目标 `dest` 。
-这是通过将 `dest = p(args)` 重写为 `p'(args, dest)` 来实现的，其中 `p'` 是 `p` 的变体，它返回 `void` 并且接收一个 `result` 的可变参数。
+在例程内部返回值以特殊的 `result`:idx: 变量出现。这为实现与 C++ 的 "具名返回值优化" (`NRVO`:idx:) 类似的机制创造了条件。
+NRVO 指的是 `p` 内对 `result` 的操作会直接影响 `let/var dest = p(args)` (定义 `dest`) 或 `dest = p(args)` (给 `dest` 赋值) 中的目标 `dest` 。
+这是通过将 `dest = p(args)` 重写为 `p'(args, dest)` 来实现的，其中 `p'` 是 `p` 的变体，它返回 `void` 并且接收一个与 `result` 对应的可变参数。
 {==+==}
 
 {==+==}
@@ -195,16 +195,16 @@ Let `T`'s be `p`'s return type. NRVO applies for `T`
 if `sizeof(T) >= N` (where `N` is implementation dependent),
 in other words, it applies for "big" structures.
 {==+==}
-让 `T` 作为 `p` 的返回值。
-当 `sizeof(T) >= N` ( `N` 的值依赖于具体实现) 时，NRVO 会将返回值申请为 `T` 。
-换句话说，它会将返回值申请为 "较大" 的结构体。
+假设 `p` 的返回值类型为 `T`。
+当 `sizeof(T) >= N` (`N` 依赖于具体实现) 时，编译器就会使用 NRVO。
+换句话说，NRVO 适用于 "较大" 的结构体。
 {==+==}
 
 {==+==}
 If `p` can raise an exception, NRVO applies regardless. This can produce
 observable differences in behavior:
 {==+==}
-若 `p` 会抛出异常，NRVO仍会应用。这种情况下，不同的行为可能会导致很大的差别。
+即使 `p` 可能抛出异常，也会使用 NRVO。这时，可观察到 NRVO 带来的不同行为:
 {==+==}
 
 {==+==}
@@ -248,27 +248,25 @@ observable differences in behavior:
 {==+==}
 
 {==+==}
-However, the current implementation produces a warning in these cases.
-There are different ways to deal with this warning:
-{==+==}
-然而，在这种情况下，当前版本的实现会提出警告。
-有多种方法处理这种警告:
-{==+==}
+The compiler can produce a warning in these cases, however this behavior is
+turned off by default. It can be enabled for a section of code via the
+`warning[ObservableStores]` and `push`/`pop` pragmas. Take the above code
+as an example:
 
+  ```nim
+  {.push warning[ObservableStores]: on.}
+  main()
+  {.pop.}
+  ```
 {==+==}
-1. Disable the warning via `{.push warning[ObservableStores]: off.}` ... `{.pop.}`.
-   Then one may need to ensure that `p` only raises *before* any stores to `result`
-   happen.
-{==+==}
-1. 通过 `{.push warning[ObservableStores]: off.}` ... `{.pop.}` 禁用警告。
-   则开发者需要确保 `p` 仅在任何 `result` 的操作之前抛出异常。
-{==+==}
+编译器能够检测这些情况并发出警告，但是这个行为默认是关闭的。通过 `warning[ObservableStores]` 以及 `push`/`pop`
+编译指示可以为一段代码打开这个警告。以上面的代码为例：
 
-{==+==}
-2. One can use a temporary helper variable, for example instead of `x = p(8)`
-   use `let tmp = p(8); x = tmp`.
-{==+==}
-2. 开发者可以使用一个临时的帮助变量，比如在 `x = p(8)` 内部使用 `let tmp = p(8); x = tmp` 。
+  ```nim
+  {.push warning[ObservableStores]: on.}
+  main()
+  {.pop.}
+  ```
 {==+==}
 
 {==+==}
@@ -282,7 +280,7 @@ Overloading of the subscript operator
 {==+==}
 The `[]` subscript operator for arrays/openarrays/sequences can be overloaded.
 {==+==}
-数组/可变参数/序列的 `[]` 下标运算符可以被重载。
+数组/开放数组/序列的 `[]` 下标运算符可以被重载。
 {==+==}
 
 {==+==}
@@ -298,7 +296,7 @@ Procedures always use static dispatch. Methods use dynamic
 dispatch. For dynamic dispatch to work on an object it should be a reference
 type.
 {==+==}
-过程总是使用静态方法匹配。方法使用动态方法匹配。用于动态匹配的对象应该是引用类型。
+过程总是静态派发，而方法则使用动态派发。为了将动态派发用于对象，对象必须是引用类型。
 {==+==}
 
 {==+==}
@@ -341,13 +339,13 @@ type.
       a, b: Expression
 
   method eval(e: Expression): int {.base.} =
-    # 重写基方法
-    raise newException(CatchableError, "Method without implementation override")
+    # 一定要重写这个基方法
+    raise newException(CatchableError, "未重写基方法")
 
   method eval(e: Literal): int = return e.x
 
   method eval(e: PlusExpr): int =
-    # 请注意:语句的执行依赖于动态方法匹配
+    # 注意: 这里依赖于动态绑定
     result = eval(e.a) + eval(e.b)
 
   proc newLit(x: int): Literal =
@@ -368,7 +366,7 @@ In the example the constructors `newLit` and `newPlus` are procs
 because they should use static binding, but `eval` is a method because it
 requires dynamic binding.
 {==+==}
-在这个例子中，构造器 `newLit` 和 `newPlus` 都是过程，因为它们都使用静态方法匹配，但是 `eval` 是一个方法因为它需要动态方法匹配。
+在这个例子中，构造函数 `newLit` 和 `newPlus` 都是过程，因为它们都使用静态方法匹配，但是 `eval` 是方法因为需要动态绑定。
 {==+==}
 
 {==+==}
@@ -377,7 +375,8 @@ the `base`:idx: pragma. The `base` pragma also acts as a reminder for the
 programmer that a base method `m` is used as the foundation to determine all
 the effects that a call to `m` might cause.
 {==+==}
-从这个例子可以看出，基方法必须使用 `base`:idx: 编译指示修饰。对于开发者来说，`base` 编译指示也是一个提示，它提示 `m` 是任何调用结果的推断基础。
+正如这个例子所示，基方法必须使用 `base`:idx: 编译指示修饰。`base` 编译指示对于开发者来说也是一种提醒: 这个基方法 `m` 是推断方法 `m`
+所能产生的所有效果的一个基础。
 {==+==}
 
 
@@ -390,14 +389,14 @@ the effects that a call to `m` might cause.
 {==+==}
 **Note**: Starting from Nim 0.20, generic methods are deprecated.
 {==+==}
-**注意**: 从Nim 0.20开始，泛型方法已被弃用。
+**注意**: 从 Nim 0.20 开始，泛型方法已被弃用。
 {==+==}
 
 {==+==}
 Multi-methods
 --------------
 {==+==}
-多版本方法
+多重方法 (Multi-methods)
 ----------------------------------------
 {==+==}
 
@@ -405,14 +404,14 @@ Multi-methods
 **Note:** Starting from Nim 0.20, to use multi-methods one must explicitly pass
 `--multimethods:on`:option: when compiling.
 {==+==}
-**Note** 从Nim 0.20 开始，要启用多版本方法，开发者必须在编译时显式添加 `--multimethods:on`:option: 参数。
+**Note** 从 Nim 0.20 开始，要启用多重方法，开发者必须在编译时显式添加 `--multimethods:on`:option: 参数。
 {==+==}
 
 {==+==}
 In a multi-method, all parameters that have an object type are used for the
 dispatching:
 {==+==}
-在多版本方法中，所有对象类型的参数都会用于方法匹配: 
+在多重方法中，所有对象类型的参数都会用于方法派发:
 {==+==}
 
 {==+==}
@@ -425,7 +424,7 @@ dispatching:
   method collide(a, b: Thing) {.inline.} =
     quit "to override!"
 
-  method collide(a: Thing, b: Unit) {.inline.} =
+  method collide(a: Thing, b: Unit) {.base, inline.} =
     echo "1"
 
   method collide(a: Unit, b: Thing) {.inline.} =
@@ -443,8 +442,8 @@ dispatching:
     Unit = ref object of Thing
       x: int
 
-  method collide(a, b: Thing) {.inline.} =
-    quit "to override!"
+  method collide(a, b: Thing) {.base, inline.} =
+    quit "别忘了重写!"
 
   method collide(a: Thing, b: Unit) {.inline.} =
     echo "1"
@@ -523,7 +522,7 @@ of a container. It relies on an `iterator`:idx: to do so. Like `while`
 statements, `for` statements open an `implicit block`:idx: so that they
 can be left with a `break` statement.
 {==+==}
-`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于 `iterator`:idx: "迭代器"来实现。与 `while` 语句类似，`for` 语句打开了一个 `implicit block`:idx: "隐式代码块"，这样可以与 `break` 语句搭配。
+`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于 `iterator`:idx: "迭代器"来实现。与 `while` 语句类似，`for` 语句也开启了一个 `implicit block`:idx: "隐式代码块"，也就可以使用 `break` 语句。
 {==+==}
 
 {==+==}
@@ -531,7 +530,7 @@ The `for` loop declares iteration variables - their scope reaches until the
 end of the loop body. The iteration variables' types are inferred by the
 return type of the iterator.
 {==+==}
-`for` 循环声明了迭代器变量 - 它们的生命周期持续到循环体的结束。迭代器的类型是由迭代器的返回值类型推断。
+`for` 循环声明了迭代变量 - 它们的生命周期持续到循环体的结束。迭代变量的类型根据迭代器的返回值类型推断。
 {==+==}
 
 {==+==}
@@ -543,10 +542,10 @@ reached, the data is bound to the `for` loop variables and control continues
 in the body of the `for` loop. The iterator's local variables and execution
 state are automatically saved between calls. Example:
 {==+==}
-迭代器与过程类似，除了迭代器只在 `for` 循环的上下文中调用。迭代器提供了一种特殊的使用抽象类型的迭代方式。
-在 `for` 循环的执行过程中， `yield` 语句对迭代器的调用起到关键性的作用。
-当程序执行到 `yield` 语句时，数据会与 `for` 循环的当前变量绑定但循环体继续执行。迭代器的局部变量和执行语句会在循环之间自动保存。
-实例如下:
+迭代器与过程类似，不过迭代器只能在 `for` 循环的上下文中调用。迭代器提供了一种遍历抽象类型的方法。
+迭代器里的 `yield` 语句对于 `for` 循环的执行至关重要。当程序执行到 `yield` 语句时，数据会绑定
+到 `for` 循环变量，同时控制权也移交到循环体并继续执行。迭代器的局部变量和执行状态在多次调用期间会自动保存。
+例如:
 {==+==}
 
 {==+==}
@@ -563,14 +562,14 @@ state are automatically saved between calls. Example:
   ```
 {==+==}
   ```nim
-  # 系统模块中存在如下定义
+  # system 模块中存在如下定义
   iterator items*(a: string): char {.inline.} =
     var i = 0
     while i < len(a):
       yield a[i]
       inc(i)
 
-  for ch in items("hello world"): # `ch` 是一个迭代器变量
+  for ch in items("hello world"): # `ch` 是迭代器变量
     echo ch
   ```
 {==+==}
@@ -578,7 +577,7 @@ state are automatically saved between calls. Example:
 {==+==}
 The compiler generates code as if the programmer had written this:
 {==+==}
-编译器会生成如下代码，就像是开发者写的代码一样:
+编译器会生成如下代码，就像是开发者写的一样:
 {==+==}
 
 {==+==}
@@ -605,8 +604,8 @@ as there are components in the tuple. The i'th iteration variable's type is
 the type of the i'th component. In other words, implicit tuple unpacking in a
 for loop context is supported.
 {==+==}
-如果迭代器遍历一个元组，则元组的元素便是迭代器的变量。
-第 i 次迭代的变量类型是元组第 i 个元素的类型。换句话说，循环上下文支持隐式元组拆包。
+如果迭代器的 `yield` 语句产生的是元组，那么可以有多个循环变量，个数等于元组的元素数。
+第 i 次循环变量的类型就是元组第 i 个元素的类型。换句话说，循环上下文支持隐式元组拆包。
 {==+==}
 
 {==+==}
@@ -622,8 +621,8 @@ If the for loop expression `e` does not denote an iterator and the for loop
 has exactly 1 variable, the for loop expression is rewritten to `items(e)`;
 i.e. an `items` iterator is implicitly invoked:
 {==+==}
-如果循环表达式 `e` 不显式指定使用迭代器并且循环只迭代一个变量，则循环表达式会被重写为 `items(e)` ；
-即 `items` 迭代器会被隐式调用:
+如果循环表达式 `e` 不是迭代器并且 for 循环只有一个循环变量，则循环表达式会被重写为 `items(e)`；
+即隐式调用 `items` 迭代器:
 {==+==}
 
 {==+==}
@@ -640,7 +639,7 @@ i.e. an `items` iterator is implicitly invoked:
 If the for loop has exactly 2 variables, a `pairs` iterator is implicitly
 invoked.
 {==+==}
-如果循环恰迭代两个变量，则 `pairs` 迭代器会被隐式调用。
+如果循环恰好有两个循环变量，则隐式调用 `pairs` 迭代器。
 {==+==}
 
 {==+==}
@@ -648,7 +647,7 @@ Symbol lookup of the identifiers `items`/`pairs` is performed after
 the rewriting step, so that all overloads of `items`/`pairs` are taken
 into account.
 {==+==}
-`items`/`pairs` 标识符的符号查找在编译器重写之后执行，所以 `items`/`pairs` 的重载可以生效。
+`items`/`pairs` 标识符的符号查找在编译器重写之后执行，所以 `items`/`pairs` 的所有重载都能生效。
 {==+==}
 
 
@@ -656,7 +655,7 @@ into account.
 First-class iterators
 ---------------------
 {==+==}
-第一类迭代器
+一等迭代器
 ------------------------
 {==+==}
 
@@ -667,8 +666,8 @@ leading to zero overhead for the abstraction, but may result in a heavy
 increase in code size.
 {==+==}
 Nim 中有两种迭代器: *inline* (内联)和 *closure* (闭包)迭代器。
-`inline iterator`:idx: "内联迭代器"指总是被编译器内联优化的迭代器，
-这样在运行时解释抽象的同时不需要付出额外的代价(零成本抽象)，但可能会导致代码体积大大增加。
+`inline iterator`:idx: "内联迭代器" 总是被编译器内联优化，
+这种抽象也就不会带来任何额外开销(零成本抽象)，但可能代码体积可能大大增加。
 {==+==}
 
 {==+==}
@@ -677,7 +676,7 @@ each `yield` statement appearing in the iterator code,
 so ideally the code should be refactored to contain a single yield when possible
 to avoid code bloat.
 {==+==}
-请警惕:  在使用内联迭代器时，循环体会被内联进循环中所有的 `yield` 语句里，所以在使用内联迭代器时，开发者应该尽量只使用一个 yield 语句以避免代码体积膨胀。
+请警惕:  在使用内联迭代器时，循环体会被内联进循环中所有的 `yield` 语句里，所以理想情况是合理地重构迭代器代码使它只包含一条 yield 语句，以免代码体积膨胀。
 {==+==}
 
 {==+==}
@@ -685,13 +684,13 @@ Inline iterators are second class citizens;
 They can be passed as parameters only to other inlining code facilities like
 templates, macros, and other inline iterators.
 {==+==}
-内联迭代器是二等公民; 它们只能作为参数传递给其他内联代码工具，如模板、宏和其他内联迭代器。
+内联迭代器是二等公民；它们只能作为参数传递给其他内联代码工具，如模板、宏和其他内联迭代器。
 {==+==}
 
 {==+==}
 In contrast to that, a `closure iterator`:idx: can be passed around more freely:
 {==+==}
-相反， `closure iterator`:idx: "闭包迭代器"则可以更自由传递:
+相反，`closure iterator`:idx: "闭包迭代器" 可以更自由地传递:
 {==+==}
 
 {==+==}
@@ -745,8 +744,8 @@ Closure iterators and inline iterators have some restrictions:
 5. Closure iterators are not supported by the JS backend.
 {==+==}
 1. 目前，闭包迭代器不能在编译期执行。
-2. 闭包迭代器允许使用 `return` 语句并结束循环，但内联迭代器不行(这并不常用与内联迭代器)。
-3. 内联迭代器不能用于递归。
+2. 闭包迭代器可使用 `return` 语句结束循环，但内联迭代器(虽然基本没什么用)不允许使用。
+3. 内联迭代器不能递归。
 4. 内联迭代器与闭包迭代器都没有特殊的 `result` 变量。
 5. JS 后端不支持闭包迭代器。
 {==+==}
@@ -756,7 +755,7 @@ Iterators that are neither marked `{.closure.}` nor `{.inline.}` explicitly
 default to being inline, but this may change in future versions of the
 implementation.
 {==+==}
-如果不使用 `{.closure.}` 或 `{.inline.}` 显式标记迭代器，则默认为内联迭代器。但是将来的版本可能会改动。
+如果既不用 `{.closure.}` 也不用 `{.inline.}` 显式标记迭代器，则默认为内联迭代器。但是将来的版本可能会改动。
 {==+==}
 
 {==+==}
@@ -764,7 +763,8 @@ The `iterator` type is always of the calling convention `closure`
 implicitly; the following example shows how to use iterators to implement
 a `collaborative tasking`:idx: system:
 {==+==}
-`iterator` 类型通常约定隐式使用 `closure` 闭包迭代器; 下面的例子展示了如何实现一个 `collaborative tasking`:idx: "协作任务"系统:
+`iterator` 类型总是约定隐式使用 `closure` 调用规范；下面的例子展示了如何使用迭代器实现一个 `collaborative tasking`:idx:
+"协作任务" 系统:
 {==+==}
 
 {==+==}
@@ -838,14 +838,14 @@ The builtin `system.finished` can be used to determine if an iterator has
 finished its operation; no exception is raised on an attempt to invoke an
 iterator that has already finished its work.
 {==+==}
-内置的 `system.finished` 可以用来推断迭代器是否已经完成了它的操作; 如果迭代器已经完成了工作，再调用 `system.finished` 也不会抛出异常。
+可以使用内置的 `system.finished` 判断迭代器是否结束；如果迭代器已经结束，再次调用也不会抛出异常。
 {==+==}
 
 {==+==}
 Note that `system.finished` is error-prone to use because it only returns
 `true` one iteration after the iterator has finished:
 {==+==}
-请注意 `system.finished` 容易引发错误，因为它只在迭代器最后一次循环完成后的下一次迭代才会返回 `true` :
+请注意 `system.finished` 容易用错，因为它只在迭代器最后一次循环完成后的下一次迭代才返回 `true`:
 {==+==}
 
 {==+==}
@@ -874,7 +874,7 @@ Note that `system.finished` is error-prone to use because it only returns
       yield x
       inc x
 
-  var c = mycount # 初始化迭代器
+  var c = mycount # 实例化迭代器
   while not finished(c):
     echo c(1, 3)
 
@@ -889,7 +889,7 @@ Note that `system.finished` is error-prone to use because it only returns
 {==+==}
 Instead, this code has to be used:
 {==+==}
-想得到正确的结果，应该想下面的代码一样调用迭代器:
+所以这段代码应该这么写:
 {==+==}
 
 {==+==}
@@ -902,10 +902,10 @@ Instead, this code has to be used:
   ```
 {==+==}
   ```nim
-  var c = mycount # 初始化迭代器
+  var c = mycount # 实现化迭代器
   while true:
     let value = c(1, 3)
-    if finished(c): break # 丢弃返回值!
+    if finished(c): break # 丢弃这次的返回值!
     echo value
   ```
 {==+==}
@@ -915,7 +915,7 @@ It helps to think that the iterator actually returns a
 pair `(value, done)` and `finished` is used to access the hidden `done`
 field.
 {==+==}
-您可以这样认为迭代器实际上返回键值对 `(value, done)` ，并且 `finished` 访问了隐藏的 `done` 字段。
+为了便于理解，可以这样认为，迭代器实际上返回了键值对 `(value, done)`，而 `finished` 的作用就是访问隐藏的 `done` 字段。
 {==+==}
 
 {==+==}
@@ -923,7 +923,7 @@ Closure iterators are *resumable functions* and so one has to provide the
 arguments to every call. To get around this limitation one can capture
 parameters of an outer factory proc:
 {==+==}
-闭包迭代器是 *可恢复函数* ，因此每次调用必须提供参数。可以给迭代器套一层"工厂"过程，通过捕获外部"工厂"过程的参数来绕过这个限制:
+闭包迭代器是 *可恢复函数* ，因此每次调用必须提供参数。如果需要绕过这个限制，可以通过工厂过程构造闭包迭代器，并在构造的时候捕获参数:
 {==+==}
 
 {==+==}
@@ -959,7 +959,7 @@ parameters of an outer factory proc:
 {==+==}
 The call can be made more like an inline iterator with a for loop macro:
 {==+==}
-这个过程可以变成内联迭代器，用于for循环的宏:
+借助 for 循环宏可以把这个函数调用变得像是在使用内联迭代器:
 {==+==}
 
 {==+==}
@@ -983,7 +983,7 @@ The call can be made more like an inline iterator with a for loop macro:
   import std/macros
   macro toItr(x: ForLoopStmt): untyped =
     let expr = x[0]
-    let call = x[1][1] # 将 foo 带出 toItr(foo)
+    let call = x[1][1] # 把 foo 拿从 toItr(foo) 里出来
     let body = x[2]
     result = quote do:
       block:
@@ -991,7 +991,7 @@ The call can be made more like an inline iterator with a for loop macro:
         for `expr` in itr():
             `body`
 
-  for f in toItr(mycount(1, 4)): # 使用上文的过程 `proc mycount`
+  for f in toItr(mycount(1, 4)): # 使用上文的 `proc mycount`
     echo f
   ```
 {==+==}
@@ -1001,7 +1001,7 @@ Because of full backend function call apparatus involvement, closure iterator
 invocation is typically higher cost than inline iterators. Adornment by
 a macro wrapper at the call site like this is a possibly useful reminder.
 {==+==}
-因为调用闭包迭代器需要所有后端函数调用的参与，所以代价比调用内联迭代器更高。宏装饰器在调用处的包装是有用的提醒。
+因为闭包迭代器需要以完整的函数调用机制作为支撑，所以代价比调用内联迭代器更高。像这样在使用闭包迭代器的地方用宏装饰一下，或许是一种有益的提醒。
 {==+==}
 
 {==+==}
@@ -1009,7 +1009,7 @@ The factory `proc`, as an ordinary procedure, can be recursive. The
 above macro allows such recursion to look much like a recursive iterator
 would. For example:
 {==+==}
-作为一个普通的过程，工厂过程 `proc` 可以递归。上文中的宏可以用更像迭代器递归的语法重写。比如:
+工厂过程 `proc` 同普通的过程一样也可以递归。利用上面的宏可让这种过程的递归看起来像是递归迭代器在递归。比如:
 {==+==}
 
 {==+==}
@@ -1042,7 +1042,7 @@ would. For example:
 {==+==}
 See also see `iterable <#overloading-resolution-iterable>`_ for passing iterators to templates and macros.
 {==+==}
-关于如果给模板和宏传递迭代器，可以看这一节 `迭代器 <#overloading-resolution-iterable>`_ 。
+关于如何给模板和宏传递迭代器，可以看这一节 `迭代器 <#overloading-resolution-iterable>`_ 。
 {==+==}
 
 {==+==}
@@ -1058,7 +1058,7 @@ A converter is like an ordinary proc except that it enhances
 the "implicitly convertible" type relation (see `Convertible relation
 <#type-relations-convertible-relation>`_):
 {==+==}
-转换器就像普通的过程，只不过它增强了"隐式可转换"类型关系 (参见`Convertible relation <#type-relations-convertible-relation>`_ ):
+转换器就像普通的过程，只不过它增强了"隐式可转换"类型关系 (参见 `Convertible relation <#type-relations-convertible-relation>`_ ):
 {==+==}
 
 {==+==}
@@ -1071,7 +1071,7 @@ the "implicitly convertible" type relation (see `Convertible relation
   ```
 {==+==}
   ```nim
-  # 不推荐的代码风格:不推荐用 C 语言的风格编写 Nim 代码。
+  # 前方代码风格不好: Nim 不是 C。
   converter toBool(x: int): bool = x != 0
 
   if 4:
@@ -1083,11 +1083,11 @@ the "implicitly convertible" type relation (see `Convertible relation
 {==+==}
 A converter can also be explicitly invoked for improved readability. Note that
 implicit converter chaining is not supported: If there is a converter from
-type A to type B and from type B to type C the implicit conversion from A to C
+type A to type B and from type B to type C, the implicit conversion from A to C
 is not provided.
 {==+==}
 开发者可以显式调用转换器以提高代码的可读性。
-请注意隐式转换器不支持自动的链式调用: 如果存在 A 类型到 B 类型的转换器和 B 类型到 C 类型的转换器，Nim 不提供从 A 转换为 C 类型的隐式转换。
+请注意编译不支持隐式转换器的链式调用: 假设存在 A 类型到 B 类型和 B 类型到 C 类型的转换器，Nim 不提供从 A 转换为 C 类型的隐式转换。
 {==+==}
 
 
@@ -1124,10 +1124,10 @@ Example:
       le, ri: Node     # 左子树和右子树
       sym: ref Sym     # 叶子包含对 Sym 的引用
 
-    Sym = object       # 一个对象
-      name: string     # 对象的名称
-      line: int        # 对象声明的行数
-      code: Node       # 对象的抽象语法树
+    Sym = object       # 符号
+      name: string     # 符号的名称
+      line: int        # 符号声明的行数
+      code: Node       # 符号的抽象语法树
   ```
 {==+==}
 
@@ -1138,8 +1138,8 @@ can be recursive or even mutually recursive. Mutually recursive types are only
 possible within a single `type` section. Nominal types like `objects`
 or `enums` can only be defined in a `type` section.
 {==+==}
-类型段由 `type` 关键字开启。它包含多个类型定义。类型定义给类型绑定一个名称。类型定义可以是递归的甚至是相互递归的。相互递归类型只能在单层 `type` 段中出现。
-像 `objects` 或者 `enums` 这样的标称类型仅能在 `type` 段中定义。
+类型段由 `type` 关键字开启。它包含多个类型定义。类型定义是给类型绑定一个名称。类型定义可以是递归的甚至是相互递归的。相互递归类型只能在同一个 `type` 段中出现。
+像 `objects` 或者 `enums` 这样的名义类型仅能在 `type` 段中定义。
 {==+==}
 
 
@@ -1163,7 +1163,7 @@ Try 语句
 {==+==}
 Example:
 {==+==}
-例子: 
+例子:
 {==+==}
 
 {==+==}
@@ -1196,13 +1196,13 @@ Example:
     try:
       var a = readLine(f)
       var b = readLine(f)
-      echo "sum: " & $(parseInt(a) + parseInt(b))
+      echo "两数之和: " & $(parseInt(a) + parseInt(b))
     except OverflowDefect:
-      echo "overflow!"
+      echo "溢出!"
     except ValueError, IOError:
-      echo "catch multiple exceptions!"
+      echo "捕获多个异常!"
     except:
-      echo "Unknown exception!"
+      echo "未知异常!"
     finally:
       close(f)
   ```
@@ -1216,21 +1216,21 @@ listed in an `except` clause, the corresponding statements are executed.
 The statements following the `except` clauses are called
 `exception handlers`:idx:.
 {==+==}
-除非有异常 `e` 抛出，否则 `try` 之后的语句顺序执行。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: "异常处理"。
+`try` 之后的语句顺序执行，直到有异常 `e` 抛出。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: "异常处理程序"。
 {==+==}
 
 {==+==}
 The empty `except`:idx: clause is executed if there is an exception that is
 not listed otherwise. It is similar to an `else` clause in `if` statements.
 {==+==}
-如果程序抛出了未列出的异常，则将执行空的 `except`:idx: 子句。就像 `if` 语句的 `else` 子句。
+如果程序抛出了未列出的异常，则执行空的 `except`:idx: 子句，类似于 `if` 语句的 `else` 子句。
 {==+==}
 
 {==+==}
 If there is a `finally`:idx: clause, it is always executed after the
 exception handlers.
 {==+==}
-`finally`:idx 子句总会在异常处理程序之后执行，如果存在 `finally` 子句的话。
+如果存在 `finally` 子句，那么 `finally`:idx 子句总会在异常处理程序之后得以执行。
 {==+==}
 
 {==+==}
@@ -1240,7 +1240,7 @@ handled, it is propagated through the call stack. This means that often
 the rest of the procedure - that is not within a `finally` clause -
 is not executed (if an exception occurs).
 {==+==}
-异常在异常处理器中 *处理* 。然而异常处理器也可能抛出异常。如果没有处理这样的异常，则它会通过调用栈传递出去。所以当这种情况发生时，剩下的代码将不会被执行( `finally` 子句的代码依旧会执行)。
+异常处理程序会 *吃掉* 异常。然而异常处理程序也可能抛出新的异常。如果没有处理这个异常，则会通过调用栈传递出去。这种情况往往意味着，所在过程剩下的那些不属于 `finally` 子句的代码不被执行。
 {==+==}
 
 
@@ -1257,7 +1257,7 @@ Try can also be used as an expression; the type of the `try` branch then
 needs to fit the types of `except` branches, but the type of the `finally`
 branch always has to be `void`:
 {==+==}
-try 也可以用作表达式; `try` 部分的类型需要兼容 `except` 部分的类型，但是 `finally` 部分只能是 `void` :
+try 也可以用作表达式；`try` 分支的类型与 `except` 分支相兼容，而 `finally` 分支的类型必须是 `void`:
 {==+==}
 
 {==+==}
@@ -1282,7 +1282,7 @@ try 也可以用作表达式; `try` 部分的类型需要兼容 `except` 部分�
 To prevent confusing code there is a parsing limitation; if the `try`
 follows a `(` it has to be written as a one liner:
 {==+==}
-为了防止令人迷惑的代码，有一个解析限制: 如果 `try` 语句在 `(` 之后，则表达式必须写成一行:
+为了防止写出令人迷惑的代码，解析时做了限制: 如果 `try` 语句在 `(` 之后，则必须写成一行:
 {==+==}
 
 {==+==}
@@ -1307,7 +1307,7 @@ Except 子句
 Within an `except` clause it is possible to access the current exception
 using the following syntax:
 {==+==}
-在 `except` 子句中，可能需要使用下面的语法访问当前抛出的异常:
+在 `except` 子句中，可使用下面的语法访问当前抛出的异常:
 {==+==}
 
 {==+==}
@@ -1323,7 +1323,7 @@ using the following syntax:
   try:
     # ...
   except IOError as e:
-    # Now use "e"
+    # 现在可以使用 "e"
     echo "I/O error: " & e.msg
   ```
 {==+==}
@@ -1332,7 +1332,7 @@ using the following syntax:
 Alternatively, it is possible to use `getCurrentException` to retrieve the
 exception that has been raised:
 {==+==}
-或者，使用 `getCurrentException` 也可以获取当前抛出的异常。
+或者使用 `getCurrentException` 获取当前抛出的异常。
 {==+==}
 
 {==+==}
@@ -1349,7 +1349,7 @@ exception that has been raised:
     # ...
   except IOError:
     let e = getCurrentException()
-    # Now use "e"
+    # 现在可以使用 "e"
   ```
 {==+==}
 
@@ -1358,7 +1358,7 @@ Note that `getCurrentException` always returns a `ref Exception`
 type. If a variable of the proper type is needed (in the example
 above, `IOError`), one must convert it explicitly:
 {==+==}
-注意， `getCurrentException` 总是返回 `ref Exception` 类型。如果需要使用具体类型(比如上面例子中的 `IOError`)的变量，则需要显式转换:
+注意，`getCurrentException` 总是返回 `ref Exception` 类型。如果需要使用具体类型(比如上面例子中的 `IOError`)的变量，则需要显式转换:
 {==+==}
 
 {==+==}
@@ -1384,7 +1384,7 @@ However, this is seldom needed. The most common case is to extract an
 error message from `e`, and for such situations, it is enough to use
 `getCurrentExceptionMsg`:
 {==+==}
-但是，这样的情况很少发生。常见的使用场景是从 `e` 中提取异常信息，对于这种场景，使用 `getCurrentExceptionMsg` 已经足够了:
+但是这种需求很少见。最常见的使用场景是从 `e` 中提取错误信息，使用 `getCurrentExceptionMsg` 已经足够了:
 {==+==}
 
 {==+==}
@@ -1414,7 +1414,7 @@ Custom exceptions
 {==+==}
 It is possible to create custom exceptions. A custom exception is a custom type:
 {==+==}
-您可以创建自定义异常。自定义异常就是自定义类型: 
+可以创建自定义异常。自定义异常是一种自定义类型:
 {==+==}
 
 {==+==}
@@ -1438,7 +1438,7 @@ Ending the custom exception's name with `Error` is recommended.
 {==+==}
 Custom exceptions can be raised just like any other exception, e.g.:
 {==+==}
-自定义异常可以像其他异常一样抛出，例如: 
+自定义异常可以像其他异常一样抛出，例如:
 {==+==}
 
 {==+==}
@@ -1464,14 +1464,14 @@ Instead of a `try finally` statement a `defer` statement can be used, which
 avoids lexical nesting and offers more flexibility in terms of scoping as shown
 below.
 {==+==}
-使用 `defer` 语句代替 `try finally` 语句可以避免代码的复杂嵌套，在下面的例子中，您也可以看到它提供更灵活的作用域。
+使用 `defer` 语句代替 `try finally` 语句可以避免代码的复杂嵌套，从作用域的角度看也更加灵活。下面给了例子。
 {==+==}
 
 {==+==}
-Any statements following the `defer` in the current block will be considered
-to be in an implicit try block:
+Any statements following the `defer`will be considered
+to be in an implicit try block in the current block:
 {==+==}
-当前代码块中， `defer` 之后的任何语句都将考虑包裹在隐式 try 块中:
+`defer` 之后的任何语句都被视为处于当前代码块的隐式 try 块中:
 {==+==}
 
 {==+==}
@@ -1495,7 +1495,7 @@ to be in an implicit try block:
 {==+==}
 Is rewritten to:
 {==+==}
-会被编译器重写为:
+重写为:
 {==+==}
 
 {==+==}
@@ -1523,9 +1523,9 @@ Is rewritten to:
 
 {==+==}
 When `defer` is at the outermost scope of a template/macro, its scope extends
-to the block where the template is called from:
+to the block where the template/macro is called from:
 {==+==}
-当 `defer` 位于最外层的模板/宏的作用域中时，它的作用域将延伸到模板被调用的代码块中:
+当 `defer` 位于模板/宏的最外层作用域时，它的作用域将延伸到调用模板/宏的那个代码块中:
 {==+==}
 
 {==+==}
@@ -1559,7 +1559,7 @@ to the block where the template is called from:
 
   template safeOpenFinally(f, path, body) =
     var f = open(path, fmWrite)
-    try: body # 若没有 `defer` ， `body` 必须指定为参数
+    try: body # 若不使用 `defer` ，`body` 必须指定为参数
     finally: close(f)
 
   block:
@@ -1567,11 +1567,11 @@ to the block where the template is called from:
     f.write "abc"
   block:
     safeOpenFinally(f, "/tmp/z01.txt"):
-      f.write "abc" # 增加了表达式的作用域
+      f.write "abc" # 增加一级词法作用域
   block:
     var f = open("/tmp/z01.txt", fmWrite)
     try:
-      f.write "abc" # 增加了表达式的作用域
+      f.write "abc" # 增加一级词法作用域
     finally: close(f)
   ```
 {==+==}
@@ -1580,7 +1580,7 @@ to the block where the template is called from:
 Top-level `defer` statements are not supported
 since it's unclear what such a statement should refer to.
 {==+==}
-Nim 不支持最顶层(没有任何缩进的)的 `defer` 语句，因为无法判断它用于哪一段代码。
+Nim 不允许在最顶层使用 `defer` 语句，因为不确定这样的语句涉及哪些内容。
 {==+==}
 
 
@@ -1595,7 +1595,7 @@ Raise 语句
 {==+==}
 Example:
 {==+==}
-例子: 
+例子:
 {==+==}
 
 {==+==}
@@ -1604,7 +1604,7 @@ Example:
   ```
 {==+==}
   ```nim
-  raise newException(IOError, "IO failed")
+  raise newException(IOError, "IO 失败")
   ```
 {==+==}
 
@@ -1627,7 +1627,7 @@ If no exception name is given, the current exception is `re-raised`:idx:. The
 re-raise. It follows that the `raise` statement *always* raises an
 exception.
 {==+==}
-如果没有给出异常的名称，则当前异常会 `re-raised`:idx: "重新抛出"。如果当前没有异常可以重新抛出，则会抛出 `ReraiseDefect`:idx: 异常。它遵循 `raise` 语句 *总是* 抛出异常的规则。
+如果没有给出异常的名称，则 `re-raised`:idx: "重新抛出" 当前异常。如果当前没有异常可以重新抛出，则会抛出 `ReraiseDefect`:idx: 异常。这遵循 `raise` 语句 *总是* 抛出异常的规则。
 {==+==}
 
 
@@ -1649,14 +1649,14 @@ exceptions inherit from `Defect`.
 {==+==}
 `system <system.html>`_ 模块定义了异常树。所有异常都继承自 `system.Exception` 。
 表示编码错误的异常继承自 `system.Defect` (它是 `Exception` 的子类)，严格来说，这类异常无法捕获，因为它也可以映射成一个结束整个进程的操作。
-如果 panic 被转换为异常，则这类异常继承自 `Defect` 。
+如果将 panic 转换为异常，则这类异常就继承自 `Defect`。
 {==+==}
 
 {==+==}
 Exceptions that indicate any other runtime error that can be caught inherit from
 `system.CatchableError` (which is a subtype of `Exception`).
 {==+==}
-表示可捕获的所有运行时错误的异常继承自 `system.CatchableError`(它是 `Exception` 的子类)。
+表示可捕获的其它运行时错误的异常从 `system.CatchableError`(它是 `Exception` 的子类) 继承。
 {==+==}
 
 
@@ -1716,7 +1716,7 @@ caught by reference. Example:
     CStdException {.importcpp: "std::exception", header: "<exception>", inheritable.} = object
       ## 异常不继承自 `RootObj`, 所以我们使用 `inheritable` 关键字
     CRuntimeError {.requiresInit, importcpp: "std::runtime_error", header: "<stdexcept>".} = object of CStdException
-      ## `CRuntimeError` 没有构造器 => `requiresInit`
+      ## `CRuntimeError` 没有默认构造器 => `requiresInit`
   proc what(s: CStdException): cstring {.importcpp: "((char *)#.what())".}
   proc initRuntimeError(a: cstring): CRuntimeError {.importcpp: "std::runtime_error(@)", constructor.}
   proc initStdException(): CStdException {.importcpp: "std::exception()", constructor.}
@@ -1750,7 +1750,7 @@ caught by reference. Example:
 for imported exceptions from C++. One needs to use the `except ImportedException as x:` syntax
 and rely on functionality of the `x` object to get exception details.
 {==+==}
-**注意** `getCurrentException()` 和 `getCurrentExceptionMsg()` 不能从C++导入。开发者需要使用 `except ImportedException as x:` 语句并且需要依据对象 `x` 的功能获取异常的具体信息。
+**注意** `getCurrentException()` 和 `getCurrentExceptionMsg()` 不能用于从 C++ 导入的异常。开发者需要使用 `except ImportedException as x:` 语句并且依靠对象 `x` 本身的功能获取异常的具体信息。
 {==+==}
 
 
@@ -1767,7 +1767,7 @@ Effect 系统
 1.6 of the Nim compiler. This section describes the new rules that are activated
 via `--experimental:strictEffects`.
 {==+==}
-**注意** : Nim 1.6 版本编译器改动了 effect 跟踪的规则。本小节的中的新规则需要通过添加 `--experimental:strictEffects` 选项才能生效。
+**注意**: Nim 1.6 版本编译器改动了 effect 跟踪的规则。本小节介绍了通过 `--experimental:strictEffects` 选项启用的新规则。
 {==+==}
 
 
@@ -1784,7 +1784,7 @@ Nim supports exception tracking. The `raises`:idx: pragma can be used
 to explicitly define which exceptions a proc/iterator/method/converter is
 allowed to raise. The compiler verifies this:
 {==+==}
-Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义哪些异常可以由 过程/迭代器/方法/转换器 抛出。编译期会验证如下代码:
+Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义过程/迭代器/方法/转换器所允许抛出的异常。编译期会加以验证:
 {==+==}
 
 {==+==}
@@ -1804,7 +1804,7 @@ Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义哪些异�
 {==+==}
 An empty `raises` list (`raises: []`) means that no exception may be raised:
 {==+==}
-空的 `raises` 列表(`raises: []`)意味着不允许抛出异常:
+空的 `raises` 列表(`raises: []`)表示不允许抛出异常:
 {==+==}
 
 {==+==}
@@ -1864,7 +1864,7 @@ compatibility:
 For a routine `p`, the compiler uses inference rules to determine the set of
 possibly raised exceptions; the algorithm operates on `p`'s call graph:
 {==+==}
-对于例程 `p` 来说，编译器使用推断规则来判断可能引发的异常; 算法在 `p` 的调用图上运行:
+对于例程 `p` 来说，编译器使用推断规则来判断可能引发的异常的集合; 算法在 `p` 的调用图上运行:
 {==+==}
 
 {==+==}
@@ -1876,7 +1876,7 @@ possibly raised exceptions; the algorithm operates on `p`'s call graph:
    The call is optimistically assumed to have no effect.
    Rule 2 compensates for this case.
 2. Every expression `e` of some proc type within a call that is passed to parameter
-   marked as `.effectsOf` is assumed to be called indirectly and thus
+   marked as `.effectsOf` of proc `p` is assumed to be called indirectly and thus
    its raises list is added to `p`'s raises list.
 3. Every call to a proc `q` which has an unknown body (due to a forward
    declaration) is assumed to
@@ -1889,16 +1889,16 @@ possibly raised exceptions; the algorithm operates on `p`'s call graph:
 6. For determining a `raises` list, the `raise` and `try` statements
    of `p` are taken into consideration.
 {==+==}
-1. 通过某些过程类型 `T` 间接调用产生的异常会推断为 `system.Exception` (异常的基类)。若 `T` 拥有显式的 `raises` 列表，则返回具体异常类型。
-   然而，如果是以 `f(...)` 的形式调用并且 `f` 是当前分析的例程的参数，则它会被标记 `.effectsOf: f` 并且忽略异常。
-   乐观来说，这类调用一般认为没有任何 effect 。
-   第二条规则对这种情况有所弥补。
-2. 某些过程类型的表达式 `e` ，在调用中传递给标记为 `.effectsOf` 的参数会被看作间接调用，所以它的 `raises` 列表会加入到 `p` 的 `raises` 列表。
-3. 所有对未知方法体(因为有些过程声明前置)的过程 `q` 的调用都会被看作抛出 `system.Exception` 异常除非 `q` 显式定义了 `raises` 列表。
-   以 `importc` 结尾的过程，若没有显式声明 `raises` 列表，则默认被看作有 `.raises: []` 即空列表。
-4. 若方法 `m` 没有显式声明 `raises` 列表，则调用方法 `m` 默认抛出 `system.Exception` 异常。
-5. 对于其他的调用，Nim 可以分析推断出确定的 `raises` 列表。
-6. Nim 会根据 `p` 的 `raise` 和 `try` 语句推断 `raises` 列表。
+1. 对过程类型 `T` 的每个间接调用都假定产生 `system.Exception` (所有异常的基类)，即任意异常都有可能，除非 `T` 拥有显式的 `raises` 列表。
+   不过，如果是以 `f(...)` 的形式调用并且 `f` 是当前分析的例程的参数，而且并被标记 `.effectsOf: f`，那么忽略它。
+   乐观地假定这类调用没有 effect。
+   第二条规则对这种情况有所补充。
+2. 当某过程类型的表达式 `e` 是作为过程 `p` 的标记为 `.effectsOf` 的参数传入的，对 `e` 的调用会被视为间接调用，它的 `raises` 列表会加入到 `p` 的 `raises` 列表。
+3. 所有对方法体未知(因为声明前置)的过程 `q` 的调用都会被看作抛出 `system.Exception` 除非 `q` 显式定义了 `raises` 列表。
+   `importc` 导入的过程，若没有显式声明 `raises` 列表，则默认视为 `.raises: []`。
+4. 方法 `m` 每一次调用都假定会抛出 `system.Exception`，除非显式声明了 `raises` 列表。
+5. 对于其他的调用，Nim 可以分析推断出确切的 `raises` 列表。
+6. 推断 `p` 的 `raises` 列表时，Nim 会考虑它里面的 `raise` 和 `try` 语句。
 {==+==}
 
 
@@ -1907,7 +1907,7 @@ Exceptions inheriting from `system.Defect` are not tracked with
 the `.raises: []` exception tracking mechanism. This is more consistent with the
 built-in operations. The following code is valid:
 {==+==}
-继承自 `system.Defect` 的异常不会根据 `.raises: []` 异常跟踪机制跟踪。这跟内置的运算符保持一致。
+`.raises: []` 异常跟踪机制不跟踪继承自 `system.Defect` 的异常。这样更能跟内置运算符保持一致。
 下面的代码是合法的:
 {==+==}
 
@@ -1926,7 +1926,7 @@ built-in operations. The following code is valid:
 {==+==}
 And so is:
 {==+==}
-同理，下面的代码 也是合理的:
+同理，下面的代码也是合法的:
 {==+==}
 
 {==+==}
@@ -1938,7 +1938,7 @@ And so is:
 {==+==}
   ```nim
   proc mydiv(a, b): int {.raises: [].} =
-    if b == 0: raise newException(DivByZeroDefect, "division by zero")
+    if b == 0: raise newException(DivByZeroDefect, "除数为 0")
     else: result = a div b
   ```
 {==+==}
@@ -1948,7 +1948,7 @@ The reason for this is that `DivByZeroDefect` inherits from `Defect` and
 with `--panics:on`:option: Defects become unrecoverable errors.
 (Since version 1.4 of the language.)
 {==+==}
-因为 `DivByZeroDefect` 继承自 `Defect` 并且已添加 `--panics:on`:option: 选项，所以异常变成无法修复还原的错误。(自从 Nim 1.4 开始支持)
+这是因为 `DivByZeroDefect` 继承自 `Defect`，再加上 `--panics:on`:option: 选项 Defect 异常就变成了不可修复性错误。(自从 Nim 1.4 开始)
 {==+==}
 
 
@@ -1964,7 +1964,7 @@ EffectsOf 编译指示
 Rules 1-2 of the exception tracking inference rules (see the previous section)
 ensure the following works:
 {==+==}
-异常追踪(之前的小节)的第一条与第二条异常推断规则确保以下代码正常工作:
+异常追踪推断规则(见之前的小节)的第一条与第二条确保可以获得下面的预期效果:
 {==+==}
 
 {==+==}
@@ -1981,15 +1981,15 @@ ensure the following works:
   ```
 {==+==}
   ```nim
-  proc weDontRaiseButMaybeTheCallback(callback: proc()) {.raises: [], effectsOf: callback.} =
+  proc 我们不抛异常但是回调可能抛(callback: proc()) {.raises: [], effectsOf: callback.} =
     callback()
 
-  proc doRaise() {.raises: [IOError].} =
+  proc 抛异常() {.raises: [IOError].} =
     raise newException(IOError, "IO")
 
   proc use() {.raises: [].} =
-    # 不会编译通过! 会抛出 IOError 错误!
-    weDontRaiseButMaybeTheCallback(doRaise)
+    # 编译失败! 会抛出 IOError 错误!
+    我们不抛异常但是回调可能抛(抛异常)
   ```
 {==+==}
 
@@ -1999,14 +1999,14 @@ annotated as `.effectsOf`. Such a parameter allows for effect polymorphism:
 The proc `weDontRaiseButMaybeTheCallback` raises the exceptions
 that `callback` raises.
 {==+==}
-从这个例子中可以看出， `proc (...)` 类型的参数可以标记为 `.effectsOf` 。这样的参数允许 effect 多态: 过程 `weDontRaiseButMaybeTheCallback` 可以抛出 `callback` 抛出的异常。
+如这个例子所示， `proc (...)` 类型的参数可以标记为 `.effectsOf` 。这样的参数带来了 effect 多态: 过程 `我们不抛异常但是回调可能抛` 可以抛出 `callback` 所抛出的异常。
 {==+==}
 
 {==+==}
 So in many cases a callback does not cause the compiler to be overly
 conservative in its effect analysis:
 {==+==}
-所以在很多场景中，callback 并不会导致编译器在 effect 分析中过于保守:
+所以在很多情况下，回调并不会导致编译器在 effect 分析中过于保守:
 {==+==}
 
 {==+==}
@@ -2067,7 +2067,7 @@ conservative in its effect analysis:
 Tag tracking
 ------------
 {==+==}
-Tag 跟踪
+标签跟踪
 ----------------
 {==+==}
 
@@ -2076,7 +2076,7 @@ Exception tracking is part of Nim's `effect system`:idx:. Raising an exception
 is an *effect*. Other effects can also be defined. A user defined effect is a
 means to *tag* a routine and to perform checks against this tag:
 {==+==}
-异常追踪是 `effect system`:idx: "Effect 系统"的一部分。抛出异常是一个 *effect* 。当然可以定义其他 effect 。自定义 effect 是对例程打上 *tag* 和检查这个 tag 的一种方式:
+异常追踪是 `effect system`:idx: "Effect 系统"的一部分。抛出异常是一个 *effect* 。当然可以定义其他 effect 。自定义 effect 是一种给例程打 *标签* 并做检查的方法:
 {==+==}
 
 {==+==}
@@ -2094,7 +2094,7 @@ means to *tag* a routine and to perform checks against this tag:
   proc readLine(): string {.tags: [IO].} = discard
 
   proc no_effects_please() {.tags: [].} =
-    # 下面代码不能通过编译:
+    # 编译器禁止这么做:
     let x = readLine()
   ```
 {==+==}
@@ -2103,21 +2103,20 @@ means to *tag* a routine and to perform checks against this tag:
 A tag has to be a type name. A `tags` list - like a `raises` list - can
 also be attached to a proc type. This affects type compatibility.
 {==+==}
-`tag` 必须是类型名。
-就像 `raises` 列表， `tags` 列表也可以附加到过程类型上。这会影响类型的兼容性。
+标签必须是类型名称。同 `raises` 列表一样，`tags` 列表也可以附加到过程类型上。这会影响类型的兼容性。
 {==+==}
 
 {==+==}
 The inference for tag tracking is analogous to the inference for
 exception tracking.
 {==+==}
-tag 跟踪的推断规则与异常追踪的推断规则类型。
+标签跟踪的推断规则与异常追踪的推断规则类型类似。
 {==+==}
 
 {==+==}
 There is also a way which can be used to forbid certain effects:
 {==+==}
-也有几种方式可以禁用某些effect"作用":
+有一种禁止某些 effect 出现的方法:
 {==+==}
 
 {==+==}
@@ -2146,7 +2145,7 @@ There is also a way which can be used to forbid certain effects:
   proc no_IO_please() {.forbids: [IO].} =
     # 这样写没问题，因为它没有定义任何 tag:
     echoLine()
-    # 但是编译器不允许这样写:
+    # 编译器不允许这么做:
     let y = readLine()
 {==+==}
 
@@ -2156,8 +2155,8 @@ invokes any of those effects, the compilation will fail.
 Procedure types with any disallowed effect are the subtypes of equal
 procedure types without such lists:
 {==+==}
-`forbids` 编译指示定义了一个非法 effect 的列表。如果任何语句调用这些 effect ，则编译会失败。
-带有非法 effect 的过程类型是原(没有非法 effect )过程类型的子类型:
+`forbids` 编译指示定义了一个被禁止的 effect 的列表 —— 如果任何语句具有这些 effect，则编译会失败。
+带有 effect 禁止列表的过程类型是不带这种列表的过程类型的子类型:
 {==+==}
 
 {==+==}
@@ -2177,7 +2176,7 @@ procedure types without such lists:
 
   ## this will fail because toBeCalled1 uses MyEffect which was forbidden by ProcType1:
   caller1(toBeCalled1)
-  ## this is OK because both toBeCalled1 and ProcType1 have the same requirements:
+  ## this is OK because both toBeCalled2 and ProcType1 have the same requirements:
   caller1(toBeCalled2)
   ## these are OK because ProcType2 doesn't have any effect requirement:
   caller2(toBeCalled1)
@@ -2197,18 +2196,18 @@ procedure types without such lists:
   proc toBeCalled1(i: int): void = effectful(i)
   proc toBeCalled2(i: int): void = effectless(i)
 
-  ## 这会编译失败因为 toBeCalled1 使用 ProcType1 禁用的 MyEffect :
+  ## 编译失败，因为 toBeCalled1 使用了 ProcType1 禁止的 MyEffect:
   caller1(toBeCalled1)
-  ## 这会编译通过因为 toBeCalled1 和 ProcType1 有相同的要求:
+  ## 编译通过，因为 toBeCalled2 和 ProcType1 的要求相同:
   caller1(toBeCalled2)
-  ## 这会编译通过因为 ProcType2 没有任何 effect 的要求:
+  ## 编译通过，因为 ProcType2 没有任何 effect 的要求:
   caller2(toBeCalled1)
   caller2(toBeCalled2)
 {==+==}
 
 {==+==}
-`ProcType2` is a subtype of `ProcType1`. Unlike with tags, the parent context - the function which calls other functions with forbidden effects - doesn't inherit the forbidden list of effects.
+`ProcType2` is a subtype of `ProcType1`. Unlike with the `tags` pragma, the parent context - the function which calls other functions with forbidden effects - doesn't inherit the forbidden list of effects.
 {==+==}
-`ProcType2` 是 `ProcType1` 的子类。跟 tag 不同，父级的上下文(调用其他有禁用 effect 函数的函数)并不继承 effect 的禁用列表。
+`ProcType2` 是 `ProcType1` 的子类。`forbids` 编译指示跟 `tags` 编译指示不同，父级的上下文(父级调用了带有 effect 禁止列表的函数)并不继承所调函数的 effect 禁止列表。
 {==+==}
 
