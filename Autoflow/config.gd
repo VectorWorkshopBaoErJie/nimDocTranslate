@@ -7,20 +7,20 @@ const TL_file= preload("res://class/translation_library_file.gd")
 
 ## 翻译流字典对象
 var TL_flow_objs=[
-    {"源文件名称":"manual20220810.md",
+    {"源文件名称":"manual20220922.md",
     "词条文件":["manual_1.md","manual_2.md","manual_3.md","manual_4.md","manual_5.md","manual_6.md","manual_7.md","manual_8.md","manual_9.md","manual_patch.md"],
-    "目标文件名称":"manual20220810.md",
-    "目标遗留文件文件名称":"manual20220810_residue.md",
+    "目标文件名称":"manual20220922.md",
+    "目标遗留文件文件名称":"manual20220922_residue.md",
     "翻译词条":null,       ## 该数组将在程序初始化时执行解析加载
-    "翻译模式":"精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
+    "翻译模式":"非精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
     },
     
-    {"源文件名称":"sets_fragment20220902.txt",
+    {"源文件名称":"sets_fragment20220922.txt",
     "词条文件":["sets_fragment_1.txt"],
-    "目标文件名称":"sets_fragment20220902.txt",
-    "目标遗留文件文件名称":"sets_fragment20220902_residue.txt",
+    "目标文件名称":"sets_fragment20220922.txt",
+    "目标遗留文件文件名称":"sets_fragment20220922_residue.txt",
     "翻译词条":null,  ## 该数组将在程序初始化时执行解析加载
-    "翻译模式":"精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
+    "翻译模式":"非精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
     }
     
    ]
