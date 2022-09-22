@@ -301,7 +301,8 @@ contains further information.
     convention `closure` take up two machine words: One for the proc pointer
     and another one for the pointer to implicitly passed environment.
 {====}
-
+`closure`:idx:
+:   是 **程序类型** 没有任意编译指示注解的默认调用约定，该过程有一个隐藏参数( *environment* "环境")。具有 `closure` 调用约定的过程变体占用两个机器字。一个是过程的指针，另一个是指向隐藏参数环境的指针。
 {====}
 
 {====}
@@ -309,7 +310,8 @@ contains further information.
 :   This is the stdcall convention as specified by Microsoft. The generated C
     procedure is declared with the `__stdcall` keyword.
 {====}
-
+`stdcall`:idx:
+:   这是由微软指定的标准调用惯例，生成的C过程将用 `__stdcall` 关键字声明。
 {====}
 
 {====}
@@ -318,7 +320,8 @@ contains further information.
     as the C compiler. Under Windows the generated C procedure is declared with
     the `__cdecl` keyword.
 {====}
-
+`cdecl`:idx:
+:   其意味着一个过程应使用与C编译器相同的约定。在Windows中，将用 `__cdecl` 关键字声明生成的C过程。
 {====}
 
 {====}
@@ -328,7 +331,8 @@ contains further information.
     refers to the fact that all hardware registers shall be pushed to the
     hardware stack.
 {====}
-
+`safecall`:idx:
+:   这是由微软指定的安全调用约定，将用 `__safecall` 关键字声明生成的C程序。 *安全* 这个词是指所有的硬件寄存器都应被push到硬件堆栈中。
 {====}
 
 {====}
@@ -339,7 +343,8 @@ contains further information.
     only a hint for the compiler: it may completely ignore it, and
     it may inline procedures that are not marked as `inline`.
 {====}
-
+`inline`:idx:
+:   内联约定表示调用者不应该调用过程，而是直接内联其代码。需注意，Nim自身并不内联，而是留给C编译器，它将生成 `__inline` 过程，这只是给编译器的提示，编译器则可能忽略，也可能内联那些没有 `inline` 的过程。
 {====}
 
 {====}
@@ -347,7 +352,8 @@ contains further information.
 :   Fastcall means different things to different C compilers. One gets whatever
     the C `__fastcall` means.
 {====}
-
+`fastcall`:idx:
+:   对于不同的C编译器其含义不同，有一种是表示C语言中的 `__fastcall` 。
 {====}
 
 {====}
@@ -355,7 +361,8 @@ contains further information.
 :   This is the thiscall calling convention as specified by Microsoft, used on
     C++ class member functions on the x86 architecture.
 {====}
-
+`thiscall`:idx:
+:   这是微软指定的调用约定，应用于x86架构上C++类的成员函数。
 {====}
 
 {====}
@@ -363,7 +370,8 @@ contains further information.
 :   The syscall convention is the same as `__syscall`:c: in C. It is used for
     interrupts.
 {====}
-
+`syscall`:idx:
+:   其与C语言中的 `__syscall`:c: 相同，用于中断。
 {====}
 
 {====}
@@ -373,14 +381,15 @@ contains further information.
     Nim's default calling convention for procedures is `fastcall` to
     improve speed.
 {====}
-
+`noconv`:idx:
+:   其生成的C代码将不会去明确调用约定，将使用C编译器自身的默认调用约定。这是有必要的，因为Nim过程的默认调用约定是 `fastcall` 以提高速度。
 {====}
 
 {====}
 But it seems all this boilerplate code needs to be repeated for the `Euro`
 currency. This can be solved with [templates].
 {====}
-
+但是，`Euro` 货币似乎需要重复这些样式的代码，这个可以用[模板]来解决。
 {====}
 
 {====}
@@ -390,20 +399,20 @@ looking `SQL` string literals. The hypothetical `SQL` type actually
 exists in the library as the [SqlQuery type](db_common.html#SqlQuery) of
 modules like [db_sqlite](db_sqlite.html).
 {====}
-
+现在我们有了针对SQL注入攻击的编译期检查。由于 `"".SQL` 被转换为 `SQL("")` ，所以不需要新的语法来实现简洁的 `SQL` 字符串字面值。假设 `SQL` 类型与 [db_sqlite](db_sqlite.html) 等类似，已经作为 [SqlQuery type](db_common.html#SqlQuery) 实际存在与库中。
 {====}
 
 {====}
 **Note**: One of the above pointer-indirections is required for assignment from
 a subtype to its parent type to prevent "object slicing".
 {====}
-
+**注意**: 从子类型到父类型的赋值，需要上述指针注解之一，以防止 "对象切割" 。
 {====}
 
 {====}
 See [Varargs].
 {====}
-
+参阅 [Varargs]。
 {====}
 
 {====}
@@ -425,7 +434,23 @@ string                          `""`
 T = enum                        `cast[T](0)`; this may be an invalid value
 ============================    ==============================================
 {====}
-
+============================    ==========================================================
+类型                            默认值
+============================    ==========================================================
+any integer type                0
+any float                       0.0
+char                            '\\0'
+bool                            false
+ref or pointer type             nil
+procedural type                 nil
+sequence                        `@[]`
+string                          `""`
+`tuple[x: A, y: B, ...]`        (default(A), default(B), ...)
+                                (analogous for objects)
+`array[0..., T]`                `[default(T), ...]`
+`range[T]`                      default(T); 这可能会超出有效范围
+T = enum                        `cast[T](0)`; 这可能是一个无效值
+============================    ==========================================================
 {====}
 
 {====}
@@ -443,13 +468,25 @@ T = enum                        `cast[T](0)`; this may be an invalid value
     # use x
   ```
 {====}
+  ```nim
+  type
+    MyObject {.requiresInit.} = object
 
+  proc p() =
+    # 以下是有效的:
+    var x: MyObject
+    if someCondition():
+      x = a()
+    else:
+      x = a()
+    # 使用 x
+  ```
 {====}
 
 {====}
 See [Constants and Constant Expressions] for details.
 {====}
-
+详情参阅[常量和常量表达式]。
 {====}
 
 {====}
@@ -458,14 +495,14 @@ see [Restrictions on Compile-Time Execution] for details.
 It's a static error if the compiler cannot execute the block at compile
 time.
 {====}
-
+对于哪些Nim代码可以在编译期执行，是有限制的，详情参阅[编译期执行限制]。如果编译器不能在编译期执行该块，将是一个静态错误。
 {====}
 
 {====}
 Only ordinal types, floats, strings and cstrings are allowed as values
 in case statements.
 {====}
-
+在case语句中，只允许使用序数类型、浮点数、字符串和cstring作为值。
 {====}
 
 {====}
@@ -476,13 +513,13 @@ process, but the execution is passed back to the iterator if the next iteration
 starts. See the section about iterators ([Iterators and the for statement])
 for further information.
 {====}
-
+在迭代器中使用 `yield` 语句代替 `return` 语句。它只在迭代器中有效。执行将被返回到调用该迭代器的for循环的主体。Yield并不会结束迭代过程，当下一次迭代开始，执行会被传回迭代器。更多信息请参阅关于迭代器的章节([迭代器和for语句])。
 {====}
 
 {====}
 [Limitations of the method call syntax].
 {====}
-
+[方法调用语法限制]。
 {====}
 
 {====}
@@ -491,7 +528,7 @@ For example: [anonymous procedures], `if`,
 `case` or `try`. Function calls with no arguments still need () to
 distinguish between a call and the function itself as a first-class value.
 {====}
-
+命令调用的语法也不能有复杂的表达式作为参数。例如：[匿名过程]、`if`、`case`、`try`。没有参数的函数调用仍然需要 () 来区分调用和函数本身优先类的值。
 {====}
 
 {====}
@@ -500,7 +537,7 @@ behavior inside loop bodies. See [closureScope](
 system.html#closureScope.t,untyped) and [capture](
 sugar.html#capture.m,varargs[typed],untyped) for details on how to change this behavior.
 {====}
-
+由于闭包通过引用来捕获局部变量，这种行为往往在循环体内部并不友好。参阅 [closureScope](system.html#closureScope.t,untyped) 和 [capture](sugar.html#capture.m,varargs[typed],untyped) 来了解如何改变这种行为。
 {====}
 
 {====}
