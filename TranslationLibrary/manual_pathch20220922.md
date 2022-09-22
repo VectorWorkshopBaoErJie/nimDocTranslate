@@ -2,23 +2,22 @@
 **Note**: The experimental features of Nim are
 covered [here](manual_experimental.html).
 {====}
-
+**注意**: Nim的实现性功能在[这里](manual_experimental.html)。
 {====} 
 
 {====}
 **Note**: Assignments, moves, and destruction are specified in
 the [destructors](destructors.html) document.
 {====}
-
+**注意**: 赋值、移动和析构在特定的[析构](destructors.html)文档。
 {====}
 
 {====}
 To learn how to compile Nim programs and generate documentation see
 the [Compiler User Guide](nimc.html) and the [DocGen Tools Guide](docgen.html).
 {====}
-
+打算学习怎样编译Nim程序和生成文档，请阅读[用户编译指南](nimc.html)和[文档生成工具指南](docgen.html)。
 {====}
-
 
 {====}
 In a typical Nim program, most of the code is compiled into the executable.
@@ -30,7 +29,7 @@ on Compile-Time Execution] for
 details. We use the term `runtime`:idx: to cover both compile-time execution
 and code execution in the executable.
 {====}
-
+常规的Nim程序，大部分代码被编译至可执行文件，而有些代码可能会在 `compile-time`:idx: "编译期" 执行。包括常量表达式、宏定义和宏定义使用的Nim程序。编译期执行支持Nim语言的大部分，但有限制 -- 详情查看[编译期执行限制]。其术语`runtime`:idx: "运行时"涵盖了编译期执行和可执行文件中的代码执行。
 {====}
 
 {====}
@@ -40,40 +39,49 @@ and reports at runtime. The method for reporting such errors is via
 provides a means to disable these `runtime checks`:idx:. See the section
 [Pragmas] for details.
 {====}
-
+`panic`:idx: "恐慌"是在运行时执行检测和报告的错误。报告这种错误是通过 *引发异常* 或 *以致命错误* 结束的方式。也提供了一种方法来禁用这些 `runtime checks`:idx: "运行时检查"。详见[编译指示]一节。
 {====}
 
 {====}
 The `Rune` type can represent any Unicode character.
 `Rune` is declared in the [unicode module](unicode.html).
 {====}
-
+`Rune` 类型可以代表任何Unicode字符。
+`Rune` 声明在[unicode模块](unicode.html)中。
 {====}
 
 {====}
 See also [custom numeric literals].
 {====}
-
+参阅[自定义数值字面量]。
 {====}
 
 {====}
 This section lists Nim's standard syntax. How the parser handles
 the indentation is already described in the [Lexical Analysis] section.
 {====}
-
+本节列出了Nim的标准语法。语法分析器如何处理缩进问题，在[词法分析]一节有说明。
 {====}
 
 {====}
   ```nim
   echo(1, 2) # pass 1 and 2 to echo
   ```
+{====}
+  ```nim
+  echo(1, 2) # 把 1 和 2 传递给 echo
+  ```
+{====}
 
+{====}
   ```nim
   echo (1, 2) # pass the tuple (1, 2) to echo
   ```
 {====}
-
-
+  ```nim
+  echo (1, 2) # 把 tuple (1, 2) 传递给 echo
+  ```
+{====}
 
 {====}
 `int`
@@ -82,7 +90,8 @@ the indentation is already described in the [Lexical Analysis] section.
   literal that has no type suffix is of this type if it is in the range
   `low(int32)..high(int32)` otherwise the literal's type is `int64`.
 {====}
-
+`int`
+: 常规有符号整数类型，其大小与平台有关，并与指针的大小相同。一般情况下应该使用这种类型。一个没有类型后缀的整数字面量，如果在 `low(int32)..high(int32)` 范围内，就属于这种类型，否则该字面量的类型是 `int64` 。
 {====}
 
 {====}
@@ -92,7 +101,8 @@ the indentation is already described in the [Lexical Analysis] section.
   The current implementation supports `int8`, `int16`, `int32`, `int64`.
   Literals of these types have the suffix 'iXX.
 {====}
-
+`int`\ XX
+: 这种命名规则，是有符号整数类型附带XX表示位宽(例如：int16是16位宽的整数)。目前支持 `int8`, `int16`, `int32`, `int64` ，这些类型的字面值后缀为 'iXX 。
 {====}
 
 {====}
@@ -100,6 +110,9 @@ the indentation is already described in the [Lexical Analysis] section.
 : the generic `unsigned integer`:idx: type; its size is platform-dependent and
   has the same size as a pointer. An integer literal with the type
   suffix `'u` is of this type.
+{====}
+`uint`
+: 常规的 `unsigned integer`:idx: "无符号整数"类型，它的大小与平台有关，与指针的大小相同，整数字面值后缀为 `'u` 。
 {====}
 
 {====}
@@ -111,7 +124,8 @@ the indentation is already described in the [Lexical Analysis] section.
   Unsigned operations all wrap around; they cannot lead to over- or
   underflow errors.
 {====}
-
+`uint`\ XX
+: 这种命名规则，是无符号整数类型附带XX表示位宽(例如：uint16是16位宽的无符号整数)。目前的实现支持 `uint8`, `uint16`, `uint32`, `uint64` 。这些类型的字面符号有后缀'uXX'。无符号操作都是环绕式的；它们不会导致溢出或下溢的错误。
 {====}
 
 {====}
