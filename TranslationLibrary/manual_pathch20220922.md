@@ -125,11 +125,13 @@ the indentation is already described in the [Lexical Analysis] section.
   underflow errors.
 {====}
 `uint`\ XX
-: 这种命名规则，是无符号整数类型附带XX表示位宽(例如：uint16是16位宽的无符号整数)。目前的实现支持 `uint8`, `uint16`, `uint32`, `uint64` 。这些类型的字面符号有后缀'uXX'。无符号操作都是环绕式的；它们不会导致溢出或下溢的错误。
+: 这种命名规则，是无符号整数类型附带XX，表示位宽(例如：uint16是16位宽的无符号整数)，目前支持 `uint8`, `uint16`, `uint32`, `uint64` ，字面值后缀为'uXX'。无符号运算会环绕，从面不会导致溢出或下溢的错误。
 {====}
 
 {====}
 For further details, see [Convertible relation].
+{====}
+关于细节查看[转换关系]。
 {====}
 
 {====}
@@ -138,7 +140,8 @@ For further details, see [Convertible relation].
   but now it is always mapped to `float64`.
   This type should be used in general.
 {====}
-
+`float`
+: 常规的浮点类型，其大小曾与平台有关，但现在总是被映射为 `float64` 。一般情况下应该使用这个类型。
 {====}
 
 {====}
@@ -148,6 +151,9 @@ For further details, see [Convertible relation].
   implementation supports `float32` and `float64`. Literals of these types
   have the suffix 'fXX.
 {====}
+`float`\ XX
+: 这种命名规则，是浮点类型附带XX位，表示位宽(例如： `float64` 是64位宽的浮点数)。目前支持 `float32` 和 `float64` ，字面值后缀为 'fXX 。
+{====}
 
 {====}
 Automatic type conversion in expressions with different kinds of floating-point
@@ -155,14 +161,14 @@ types is performed: See [Convertible relation] for further details. Arithmetic
 performed on floating-point types follows the IEEE standard. Integer types are
 not converted to floating-point types automatically and vice versa.
 {====}
-
+在具有不同种类的浮点类型的表达式中，会进行自动类型转换，详情见[转换关系]。对于浮点类型进行的算术运算遵循IEEE标准。整数类型不会自动转换为浮点类型，反之亦然。
 {====}
 
 {====}
 The `Rune` type is used for Unicode characters, it can represent any Unicode
 character. `Rune` is declared in the [unicode module](unicode.html).
 {====}
-
+`Rune` 类型声明在[unicode模块](unicode.html)中，可以表示任意Unicode字符。
 {====}
 
 {====}
@@ -172,7 +178,7 @@ to a choice between `T.foo` and `U.foo`. During overload resolution,
 the correct type of `foo` is decided from the context. If the type of `foo` is
 ambiguous, a static error will be produced.
 {====}
-
+枚举值的名称是可重载的，就像例程。如果枚举 `T` 和 `U` 都有一个名为 `foo` 的成员，那么标识符 `foo` 要在 `T.foo` 和 `U.foo` 之间二选一。在重载解析过程中， `foo` 的最终类型由上下文决定。如果 `foo` 的类型不明确，将产生静态错误。
 {====}
 
 {====}
@@ -202,11 +208,37 @@ ambiguous, a static error will be produced.
   p value2
   ```
 {====}
+  ```nim  test = "nim c $1"
+
+  type
+    E1 = enum
+      value1,
+      value2
+    E2 = enum
+      value1,
+      value2 = 4
+
+  const
+    Lookuptable = [
+      E1.value1: "1",
+      # 不需要再修饰value2，已经知道是E1.value2。
+      value2: "2"
+    ]
+
+  proc p(e: E1) =
+    # 在 'case' 语句中消除歧义。
+    case e
+    of value1: echo "A"
+    of value2: echo "B"
+
+  p value2
+  ```
+{====}
 
 {====}
 To implement bit fields with enums see [Bit fields].
 {====}
-
+对于用枚举实现位域，请查看[位域]部分。
 {====}
 
 {====}
@@ -216,13 +248,13 @@ bytes. The index operation `s[i]` means the i-th *char* of `s`, not the
 i-th *unichar*. The iterator `runes` from the [unicode module](unicode.html)
 can be used for iteration over all Unicode characters.
 {====}
-
+按照约定，所有字符串都是UTF-8格式，但这不是强制的要求。例如，从二进制文件读取字符串时，得到的将是字节序列。索引运算 `s[i]` 表示 `s` 的第i个*char*，而不是第i个 *unichar* 。在[unicode模块](unicode.html)的迭代器 `runes` 可用来迭代所有unicode字符。 
 {====}
 
 {====}
 `cstring` values may also be used in case statements like strings.
 {====}
-
+`cstring` 值像字符串一样，也可用于case语句。
 {====}
 
 
@@ -231,7 +263,8 @@ The assignment operator for tuples and objects copies each component.
 The methods to override this copying behavior are described [here][type
 bound operators].
 {====}
-
+对于元组和对象的赋值操作，将拷贝每个组件。
+重写这种拷贝行为的方法描述在[这里][类型绑定操作符]。
 {====}
 
 {====}
@@ -239,7 +272,7 @@ Automatic dereferencing can be performed for the first argument of a routine
 call, but this is an experimental feature and is described [here](
 manual_experimental.html#automatic-dereferencing).
 {====}
-
+可以对例程调用的第一个参数进行自动去引用，但这是一个实验性功能，描述在[这里](manual_experimental.html#automatic-dereferencing)。
 {====}
 
 {====}
@@ -248,16 +281,16 @@ To deal with untraced memory, the procedures `alloc`, `dealloc` and
 `realloc` can be used. The documentation of the [system](system.html) module
 contains further information.
 {====}
-
+要分配一个新的追踪对象，必须使用内置的过程 `new` 。可以使用过程 `alloc` ， `dealloc` 和 `realloc` 来处理未追踪的内存。更多信息，查看[系统](system.html)模块文档。
 {====}
-
 
 {====}
 `nimcall`:idx:
 :   is the default convention used for a Nim **proc**. It is the
     same as `fastcall`, but only for C compilers that support `fastcall`.
 {====}
-
+`nimcall`:idx:
+:   是Nim **proc** 使用的默认约定。它与 `fastcall` 相同，但只适用于支持 `fastcall` 的C编译器。
 {====}
 
 {====}
