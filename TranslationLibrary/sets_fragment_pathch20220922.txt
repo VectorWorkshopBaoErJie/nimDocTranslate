@@ -1,13 +1,13 @@
-{=====}
+{==+==}
 **Note:** Nim also offers [hash sets](sets.html) (which you need to import
 with `import sets`), which have no such restrictions.
-{=====}
+{==+==}
+**注意:** Nim还提供了[hash sets](set.html)(你需要用 `import sets` 导入)，它没有这样的限制。
+{==+==}
 
-{=====}
-
-{=====}
+{==+==}
 For interoperability with C see also the
 [bitsize pragma](manual.html#implementation-specific-pragmas-bitsize-pragma).
-{=====}
-
-{=====}
+{==+==}
+关于与C语言的互操作性，参阅[bitsize 编译指示](manual.html#implementation-specific-pragmas-bitsize-pragma)。
+{==+==}

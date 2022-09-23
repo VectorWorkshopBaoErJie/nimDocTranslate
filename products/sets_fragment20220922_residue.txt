@@ -1,13 +1,34 @@
-{=====}
-**Note:** Nim also offers [hash sets](sets.html) (which you need to import
-with `import sets`), which have no such restrictions.
-{=====}
+{-----}
 
-{=====}
+{-----}
 
-{=====}
-For interoperability with C see also the
-[bitsize pragma](manual.html#implementation-specific-pragmas-bitsize-pragma).
-{=====}
+{-----}
 
-{=====}
+{-----}
+
+{-----}
+
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}
+
+{-----}

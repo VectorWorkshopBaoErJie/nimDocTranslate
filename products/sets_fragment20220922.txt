@@ -17,8 +17,7 @@
 ```
 
 
-**Note:** Nim also offers [hash sets](sets.html) (which you need to import
-with `import sets`), which have no such restrictions.
+**注意:** Nim还提供了[hash sets](set.html)(你需要用 `import sets` 导入)，它没有这样的限制。
 
 集合可以通过集合构造器来构造: `{}` 是空集。空集的类型与任何具体的集合类型兼容。
 构造器也可以用来包含元素(和元素范围)。
@@ -81,5 +80,4 @@ enum、set和cast可以像下面这样一起使用:
 
 如果在C中使用枚举和集合，请使用distinct cint。
 
-For interoperability with C see also the
-[bitsize pragma](manual.html#implementation-specific-pragmas-bitsize-pragma).
+关于与C语言的互操作性，参阅[bitsize 编译指示](manual.html#implementation-specific-pragmas-bitsize-pragma)。

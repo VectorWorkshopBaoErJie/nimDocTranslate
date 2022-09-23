@@ -11,9 +11,11 @@ var is_test=true
 
 func _ready():
     ## 开始相关测试监测
+    print("当前项目路径：",G.dir_current_parent())
     $ButtonA.connect("button_down",self,"__on_merge_button_down")
     is_test=config_obj.TL_flow_objs_init()
     
+
 
 ## 文档合并按钮按下后，开始执行合并操作。
 func __on_merge_button_down():

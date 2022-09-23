@@ -1,0 +1,52 @@
+{==+==}
+.. default-role:: code
+.. include:: ../rstcommon.rst
+{==+==}
+.. default-role:: code
+.. include:: ../rstcommon.rst
+{==+==}
+
+{==+==}
+Memory safety for returning by `var T` is ensured by a simple borrowing
+rule: If `result` does not refer to a location pointing to the heap
+(that is in `result = X` the `X` involves a `ptr` or `ref` access)
+then it has to be derived from the routine's first parameter:
+{==+==}
+通过 `var T` 返回的内存是安全的，这由简单的借用规则来保证:
+如果 `result` 未指向堆的地址(即在 `result = X` 中， `X` 涉及到 `ptr` 或 `ref` 访问)，那么它必须来自例程的第一个参数。
+{==+==}
+
+{==+==}
+  ```nim
+  proc forward[T](x: var T): var T =
+    result = x # ok, derived from the first parameter.
+
+  proc p(param: var int): var int =
+    var x: int
+    # we know 'forward' provides a view into the location derived from
+    # its first argument 'x'.
+    result = forward(x) # Error: location is derived from `x`
+                        # which is not p's first parameter and lives
+                        # on the stack.
+  ```
+{==+==}
+  ```nim
+  proc forward[T](x: var T): var T =
+    result = x # 可以, 来自第一个参数。
+
+  proc p(param: var int): var int =
+    var x: int
+    # 我们知道 'forward' 提供了一个从其第一个参数 'x' 得出的地址的视图
+    result = forward(x) # 错误: 地址来自 `x` ，
+                        # 其不是p的第一个参数，
+                        # 并且存活在栈上。
+  ```
+{==+==}
+
+{==+==}
+In other words, the lifetime of what `result` points to is attached to the
+lifetime of the first parameter and that is enough knowledge to verify
+memory safety at the call site.
+{==+==}
+换句话说， `result` 所指向的生命周期与第一个参数的生命周期相关联，这就足以验证调用位置的内存安全。
+{==+==}
