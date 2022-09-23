@@ -862,7 +862,7 @@ so that it can be used for debugging routines marked as `noSideEffect`.
   ```nim  test = "nim c $1"
   type
     BinaryTree*[T] = ref object # 二叉树是具有
-                                # 通用参数 `T` 的常规类型。
+                                # 泛型参数 `T` 的泛型类型。
       le, ri: BinaryTree[T]     # 左右子树;可能是nil
       data: T                   # 存储在节点中的数据
 
@@ -877,7 +877,7 @@ so that it can be used for debugging routines marked as `noSideEffect`.
     else:
       var it = root
       while it != nil:
-        # 使用通用的 `cmp` 过程，比较数据项;
+        # 使用泛型的 `cmp` 过程，比较数据项;
         # 这适用于任意具有 `==` 和 `<` 运算符的类型
         var c = cmp(it.data, n.data)
         if c < 0:
@@ -921,7 +921,7 @@ Procedures utilizing type classes in such a manner are considered to be
 `implicitly generic`:idx:. They will be instantiated once for each unique
 combination of parameter types used within the program.
 {====}
-
+以这种方式使用类型类的过程，被当成是 `implicitly generic`:idx: "隐式泛型"。在程序中，对于每个特定参数类型组合时被实例化一次。
 {====}
 
 {====}
@@ -929,7 +929,7 @@ Alternatively, the `distinct` type modifier can be applied to the type class
 to allow each parameter matching the type class to bind to a different type. Such
 type classes are called `bind many`:idx: types.
 {====}
-
+另一种情况是用 `distinct` 修饰类型类，这将允许每一参数绑定到匹配类型类的不同类型。这样的类型类被称为 `bind many`:idx: "多绑定" 类型。
 {====}
 
 {====}
@@ -937,7 +937,7 @@ A parameter of type `typedesc` is itself usable as a type. If it is used
 as a type, it's the underlying type. In other words, one level
 of "typedesc"-ness is stripped off:
 {====}
-
+`typedesc` 类型的参数本身可以作为一个类型使用。如果其作为类型使用，就是底层类型。换言来说，"typedesc" 剥离了一层。
 {====}
 
 {====}
@@ -949,7 +949,13 @@ of "typedesc"-ness is stripped off:
   assert(5 != 6) # the compiler rewrites that to: assert(not (5 == 6))
   ```
 {====}
+  ```nim
+  template `!=` (a, b: untyped): untyped =
+    # 这个定义存在于系统模块中
+    not (a == b)
 
+  assert(5 != 6) # 编译器将其重写为: assert(not (5 == 6))
+  ```
 {====}
 
 {====}
@@ -964,24 +970,41 @@ of "typedesc"-ness is stripped off:
     txt.writeLine("line 2")
   ```
 {====}
+  ```nim
+  template withFile(f, fn, mode: untyped, actions: untyped): untyped =
+    block:
+      var f: File  # 由于 'f' 是一个模板参数，其被隐式注入
+      ...
 
+  withFile(txt, "ttempl3.txt", fmWrite):
+    txt.writeLine("line 1")
+    txt.writeLine("line 2")
+  ```
+{====}
+
+{====}
 In this version of `debug`, the symbols `write`, `writeLine` and `stdout`
 are already bound and are not looked up again. As the example shows, `bindSym`
 does work with overloaded symbols implicitly.
+{====}
+在这个版本的 `debug` 中，标识符 `write `， `writeLine` 和 `stdout` 已经绑定，不会重复查找。如示例所示， `bindSym` 确切可以隐式处理重载标识符。
+{====}
 
+{====}
 Note that the symbol names passed to `bindSym` have to be constant. The
 experimental feature `dynamicBindSym` ([experimental manual](
 manual_experimental.html#dynamic-arguments-for-bindsym))
 allows this value to be computed dynamically.
 {====}
-
+注意，传递给 `bindSym` 的标识符名称必须是常量。实验性功能 `dynamicBindSym` ([实验手册](manual_experimental.html#dynamic-arguments for-bindsym))允许动态地计算这个值。
 {====}
 
 {====}
 static\[T]
 ----------
 {====}
-
+static\[T]
+----------
 {====}
 
 {====}
@@ -989,13 +1012,13 @@ For the purposes of code generation, all static parameters are treated as
 generic parameters - the proc will be compiled separately for each unique
 supplied value (or combination of values).
 {====}
-
+出于代码生成的目的，所有静态参数都被视为泛型参数，即过程将为每个特定值提供(或值的组合)单独编译。
 {====}
 
 {====}
 Static parameters can also appear in the signatures of generic types:
 {====}
-
+静态参数也可以出现在泛型类型签名中:
 {====}
 
 {====}
@@ -1004,14 +1027,16 @@ generic type `static[T]`. The type parameter can be omitted to obtain the type
 class of all constant expressions. A more specific type class can be created by
 instantiating `static` with another type class.
 {====}
-
+请注意， `static T` 只是底层泛型 `static[T]` 的语法便利。
+类型参数可以被省略，以获得所有常量表达式的类型类。通过将 `static` 与另一个类型类实例化，来创建更具体的类型类。
 {====}
 
 {====}
 typedesc\[T]
 ------------
 {====}
-
+typedesc\[T]
+------------
 {====}
 
 {====}
@@ -1020,7 +1045,9 @@ typedesc\[T]
 generic parameter is omitted, `typedesc` denotes the type class of all types.
 As a syntactic convenience, one can also use `typedesc` as a modifier.
 {====}
-
+`typedesc` 作为泛型类型。例如，标识符 `int` 的类型是 `typedesc[int]` 。
+和普通的泛型一样，当省略泛型参数时，`typedesc` 就表示所有的类型类。
+作为一种语法上的便利，我们也可以使用 `typedesc` 作为修饰语。
 {====}
 
 {====}
@@ -1029,20 +1056,21 @@ They will be instantiated for each unique combination of supplied types,
 and within the body of the proc, the name of each parameter will refer to
 the bound concrete type:
 {====}
-
+具有 `typedesc` 参数的过程，被当成是隐式泛型的。
+它们按提供类型的每个特定组合来实例化，并在过程主体中，每个参数名称将指代为绑定的具体类型。
 {====}
 
 {====}
 When multiple type parameters are present, they will bind freely to different
 types. To force a bind-once behavior, one can use an explicit generic parameter:
 {====}
-
+当出现多个类型参数时，它们将自由绑定到不同的类型。可以使用明确的泛型参数，来强制执行一次性绑定。
 {====}
 
 {====}
 Once bound, type parameters can appear in the rest of the proc signature:
 {====}
-
+一旦绑定，类型参数就可以出现在过程签名的其它部分:
 {====}
 
 {====}
@@ -1051,7 +1079,7 @@ of types that will match the type parameter. This works in practice by
 attaching attributes to types via templates. The constraint can be a
 concrete type or a type class.
 {====}
-
+通过限制与类型参数相匹配的类型集，可以进一步影响重载解析。在实践中，通过模板将属性附加到类型上。该约束可以是一个具体的类型或一个类型类。
 {====}
 
 {====}
@@ -1065,7 +1093,14 @@ concrete type or a type class.
   assert typeof("a b c".split, typeOfProc) is seq[string]
   ```
 {====}
+  ```nim  test = "nim c $1"
+  iterator split(s: string): string = discard
+  proc split(s: string): seq[string] = discard
 
+  # 因为迭代器是首选的解释，所以它的类型是 `string` :
+  assert typeof("a b c".split) is string
+
+  assert typeof("a b c".split, typeOfProc) is seq[string]
 {====}
 
 {====}
@@ -1073,7 +1108,7 @@ After the `import` keyword, a list of module names can follow or a single
 module name followed by an `except` list to prevent some symbols from being
 imported:
 {====}
-
+在 `import` 关键字之后，可以有一个模块名称的列表，或者在单独的模块名称之后有一个 `except` 列表，以防止某些标识符被导入。
 {====}
 
 {====}
@@ -1081,14 +1116,14 @@ It is not checked that the `except` list is really exported from the module.
 This feature allows us to compile against different versions of the module,
 even when one version does not export some of these identifiers.
 {====}
-
+不检查 `except` 列表是否真的从模块中导出。这个特点使我们可以针对不同版本的模块进行编译，即使某个版本没有导出其中的一些标识符。
 {====}
 
 {====}
 A module alias can be introduced via the `as` keyword, after which the original module name
 is inaccessible:
 {====}
-
+可以通过 `as` 关键字引入一个模块的别名，之后将无法访问原始的模块名称。
 {====}
 
 {====}

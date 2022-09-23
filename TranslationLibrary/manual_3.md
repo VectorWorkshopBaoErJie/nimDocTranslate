@@ -707,7 +707,7 @@ types it causes the compiler to infer the type from the routine body:
 {==+==}
 For parameters it currently creates implicitly generic routines:
 {==+==}
-对于参数，它当前创建隐式常规例程:
+对于参数，它当前创建隐式泛型例程:
 {==+==}
 
 {==+==}
@@ -1064,7 +1064,7 @@ literal match and that is better than a generic match etc. In the following,
 `count(p, m)` counts the number of matches of the matching category `m`
 for the routine `p`.
 {==+==}
-这些匹配类别有优先级: 精确匹配比字面值匹配更好，比常规匹配更好，等等。
+这些匹配类别有优先级: 精确匹配比字面值匹配更好，比泛型匹配更好，等等。
 在下面的代码中，`count(p, m)` 计算例程 `p` 匹配类别 `m` 的匹配次数。
 {==+==}
 

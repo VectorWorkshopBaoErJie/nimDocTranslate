@@ -2027,5 +2027,5 @@ These are the major type classes:
 * 结构化类型
 * 引用(指针)类型
 * 过程类型
-* 通用类型
+* 泛型类型
 {==+==}
