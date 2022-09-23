@@ -1130,7 +1130,7 @@ is inaccessible:
 The notations `path/to/module` or `"path/to/module"` can be used to refer to a module
 in subdirectories:
 {====}
-
+`path/to/module` 或 `"path/to/module"` 标注，可以用来描述子目录中的模块。
 {====}
 
 {====}
@@ -1138,27 +1138,28 @@ After the `from` keyword, a module name followed by
 an `import` to list the symbols one likes to use without explicit
 full qualification:
 {====}
-
+在 `from` 关键字之后，是一个模块名称，后面是一个 `import` ，用来列出一个偏好使用的标识符，而不需要完全明确的限定。
 {====}
 
 {====}
 The immediate pragma is obsolete. See [Typed vs untyped parameters].
 {====}
-
+即时编译指示已经过时。参阅[类型化参数与非类型化参数]。
 {====}
 
 {====}
 redefine pragma
 ---------------
 {====}
-
+redefine 编译指示
+----------------------------
 {====}
 
 {====}
 Redefinition of template symbols with the same signature is allowed.
 This can be made explicit with the `redefine` pragma:
 {====}
-
+允许对具有相同签名的模板标识符进行重新定义。这可以通过 `redefine` 编译指示来明确。
 {====}
 
 {====}
@@ -1171,20 +1172,28 @@ echo foo() # 2
 template foo: int = 3
 ```
 {====}
-
+```nim
+template foo: int = 1
+echo foo() # 1
+template foo: int {.redefine.} = 2
+echo foo() # 2
+# 警告:模板隐式重定义
+template foo: int = 3
+```
 {====}
 
 {====}
 This is mostly intended for macro generated code. 
 {====}
-
+这主要是针对宏生成的代码。
 {====}
 
 {====}
 Disabling certain messages
 --------------------------
 {====}
-
+禁用某些信息
+--------------------------
 {====}
 
 {====}
@@ -1194,7 +1203,8 @@ and warning message is associated with a symbol. This is the message's
 identifier, which can be used to enable or disable the message by putting it
 in brackets following the pragma:
 {====}
-
+Nim会产生一些长行的警告和提示，可能会使用户烦恼。我们提供了一个禁用某些信息的机制。
+每个提示和警告信息都与一个标识符相关联。可以通过把该信息标识符，放在编译指示后面的括号里，来启用或禁用该信息。
 {====}
 
 {====}
@@ -1204,7 +1214,7 @@ too unstable for an otherwise stable release or that the future of the feature
 is uncertain (it may be removed at any time). See the
 [experimental manual](manual_experimental.html) for more details.
 {====}
-
+ `experimental` 编译指示用于启用实验性的语言特性。也就是说，具体到每个特性，有的过于不稳定，无法发布；有的前景不明朗(可能随时被删除)。详情参阅[实验手册](manual_experimental.html) 。
 {====}
 
 {====}
@@ -1212,22 +1222,15 @@ Note that one can use `gorge` from the [system module](system.html) to
 embed parameters from an external command that will be executed
 during semantic analysis:
 {====}
-
-{====}
-
-{====}
-Note that one can use `gorge` from the [system module](system.html) to
-embed parameters from an external command that will be executed
-during semantic analysis:
-{====}
-
+请注意，可以使用[系统模块](system.html)中的 `gorge` 来嵌入外部命令中的参数，这些参数将在语义分析期间执行:
 {====}
 
 {====}
 ImportCpp pragma
 ----------------
 {====}
-
+ImportCpp 编译指示
+----------------------
 {====}
 
 {====}
@@ -1236,7 +1239,8 @@ can parse a large subset of C++ and knows
 about the `importcpp` pragma pattern language. It is not necessary
 to know all the details described here.
 {====}
-
+**注意**: [c2nim](https://github.com/nim-lang/c2nim/blob/master/doc/c2nim.rst)可以解析大量的C++子集，
+关于 `importcpp` 编译指示模式语言，没有必要知道这里描述的所有细节。
 {====}
 
 {====}
@@ -1246,7 +1250,8 @@ in general. The generated code then uses the C++ method calling
 syntax: `obj->method(arg)`:cpp:. In combination with the `header` and `emit`
 pragmas this allows *sloppy* interfacing with libraries written in C++:
 {====}
-
+与C语言的[importc 编译指示]类似，`importcpp` 编译指示可以用来导入 `C++`:idx: 方法或一般的C++标识符。
+生成的代码使用 C++ 的方法调用语法: `obj->method(arg)`:cpp: 。与 `header` 和 `emit` 编译指示相结合，可与用 C++ 编写的库 *宽松* 对接。
 {====}
 
 {====}
@@ -1257,14 +1262,20 @@ pragmas this allows *sloppy* interfacing with libraries written in C++:
     var x: VectorIterator[cint]
     ```
 {====}
+    ```nim
+    type
+      VectorIterator[T] {.importcpp: "std::vector<'0>::iterator".} = object
 
+    var x: VectorIterator[cint]
+    ```
 {====}
 
 {====}
 ImportJs pragma
 ---------------
 {====}
-
+ImportJs 编译指示
+---------------
 {====}
 
 {====}
@@ -1273,19 +1284,28 @@ the `importjs` pragma can be used to import Javascript methods or
 symbols in general. The generated code then uses the Javascript method
 calling syntax: ``obj.method(arg)``.
 {====}
-
+与C++的[importcpp 编译指示]类似，`importjs` 编译指示可以用来导入Javascript方法或一般的标识符。
+生成的代码使用Javascript方法的调用语法: ``obj.method(arg)`` 。
 {====}
 
 {====}
 ImportObjC pragma
 -----------------
+{====}
+ImportObjC 编译指示
+-----------------------------
+{====}
+
+{====}
 Similar to the [importc pragma] for C, the `importobjc` pragma can
 be used to import `Objective C`:idx: methods. The generated code then uses the
 Objective C method calling syntax: ``[obj method param1: arg]``.
 In addition with the `header` and `emit` pragmas this
 allows *sloppy* interfacing with libraries written in Objective C:
 {====}
-
+类似于C语言的[importc 编译指示]，`importobjc` 编译指示可以用来导入 `Objective C`:idx: 方法。
+生成的代码使用Objective C的方法调用语法。 ``[obj method param1: arg]`` 。
+除了 `header` 和 `emit` 编译指示，允许*宽松*地与用Objective C编写的库对接。
 {====}
 
 {====}
@@ -1295,13 +1315,14 @@ access `hasCustomPragma`, `getCustomPragmaVal`. Please consult the
 magic, everything they do can also be achieved by walking the AST of the object
 representation.
 {====}
-
+宏模块包含工具，可以用来简化自定义编译指示的访问 `hasCustomPragma` , `getCustomPragmaVal` 。
+详情参阅[宏](macros.html)模块文档。这些宏并不神奇，它们也可以通过逐步的对象表示的AST来实现。
 {====}
 
 {====}
 More examples with custom pragmas:
 {====}
-
+更多自定义编译指示的例子:
 {====}
 
 {====}
@@ -1310,7 +1331,8 @@ variable and constant declarations, but this behavior is considered to be
 experimental and is documented in the [experimental manual](
 manual_experimental.html#extended-macro-pragmas) instead.
 {====}
-
+宏编译指示还有一些应用，比如在类型、变量和常量声明中，但这是实验性的，
+记录在[实验手册]( manual_experimental.html#extended-macro-pragmas)。
 {====}
 
 {====}
@@ -1318,7 +1340,9 @@ manual_experimental.html#extended-macro-pragmas) instead.
   proc printf(formatstr: cstring) {.header: "<stdio.h>", importc: "printf", varargs.}
   ```
 {====}
-
+  ```nim
+  proc printf(formatstr: cstring) {.header: "<stdio.h>", importc: "printf", varargs.}
+  ```
 {====}
 
 {====}
@@ -1330,7 +1354,13 @@ manual_experimental.html#extended-macro-pragmas) instead.
   assert cconst == 42
   ```
 {====}
+  ```nim
+  {.emit: "const int cconst = 42;".}
 
+  let cconst {.importc, nodecl.}: cint
+
+  assert cconst == 42
+  ```
 {====}
 
 {====}
@@ -1338,7 +1368,9 @@ manual_experimental.html#extended-macro-pragmas) instead.
  * [importobjc][importobjc pragma]
  * [importjs][importjs pragma]
 {====}
-
+ * [importcpp][importcpp 编译指示]
+ * [importobjc][importobjc 编译指示]
+ * [importjs][importjs 编译指示]
 {====}
 
 {====}
@@ -1346,7 +1378,8 @@ If the symbol should also be exported to a dynamic library, the `dynlib`
 pragma should be used in addition to the `exportc` pragma. See
 [Dynlib pragma for export].
 {====}
-
+如果该标识符也应被导出到一个动态库中，除了使用 `exportc` 编译指示外，
+还应该使用 `dynlib` 编译指示。参阅[Dynlib编译指示应用于导出]。
 {====}
 
 {====}
@@ -1354,7 +1387,7 @@ pragma should be used in addition to the `exportc` pragma. See
 the `--dynlibOverride:name`:option: command-line option. The
 [Compiler User Guide](nimc.html) contains further information.
 {====}
-
+**注意**: `dynlib` 导入，可以通过  `--dynlibOverride:name`:option: 命令行选项进行覆盖，参阅[ 编译器用户指南](nimc.html)]。
 {====}
 
 {====}
@@ -1365,13 +1398,14 @@ for the low-level thread API. There are also high-level parallelism constructs
 available. See [spawn](manual_experimental.html#parallel-amp-spawn) for
 further details.
 {====}
-
+使用 `--threads:on`:option: 命令行开关启用线程支持。启用后[system module](system.html)模块会包含几个线程原语。
+关于底层线程 API，参阅[channels](channels_builtin.html)模块。还有一些高层次的并行结构可用，参阅[spawn](manual_experimental.html#parallel-amp-spawn) 。
 {====}
 
 {====}
 A thread proc can be passed to `createThread` or `spawn`.
 {====}
-
+线程过程可以被传递给 `createThread` 或 `spawn` 。
 {====}
 
 {====}
@@ -1380,5 +1414,6 @@ in order to support *multi lock* statements. Why these are essential is
 explained in the [lock levels](manual_experimental.md#lock-levels) section
 of experimental manual.
 {====}
-
+为了支持 *多锁* 语句，`locks` 编译指示后面是锁表达式的列表 `locks: [a, b, ...]` 。
+在实验手册的[lock levels](manual_experimental.md#lock-levels)章节中对这样做的重要性进行了解释。
 {====}
