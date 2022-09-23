@@ -78,7 +78,7 @@ To override the compiler's side effect analysis a `{.noSideEffect.}`
 **Side effects are usually inferred. The inference for side effects is
 analogous to the inference for exception tracking.**
 {==+==}
-**副作用通常可被推断出来，与异常跟踪的推断类似。**
+**副作用通常可被推断出来，与异常追踪的推断类似。**
 {==+==}
 
 {==+==}
@@ -101,7 +101,7 @@ directly or indirectly through a call to a GC unsafe proc.
 **The GC safety property is usually inferred. The inference for GC safety is
 analogous to the inference for exception tracking.**
 {==+==}
-**是否 GC 安全通常可被推断出来，与异常跟踪的推断类似。**
+**是否 GC 安全通常可被推断出来，与异常追踪的推断类似。**
 {==+==}
 
 {==+==}
@@ -606,7 +606,7 @@ Here is an example taken directly from the system module to illustrate this:
   ```nim
   proc `==`*(x, y: tuple): bool =
     ## 需要 `x` 和 `y` 都是相同的元组类型
-    ## 针对元组的泛型操作符 `==` 建立于 `x` 和 `y` 各字段的相等性之上
+    ## 针对元组的泛型运算符 `==` 建立于 `x` 和 `y` 各字段的相等性之上
     result = true
     for a, b in fields(x, y):
       if a != b: result = false

@@ -546,7 +546,7 @@ executable code. The  [sugar](sugar.html) module contains the `=>` macro
 which enables a more succinct syntax for anonymous procedures resembling
 lambdas as they are in languages like JavaScript, C#, etc.
 {====}
-
+过程表达式既可以嵌套在过程中，也可以在上层可执行代码中。[sugar](sugar.html) 模块包含 `=>` 宏，它为匿名过程提供了更简洁的语法，类似于JavaScript、c#等语言中的lambda。
 {====}
 
 {====}
@@ -555,7 +555,9 @@ The proc expression represented by the `do` block is appended to the routine
 call as the last argument. In calls using the command syntax, the `do` block
 will bind to the immediately preceding expression rather than the command call.
 {====}
-
+`do` 写在包含常规过程参数的圆括号之后。
+由 `do` 块表示的过程表达式，将作为最后一个参数附加到例程调用。
+在使用命令语法的调用中， `do` 块将绑定到前面紧靠的表达式，而不是命令调用。
 {====}
 
 {====}
@@ -570,7 +572,16 @@ will bind to the immediately preceding expression rather than the command call.
     result = a + b
   ```
 {====}
+  ```nim
+  # 将语句列表传递给内联宏:
+  macroResults.add quote do:
+    if not `ex`:
+      echo `info`, ": Check failed: ", `expString`
 
+  # 处理宏中的例程定义:
+  rpc(router, "add") do (a, b: int) -> int:
+    result = a + b
+  ```
 {====}
 
 {====}
@@ -580,14 +591,14 @@ A type bound operator is a `proc` or `func` whose name starts with `=` but isn't
 A type bound operator declared for a type applies to the type regardless of whether
 the operator is in scope (including if it is private).
 {====}
-
+类型绑定操作符是名称以 `=` 开头的 `proc` 或 `func` ，但不是运算符(即只是包含符号而矣，如 `==`)。它们与以 `=` 结尾的setter无关(参阅[属性])。为类型声明的类型绑定操作符，不论是否在作用域中(包括是否私有)，都将应用于该类型。
 {====}
 
 {====}
 For more details on some of those procs, see
 [Lifetime-tracking hooks](destructors.html#lifetimeminustracking-hooks).
 {====}
-
+想了解关于这些过程的更多细节，参阅[生命期追踪钩子](destructors.html#lifetimeminustracking-hooks)。
 {====}
 
 {====}
@@ -597,7 +608,10 @@ simplicity (they require specialized semantic checking)::
   declared, defined, definedInScope, compiles, sizeof,
   is, shallowCopy, getAst, astToStr, spawn, procCall
 {====}
+从实现简单性考虑(不需要专门的语义检查)，下面的内置过程不能重载::
 
+  declared, defined, definedInScope, compiles, sizeof,
+  is, shallowCopy, getAst, astToStr, spawn, procCall
 {====}
 
 {====}
@@ -610,7 +624,12 @@ to `f`::
 
   declared, defined, definedInScope, compiles, getAst, astToStr
 {====}
+因此，它们更像是关键字，而不是普通标识符，但与关键字不同的是，
+重定义可能会 `shadow`:idx: "隐藏"[system](system.html)模块中的定义。
+这个列表中的下列内容不应该使用点表示法 `x.f` 。
+因为在 `x` 传递给 `f` 之前不能进行类型检查::
 
+  declared, defined, definedInScope, compiles, getAst, astToStr
 {====}
 
 {====}
@@ -635,27 +654,46 @@ to `f`::
   collide(a, b) # output: 2
   ```
 {====}
+  ```nim  test = "nim c --multiMethods:on $1"
+  type
+    Thing = ref object of RootObj
+    Unit = ref object of Thing
+      x: int
 
+  method collide(a, b: Thing) {.base, inline.} =
+    quit "to override!"
+
+  method collide(a: Thing, b: Unit) {.inline.} =
+    echo "1"
+
+  method collide(a: Unit, b: Thing) {.inline.} =
+    echo "2"
+
+  var a, b: Unit
+  new a
+  new b
+  collide(a, b) # 输出: 2
+  ```
 {====}
 
 {====}
 See also [iterable] for passing iterators to templates and macros.
 {====}
-
+另请参阅[iterable]，将迭代器传递给模板和宏。
 {====}
 
 {====}
 A converter is like an ordinary proc except that it enhances
 the "implicitly convertible" type relation (see [Convertible relation]):
 {====}
-
+转换器和普通过程相似，但它增强了"隐式转换"类型的关系，参阅[转换关系]:
 {====}
 
 {====}
 Any statements following the `defer` will be considered
 to be in an implicit try block in the current block:
 {====}
-
+在 `defer` 之后的任意语句，都认为处在当前块的隐式try块中:
 {====}
 
 {====}
@@ -666,7 +704,7 @@ and are strictly speaking not catchable as they can also be mapped to an operati
 that terminates the whole process. If panics are turned into exceptions, these
 exceptions inherit from `Defect`.
 {====}
-
+异常树被定义在[system](system.html)模块中。每个异常都继承自 `system.Exception` 。表示程序错误的异常继承自 `system.Defect` (它是`Exception`的子类型)，因为它们可以被映射到终止整个进程的操作中，因此将不能捕捉。如果恐慌变为异常，则这些异常继承自 `Defect` 。
 {====}
 
 {====}
@@ -682,7 +720,17 @@ exceptions inherit from `Defect`.
     let y = readLine()
   ```
 {====}
+  ```nim  test = "nim c --warningAsError:Effect:on $1"  status = 1
+  type IO = object ## input/output effect
+  proc readLine(): string {.tags: [IO].} = discard
+  proc echoLine(): void = discard
 
+  proc no_IO_please() {.forbids: [IO].} =
+    # 这是可以的，因为它没有定义任何标签:
+    echoLine()
+    # 编译器会阻止这种情况:
+    let y = readLine()
+  ```
 {====}
 
 {====}
@@ -709,14 +757,35 @@ exceptions inherit from `Defect`.
   caller2(toBeCalled2)
   ```
 {====}
+  ```nim
+  type MyEffect = object
+  type ProcType1 = proc (i: int): void {.forbids: [MyEffect].}
+  type ProcType2 = proc (i: int): void
 
+  proc caller1(p: ProcType1): void = p(1)
+  proc caller2(p: ProcType2): void = p(1)
+
+  proc effectful(i: int): void {.tags: [MyEffect].} = echo $i
+  proc effectless(i: int): void {.forbids: [MyEffect].} = echo $i
+
+  proc toBeCalled1(i: int): void = effectful(i)
+  proc toBeCalled2(i: int): void = effectless(i)
+
+  ## 这将会失败，因为toBeCalled1使用了ProcType1所禁止的MyEffect:
+  caller1(toBeCalled1)
+  ## 这是可以的，因为toBeCalled2和ProcType1有相同的限制:
+  caller1(toBeCalled2)
+  ## 这些都是可以的，因为ProcType2没有副作用限制:
+  caller2(toBeCalled1)
+  caller2(toBeCalled2)
+  ```
 {====}
 
 {====}
 `ProcType2` is a subtype of `ProcType1`. Unlike with the `tags` pragma, the parent context - the
 function which calls other functions with forbidden effects - doesn't inherit the forbidden list of effects.
 {====}
-
+`ProcType2` 是 `ProcType1` 的子类型。与 `tags` 编译指示所不同的是，父上下文将:调用具有禁用副作用的其他函数的函数;不继承禁用副作用列表。
 {====}
 
 {====}
@@ -724,13 +793,13 @@ As a special semantic rule, the built-in [debugEcho](
 system.html#debugEcho,varargs[typed,]) pretends to be free of side effects
 so that it can be used for debugging routines marked as `noSideEffect`.
 {====}
-
+作为一个特殊的语义规则，内置的[debugEcho](system.html#debugEcho,varargs[typed,])忽略副作用，这样它就可以用于调试标记为 `noSideEffect` 的例程。
 {====}
 
 {====}
 - [Shared heap memory management](mm.html).
 {====}
-
+- [共享堆内存管理](mm.html).
 {====}
 
 {====}
@@ -790,7 +859,61 @@ so that it can be used for debugging routines marked as `noSideEffect`.
     stdout.writeLine(str)
   ```
 {====}
+  ```nim  test = "nim c $1"
+  type
+    BinaryTree*[T] = ref object # 二叉树是具有
+                                # 通用参数 `T` 的常规类型。
+      le, ri: BinaryTree[T]     # 左右子树;可能是nil
+      data: T                   # 存储在节点中的数据
 
+  proc newNode*[T](data: T): BinaryTree[T] =
+    # 节点的构造函数
+    result = BinaryTree[T](le: nil, ri: nil, data: data)
+
+  proc add*[T](root: var BinaryTree[T], n: BinaryTree[T]) =
+    # 向树中插入一个节点
+    if root == nil:
+      root = n
+    else:
+      var it = root
+      while it != nil:
+        # 使用通用的 `cmp` 过程，比较数据项;
+        # 这适用于任意具有 `==` 和 `<` 运算符的类型
+        var c = cmp(it.data, n.data)
+        if c < 0:
+          if it.le == nil:
+            it.le = n
+            return
+          it = it.le
+        else:
+          if it.ri == nil:
+            it.ri = n
+            return
+          it = it.ri
+
+  proc add*[T](root: var BinaryTree[T], data: T) =
+    # 便捷过程:
+    add(root, newNode(data))
+
+  iterator preorder*[T](root: BinaryTree[T]): T =
+    # 二叉树预遍历。
+    # 使用显式堆栈。
+    # (这比递归迭代器工厂更有效).
+    var stack: seq[BinaryTree[T]] = @[root]
+    while stack.len > 0:
+      var n = stack.pop()
+      while n != nil:
+        yield n.data
+        add(stack, n.ri)  # 将右子树push到堆栈上
+        n = n.le          # 并跟踪左子树
+
+  var
+    root: BinaryTree[string]  # 用 `string` 实例化二叉树
+  add(root, newNode("hello")) # 实例化 `newNode` 和 `add`
+  add(root, "world")          # 实例化 `add` 过程
+  for str in preorder(root):
+    stdout.writeLine(str)
+  ```
 {====}
 
 {====}

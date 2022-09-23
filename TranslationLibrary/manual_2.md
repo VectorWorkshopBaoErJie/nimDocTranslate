@@ -143,7 +143,7 @@ operation                meaning
 ======================   ======================================================
 {==+==}
 ======================   ===========================================================================================
-操作符                   含义
+运算符                   含义
 ======================   ===========================================================================================
 `a +% b`                 无符号整型加法
 `a -% b`                 无符号整型减法
@@ -1525,7 +1525,7 @@ The assignment operator for tuples and objects copies each component.
 The methods to override this copying behavior are described `here
 <manual.html#procedures-type-bound-operations>`_.
 {==+==}
-元组和对象的赋值操作符复制每个组件。 `这里 <manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
+元组和对象的赋值运算符复制每个组件。 `这里 <manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
 {==+==}
 
 {==+==}

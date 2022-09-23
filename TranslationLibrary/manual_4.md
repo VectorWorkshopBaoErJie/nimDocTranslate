@@ -1974,7 +1974,7 @@ A type bound operator is a `proc` or `func` whose name starts with `=` but isn't
 A type bound operator declared for a type applies to the type regardless of whether
 the operator is in scope (including if it is private).
 {==+==}
-类型绑定操作符是 `proc` 或 `func` ， 其名称以 `=` 开始， 但不是操作符(即只包含符号，如 `==` )。
+类型绑定操作符是 `proc` 或 `func` ， 其名称以 `=` 开始， 但不是运算符(即只包含符号，如 `==` )。
 这些与setter无关(参见 `properties <manual.html#procedures-properties>`_ ), 它们以 `=` 结尾。
 为类型声明的类型绑定操作符将应用于该类型，无论操作符是否在作用域中(包括是否为私有)。
 {==+==}
@@ -2039,7 +2039,7 @@ if the type `T` has an overridden assignment operator `=`, this operator is
 also used for assignments of the type `seq[T]`.
 {==+==}
 这些操作可以被 *overridden* , 而不是 *overloaded* 。这意味着实现会自动提升为结构化类型。
-例如，如果类型 `T` 有一个覆盖的赋值操作符 `=` ,这个操作符也用于类型 `seq[T]` 的赋值。
+例如，如果类型 `T` 有一个重写的赋值运算符 `=` ,这个运算符也用于类型 `seq[T]` 的赋值。
 {==+==}
 
 {==+==}

@@ -1767,7 +1767,7 @@ Effect 系统
 1.6 of the Nim compiler. This section describes the new rules that are activated
 via `--experimental:strictEffects`.
 {==+==}
-**注意**: Nim 1.6 版本编译器改动了 effect 跟踪的规则。本小节介绍了通过 `--experimental:strictEffects` 选项启用的新规则。
+**注意**: Nim 1.6 版本编译器改动了 effect 追踪的规则。本小节介绍了通过 `--experimental:strictEffects` 选项启用的新规则。
 {==+==}
 
 
@@ -1775,7 +1775,7 @@ via `--experimental:strictEffects`.
 Exception tracking
 ------------------
 {==+==}
-异常跟踪
+异常追踪
 ----------------
 {==+==}
 
@@ -1784,7 +1784,7 @@ Nim supports exception tracking. The `raises`:idx: pragma can be used
 to explicitly define which exceptions a proc/iterator/method/converter is
 allowed to raise. The compiler verifies this:
 {==+==}
-Nim 支持异常跟踪。 `raises`:idx: 编译指示可以显式定义过程/迭代器/方法/转换器所允许抛出的异常。编译期会加以验证:
+Nim 支持异常追踪。 `raises`:idx: 编译指示可以显式定义过程/迭代器/方法/转换器所允许抛出的异常。编译期会加以验证:
 {==+==}
 
 {==+==}
@@ -1907,7 +1907,7 @@ Exceptions inheriting from `system.Defect` are not tracked with
 the `.raises: []` exception tracking mechanism. This is more consistent with the
 built-in operations. The following code is valid:
 {==+==}
-`.raises: []` 异常跟踪机制不跟踪继承自 `system.Defect` 的异常。这样更能跟内置运算符保持一致。
+`.raises: []` 异常追踪机制不追踪继承自 `system.Defect` 的异常。这样更能跟内置运算符保持一致。
 下面的代码是合法的:
 {==+==}
 
@@ -2067,7 +2067,7 @@ conservative in its effect analysis:
 Tag tracking
 ------------
 {==+==}
-标签跟踪
+标签追踪
 ----------------
 {==+==}
 
@@ -2110,7 +2110,7 @@ also be attached to a proc type. This affects type compatibility.
 The inference for tag tracking is analogous to the inference for
 exception tracking.
 {==+==}
-标签跟踪的推断规则与异常追踪的推断规则类型类似。
+标签追踪的推断规则与异常追踪的推断规则类型类似。
 {==+==}
 
 {==+==}
