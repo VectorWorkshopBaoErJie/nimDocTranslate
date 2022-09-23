@@ -8,7 +8,7 @@
   # Also allowed:
   ord(Direction.west) == 3
 {==+==}
-```
+  ```nim
   ord(north) == 0
   ord(east) == 1
   ord(south) == 2
@@ -16,7 +16,7 @@
 
   # 也允许:
   ord(Direction.west) == 3
-```
+  ```
 {==+==}
 
 {==+==}

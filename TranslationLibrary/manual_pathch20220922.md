@@ -1101,6 +1101,7 @@ concrete type or a type class.
   assert typeof("a b c".split) is string
 
   assert typeof("a b c".split, typeOfProc) is seq[string]
+  ```
 {==+==}
 
 {==+==}
@@ -1275,7 +1276,7 @@ ImportJs pragma
 ---------------
 {==+==}
 ImportJs 编译指示
----------------
+-------------------------
 {==+==}
 
 {==+==}

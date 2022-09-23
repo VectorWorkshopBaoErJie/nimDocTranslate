@@ -68,12 +68,12 @@ mysterious crashes.
 {==+==}
 
 {==+==}
-The example only works because the memory is initialized to zero
+**Note**: The example only works because the memory is initialized to zero
 (`alloc0` instead of `alloc` does this): `d.s` is thus initialized to
 binary zero which the string assignment can handle. One needs to know low-level
 details like this when mixing garbage-collected data with unmanaged memory.
 {==+==}
-当把垃圾收集的数据和非管理的内存混合在一起时，我们需要了解这样的低级细节。这个例子之所以有效，是因为内存被初始化为零( `alloc0` 会这样做，而 `alloc` 不会 )。 `d.s` 因此被初始化为二进制的零，从而可以处理字符串赋值。
+**注意**: 当把垃圾收集的数据和非管理的内存混合在一起时，我们需要了解这样的低级细节。这个例子之所以有效，是因为内存被初始化为零( `alloc0` 会这样做，而 `alloc` 不会 )。 `d.s` 因此被初始化为二进制的零，从而可以处理字符串赋值。
 {==+==}
 
 {==+==}
@@ -1564,7 +1564,7 @@ Example:
   discard p(3, 4) # discard the return value of `p`
   ```
 {==+==}
-```nim
+  ```nim
   proc p(x, y: int): int =
     result = x + y
 
