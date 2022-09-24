@@ -39,7 +39,7 @@ returned value is an l-value and can be modified by the caller:
 It is a static error if the implicitly introduced pointer could be
 used to access a location beyond its lifetime:
 {==+==}
-如果利用隐式创建的指向某东西的指针有可能这个东西的生存期之外继续访问它，那末编译器会报告静态错误:
+如果利用隐式创建的指向某东西的指针有可能这个东西的生存期之外继续访问它，那么编译器会报告静态错误:
 {==+==}
 
 {==+==}
