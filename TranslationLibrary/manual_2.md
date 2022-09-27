@@ -89,7 +89,7 @@ These integer types are pre-defined:
   suffix `'u` is of this type.
 {==+==}
 `uint`
-  常规 `unsigned integer`:idx: "无符号整数" 。它的大小取决于平台，并且与指针大小相同。 类型后缀为 `'u` 的整数字面值就是这种类型。
+  常规 `unsigned integer`:idx: "无符号整数" 。它的大小取决于平台，并且与指针大小相同。类型后缀为 `'u` 的整数字面值就是这种类型。
 {==+==}
 
 {==+==}
@@ -150,12 +150,12 @@ operation                meaning
 `a *% b`                 无符号整型乘法
 `a /% b`                 无符号整型除法
 `a %% b`                 无符号整型取模
-`a <% b`                 无符号比较`a`与`b`
-`a <=% b`                无符号比较`a`与`b`
-`ze(a)`                  用零填充 `a` 的位，直到它具有 `int`类型的宽度
-`toU8(a)`                将`a`视为无符号数值，并将它转成8位无符号整数(但仍是`int8`类型)
-`toU16(a)`               将`a`视为无符号数值，并将它转成8位无符号整数(但仍是`int16`类型)
-`toU32(a)`               将`a`视为无符号数值，并将它转成8位无符号整数(但仍是`int32`类型)
+`a <% b`                 无符号比较 `a` 与 `b` 
+`a <=% b`                无符号比较 `a` 与 `b` 
+`ze(a)`                  用零填充 `a` 的位，直到它具有 `int` 类型的宽度
+`toU8(a)`                将 `a` 视为无符号数值，并将它转成8位无符号整数(但仍是 `int8` 类型)
+`toU16(a)`               将 `a` 视为无符号数值，并将它转成8位无符号整数(但仍是 `int16` 类型)
+`toU32(a)`               将 `a` 视为无符号数值，并将它转成8位无符号整数(但仍是 `int32` 类型)
 ======================   ===========================================================================================
 {==+==}
 
@@ -208,7 +208,7 @@ an `int16` result.
 For further details, see `Convertible relation
 <#type-relations-convertible-relation>`_.
 {==+==}
-有关详细信息，请阅读参考 `Convertible relation <#type-relations-convertible-relation>`_ 。
+有关详细信息，请参阅 `转换关系 <#type-relations-convertible-relation>`_ 。
 {==+==}
 
 
@@ -255,7 +255,7 @@ semantic analysis). Assignments from the base type to one of its subrange types
 (and vice versa) are allowed.
 {==+==}
 `Subrange` 是整数的子范围，只能保存0到5的值。`PositiveFloat` 定义了包含所有正浮点数的子范围。
-NaN不属于任何浮点类型的子范围。将任何其他值赋值给类型为 `Subrange` 会产生panic(如果可以在语义分析期间确认，则为静态错误)。
+NaN不属于任何浮点类型的子范围。将任何其他值赋值给 `Subrange` 类型产生panic(如果可以在语义分析期间确认，则为静态错误)。
 允许将基类型赋值给它的一个子范围类型(反之亦然)。
 {==+==}
 
@@ -288,7 +288,7 @@ The following floating-point types are pre-defined:
   This type should be used in general.
 {==+==}
 `float`
-  常规浮点类型; 它的大小曾经与平台相关，但现在，它总是映射为 `float64` 。一般应该使用这种类型。
+  常规浮点类型，它的大小曾与平台相关，但现在，总是映射为 `float64` 。一般应该使用这种类型。
 {==+==}
 
 {==+==}
@@ -310,8 +310,8 @@ types is performed: See `Convertible relation
 performed on floating-point types follows the IEEE standard. Integer types are
 not converted to floating-point types automatically and vice versa.
 {==+==}
-可以在具有不同类型浮点数的表达式中执行自动类型转换: 详见 `Convertible relation <#type-relations-convertible-relation>`_ 。 
-浮点类型执行的运算遵循IEEE标准。 整数类型不会自动转换为浮点类型，反之亦然。
+可以在具有不同类型浮点数的表达式中执行自动类型转换: 详见 `转换关系 <#type-relations-convertible-relation>`_ 。 
+浮点类型执行的运算遵循IEEE标准。整数类型不会自动转换为浮点类型，反之亦然。
 {==+==}
 
 {==+==}
@@ -336,7 +336,7 @@ IEEE标准定义了五种类型的浮点运算异常:
 * 除以零: 除数为零，且被除数是有限的非零数，例如 1.0 / 0.0 。
 * 溢出: 运算产生的结果超出范围，例如，MAXDOUBLE + 0.0000000000001e308。
 * 下溢: 运算产生的结果太小而无法表示为正常数字，例如，MINDOUBLE * MINDOUBLE。
-* 不精确: 运算产生的结果无法用无限精度表示，例如，输入中的 2.0 / 3.0，log(1.1) 和 0.1。
+* 不精确: 运算产生的结果无法用无限精度表示，例如，输入 2.0 / 3.0，log(1.1) 和 0.1。
 {==+==}
 
 {==+==}
@@ -346,7 +346,7 @@ Nim exceptions: `FloatInvalidOpDefect`:idx:, `FloatDivByZeroDefect`:idx:,
 and `FloatInexactDefect`:idx:.
 These exceptions inherit from the `FloatingPointDefect`:idx: base class.
 {==+==}
-IEEE异常在执行期间被忽略或映射到Nim异常: `FloatInvalidOpDefect`:idx: "浮点数无效缺陷" , `FloatDivByZeroDefect`:idx: "浮点数除零缺陷" , `FloatOverflowDefect`:idx: "浮点数溢出缺陷" , `FloatUnderflowDefect`:idx: "浮点数下溢缺陷" , 和 `FloatInexactDefect`:idx: "浮点数不精确缺陷" 。 这些异常继承自 `FloatingPointDefect`:idx: "浮点数缺陷" 基类。
+IEEE异常在执行期被忽略或映射到Nim异常: `FloatInvalidOpDefect`:idx: "浮点数无效缺陷" , `FloatDivByZeroDefect`:idx: "浮点数除零缺陷" , `FloatOverflowDefect`:idx: "浮点数溢出缺陷" , `FloatUnderflowDefect`:idx: "浮点数下溢缺陷" , 和 `FloatInexactDefect`:idx: "浮点数不精确缺陷" 。 这些异常继承自 `FloatingPointDefect`:idx: "浮点数缺陷" 基类。
 {==+==}
 
 {==+==}
@@ -383,7 +383,7 @@ combination of `nanChecks` and `infChecks` pragmas. `floatChecks` are
 turned off as default.
 {==+==}
 在当前的实现中，绝不会引发 `FloatDivByZeroError` 和 `FloatInexactError` 。 `FloatOverflowError` 取代了 `FloatDivByZeroError` 。 
-另有 `floatChecks`:idx: 编译指示用作 `nanChecks` 和 `infChecks` 的便捷方式。 `floatChecks` 默认关闭。
+另有 `floatChecks`:idx: 编译指示为 `nanChecks` 和 `infChecks` 的便捷方式。默认关闭 `floatChecks` 。
 {==+==}
 
 {==+==}
@@ -533,7 +533,7 @@ types can be assigned an explicit ordinal value. However, the ordinal values
 have to be in ascending order. A field whose ordinal value is not
 explicitly given is assigned the value of the previous field + 1.
 {==+==}
-为了更好地与其他编程语言连接，可以显式为枚举类型字段分配序数值，但是，序数值必须升序排列。 未明确给出序数值的字段被赋予前一个字段 +1 的值。
+为了更好地与其他编程语言连接，可以显式为枚举类型字段分配序数值，但是，序数值必须升序排列。未明确给出序数值的字段被赋予前一个字段 +1 的值。
 {==+==}
 
 {==+==}
@@ -570,7 +570,7 @@ The compiler supports the built-in stringify operator `$` for enumerations.
 The stringify's result can be controlled by explicitly giving the string
 values to use:
 {==+==}
-编译器支持内置的字符串化运算符 `$` 用于枚举。字符串化的效果是，可以通过显式给出要使用的字符串，用来控制:
+编译器支持内置的字符串化运算符 `$` 用于枚举。字符串化的效果是，显式控制要使用的字符串:
 {==+==}
 
 {==+==}
@@ -608,8 +608,8 @@ as the last attempt. Only non-ambiguous symbols are added to this scope.
 But one can always access these via type qualification written
 as `MyEnum.value`:
 {==+==}
-枚举可以使用 `pure` 编译指示进行标记，以便将其字段添加到特定模块特定的隐藏作用域，仅在最后尝试时进行查询。 
-只有没有歧义的符号才会添加到此作用域。 但总是可以通过写为 `MyEnum.value` 类型限定来访问:
+枚举可以使用 `pure` 编译指示进行标记，以便将其字段添加到特定模块特定的隐藏作用域，只在最终尝试时进行查询。 
+只有没有歧义的符号才会添加到此作用域。但总是可以通过 `MyEnum.value` 类型限定来访问:
 {==+==}
 
 {==+==}
@@ -663,7 +663,7 @@ similar to a sequence of characters. However, strings in Nim are both
 zero-terminated and have a length field. One can retrieve the length with the
 builtin `len` procedure; the length never counts the terminating zero.
 {==+==}
-所有字符串字面值都是 `string` 类型。 Nim中的字符串与字符序列非常相似。 但是，Nim中的字符串都是以零结尾，并且具有长度字段。 可以用内置的 `len` 过程检索长度，长度并不计算末尾的零。
+所有字符串字面值都是 `string` 类型。Nim中的字符串与字符序列非常相似。但是，Nim中的字符串都是以零结尾，并且具有长度字段。 可以用内置的 `len` 过程检索长度，长度并不计算末尾的零。
 {==+==}
 
 {==+==}
@@ -671,7 +671,7 @@ The terminating zero cannot be accessed unless the string is converted
 to the `cstring` type first. The terminating zero assures that this
 conversion can be done in O(1) and without any allocations.
 {==+==}
-除非先将字符串转换为 `cstring` 类型，否则无法访问末尾的零。末尾零可以确保在 O(1) 中完成此转换，而无需任何分配。
+除非先将字符串转换为 `cstring` 类型，否则无法访问末尾的零。末尾零可以保证在 O(1) 完成转换，而无需另行分配。
 {==+==}
 
 {==+==}
@@ -739,7 +739,7 @@ While `$p.name` can also be used, the `$` operation on a string does
 nothing. Note that we cannot rely on automatic conversion from an `int` to
 a `string` like we can for the `echo` proc.
 {==+==}
-虽然也可以使用 `$p.name` ，但 `$` 操作符不会对字符串做任何事。 请注意，不能依赖 `int` 到 `string` 像 `echo` 过程一样自动转换。
+虽然也可以使用 `$p.name` ，但 `$` 操作符不会对字符串做任何事。请注意，不能依赖 `int` 到 `string` 像 `echo` 过程一样自动转换。
 {==+==}
 
 {==+==}
@@ -773,7 +773,7 @@ bytes. The index operation `s[i]` means the i-th *char* of `s`, not the
 i-th *unichar*. The iterator `runes` from the `unicode module
 <unicode.html>`_ can be used for iteration over all Unicode characters.
 {==+==}
-按照惯例，所有字符串都是UTF-8字符串，但不是强制的。 例如，从二进制文件读取字符串时，它们只是字节序列。索引操作 `s[i]` 表示 s 的第i个 *char* ，而不是第i个 *unichar* 。  `unicode module <unicode.html>`_  中的迭代器 `runes` ，可用于迭代所有Unicode字符。
+按照惯例，所有字符串都是UTF-8字符串，但不是强制的。例如，从二进制文件读取字符串时，它们只是字节序列。索引操作 `s[i]` 表示 s 的第i个 *char* ，而不是第i个 *unichar* 。 `unicode module <unicode.html>`_ 中的迭代器 `runes` ，可用于迭代所有Unicode字符。
 {==+==}
 
 
@@ -828,7 +828,7 @@ memory. For this reason, the implicit conversion will be removed in future
 releases of the Nim compiler. Certain idioms like conversion of a `const` string
 to `cstring` are safe and will remain to be allowed.
 {==+==}
-即使转换是隐式的，它也不是 *安全的* : 垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。 因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将 `const` 字符串转换为 `cstring` 是安全的，并且仍将被允许。
+即使转换是隐式的，它也不是 *安全的* : 垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将 `const` 字符串转换为 `cstring` 是安全的，并且仍将被允许。
 {==+==}
 
 {==+==}
@@ -925,7 +925,7 @@ array constructor `[]`. The element type of this array expression is
 inferred from the type of the first element. All other elements need to be
 implicitly convertible to this type.
 {==+==}
-数组是同类型的，这意味着数组中的每个元素都类型相同。数组总是具有指定为常量表达式的固定长度(开放数组除外)。 它们可以按任何序数类型索引。若参数 `A` 是 *开放数组* ，那么它的索引为由0到 len(A)- 1 的整数。数组表达式可以由数组构造器 `[]` 构造。数组表达式的元素类型是从第一个元素的类型推断出来的。所有其他元素都需要隐式转换为此类型。
+数组是同类型的，即数组中的每个元素都类型相同。数组总是具有指定为常量表达式的固定长度(开放数组除外)。它们可以按任意序数类型索引。若参数 `A` 是 *开放数组* ，那么它的索引为由0到 len(A)- 1 的整数。数组表达式可以由数组构造器 `[]` 构造。数组表达式的元素类型是从第一个元素的类型推断出来的。所有其他元素都需要隐式转换为此类型。
 {==+==}
 
 {==+==}
@@ -996,7 +996,7 @@ One can append elements to a sequence with the `add()` proc or the `&`
 operator, and remove (and get) the last element of a sequence with the
 `pop()` proc.
 {==+==}
-数组或序列的下限可以用内置的过程 `low()` 获取，上限用 `high()` 获取。 长度可以用 `len()` 获取。序列或开放数组的 `low()` 总是返回0，因为这是第一个有效索引。 可以使用 `add()` 过程或 `&` 运算符将元素追加到序列中，并使用 `pop()` 过程删除(并获取)序列的最后一个元素。
+数组或序列的下限可以用内置的过程 `low()` 获取，上限用 `high()` 获取。 长度可以用 `len()` 获取。序列或开放数组的 `low()` 总是返回0，因为这是第一个有效索引。可以使用 `add()` 过程或 `&` 运算符将元素追加到序列中，并使用 `pop()` 过程删除(并获取)序列的最后一个元素。
 {==+==}
 
 {==+==}
@@ -1369,8 +1369,8 @@ order. The *names* of the fields also have to be the same.
 {==+==}
   ```nim
   type
-    Person = tuple[name: string, age: int] # type representing a person:
-                                           # it consists of a name and an age.
+    Person = tuple[name: string, age: int] # 表示人的类型:
+                                           # 由名字和年龄组成。
   var person: Person
   person = (name: "Peter", age: 30)
   assert person.name == "Peter"
@@ -1379,7 +1379,7 @@ order. The *names* of the fields also have to be the same.
   assert person[0] == "Peter"
   assert Person is (string, int)
   assert (string, int) is Person
-  assert Person isnot tuple[other: string, age: int] # `other` is a different identifier
+  assert Person isnot tuple[other: string, age: int] # `other` 是不同的标识符
   ```
 {==+==}
 
@@ -1437,7 +1437,7 @@ can also be defined with indentation instead of `[]`:
   ```nim
   type
     Person = tuple   # 代表人的类型
-      name: string   # 一个人包括名字
+      name: string   # 人的名字
       age: Natural   # 和年龄
   ```
 {==+==}
@@ -1525,7 +1525,7 @@ The assignment operator for tuples and objects copies each component.
 The methods to override this copying behavior are described `here
 <manual.html#procedures-type-bound-operations>`_.
 {==+==}
-元组和对象的赋值运算符复制每个组件。 `这里 <manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
+元组和对象的赋值运算符复制每个组件。`这里 <manual.html#procedures-type-bound-operations>`_ 描述了覆盖这种复制行为的方法。
 {==+==}
 
 {==+==}
@@ -1737,7 +1737,7 @@ with a new one completely:
 Starting with version 0.20 `system.reset` cannot be used anymore to support
 object branch changes as this never was completely memory safe.
 {==+==}
-从版本0.20开始 `system.reset` 不能再用于支持对象分支的更改，因为这从来就不是完全内存安全的。
+从版本0.20开始 `system.reset` 不能再用于支持对象分支的更改，因为这始终不是完全内存安全的。
 {==+==}
 
 {==+==}
@@ -1750,7 +1750,7 @@ branches. For discriminator values with a `range` type, the compiler
 checks if the entire range of possible values for the discriminator value is
 valid for the chosen object branch.
 {==+==}
-作为一项特殊规则，鉴别字段类型也可以使用 `case` 语句来限制。 如果 `case` 语句分支中的鉴别字段变量的可能值是所选对象分支的鉴别字段值的子集，则认为是有效的初始化。此分析仅适用于序数类型的不可变判别符，并忽略 `elif` 分支。对于具有 `range` 类型的鉴别器值，编译器会检查鉴别器值的整个可能值范围是否对所选对象分支有效。
+作为一项特殊规则，鉴别字段类型也可以使用 `case` 语句来限制。如果 `case` 语句分支中的鉴别字段变量的可能值是所选对象分支的鉴别字段值的子集，则认为是有效的初始化。此分析仅适用于序数类型的不可变判别符，并忽略 `elif` 分支。对于具有 `range` 类型的鉴别器值，编译器会检查鉴别器值的整个可能值范围是否对所选对象分支有效。
 {==+==}
 
 {==+==}
@@ -1908,7 +1908,7 @@ manually allocated objects or objects somewhere else in memory. Thus,
 untraced references are *unsafe*. However, for certain low-level operations
 (accessing the hardware) untraced references are unavoidable.
 {==+==}
-Nim区分 `traced`:idx: "追踪"、`untraced`:idx: "未追踪" 引用。 未追踪引用也叫 *指针* 。追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。因此，未追踪引用是 *不安全* 的。 然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
+Nim区分 `traced`:idx: "追踪"、`untraced`:idx: "未追踪" 引用。未追踪引用也叫 *指针* 。追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。因此，未追踪引用是 *不安全* 的。 然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
 {==+==}
 
 {==+==}
