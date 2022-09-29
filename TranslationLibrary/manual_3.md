@@ -13,8 +13,8 @@ traced references, strings, or sequences: in order to free everything properly,
 the built-in procedure `reset` has to be called before freeing the untraced
 memory manually:
 {==+==}
-特别要注意的是，如果一个未被追踪的对象包含被追踪的对象，例如追踪的引用，字符串，或序列。为了使得所有对象正确释放，
-在释放未被追踪的内存之前，要手动调用内置过程 `reset` :
+特别要注意的是，如果一个未被追踪的对象包含被追踪的对象，例如包含追踪的引用，字符串，或序列。为了正确释放所有对象，
+在释放未被追踪的内存之前，需要手动调用内置过程 `reset` :
 {==+==}
 
 {==+==}
@@ -73,7 +73,7 @@ mysterious crashes.
 binary zero which the string assignment can handle. One needs to know low-level
 details like this when mixing garbage-collected data with unmanaged memory.
 {==+==}
-**注意**: 当把垃圾收集的数据和非管理的内存混合在一起时，我们需要了解这样的低级细节。这个例子之所以有效，是因为内存被初始化为零( `alloc0` 会这样做，而 `alloc` 不会 )。 `d.s` 因此被初始化为二进制的零，从而可以处理字符串赋值。
+**注意**: 当把垃圾收集的数据和非管理的内存混合在一起时，我们需要了解这样的低级细节。这个例子之所以有效，是因为 `alloc0` 将内存初始化为零，而 `alloc` 不会 。 `d.s` 被初始化为二进制的零，因而可以处理字符串赋值。
 {==+==}
 
 {==+==}
@@ -94,7 +94,7 @@ Procedural type
 A procedural type is internally a pointer to a procedure. `nil` is
 an allowed value for a variable of a procedural type.
 {==+==}
-过程类型是指向过程的内部指针。对于过程类型的变量来说，允许被赋值 `nil` 。
+过程类型是指向过程的内部指针。过程类型变量允许赋值 `nil` 。
 {==+==}
 
 {==+==}
@@ -133,7 +133,7 @@ Examples:
   proc forEach(c: proc (x: int) {.cdecl.}) =
     ...
 
-  forEach(printItem)  # 这个将不会被编译，因为调用约定不同
+  forEach(printItem)  # 将不会编译这个，因为调用约定不同
   ```
 
 
@@ -159,7 +159,7 @@ compatible if they have the same calling convention. As a special extension,
 a procedure of the calling convention `nimcall` can be passed to a parameter
 that expects a proc of the calling convention `closure`.
 {==+==}
-过程类型的一个底层细节问题是，过程的调用约定会影响类型的兼容性: 过程类型只有在调用约定相同的情况下才兼容。有个特殊的延伸，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
+过程类型的一个底层细节问题是，过程的调用约定会影响类型的兼容性: 过程类型只有在调用约定相同的情况下才兼容。有个延伸的特例，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
 {==+==}
 
 {==+==}
@@ -174,7 +174,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     same as `fastcall`, but only for C compilers that support `fastcall`.
 {==+==}
 `nimcall`:idx:
-    是默认用于Nim **proc** 的惯例。它和 `fastcall` 一样，但是只有C编译器支持 `fastcall` 。
+    是Nim **proc** 的默认约定。它和 `fastcall` 一样，但是只有C编译器支持 `fastcall` 。
 {==+==}
 
 {==+==}
@@ -186,7 +186,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     and another one for the pointer to implicitly passed environment.
 {==+==}
 `closure`:idx:
-    是没有任意编译指示注解过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐式参数(一个 *environment* )。拥有调用约定 `closure` 的函数变量占两个机器字: 一个是用于函数指针，另一个用于隐式传递环境指针。
+    是没有任意编译指示注解过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐式参数(一个 *environment* )。拥有调用约定 `closure` 的函数变量占两个机器字: 一个用于函数指针，另一个用于隐式传递环境指针。
 {==+==}
 
 {==+==}
@@ -195,7 +195,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     procedure is declared with the `__stdcall` keyword.
 {==+==}
 `stdcall`:idx:
-    这是微软指定的标准惯例。声明 `__stdcall` 关键字生成C程序。
+    这是微软指定的标准约定。声明 `__stdcall` 关键字生成C程序。
 {==+==}
 
 {==+==}
@@ -205,7 +205,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     the `__cdecl` keyword.
 {==+==}
 `cdecl`:idx:
-    cdecl惯例意味着程序将使用和C编译器一样的惯例。在Windows下生成C程序是 `__cdecl` 关键字声明。
+    cdecl约定表示程序将使用和C编译器一样的约定。在Windows下生成C程序是 `__cdecl` 关键字声明。
 {==+==}
 
 {==+==}
@@ -216,7 +216,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     hardware stack.
 {==+==}
 `safecall`:idx:
-    微软指定的安全调用约定。生成C程序是用 `__safecall` 关键字声明。 *safe* 这个词是指会将所有的硬件寄存器压入硬件堆栈。
+    微软指定的安全调用约定。生成C程序是 `__safecall` 关键字声明。 *safe* 这个词是指会将所有的硬件寄存器push到硬件堆栈。
 {==+==}
 
 {==+==}
@@ -228,7 +228,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     it may inline procedures that are not marked as `inline`.
 {==+==}
 `inline`:idx:
-    inline内联约定意味着调用者不应该调用过程，而是直接内联其代码。请注意，Nim并不直接内联，而是把这个问题留给C编译器。它生成了 `__inline` 过程，这只是给编译器的一个提示: 编译器可以完全忽略它，也可以内联那些没有标记为 `inline` 的过程。
+    inline内联约定表示调用者不应该调用过程，而是直接内联其代码。请注意，Nim并不直接内联，而是把这个问题留给C编译器。它生成了 `__inline` 过程，这只是给编译器的一个提示: 编译器可以完全忽略它，也可以内联那些没有标记为 `inline` 的过程。
 {==+==}
 
 {==+==}
@@ -237,7 +237,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     the C `__fastcall` means.
 {==+==}
 `fastcall`:idx:
-    FastCall意味着对于不同的C编译器有所不同。意味着获得C `__fastcall` 表示。
+    FastCall表示对于不同的C编译器有所不同。意味着获得C `__fastcall` 表示。
 {==+==}
 
 {==+==}
@@ -246,7 +246,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     C++ class member functions on the x86 architecture.
 {==+==}
 `thiscall`:idx:
-    这是微软指定的thiscall调用约定，被用于X86架构C++类成员函数中。
+    这是微软指定的thiscall调用约定，用于X86架构C++类成员函数中。
 {==+==}
 
 {==+==}
@@ -255,7 +255,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     interrupts.
 {==+==}
 `syscall`:idx:
-    在C中syscall约定和 `__syscall`:c: 是一样的，应用于中断。
+    在C中syscall约定和 `__syscall`:c: 相同，应用于中断。
 {==+==}
 
 {==+==}
@@ -266,7 +266,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     improve speed.
 {==+==}
 `noconv`:idx:
-    生成的C代码将不会有任何的显示调用约定，因此会使用C编译的默认调用约定。有时需要这个，因为Nim默认会对过程使用 `falsecall` 调用约定来提升速度。
+    生成的C代码将不会有任意显示的调用约定，因而会使用C编译的默认调用约定。这有时需要，因为Nim默认会对过程使用 `falsecall` 调用约定来提升速度。
 {==+==}
 
 {==+==}
@@ -319,7 +319,7 @@ A distinct type is an ordinal type if its base type is an ordinal type.
 A distinct type can be used to model different physical `units`:idx: with a
 numerical base type, for example. The following example models currencies.
 {==+==}
-distinct类型可用于模拟不同的物理 `units`:idx: "单位"，例如，数字基本类型。以下模拟货币的示例。
+distinct类型可用于模拟不同的物理 `units`:idx: "单位"，例如，数字基本类型。以下为模拟货币的示例。
 {==+==}
 
 {==+==}
@@ -414,7 +414,7 @@ should not generate all this code only to optimize it away later - after all
 The pragma `borrow`:idx: has been designed to solve this problem; in principle,
 it generates the above trivial implementations:
 {==+==}
-这很快就会变得乏味。这些实现是细微而作用不明显的，编译器不应该生成所有这些代码，而稍后又优化掉 —— 美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示 `borrow`:idx: "借用"旨在解决这个问题； 原则上，它会生成上述简单的实现:
+这很快就会变得乏味。这些实现很细微而作用不明显，编译器不应该生成所有这些代码，而稍后又优化掉 —— 美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示 `borrow`:idx: "借用"旨在解决这个问题； 原则上，它会生成上述内容简单实现:
 {==+==}
 
 {==+==}
@@ -691,7 +691,7 @@ Auto类型
 The `auto` type can only be used for return types and parameters. For return
 types it causes the compiler to infer the type from the routine body:
 {==+==}
-`auto` 类型只能用来作为返回类型和参数。对于返回类型，它会使编译器从例程主体推断类型:
+`auto` 类型只能用作返回类型和参数。对于返回类型，它会使编译器从例程主体推断类型:
 {==+==}
 
 {==+==}
@@ -757,7 +757,7 @@ Type relations
 The following section defines several relations on types that are needed to
 describe the type checking done by the compiler.
 {==+==}
-以下部分定义了描述编译器完成类型检查所需的几种类型关系。
+以下部分定义描述了编译器完成类型检查所需要的几种类型关系。
 {==+==}
 
 {==+==}
@@ -786,7 +786,7 @@ Subtype关系
 {==+==}
 If object `a` inherits from `b`, `a` is a subtype of `b`.
 {==+==}
-如果对象 `a` 继承自 `b` ， `a` 是 `b` 的子类型。
+如果对象 `a` 继承自 `b` ， `a` 将是 `b` 的子类型。
 {==+==}
 
 {==+==}
@@ -811,7 +811,7 @@ If `A` is a subtype of `B` and `A` and `B` are `object` types then:
 be changed to *require* the pointer indirection in order to prevent
 "object slicing".
 {==+==}
-**注意**: 在该语言的更高版本中，子类型关系可能会更改为 *要求* 间接指针，以防止 "对象切割" 。
+**注意**: 在语言的更高版本中，子类型关系可能会更改为 *要求* 间接指针，以防止 "对象切割" 。
 {==+==}
 
 {==+==}
@@ -1022,7 +1022,7 @@ In a call `p(args)` the routine `p` that matches best is selected. If
 multiple routines match equally well, the ambiguity is reported during
 semantic analysis.
 {==+==}
-在调用 `p(args)` 中，选择最匹配的例程 `p`。如果多个例程匹配相同，则在语义分析期间报告歧义。
+在调用 `p(args)` 中，选择最匹配的例程 `p` 。如果多个例程匹配相同，则在语义分析期间报告歧义。
 {==+==}
 
 {==+==}
@@ -1051,7 +1051,7 @@ args 中的每个 arg 都需要匹配。一个实参可以匹配多个不同的�
    defined `converter`.
 {==+==}
 1. 完全匹配: `a` 和 `f` 是同一类型。
-2. 字面值匹配: `a` 是值 `v` 的整数字面值， `f` 是有符号或无符号整数类型， `v` 在 `f` 的范围内。 或者: `a` 是值`v` 的浮点字面值， `f` 是浮点类型， `v` 在 `f` 的范围内。
+2. 字面值匹配: `a` 是值 `v` 的整数字面值， `f` 是有符号或无符号整数类型， `v` 在 `f` 的范围内。 或者: `a` 是值 `v` 的浮点字面值， `f` 是浮点类型， `v` 在 `f` 的范围内。
 3. 泛型匹配: `f` 是泛型类型和 `a` 匹配，例如 `a` 是 `int` 而 `f` 是泛型(受约束的)参数类型(如在 `[T]` 或 `[ T:int|char]` )。
 4. 子范围或子类型匹配: `a` 是 `range[T]` ， `T` 与 `f` 完全匹配。 或者: `a` 是 `f` 的子类型。
 5. 整数转换匹配: `a` 可以转换为 `f` ， `f` 和 `a` 是某些整数或浮点类型。
@@ -1577,14 +1577,14 @@ The `discard` statement evaluates its expression for side-effects and
 throws the expression's resulting value away, and should only be used
 when ignoring this value is known not to cause problems.
 {==+==}
-`discard` 语句评估其表达式的副作用并将表达式的结果值丢弃，并且应在已知忽略此值不会导致问题时使用。
+`discard` 语句评估其表达式的副作用并将表达式的结果值丢弃，其应在已知忽略此值不会导致问题时使用。
 {==+==}
 
 {==+==}
 Ignoring the return value of a procedure without using a discard statement is
 a static error.
 {==+==}
-忽略过程的返回值而不使用丢弃语句是静态错误。
+忽略过程的返回值而不使用丢弃语句将是静态错误。
 {==+==}
 
 {==+==}
@@ -1985,7 +1985,7 @@ when they are declared. The only exception to this is if the `{.importc.}`
 pragma (or any of the other `importX` pragmas) is applied, in this case the
 value is expected to come from native code, typically a C/C++ `const`.
 {==+==}
-由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义值。唯一的例外是如果应用了 `{.importc.}` 编译指示(或任何其他 `importX` 编译指示)，在这种情况下，值应该来自本地代码，通常是 C/C++ `const` 。
+由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义值。唯一的例外是如果应用了 `{.importc.}` 编译指示(或任意其他 `importX` 编译指示)，在这种情况下，值应该来自本地代码，通常是 C/C++ `const` 。
 {==+==}
 
 {==+==}
