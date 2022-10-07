@@ -39,7 +39,7 @@ returned value is an l-value and can be modified by the caller:
 It is a static error if the implicitly introduced pointer could be
 used to access a location beyond its lifetime:
 {==+==}
-如果利用隐式创建的指向某东西的指针有可能这个东西的生存期之外继续访问它，那么编译器会报告静态错误:
+如果隐式创建的指向某地址的指针，有可能在其生命周期之外继续访问它，那么编译器会报告静态错误:
 {==+==}
 
 {==+==}
@@ -181,7 +181,7 @@ Informally:
   var x = p()
   x = p()
 
-  # 上面这段代码大体上会被翻译为如下代码
+  # 上面这段代码大致上会被解释为以下代码
 
   proc p(result: var BigT) = ...
 
@@ -204,7 +204,7 @@ in other words, it applies for "big" structures.
 If `p` can raise an exception, NRVO applies regardless. This can produce
 observable differences in behavior:
 {==+==}
-即使 `p` 可能抛出异常，也会使用 NRVO。这时，可观察到 NRVO 带来的不同行为:
+即使 `p` 可能抛出异常，依然会使用 NRVO。这会带来的显著的不同行为:
 {==+==}
 
 {==+==}
@@ -296,7 +296,7 @@ Procedures always use static dispatch. Methods use dynamic
 dispatch. For dynamic dispatch to work on an object it should be a reference
 type.
 {==+==}
-过程总是静态派发，而方法则使用动态派发。为了将动态派发用于对象，对象必须是引用类型。
+过程总是静态派发，而方法则使用动态派发。为了将动态派发应用在对象上，对象必须是引用类型。
 {==+==}
 
 {==+==}
@@ -366,7 +366,7 @@ In the example the constructors `newLit` and `newPlus` are procs
 because they should use static binding, but `eval` is a method because it
 requires dynamic binding.
 {==+==}
-在这个例子中，构造函数 `newLit` 和 `newPlus` 都是过程，因为它们都使用静态方法匹配，但是 `eval` 是方法因为需要动态绑定。
+在这个例子中，构造函数 `newLit` 和 `newPlus` 都是过程，因为它们都使用静态绑定，但是 `eval` 是方法因为需要动态绑定。
 {==+==}
 
 {==+==}
@@ -375,8 +375,8 @@ the `base`:idx: pragma. The `base` pragma also acts as a reminder for the
 programmer that a base method `m` is used as the foundation to determine all
 the effects that a call to `m` might cause.
 {==+==}
-正如这个例子所示，基方法必须使用 `base`:idx: 编译指示修饰。`base` 编译指示对于开发者来说也是一种提醒: 这个基方法 `m` 是推断方法 `m`
-所能产生的所有效果的一个基础。
+正如这个例子所示，基方法必须使用 `base`:idx: 编译指示修饰。`base` 编译指示对于开发者来说也是一种提醒: 
+这个基方法 `m` 是推断方法 `m` 所能产生的所有效果的一个基础。
 {==+==}
 
 
@@ -667,7 +667,7 @@ increase in code size.
 {==+==}
 Nim 中有两种迭代器: *inline* (内联)和 *closure* (闭包)迭代器。
 `inline iterator`:idx: "内联迭代器" 总是被编译器内联优化，
-这种抽象也就不会带来任何额外开销(零成本抽象)，但可能代码体积可能大大增加。
+这种抽象也就不会带来任何额外开销(零成本抽象)，但代码体积可能大大增加。
 {==+==}
 
 {==+==}
@@ -676,7 +676,7 @@ each `yield` statement appearing in the iterator code,
 so ideally the code should be refactored to contain a single yield when possible
 to avoid code bloat.
 {==+==}
-请警惕:  在使用内联迭代器时，循环体会被内联进循环中所有的 `yield` 语句里，所以理想情况是合理地重构迭代器代码使它只包含一条 yield 语句，以免代码体积膨胀。
+请警惕: 在使用内联迭代器时，循环体会被内联进循环中所有的 `yield` 语句里，所以理想情况是合理地重构迭代器代码使它只包含一条 yield 语句，以免代码体积膨胀。
 {==+==}
 
 {==+==}
@@ -764,7 +764,7 @@ implicitly; the following example shows how to use iterators to implement
 a `collaborative tasking`:idx: system:
 {==+==}
 `iterator` 类型总是约定隐式使用 `closure` 调用规范；下面的例子展示了如何使用迭代器实现一个 `collaborative tasking`:idx:
-"协作任务" 系统:
+"协作任务"系统:
 {==+==}
 
 {==+==}
