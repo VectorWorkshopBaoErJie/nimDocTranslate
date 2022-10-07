@@ -1,8 +1,8 @@
 .. default-role:: code
 .. include:: ../rstcommon.rst
 
-通过 `var T` 返回的内存安全,由简单的借用规则来保证:
-如果 `result` 不指向指向堆的地址(即在 `result = X` 中， `X` 关系到 `ptr` 或 `ref` 访问)，那么它必须来自例程的第一个参数。
+通过 `var T` 返回的内存是安全的，这由简单的借用规则来保证:
+如果 `result` 未指向堆的地址(即在 `result = X` 中， `X` 涉及到 `ptr` 或 `ref` 访问)，那么它必须来自例程的第一个参数。
 
   ```nim
   proc forward[T](x: var T): var T =
