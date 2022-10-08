@@ -125,7 +125,7 @@ the indentation is already described in the [Lexical Analysis] section.
   underflow errors.
 {==+==}
 `uint`\ XX
-: 这种命名规则，是无符号整数类型附带XX，表示位宽(例如：uint16是16位宽的无符号整数)，目前支持 `uint8`, `uint16`, `uint32`, `uint64` ，字面值后缀为'uXX'。无符号运算会环绕，从面不会导致溢出或下溢的错误。
+: 这种命名规则，是无符号整数类型附带XX，表示位宽(例如：uint16是16位宽的无符号整数)，目前支持 `uint8`, `uint16`, `uint32`, `uint64` ，字面值后缀为'uXX'。无符号运算会环绕，从而不会导致溢出或下溢的错误。
 {==+==}
 
 {==+==}
