@@ -1416,7 +1416,7 @@ Symbol binding in templates
 A template is a `hygienic`:idx: macro and so opens a new scope. Most symbols are
 bound from the definition scope of the template:
 {==+==}
-模板是 `hygienic`:idx: "卫生" 宏，会新开作用域。大部分符号会在宏的定义作用域中绑定:
+模板是 `hygienic`:idx: "洁净" 宏，会新开作用域。大部分符号会在宏的定义作用域中绑定:
 {==+==}
 
 {==+==}
@@ -1603,7 +1603,7 @@ But the global symbol can properly be captured by a `bind` statement:
 Hygiene in templates
 --------------------
 {==+==}
-模板的卫生性
+模板的洁净性
 ------------------------
 {==+==}
 
@@ -1611,7 +1611,7 @@ Hygiene in templates
 Per default, templates are `hygienic`:idx:\: Local identifiers declared in a
 template cannot be accessed in the instantiation context:
 {==+==}
-默认情况下，模板是 `hygienic`:idx: "卫生" 的: 模板内局部声明的标识符，不能在实例化上下文中访问:
+默认情况下，模板是 `hygienic`:idx: "洁净" 的: 模板内局部声明的标识符，不能在实例化上下文中访问:
 {==+==}
 
 {==+==}
@@ -1711,7 +1711,7 @@ no semantics outside a template definition and cannot be abstracted over:
 To get rid of hygiene in templates, one can use the `dirty`:idx: pragma for
 a template. `inject` and `gensym` have no effect in `dirty` templates.
 {==+==}
-如果不想保持模板的卫生性，我们可以在模板中使用 `dirty`:idx: 编译指示。`inject` 和 `gensym` 在 `dirty` 模板中没有作用。
+如果不想保持模板的洁净性，我们可以在模板中使用 `dirty`:idx: 编译指示。`inject` 和 `gensym` 在 `dirty` 模板中没有作用。
 {==+==}
 
 {==+==}
