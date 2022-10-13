@@ -818,7 +818,7 @@ be changed to *require* the pointer indirection in order to prevent
 Convertible relation
 --------------------
 {==+==}
-交换关系
+转换关系
 ----------------
 {==+==}
 

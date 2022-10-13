@@ -851,7 +851,7 @@ This is especially convenient for regular expressions or Windows paths:
   ```
 {==+==}
   ```nim
-  var f = openFile(r"C:\texts\text.txt") # a raw string, so ``\t`` is no tab
+  var f = openFile(r"C:\texts\text.txt") # 是原始字符串, 所以 ``\t`` 不是制表符
   ```
 {==+==}
 
