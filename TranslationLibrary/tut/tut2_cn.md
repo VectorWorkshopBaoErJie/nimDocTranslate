@@ -47,8 +47,8 @@ programming language. **Note that this document is somewhat obsolete as the**
 [manual](manual.html) **contains many more examples of the advanced language
 features.**
 {==+==}
-本文档是*Nim* 编程语言的高级结构的教程。**请注意，此文档有些过时，因为** [manual](manual.html)
-**包含更多高级语言功能的示例。**
+本文档是有关 *Nim* 编程语言高级部分的教程。**请注意，此文档有些过时，但**
+[手册](manual.html) **中包含更多高级语言功能的示例。**
 {==+==}
 
 
@@ -68,10 +68,10 @@ does not cover pragmas. See the [manual](manual.html#pragmas) or [user guide](
 nimc.html#additional-features) for a description of the available
 pragmas.
 {==+==}
-Pragmas 是 Nim 为编译器提供额外信息/命令而不引入大量新关键字的方法。
-Pragma 包含在特殊的 `{.` 和 `.}` 大括号中。 本教程不包括 pragma。
-请参阅 [manual](manual.html#pragmas) 或 [user guide](nimc.html#additional-features)
-了解可用 pragma 的说明。
+编译指示是 Nim 为编译器提供额外信息 / 命令而不引入大量新关键字的方法。
+编译指示包含在特殊的 `{.` 和 `.}` 大括号中。本教程不涉及编译指示的内容。
+详情请参阅 [手册](manual.html#pragmas) 或 [用户指导](
+nimc.html#additional-features) 以了解可用的编译指示。
 {==+==}
 
 
@@ -90,9 +90,9 @@ program, not *the only* way. Often a procedural approach leads to simpler
 and more efficient code. In particular, preferring composition over inheritance
 is often the better design.
 {==+==}
-虽然 Nim 对面向对象编程 (OOP) 的支持很简单，但可以使用强大的 OOP 技术。
-OOP 被视为设计程序的*一种*方式，而不是*唯一*方式。 通常，过程方法会导致更简单和更有效的代码。
-特别是，优先组合而不是继承通常是更好的设计。
+虽然 Nim 对面向对象编程 (OOP) 的支持很简单，但您仍可使用强大的 OOP 技术。
+OOP 被视为设计程序的*一种*方式，而非*唯一*方式。通常，使用过程能写出更简单有效的代码。
+尤其是在设计上，首选组合比继承更好。
 {==+==}
 
 
@@ -113,9 +113,9 @@ types with inheritance are also marked as `ref` types even though
 this isn't strictly enforced. To check at runtime if an object is of a certain
 type, the `of` operator can be used.
 {==+==}
-Nim 中的继承是完全可选的。要使用运行时类型信息启用继承，对象需要从 RootObj 继承。
-这可以直接或间接地通过从继承自 RootObj 的对象继承来完成。通常具有继承的类型也被标记为 `ref` 类型，
-即使这不是严格执行的。要在运行时检查对象是否属于某种类型，可以使用 `of` 运算符。
+Nim 中的继承完全是可选的。要使用继承并启用运行时类型信息，对象需从 `RootObj` 继承。
+这可以通过直接继承或间接地继承继承了 `RootObj` 的对象来完成。尽管将使用了继承的类型
+标记为 `ref` 不是强制的，但这是惯用法。要在运行时检查对象是否属于某种类型，可用 `of` 运算符。
 {==+==}
 
 {==+==}
@@ -164,9 +164,9 @@ no ancestor are implicitly `final`. You can use the `inheritable` pragma
 to introduce new object roots apart from `system.RootObj`. (This is used
 in the GTK wrapper for instance.)
 {==+==}
-继承是使用 `object of` 语法完成的。当前不支持多重继承。如果一个对象类型没有合适的祖先，
-`RootObj` 可以用作它的祖先，但这只是一个约定。没有祖先的对象是隐含的`final`。
-您可以使用 `inheritable` pragma 来引入除 `system.RootObj` 之外的新对象根。
+继承是使用 `object of` 语法完成的。当前不支持多重继承。如果一个对象类型没有合适的父类，
+可以选择 `RootObj` 作为它的父类，但这只是一个约定。没有父类的对象被隐式设置为 `final`。
+您可用 `inheritable` 编译指示来引入除 `system.RootObj` 之外的新对象根。
 (例如，这在 GTK 包装器中使用)
 {==+==}
 
@@ -185,7 +185,7 @@ Student(id: 123)` will truncate subclass fields.
 Nim, composition is as efficient as inheritance.
 {==+==}
 **注意**: 对于简单的代码重用，组合(*has-a* 关系)通常优于继承(*is-a* 关系)。
-由于对象是 Nim 中的值类型，因此组合与继承一样有效。
+由于对象在 Nim 中是值类型，因此组合与继承一样高效。
 {==+==}
 
 
@@ -203,8 +203,8 @@ depend on each other; they are *mutually recursive*. In Nim
 these types can only be declared within a single type section. (Anything else
 would require arbitrary symbol lookahead which slows down compilation.)
 {==+==}
-对象、元组和引用可以对相互依赖的相当复杂的数据结构进行建模; 它们是*相互递归的*。
-在 Nim 中，这些类型只能在单个类型部分中声明。(其他任何事情都需要任意符号前瞻，这会减慢编译速度)
+对象、元组和引用可以模拟相互依赖的非常复杂的数据结构;
+在一个声明块中声明的类型是*相互递归*可知的。(其他类型都需要提前声明相应符号，这将减慢编译速度)
 {==+==}
 
 {==+==}
@@ -250,7 +250,7 @@ interpret a bit pattern to be of another type.
 类型转换
 ----------------
 Nim 区分 `type cast`:idx: 和 `type conversions`:idx:。
-强制转换使用 `cast` 运算符完成，并强制编译器将位模式解释为另一种类型。
+`cast` 运算符可用于类型强转，强制编译器将一种类型的位格式强转为另一种类型。
 {==+==}
 
 {==+==}
@@ -259,15 +259,15 @@ They preserve the abstract *value*, not necessarily the *bit-pattern*. If a
 type conversion is not possible, the compiler complains or an exception is
 raised.
 {==+==}
-类型转换是将一种类型转换为另一种类型的一种更为礼貌的方式: 它们保留抽象的 *value*，
-不一定是 *bit-pattern*。如果无法进行类型转换，编译器会抱怨或引发异常。
+类型转换是将一种类型转换为另一种类型的一种更友好的方式: 它们保留抽象的*值*，
+且不一定按照*位模式*转换。如果无法进行转换，编译器会报错或引发异常。
 {==+==}
 
 {==+==}
 The syntax for type conversions is `destination_type(expression_to_convert)`
 (like an ordinary call):
 {==+==}
-类型转换的语法是 `destination_type(expression_to_convert)` (就像一个普通的调用):
+类型转换的语法是 `destination_type(expression_to_convert)` (类似普通的调用):
 {==+==}
 
 {==+==}
@@ -298,13 +298,13 @@ variant types are needed.
 {==+==}
 对象变体
 ---------------
-在某些需要简单变体类型的情况下，对象层次结构通常是多余的。
+使用鉴别器来处理简单的对象变体是极其高效的。
 {==+==}
 
 {==+==}
 An example:
 {==+==}
-一个例子:
+例:
 {==+==}
 
 {==+==}
@@ -366,7 +366,7 @@ As can been seen from the example, an advantage to an object hierarchy is that
 no conversion between different object types is needed. Yet, access to invalid
 object fields raises an exception.
 {==+==}
-从示例中可以看出，对象层次结构的一个优点是不需要在不同对象类型之间进行转换。
+从示例中可以看出，使用鉴别器处理异构对象的一个优点是无需在不同对象类型之间进行转换。
 然而，对无效对象字段的访问会引发异常。
 {==+==}
 
@@ -386,16 +386,16 @@ instead of `methodName(obj, args)`.
 If there are no remaining arguments, the parentheses can be omitted:
 `obj.len` (instead of `len(obj)`).
 {==+==}
-调用例程有一个语法糖：可以使用语法 `obj.methodName(args)`
-代替 `methodName(obj, args)`。如果没有剩余参数，可以省略括号:
-`obj.len` (而不是`len(obj)`)。
+调用例程有一个语法糖: 可用 `obj.methodName(args)` 语法
+代替 `methodName(obj, args)`。如果没有其他参数，可省略括号:
+`obj.len` (而非 `len(obj)`)。
 {==+==}
 
 {==+==}
 This method call syntax is not restricted to objects, it can be used
 for any type:
 {==+==}
-此方法调用语法不限于对象，它可以用于任何类型:
+这种方法调用语法不限于对象，它可用于任何类型:
 {==+==}
 
 {==+==}
@@ -422,13 +422,13 @@ for any type:
 (Another way to look at the method call syntax is that it provides the missing
 postfix notation.)
 {==+==}
-(查看方法调用语法的另一种方式是它提供了缺少的后缀符号)
+(从另一个角度来看，方法调用的语法，提供了语义上缺省的后缀)
 {==+==}
 
 {==+==}
 So "pure object oriented" code is easy to write:
 {==+==}
-所以 "纯面向对象" 的代码很容易编写:
+所以"纯面向对象"的代码很容易编写:
 {==+==}
 
 {==+==}
@@ -458,10 +458,10 @@ Ordinary get-procedures that are called with the *method call syntax* achieve
 the same. But setting a value is different; for this a special setter syntax
 is needed:
 {==+==}
-特性
+属性
 ----------
-如上例所示，Nim 不需要 *get-properties*：使用 *method call syntax*
-调用的普通 get-procedures 实现相同。但是设置一个值是不同的; 为此，需要特殊的 setter 语法:
+如上例所示，Nim 不需要 *get-properties*: 使用*方法调用语法*调用的普通 get-procedures
+与前者实现相同。但设置一个值的情况并不是这样; 为此，需要特殊的 setter 语法:
 {==+==}
 
 {==+==}
@@ -505,7 +505,7 @@ is needed:
 {==+==}
 (The example also shows `inline` procedures.)
 {==+==}
-（该示例还显示了 `inline` 过程)
+(该示例还显示了 `inline` 过程)
 {==+==}
 
 
@@ -513,7 +513,7 @@ is needed:
 The `[]` array access operator can be overloaded to provide
 `array properties`:idx:\ :
 {==+==}
-`[]` 数组访问运算符可以重载以提供 `array properties`:idx:\ ：
+数组访问运算符 `[]` 可被重载以提供 `array properties`:idx:\ :
 {==+==}
 
 {==+==}
@@ -566,7 +566,7 @@ The `[]` array access operator can be overloaded to provide
 The example is silly, since a vector is better modelled by a tuple which
 already provides `v[]` access.
 {==+==}
-这个例子很愚蠢，因为向量最好由一个已经提供 `v[]` 访问的元组来建模。
+这个例子很蠢，因为向量最好由一个提供了 `v[]` 访问方式的元组来构建。
 {==+==}
 
 
@@ -582,7 +582,7 @@ Dynamic dispatch
 Procedures always use static dispatch. For dynamic dispatch replace the
 `proc` keyword by `method`:
 {==+==}
-过程总是使用静态调度。对于动态调度，用 `method` 替换 `proc` 关键字:
+过程总是使用静态分发。对于动态分发，应用 `method` 替换 `proc` 关键字:
 {==+==}
 
 {==+==}
@@ -636,7 +636,7 @@ Note that in the example the constructors `newLit` and `newPlus` are procs
 because it makes more sense for them to use static binding, but `eval` is a
 method because it requires dynamic binding.
 {==+==}
-请注意，在示例中，构造函数 `newLit` 和 `newPlus` 是 procs，
+请注意，在示例中，构造函数 `newLit` 和 `newPlus` 是过程，
 因为它们使用静态绑定更有意义，但 `eval` 是一种方法，因为它需要动态绑定。
 {==+==}
 
@@ -644,14 +644,14 @@ method because it requires dynamic binding.
 **Note:** Starting from Nim 0.20, to use multi-methods one must explicitly pass
 ``--multimethods:on`` when compiling.
 {==+==}
-**注意：** 从 Nim 0.20 开始，要使用多方法，必须在编译时显式传递 ``--multimethods:on``。
+**注意:** 从 Nim 0.20 开始，要使用 multi-methods，必须在编译时显式传递 ``--multimethods:on``。
 {==+==}
 
 {==+==}
 In a multi-method all parameters that have an object type are used for the
 dispatching:
 {==+==}
-在多方法中，所有具有对象类型的参数都用于调度:
+在 multi-methods 中，所有具有对象类型的参数都将用于分发:
 {==+==}
 
 {==+==}
@@ -704,8 +704,8 @@ As the example demonstrates, invocation of a multi-method cannot be ambiguous:
 Collide 2 is preferred over collide 1 because the resolution works from left to
 right. Thus `Unit, Thing` is preferred over `Thing, Unit`.
 {==+==}
-如示例所示，多方法的调用不能模棱两可：碰撞 2 优于碰撞 1，因为分辨率从左到右起作用。
-因此，`Unit, Thing` 优于 `Thing, Unit`。
+如示例所示，对 multi-method 的调用不能模棱两可: collide 2 优于 collide 1，
+因为解析深度从左到右降低。因此，`Unit, Thing` 优于 `Thing, Unit`。
 {==+==}
 
 {==+==}
@@ -714,8 +714,8 @@ generates dispatch trees. This avoids the expensive indirect branch for method
 calls and enables inlining. However, other optimizations like compile time
 evaluation or dead code elimination do not work with methods.
 {==+==}
-**性能说明**：Nim 不生成虚拟方法表，而是生成调度树。这避免了方法调用昂贵的间接分支并启用内联。
-但是，编译时评估或死代码消除等其他优化不适用于方法。
+**性能说明**: Nim 不生成虚拟方法表，而是生成调度树。这避免了方法调用昂贵的间接分支并支持内联。
+但是，编译时评估以及死代码消除等其他优化将不适用于方法。
 {==+==}
 
 
@@ -733,9 +733,9 @@ suffixed with 'Error'. The [system](system.html) module defines an
 exception hierarchy that you might want to stick to. Exceptions derive from
 `system.Exception`, which provides the common interface.
 {==+==}
-在 Nim 中，例外是对象。按照惯例，异常类型以 'Error' 为后缀。
-[system](system.html) 模块定义了您可能想要坚持的异常层次结构。
-异常从提供公共接口的`system.Exception`派生。
+在 Nim 中，异常是对象。按照惯例，异常类型以 'Error' 为后缀。
+[system](system.html) 模块定义了您可能想要依照的异常层次结构。
+异常从提供了公共接口的`system.Exception`派生。
 {==+==}
 
 {==+==}
@@ -744,7 +744,7 @@ The compiler will prevent you from raising an exception created on the stack.
 All raised exceptions should at least specify the reason for being raised in
 the `msg` field.
 {==+==}
-异常必须在堆上分配，因为它们的生命周期是未知的。编译器将阻止您引发在堆栈上创建的异常。
+异常必须在堆上分配，因为它们的生命周期是未知的。编译器将阻止您引发在栈上创建的异常。
 所有引发的异常至少应在 `msg` 字段中指定引发的原因。
 {==+==}
 
@@ -752,7 +752,7 @@ the `msg` field.
 A convention is that exceptions should be raised in *exceptional* cases,
 they should not be used as an alternative method of control flow.
 {==+==}
-约定是在 *exceptional* 情况下应该引发异常，它们不应该用作控制流的替代方法。
+异常应在*发生异常*的情况下引发，它们不应用作控制流的替代方法。
 {==+==}
 
 {==+==}
@@ -788,8 +788,8 @@ If the `raise` keyword is not followed by an expression, the last exception
 is *re-raised*. For the purpose of avoiding repeating this common code pattern,
 the template `newException` in the `system` module can be used:
 {==+==}
-如果 `raise` 关键字后面没有跟表达式，最后一个例外是 *re-raised*。
-为了避免重复这种常见的代码模式，可以使用 `system` 模块中的模板 `newException`:
+如果 `raise` 关键字后面没有跟表达式，最后一个异常将被*再次引发*。
+为避免重复这种常见的代码模式，可用 `system` 模块中的模板 `newException`:
 {==+==}
 
 {==+==}
@@ -875,7 +875,7 @@ The `try` statement handles exceptions:
 The statements after the `try` are executed unless an exception is
 raised. Then the appropriate `except` part is executed.
 {==+==}
-除非引发异常，否则将执行 `try` 之后的语句。然后执行适当的 `except` 部分。
+除非有异常被引发，否则将执行 `try` 之后的语句。然后执行之后可能达到的 `except` 部分。
 {==+==}
 
 {==+==}
@@ -883,14 +883,14 @@ The empty `except` part is executed if there is an exception that is
 not explicitly listed. It is similar to an `else` part in `if`
 statements.
 {==+==}
-如果存在未明确列出的异常，则执行空的 `except` 部分。它类似于 `if` 语句中的 `else` 部分。
+如果存在未明确列出的异常，则执行空的 `except` 部分。它类似于 `if` 语句中的 `else`。
 {==+==}
 
 {==+==}
 If there is a `finally` part, it is always executed after the
 exception handlers.
 {==+==}
-如果有 `finally` 部分，它总是在异常处理程序之后执行。
+若有 `finally` 部分，它总是在异常处理之后执行。
 {==+==}
 
 {==+==}
@@ -899,8 +899,8 @@ handled, it is propagated through the call stack. This means that often
 the rest of the procedure - that is not within a `finally` clause -
 is not executed (if an exception occurs).
 {==+==}
-例外是 *consumed* 在 `except` 部分。如果未处理异常，则通过调用堆栈传播异常。
-这意味着程序的其余部分——不在 `finally` 子句中——通常不会被执行(如果发生异常)。
+异常在 `except` 部分被*消费*。如果异常未被处理，则其通过调用堆栈传播。
+这意味着如果发生异常，程序的其余部分——不在 `finally` 子句中——通常不会被执行。
 {==+==}
 
 {==+==}
@@ -910,10 +910,9 @@ system.html#getCurrentException) and [getCurrentExceptionMsg()](
 system.html#getCurrentExceptionMsg) procs from the [system](system.html)
 module. Example:
 {==+==}
-如果您需要*访问* `except` 分支中的实际异常对象或消息，您可以使用
-[getCurrentException()](system.html#getCurrentException) 和
-[getCurrentExceptionMsg()](system.html#getCurrentExceptionMsg) procs 从
-[系统]（system.html）模块。例子:
+如果您需要*访问* `except` 分支中的实际异常对象或消息，您可以使用[系统](system.html）模块中的
+[getCurrentException()](system.html#getCurrentException) 和 [getCurrentExceptionMsg()](
+  system.html#getCurrentExceptionMsg) 过程。例如:
 {==+==}
 
 {==+==}
@@ -943,8 +942,8 @@ module. Example:
 Annotating procs with raised exceptions
 ---------------------------------------
 {==+==}
-用引发的异常注释过程
----------------------------------------
+用 raised exceptions 注解过程
+-----------------------------------------------
 {==+==}
 
 {==+==}
@@ -955,9 +954,9 @@ instance, if you specify that a proc raises `IOError`, and at some point it
 (or one of the procs it calls) starts raising a new exception the compiler will
 prevent that proc from compiling. Usage example:
 {==+==}
-通过使用可选的 `{.raises.}` pragma，您可以指定 proc 旨在引发一组特定的异常，或者根本不引发异常。
-如果使用了 `{.raises.}` pragma，编译器将验证这是真的。例如，如果您指定 proc 引发 `IOError`，
-并且在某个时候它(或它调用的其中一个 proc)开始引发新异常，则编译器将阻止该 proc 编译。使用示例:
+通过使用可选的 `{.raises.}` 编译指示，您可指定过程旨在引发一组特定的异常，或者根本不引发异常。
+如果使用了 `{.raises.}` 编译指示，编译器将验证这是否为真。例如，如果您指定过程会引发 `IOError`，
+并且在某个时候它(或它调用的其中一个过程)开始引发新异常，则编译器将阻止该过程编译。使用示例:
 {==+==}
 
 {==+==}
@@ -986,7 +985,7 @@ with the file and line where the uncaught exception is being raised, which may
 help you locate the offending code which has changed.
 {==+==}
 一旦你有了这样的代码，如果引发的异常列表发生更改，编译器将停止并显示一个错误，指定停止验证编译指示
-的 proc 行和未捕获引发的异常，以及文件和行所在的位置引发了未捕获的异常，这可以帮助您找到已更改的违规代码。
+的过程行和未捕获的可引发的异常，以及未捕获的已引发异常所在的文件和行，这可帮助您找到已更改的违规代码。
 {==+==}
 
 {==+==}
@@ -999,11 +998,11 @@ command which generates documentation for a whole module and decorates all
 procs with the list of raised exceptions. You can read more about Nim's
 [effect system and related pragmas in the manual](manual.html#effect-system).
 {==+==}
-如果您想将 `{.raises.}` 杂注添加到现有代码中，编译器也可以帮助您。
-您可以将 `{.effects.}` pragma 语句添加到您的 proc 中，编译器将输出到该点的所有推断效果
-(异常跟踪是 Nim 效果系统的一部分)。另一种查找 proc 引发的异常列表的更为迂回的方法是使用
-Nim ``doc`` 命令，该命令为整个模块生成文档，并用引发的异常列表装饰所有 proc。
-您可以阅读更多关于 Nim 的 [效果系统和手册中的相关 pragma](manual.html#effect-system)。
+如果您想将 `{.raises.}` 编译指示添加到现有代码中，编译器也可助您一臂之力。
+将 `{.effects.}` 编译指示语句添加到您的过程中，编译器将把所有的推断效果输出到该点
+(异常跟踪是 Nim effect 系统的一部分)。另一种查找过程引发的异常列表的更为隐晦的方法是使用
+Nim ``doc`` 命令，该命令为整个模块生成文档，并用异常引发列表装饰所有过程。
+您可[在手册中阅读更多关于 Nim 的 effect 系统和相关编译指示的信息](manual.html#effect-system)。
 {==+==}
 
 
@@ -1022,7 +1021,7 @@ brackets, for example `Foo[T]`. They are most useful for efficient type safe
 containers:
 {==+==}
 泛型是 Nim 使用 `type parameters`:idx: 参数化过程、迭代器或类型的方法。
-通用参数写在方括号内，例如 `Foo[T]`。 它们对于高效的类型安全容器最有用:
+泛型参数写在方括号内，例如 `Foo[T]`。它们对高效的类型安全容器最有用:
 {==+==}
 
 {==+==}
@@ -1148,15 +1147,15 @@ iterator or type. As the example shows, generics work with overloading: the
 best match of `add` is used. The built-in `add` procedure for sequences
 is not hidden and is used in the `preorder` iterator.
 {==+==}
-该示例显示了一个通用二叉树。根据上下文，方括号用于引入类型参数或实例化泛型 proc、迭代器或类型。
-如示例所示，泛型适用于重载：使用 `add` 的最佳匹配。序列的内置 `add` 过程不是隐藏的，
+该例展示了一个泛型二叉树。根据上下文，方括号可用于引入类型参数或实例化泛型过程、迭代器或类型。
+如示例所示，泛型支持重载: 使用 `add` 的最佳匹配。序列的内置 `add` 过程不是隐藏的，
 并且在 `preorder` 迭代器中使用。
 {==+==}
 
 {==+==}
 There is a special `[:T]` syntax when using generics with the method call syntax:
 {==+==}
-在方法调用语法中使用泛型时有一个特殊的 `[:T]` 语法：
+在方法调用语法中使用泛型时有一个特殊的 `[:T]` 语法:
 {==+==}
 
 {==+==}
@@ -1198,8 +1197,8 @@ abstract syntax trees. Templates are processed in the semantic pass of the
 compiler. They integrate well with the rest of the language and share none
 of C's preprocessor macros flaws.
 {==+==}
-模板是一种在 Nim 的抽象语法树上运行的简单替换机制。模板在编译器的语义传递中处理。
-它们与语言的其余部分很好地集成，并且没有 C 的预处理器宏缺陷。
+模板是一种在 Nim 抽象语法树上执行的简单替换机制。模板在编译器的语义传递中处理。
+它们与语言的其余部分很好地集成，且没有 C 的预处理器宏的缺陷。
 {==+==}
 
 {==+==}
@@ -1239,8 +1238,8 @@ the `!=` operator is available automatically and does the right thing. (Except
 for IEEE floating point numbers - NaN breaks basic boolean logic.)
 {==+==}
 `!=`、`>`、`>=`、`in`、`notin`、`isnot` 运算符实际上是模板: 这样做的好处是，
-如果重载 `==` 运算符，`! =` 运算符自动可用并且做正确的事情。
-(除了 IEEE 浮点数 - NaN 破坏了基本的布尔逻辑)
+如果重载了 `==` 运算符，`!=` 运算符将自动可用并且正确运作。
+(除了 IEEE 浮点数 —— NaN 破坏了基本的布尔逻辑)
 {==+==}
 
 {==+==}
@@ -1248,15 +1247,16 @@ for IEEE floating point numbers - NaN breaks basic boolean logic.)
 `a in b` is transformed into `contains(b, a)`.
 `notin` and `isnot` have the obvious meanings.
 {==+==}
-`a > b` 被转换为 `b < a`。 `a in b` 被转换为 `contains(b, a)`。
-`notin` 和 `isnot` 有明显的含义。
+`a > b` 被转换为 `b < a`。
+`a in b` 被转换为 `contains(b, a)`。
+`notin` 和 `isnot` 语义显然。
 {==+==}
 
 {==+==}
 Templates are especially useful for lazy evaluation purposes. Consider a
 simple proc for logging:
 {==+==}
-模板对于惰性求值特别有用。考虑一个简单的日志记录过程：
+模板对于惰性求值特别有用。考虑一个简单处理日志的过程:
 {==+==}
 
 {==+==}
@@ -1290,8 +1290,8 @@ This code has a shortcoming: if `debug` is set to false someday, the quite
 expensive `$` and `&` operations are still performed! (The argument
 evaluation for procedures is *eager*).
 {==+==}
-这段代码有个缺点: 如果哪天将`debug`设置为false，还是会执行相当昂贵的`$`和`&`操作!
-(过程的参数评估是 *eager*)。
+这段代码有个缺点: 如果哪天将 `debug` 设为 false，那么仍会执行相当昂贵的 `$` 和 `&` 操作!
+(对过程的参数评估总是*即刻执行*的)。
 {==+==}
 
 {==+==}
@@ -1332,7 +1332,7 @@ The parameters' types can be ordinary types or the meta types `untyped`,
 as an argument, and `untyped` means symbol lookups and type resolution is not
 performed before the expression is passed to the template.
 {==+==}
-参数的类型可以是普通类型或元类型 `untyped`、`typed` 或 `type`。`type` 表示只能将类型符号
+参数的类型可以是普通类型或元类型 `untyped`, `typed` 或 `type`。 `type` 表示只能将类型符号
 作为参数给出，而 `untyped` 表示在将表达式传递给模板之前不执行符号查找和类型解析。
 {==+==}
 
@@ -1340,13 +1340,13 @@ performed before the expression is passed to the template.
 If the template has no explicit return type,
 `void` is used for consistency with procs and methods.
 {==+==}
-如果模板没有明确的返回类型，则使用 `void` 与 procs 和方法保持一致。
+如果模板没有明确的返回类型，它将使用 `void` 以与过程和方法保持一致。
 {==+==}
 
 {==+==}
 To pass a block of statements to a template, use `untyped` for the last parameter:
 {==+==}
-要将语句块传递给模板，请对最后一个参数使用 `untyped`:
+要将语句块传递给模板，请将最后一个参数设为 `untyped`:
 {==+==}
 
 {==+==}
@@ -1394,9 +1394,9 @@ avoid a common bug: to forget to close the file. Note how the
 `let fn = filename` statement ensures that `filename` is evaluated only
 once.
 {==+==}
-在示例中，两个 `writeLine` 语句绑定到 `body` 参数。`withFile` 模板包含样板代码，
-有助于避免一个常见的错误: 忘记关闭文件。注意 `let fn = filename` 语句如何确保
-`filename` 只计算一次。
+在这个示例中，有两个 `writeLine` 语句绑定到 `body` 参数。`withFile` 模板包含样板代码，
+这有助于避免一个常见的错误: 忘记关闭文件。注意 `let fn = filename` 语句是如何确保
+`filename` 只评估一次的。
 {==+==}
 
 {==+==}
@@ -1478,14 +1478,13 @@ JavaScript-compatible code you should remember the following:
   use `cstring` only when it is semantically appropriate. E.g. don't use
   `cstring` as a binary data buffer.
 {==+==}
-Nim 代码可以编译为 JavaScript。 但是为了写
-您应该记住以下与 JavaScript 兼容的代码：
+Nim 代码可编译成 JavaScript。但为了写出与 JavaScript 兼容的代码，您应遵循一下几条:
 - `addr` 和 `ptr` 在 JavaScript 中的语义略有不同。如果您不确定它们是如何转换为 JavaScript 的，
   建议您避免使用它们。
-- JavaScript 中的 `cast[T](x)` 被翻译为 `(x)`，除了有符号/无符号整数之间的转换，在这种情况下，
+- JavaScript 中的 `cast[T](x)` 被翻译为 `(x)`，除了有符号 / 无符号整数之间的转换。在这种情况下，
   它的行为类似于 C 语言中的静态转换。
-- JavaScript 中的 `cstring` 表示 JavaScript 字符串。 仅在语义合适时才使用 `cstring` 
-  是一种很好的做法。 例如。 不要使用 `cstring` 作为二进制数据缓冲区。
+- JavaScript 中的 `cstring` 表示 JavaScript 字符串。一种好的做法是在仅在语义合适时才使用 `cstring` 
+  例如，不要使用 `cstring` 作为二进制数据缓冲区。
 {==+==}
 
 
@@ -1500,5 +1499,5 @@ Part 3
 {==+==}
 The next part is entirely about metaprogramming via macros: [Part III](tut3.html).
 {==+==}
-下部分: [第 III 部分](tut3.html).
+下部分将用整章讲述基于宏的元编程: [第 III 部分](tut3.html).
 {==+==}
