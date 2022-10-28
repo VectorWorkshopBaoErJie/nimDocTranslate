@@ -110,7 +110,7 @@
 </ul><li><a class="reference" id="类型关系_toc" href="#类型关系">类型关系</a></li>
 <ul class="simple"><li><a class="reference" id="类型关系-类型相等性_toc" href="#类型关系-类型相等性">类型相等性</a></li>
 <li><a class="reference" id="类型关系-subtype关系_toc" href="#类型关系-subtype关系">Subtype关系</a></li>
-<li><a class="reference" id="类型关系-交换关系_toc" href="#类型关系-交换关系">交换关系</a></li>
+<li><a class="reference" id="类型关系-转换关系_toc" href="#类型关系-转换关系">转换关系</a></li>
 <li><a class="reference" id="类型关系-赋值兼容_toc" href="#类型关系-赋值兼容">赋值兼容</a></li>
 </ul><li><a class="reference" id="重载解决方案_toc" href="#重载解决方案">重载解决方案</a></li>
 <ul class="simple"><li><a class="reference" id="重载解决方案-基于-var-t-的重载_toc" href="#重载解决方案-基于-var-t-的重载">基于 'var T' 的重载</a></li>
@@ -208,7 +208,7 @@
 <li><a class="reference" id="模板-模板中的符号绑定_toc" href="#模板-模板中的符号绑定">模板中的符号绑定</a></li>
 <li><a class="reference" id="模板-标识符的构建_toc" href="#模板-标识符的构建">标识符的构建</a></li>
 <li><a class="reference" id="模板-模板参数的查找规则_toc" href="#模板-模板参数的查找规则">模板参数的查找规则</a></li>
-<li><a class="reference" id="模板-模板的卫生性_toc" href="#模板-模板的卫生性">模板的卫生性</a></li>
+<li><a class="reference" id="模板-模板的洁净性_toc" href="#模板-模板的洁净性">模板的洁净性</a></li>
 <li><a class="reference" id="模板-方法调用语法的局限_toc" href="#模板-方法调用语法的局限">方法调用语法的局限</a></li>
 </ul><li><a class="reference" id="宏_toc" href="#宏">宏</a></li>
 <ul class="simple"><li><a class="reference" id="宏-debug-示例_toc" href="#宏-debug-示例">debug 示例</a></li>
@@ -317,7 +317,7 @@
     <div id="tocRoot"></div>
     
     <p class="module-desc"><table class="docinfo" frame="void" rules="none"><col class="docinfo-name" /><col class="docinfo-content" /><tbody valign="top"><tr><th class="docinfo-name">作者:</th><td>Andreas Rumpf, Zahary Karadjov</td></tr>
-<tr><th class="docinfo-name">版本:</th><td>1.6.8以上</td></tr>
+<tr><th class="docinfo-name">版本:</th><td>|nimversion|</td></tr>
 </tbody></table><blockquote class="markdown-quote"><p>&quot;复杂性&quot; 如同 &quot;能量&quot;: 终端用户把它转嫁给其他参与者，但给定任务的总量似乎没变。 -- Ran</p></blockquote>
 
 <h1><a class="toc-backref" id="关于手册" href="#关于手册">关于手册</a></h1><p><strong>注意</strong>: 当前手册还是草案! Nim的一些功能需要更加准确的描述。手册内容也在不断更新，使其逐渐成为规范。</p>
@@ -491,7 +491,7 @@ IDENTIFIER ::= letter ( ['_'] (letter | digit) )*</pre></p>
 <h2><a class="toc-backref" id="词法分析-原始字符串字面值" href="#词法分析-原始字符串字面值">原始字符串字面值</a></h2><p>语法中的终端符号: <tt class="docutils literal"><span class="pre"><span class="Identifier">RSTR_LIT</span></span></tt> 。</p>
 <p>还有原始字符串字面值，前面为字母 <tt class="docutils literal"><span class="pre"><span class="Identifier">r</span></span></tt> 或 <tt class="docutils literal"><span class="pre"><span class="Identifier">R</span></span></tt> ，并匹配一对双引号普通字符串，它不解释转义字符，这在正则表达式或Windows的路径中使用时很方便。</p>
 <p><pre class="listing">
-<span class="Keyword">var</span> <span class="Identifier">f</span> <span class="Operator">=</span> <span class="Identifier">openFile</span><span class="Punctuation">(</span><span class="RawData">r&quot;C:\texts\text.txt&quot;</span><span class="Punctuation">)</span> <span class="Comment"># a raw string, so ``\t`` is no tab</span></pre></p>
+<span class="Keyword">var</span> <span class="Identifier">f</span> <span class="Operator">=</span> <span class="Identifier">openFile</span><span class="Punctuation">(</span><span class="RawData">r&quot;C:\texts\text.txt&quot;</span><span class="Punctuation">)</span> <span class="Comment"># 是原始字符串, 所以 ``\t`` 不是制表符</span></pre></p>
 <p>要在原始字符串字面值中含有 <tt class="docutils literal"><span class="pre"><span class="StringLit">&quot;</span></span></tt> 则必须成双。</p>
 <p><pre class="listing">
 <span class="RawData">r&quot;a&quot;&quot;</span><span class="RawData">b&quot;</span></pre></p>
@@ -1019,7 +1019,7 @@ stmt = (IND{&gt;} complexOrSimpleStmt^+(IND{=} / ';') DED)
 <dt><tt class="docutils literal"><span class="pre"><span class="Identifier">uint</span></span></tt></dt>
 <dd>常规的 <span id="unsigned-integer_1">unsigned integer</span> &quot;无符号整数&quot;类型，它的大小与平台有关，与指针的大小相同，整数字面值后缀为 <tt class="docutils literal"><span class="pre"><span class="CharLit">'u</span></span></tt> 。</dd>
 <dt><tt class="docutils literal"><span class="pre"><span class="Identifier">uint</span></span></tt>XX</dt>
-<dd>这种命名规则，是无符号整数类型附带XX，表示位宽(例如：uint16是16位宽的无符号整数)，目前支持 <tt class="docutils literal"><span class="pre"><span class="Identifier">uint8</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">uint16</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">uint32</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">uint64</span></span></tt> ，字面值后缀为'uXX'。无符号运算会环绕，从面不会导致溢出或下溢的错误。</dd>
+<dd>这种命名规则，是无符号整数类型附带XX，表示位宽(例如：uint16是16位宽的无符号整数)，目前支持 <tt class="docutils literal"><span class="pre"><span class="Identifier">uint8</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">uint16</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">uint32</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">uint64</span></span></tt> ，字面值后缀为'uXX'。无符号运算会环绕，从而不会导致溢出或下溢的错误。</dd>
 </dl>
 <p>除了有符号和无符号整数的常用算术运算符( <tt class="docutils literal"><span class="pre"><span class="Operator">+</span> <span class="Operator">-</span> <span class="Operator">*</span></span></tt> 等)之外， 还有些运算符可以处理 <em>有符号</em> 整数，但将其参数视为 <em>无符号</em> ，主要用于之后的版本与缺少无符号整数类型的旧版本语言进行兼容。 有符号整数的这些无符号运算约定使用 <tt class="docutils literal"><span class="pre"><span class="Operator">%</span></span></tt> 作为后缀:</p>
 <table border="1" class="docutils"><tr><th>运算符</th><th>含义</th></tr>
@@ -1043,7 +1043,7 @@ stmt = (IND{&gt;} complexOrSimpleStmt^+(IND{=} / ';') DED)
 <span class="Identifier">myInt16</span> <span class="Operator">+</span> <span class="Identifier">myInt</span>  <span class="Comment"># 为 `int` 类型</span>
 <span class="Identifier">myInt16</span> <span class="Operator">+</span> <span class="DecNumber">2</span><span class="Identifier">i32</span>   <span class="Comment"># 为 `int32` 类型</span></pre></p>
 <p>然而，如果字面值适合这个较小类型，并且这样的转换比其他隐式转换更好，那么 <tt class="docutils literal"><span class="pre"><span class="Identifier">int</span></span></tt> 字面值可以隐式转换为较小的整数类型，因而 <tt class="docutils literal"><span class="pre"><span class="Identifier">myInt16</span> <span class="Operator">+</span> <span class="DecNumber">34</span></span></tt> 结果是 <tt class="docutils literal"><span class="pre"><span class="Identifier">int16</span></span></tt> 类型。</p>
-<p>关于细节查看<a class="reference internal" href="#转换关系">转换关系</a>。</p>
+<p>关于细节查看<a class="reference internal" href="#类型关系-转换关系">转换关系</a>。</p>
 
 <h2><a class="toc-backref" id="类型-子范围类型" href="#类型-子范围类型">子范围类型</a></h2><p>子范围类型是序数或浮点类型(基类型)的取值范围。要定义子范围类型，必须指定其值的限制，即类型的最低值和最高值。例如:</p>
 <p><pre class="listing">
@@ -1060,7 +1060,7 @@ stmt = (IND{&gt;} complexOrSimpleStmt^+(IND{=} / ';') DED)
 <dt><tt class="docutils literal"><span class="pre"><span class="Identifier">float</span></span></tt>XX</dt>
 <dd>这种命名规则，是浮点类型附带XX位，表示位宽(例如： <tt class="docutils literal"><span class="pre"><span class="Identifier">float64</span></span></tt> 是64位宽的浮点数)。目前支持 <tt class="docutils literal"><span class="pre"><span class="Identifier">float32</span></span></tt> 和 <tt class="docutils literal"><span class="pre"><span class="Identifier">float64</span></span></tt> ，字面值后缀为 'fXX 。</dd>
 </dl>
-<p>在具有不同种类的浮点类型的表达式中，会进行自动类型转换，详情见<a class="reference internal" href="#转换关系">转换关系</a>。对于浮点类型进行的算术运算遵循IEEE标准。整数类型不会自动转换为浮点类型，反之亦然。</p>
+<p>在具有不同种类的浮点类型的表达式中，会进行自动类型转换，详情见<a class="reference internal" href="#类型关系-转换关系">转换关系</a>。对于浮点类型进行的算术运算遵循IEEE标准。整数类型不会自动转换为浮点类型，反之亦然。</p>
 <p>IEEE标准定义了五种类型的浮点运算异常:</p>
 <ul class="simple"><li>无效: 使用数学上无效的操作数运算, 例如 0.0/0.0, sqrt(-1.0), 和log(-37.8).</li>
 <li>除以零: 除数为零，且被除数是有限的非零数，例如 1.0 / 0.0 。</li>
@@ -1798,7 +1798,7 @@ myWriteln(stdout, [$123, $&quot;abc&quot;, $4.0])
 </ul>
 <p><strong>注意</strong>: 从子类型到父类型的赋值，需要上述指针注解之一，以防止 &quot;对象切割&quot; 。</p>
 
-<h2><a class="toc-backref" id="类型关系-交换关系" href="#类型关系-交换关系">交换关系</a></h2><p>如果以下算法返回 true，则类型 <tt class="docutils literal"><span class="pre"><span class="Identifier">a</span></span></tt> <strong>隐式</strong> 可转换为类型 <tt class="docutils literal"><span class="pre"><span class="Identifier">b</span></span></tt> :</p>
+<h2><a class="toc-backref" id="类型关系-转换关系" href="#类型关系-转换关系">转换关系</a></h2><p>如果以下算法返回 true，则类型 <tt class="docutils literal"><span class="pre"><span class="Identifier">a</span></span></tt> <strong>隐式</strong> 可转换为类型 <tt class="docutils literal"><span class="pre"><span class="Identifier">b</span></span></tt> :</p>
 <p><pre class="listing">
 <span class="Keyword">proc</span> <span class="Identifier">isImplicitlyConvertible</span><span class="Punctuation">(</span><span class="Identifier">a</span><span class="Punctuation">,</span> <span class="Identifier">b</span><span class="Punctuation">:</span> <span class="Identifier">PType</span><span class="Punctuation">)</span><span class="Punctuation">:</span> <span class="Identifier">bool</span> <span class="Operator">=</span>
   <span class="Keyword">if</span> <span class="Identifier">isSubtype</span><span class="Punctuation">(</span><span class="Identifier">a</span><span class="Punctuation">,</span> <span class="Identifier">b</span><span class="Punctuation">)</span><span class="Punctuation">:</span>
@@ -3011,7 +3011,7 @@ is, shallowCopy, getAst, astToStr, spawn, procCall</pre>
   <span class="Identifier">echo</span> <span class="Identifier">i</span></pre></p>
 <p>另请参阅<a class="reference internal" href="#iterable">iterable</a>，将迭代器传递给模板和宏。</p>
 
-<h1><a class="toc-backref" id="转换器" href="#转换器">转换器</a></h1><p>转换器和普通过程相似，但它增强了&quot;隐式转换&quot;类型的关系，参阅<a class="reference internal" href="#转换关系">转换关系</a>:</p>
+<h1><a class="toc-backref" id="转换器" href="#转换器">转换器</a></h1><p>转换器和普通过程相似，但它增强了&quot;隐式转换&quot;类型的关系，参阅<a class="reference internal" href="#类型关系-转换关系">转换关系</a>:</p>
 <p><pre class="listing">
 <span class="Comment"># 前方代码风格不好: Nim 不是 C。</span>
 <span class="Keyword">converter</span> <span class="Identifier">toBool</span><span class="Punctuation">(</span><span class="Identifier">x</span><span class="Punctuation">:</span> <span class="Identifier">int</span><span class="Punctuation">)</span><span class="Punctuation">:</span> <span class="Identifier">bool</span> <span class="Operator">=</span> <span class="Identifier">x</span> <span class="Operator">!=</span> <span class="DecNumber">0</span>
@@ -3690,7 +3690,7 @@ is, shallowCopy, getAst, astToStr, spawn, procCall</pre>
 <span class="Identifier">hideIdentifiers</span><span class="Punctuation">(</span><span class="Identifier">undeclared1</span><span class="Punctuation">,</span> <span class="Identifier">undeclared2</span><span class="Punctuation">)</span></pre></p>
 <p>然而，因为模板不能遍历可变参数，一般而言这个功能在宏中更有用。</p>
 
-<h2><a class="toc-backref" id="模板-模板中的符号绑定" href="#模板-模板中的符号绑定">模板中的符号绑定</a></h2><p>模板是 <span id="hygienic_1">hygienic</span> &quot;卫生&quot; 宏，会新开作用域。大部分符号会在宏的定义作用域中绑定:</p>
+<h2><a class="toc-backref" id="模板-模板中的符号绑定" href="#模板-模板中的符号绑定">模板中的符号绑定</a></h2><p>模板是 <span id="hygienic_1">hygienic</span> &quot;洁净&quot; 宏，会新开作用域。大部分符号会在宏的定义作用域中绑定:</p>
 <p><pre class="listing">
 <span class="Comment"># 模块 A</span>
 <span class="Keyword">var</span>
@@ -3749,7 +3749,7 @@ is, shallowCopy, getAst, astToStr, spawn, procCall</pre>
 <span class="Identifier">tstLev</span><span class="Punctuation">(</span><span class="Identifier">levA</span><span class="Punctuation">)</span>
 <span class="Comment"># 输出: 'levA levB'</span></pre></p>
 
-<h2><a class="toc-backref" id="模板-模板的卫生性" href="#模板-模板的卫生性">模板的卫生性</a></h2><p>默认情况下，模板是 <span id="hygienic_2">hygienic</span> &quot;卫生&quot; 的: 模板内局部声明的标识符，不能在实例化上下文中访问:</p>
+<h2><a class="toc-backref" id="模板-模板的洁净性" href="#模板-模板的洁净性">模板的洁净性</a></h2><p>默认情况下，模板是 <span id="hygienic_2">hygienic</span> &quot;洁净&quot; 的: 模板内局部声明的标识符，不能在实例化上下文中访问:</p>
 <p><pre class="listing">
 <span class="Keyword">template</span> <span class="Identifier">newException</span><span class="Operator">*</span> <span class="Punctuation">(</span><span class="Identifier">exceptn</span><span class="Punctuation">:</span> <span class="Identifier">typedesc</span><span class="Punctuation">,</span> <span class="Identifier">message</span><span class="Punctuation">:</span> <span class="Identifier">string</span><span class="Punctuation">)</span><span class="Punctuation">:</span> <span class="Identifier">untyped</span> <span class="Operator">=</span>
   <span class="Keyword">var</span>
@@ -3778,7 +3778,7 @@ is, shallowCopy, getAst, astToStr, spawn, procCall</pre>
 
 <span class="Keyword">template</span> <span class="Identifier">t</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">=</span>
   <span class="Keyword">var</span> <span class="Identifier">x</span> <span class="Punctuation">{</span><span class="Operator">.</span><span class="Identifier">myInject</span><span class="Operator">.</span><span class="Punctuation">}</span><span class="Punctuation">:</span> <span class="Identifier">int</span> <span class="Comment"># 无法工作</span></pre></p>
-<p>如果不想保持模板的卫生性，我们可以在模板中使用 <span id="dirty_1">dirty</span> 编译指示。<tt class="docutils literal"><span class="pre"><span class="Identifier">inject</span></span></tt> 和 <tt class="docutils literal"><span class="pre"><span class="Identifier">gensym</span></span></tt> 在 <tt class="docutils literal"><span class="pre"><span class="Identifier">dirty</span></span></tt> 模板中没有作用。</p>
+<p>如果不想保持模板的洁净性，我们可以在模板中使用 <span id="dirty_1">dirty</span> 编译指示。<tt class="docutils literal"><span class="pre"><span class="Identifier">inject</span></span></tt> 和 <tt class="docutils literal"><span class="pre"><span class="Identifier">gensym</span></span></tt> 在 <tt class="docutils literal"><span class="pre"><span class="Identifier">dirty</span></span></tt> 模板中没有作用。</p>
 <p>标记为 <tt class="docutils literal"><span class="pre"><span class="Identifier">gensym</span></span></tt> 的符号既不能作为 <tt class="docutils literal"><span class="pre"><span class="Identifier">field</span></span></tt> 用在 <tt class="docutils literal"><span class="pre"><span class="Identifier">x</span><span class="Operator">.</span><span class="Identifier">field</span></span></tt> 语义中，也不能用于 <tt class="docutils literal"><span class="pre"><span class="Identifier">ObjectConstruction</span><span class="Punctuation">(</span><span class="Identifier">field</span><span class="Punctuation">:</span> <span class="Identifier">value</span><span class="Punctuation">)</span></span></tt> 和 <tt class="docutils literal"><span class="pre"><span class="Identifier">namedParameterCall</span><span class="Punctuation">(</span><span class="Identifier">field</span> <span class="Operator">=</span> <span class="Identifier">value</span><span class="Punctuation">)</span></span></tt> 等语义构造。</p>
 <p>其原因在于要让以下代码:</p>
 <p><pre class="listing">
@@ -5105,20 +5105,19 @@ libtcl8.3.so.0</pre>
 <p>编译器会分析检查 <tt class="docutils literal"><span class="pre"><span class="Identifier">counters</span><span class="Punctuation">[</span><span class="Identifier">i</span><span class="Punctuation">]</span><span class="Operator">.</span><span class="Identifier">L</span></span></tt> 是否是用于受保护位置 <tt class="docutils literal"><span class="pre"><span class="Identifier">counters</span><span class="Punctuation">[</span><span class="Identifier">i</span><span class="Punctuation">]</span><span class="Operator">.</span><span class="Identifier">v</span></span></tt> 的那个锁。 因为这个分析能够处理像 <tt class="docutils literal"><span class="pre"><span class="Identifier">obj</span><span class="Operator">.</span><span class="Identifier">field</span><span class="Punctuation">[</span><span class="Identifier">i</span><span class="Punctuation">]</span><span class="Operator">.</span><span class="Identifier">fieldB</span><span class="Punctuation">[</span><span class="Identifier">j</span><span class="Punctuation">]</span></span></tt> 这样的路径，所以我们叫它 <span id="path-analysis_1">path analysis</span> &quot;路径分析&quot;。</p>
 <p>路径分析 <strong>目前不健全</strong> ，但也不是一点儿用都没有。如果两条路径在语法上相同，则认为是等价的。</p>
 <p>这意味着下面的代码(目前)可以编译通过，虽然真不应该如此：</p>
-
 <p><pre class="listing">
 <span class="Punctuation">{</span><span class="Operator">.</span><span class="Identifier">locks</span><span class="Punctuation">:</span> <span class="Punctuation">[</span><span class="Identifier">a</span><span class="Punctuation">[</span><span class="Identifier">i</span><span class="Punctuation">]</span><span class="Operator">.</span><span class="Identifier">L</span><span class="Punctuation">]</span><span class="Operator">.</span><span class="Punctuation">}</span><span class="Punctuation">:</span>
   <span class="Identifier">inc</span> <span class="Identifier">i</span>
   <span class="Identifier">access</span> <span class="Identifier">a</span><span class="Punctuation">[</span><span class="Identifier">i</span><span class="Punctuation">]</span><span class="Operator">.</span><span class="Identifier">v</span></pre></p>
 </p>
-<p>手册仓库地址：https://github.com/VectorWorkshopBaoErJie/nimDocTranslate</p>
+    
   </div>
 </div>
 
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-07 13:36:47 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-28 03:53:56 UTC</small>
       </div>
     </div>
   </div>

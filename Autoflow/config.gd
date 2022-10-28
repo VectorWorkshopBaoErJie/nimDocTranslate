@@ -10,26 +10,49 @@ var TL_flow_objs=[
     {"源文件名称":"manual/manual20220922.md",
     "词条文件":["manual/manual_1.md","manual/manual_2.md","manual/manual_3.md","manual/manual_4.md","manual/manual_5.md","manual/manual_6.md","manual/manual_7.md",
     "manual/manual_8.md","manual/manual_9.md","manual/manual_patch.md","manual/manual_pathch20220922.md"],
-    "目标文件名称":"manual/manual20220922.md",
-    "目标遗留文件文件名称":"manual/manual20220922_residue.md",
+    "目标文件名称":"manual/manual.md",
+    "目标遗留文件文件名称":"manual/manual_residue.md",
     "翻译词条":null,       ## 该数组将在程序初始化时执行解析加载
     "翻译模式":"非精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
     },
     
     {"源文件名称":"manual/sets_fragment20220922.txt",
     "词条文件":["manual/sets_fragment_1.txt","manual/sets_fragment_pathch20220922.txt"],
-    "目标文件名称":"manual/sets_fragment20220922.txt",
-    "目标遗留文件文件名称":"manual/sets_fragment20220922_residue.txt",
+    "目标文件名称":"manual/sets_fragment.txt",
+    "目标遗留文件文件名称":"manual/sets_fragment_residue.txt",
     "翻译词条":null,  ## 该数组将在程序初始化时执行解析加载
     "翻译模式":"非精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
     },
     {"源文件名称":"manual/var_t_return20220922.md",
     "词条文件":["manual/var_t_return.md"],
-    "目标文件名称":"manual/var_t_return20220922.md",
-    "目标遗留文件文件名称":"manual/var_t_return20220922_residue.txt",
+    "目标文件名称":"manual/var_t_return.md",
+    "目标遗留文件文件名称":"manual/var_t_return_residue.txt",
     "翻译词条":null,  ## 该数组将在程序初始化时执行解析加载
     "翻译模式":"非精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
+    },
+    {"源文件名称":"tut/tut1.md",
+    "词条文件":["tut/tut1_cn.md"],
+    "目标文件名称":"tut/tut1.md",
+    "目标遗留文件文件名称":"tut/tut1_residue.txt",
+    "翻译词条":null,  ## 该数组将在程序初始化时执行解析加载
+    "翻译模式":"精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
+    },
+    {"源文件名称":"tut/tut2.md",
+    "词条文件":["tut/tut2_cn.md"],
+    "目标文件名称":"tut/tut2.md",
+    "目标遗留文件文件名称":"tut/tut2_residue.txt",
+    "翻译词条":null,  ## 该数组将在程序初始化时执行解析加载
+    "翻译模式":"精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
+    },
+    {"源文件名称":"tut/tut3.md",
+    "词条文件":["tut/tut3_cn.md"],
+    "目标文件名称":"tut/tut3.md",
+    "目标遗留文件文件名称":"tut/tut3_residue.txt",
+    "翻译词条":null,  ## 该数组将在程序初始化时执行解析加载
+    "翻译模式":"精确对比",   ## 翻译模式为精确对比时,词条文件中词条必须在全部存在
     }
+
+
    ]
 
 ## 对翻译对象组进行初始化

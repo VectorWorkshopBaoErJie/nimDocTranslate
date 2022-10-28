@@ -115,13 +115,11 @@ We start the tour with a modified "hello world" program:
 
 {==+==}
 Save this code to the file "greetings.nim". Now compile and run it::
-{==+==}
-将代码保存在文件"greetings.nim"中。现在编译运行它::
-{==+==}
 
-{==+==}
   nim compile --run greetings.nim
 {==+==}
+将代码保存在文件"greetings.nim"中。现在编译运行它::
+
   nim compile --run greetings.nim
 {==+==}
 
@@ -968,36 +966,33 @@ counting to one less than the higher index:
   for i in 0 ..< 10:
     ...  # the same as 0 .. 9
   ```
+
+or
 {==+==}
   ```nim
   for i in 0 ..< 10:
     ...  # the same as 0 .. 9
   ```
-{==+==}
 
-{==+==}
-or
-{==+==}
 或者
 {==+==}
 
-{==+==}
-  ```nim
-  var s = "some string"
-  for i in 0 ..< s.len:
-    ...
-  ```
-{==+==}
-  ```nim
-  var s = "some string"
-  for i in 0 ..< s.len:
-    ...
-  ```
-{==+==}
 
 {==+==}
+  ```nim
+  var s = "some string"
+  for i in 0 ..< s.len:
+    ...
+  ```
+
 or
 {==+==}
+  ```nim
+  var s = "some string"
+  for i in 0 ..< s.len:
+    ...
+  ```
+
 或者
 {==+==}
 
