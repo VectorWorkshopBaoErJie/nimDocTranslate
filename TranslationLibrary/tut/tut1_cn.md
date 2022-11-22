@@ -78,7 +78,7 @@ Here are several other resources for learning Nim:
 All code examples in this tutorial, as well as the ones found in the rest of
 Nim's documentation, follow the [Nim style guide](nep1.html).
 {==+==}
-此教程中的所有代码样例，包括其余 Nim 文档中的，均遵循[Nim 代码风格指南](nep1.html)。
+此教程中的所有代码样例，包括在其余 Nim 文档中的，均遵循[Nim 代码风格指南](nep1.html)。
 {==+==}
 
 
@@ -105,7 +105,7 @@ We start the tour with a modified "hello world" program:
   ```
 {==+==}
   ```Nim  test = "nim c $1"
-  # This is a comment
+  # 这是一条注释
   echo "What's your name? "
   var name: string = readLine(stdin)
   echo "Hi, ", name, "!"
@@ -118,7 +118,7 @@ Save this code to the file "greetings.nim". Now compile and run it::
 
   nim compile --run greetings.nim
 {==+==}
-将代码保存在文件"greetings.nim"中。现在编译运行它::
+将代码保存在文件 "greetings.nim" 中。现在编译运行它::
 
   nim compile --run greetings.nim
 {==+==}
@@ -129,7 +129,7 @@ executes the file automatically after compilation. You can give your program
 command-line arguments by appending them after the filename::
 {==+==}
 通过 ``--run`` [开关](nimc.html#compiler-usage-commandminusline-switches)，Nim 
-将在编译完成后自动执行该文件。您可以使用在文件名后面追加的方式来为程序提供命令行参数::
+将在编译完成后自动执行该文件。您可以使用在文件名后面追加其他内容的方式来为程序提供命令行参数::
 {==+==}
 
 {==+==}
@@ -141,7 +141,7 @@ command-line arguments by appending them after the filename::
 {==+==}
 Commonly used commands and switches have abbreviations, so you can also use::
 {==+==}
-常用指令和开关有简写，所以您也可以用::
+常用的指令和开关有简写，因此您也可以用::
 {==+==}
 
 {==+==}
@@ -170,8 +170,8 @@ aiming for your debugging pleasure. With ``-d:release`` some checks are
 [turned off and optimizations are turned on](
 nimc.html#compiler-usage-compileminustime-symbols).
 {==+==}
-默认情况下，为了让您调试时更轻松，Nim 编译器会产生大量的运行时检查。
-通过 ``-d:release``，一些检查会被[关闭，优化将被打开](
+默认情况下，为方便您进行调试，Nim 编译器会生成大量的运行时检查。
+通过使用 ``-d:release``，一些检查会被[关闭，优化将被打开](
 nimc.html#compiler-usage-compileminustime-symbols)。
 {==+==}
 
@@ -181,9 +181,9 @@ For comparing the performance with unsafe languages like C, use the ``-d:danger`
 in order to get meaningful, comparable results. Otherwise, Nim might be handicapped
 by checks that are **not even available** for C.
 {==+==}
-为了基准测试或能投产的代码，请使用 ``-d:release`` 开关。
-为了与像 C 一样的不安全语言做性能上的比较，请使用 ``-d:danger`` 开关来获得有意义，
-可比较的结果。否则，Nim 可能会因为一些在 C 中 **甚至不可行的** 检查而显得低能。
+为了进行基准测试或生成可用于生产环境的代码，请使用 ``-d:release`` 开关。
+为了与像 C 一样，不保证安全的语言进行性能上的比较，请使用 ``-d:danger`` 开关来获得有意义，可比较的结果。
+否则，Nim 可能会因一些在 C 中 **甚至不可行的** 检查而显得低能。
 {==+==}
 
 {==+==}
@@ -204,10 +204,10 @@ compiler knows that [readLine](syncio.html#readLine,File) returns a string,
 you can leave out the type in the declaration (this is called `local type
 inference`:idx:). So this will work too:
 {==+==}
-字符串字面量会被双引号括起来。`var` 语句声明了一个名称为 `name`，类型为 `string`，
+字符串字面量会被双引号括起来。`var` 语句声明了一个名为 `name`，类型为 `string`，
 值为 [readLine](syncio.html#readLine,File) 过程的返回值的变量。由于编译器知道
-[readLine](syncio.html#readLine,File)返回一个字符串，您可以在声明中省略类型
-(这被称作 `local type inference`:idx:)。所以下面这样也能正常工作:
+[readLine](syncio.html#readLine,File)返回一个字符串，所以您可以在声明中省略类型
+(这被称作 `local type inference`:idx:)。所以像下面这样也能正常工作:
 {==+==}
 
 {==+==}
@@ -224,7 +224,7 @@ inference`:idx:). So this will work too:
 Note that this is basically the only form of type inference that exists in
 Nim: it is a good compromise between brevity and readability.
 {==+==}
-注意这基本是 Nim 中唯一存在的类型推断的形式: 这是简洁和可读性之间的一个很好的折中。
+注意，这基本是 Nim 中唯一存在的类型推断的形式: 这是简洁和可读性之间一个很好的折中。
 {==+==}
 
 {==+==}
@@ -234,7 +234,7 @@ These built-ins are declared in the [system](system.html) module which is implic
 imported by any other module.
 {==+==}
 "hello world" 程序包含一些编译器已知的标识符: `echo`, [readLine](syncio.html#readLine,File) 等。
-这些内置的标识符声明在被其他模块隐式导入的 [system](system.html) 模块中。
+这些内置的标识符被声明在会被所有模块隐式导入的 [system](system.html) 模块中。
 {==+==}
 
 
@@ -251,8 +251,8 @@ Let us look at Nim's lexical elements in more detail: like other
 programming languages Nim consists of (string) literals, identifiers,
 keywords, comments, operators, and other punctuation marks.
 {==+==}
-让我们来仔细地看一下 Nim 的词法元素: 就像其他编程语言, Nim 由 (字符串) 字词，
-标识符，关键字，注释，运算符和其他标点符号构成。
+让我们来仔细看一下 Nim 的词法元素: 像其他编程语言一样, Nim 的词法元素由 (字符串) 字词，
+标识符，关键字，注释，运算符和其他标点符号组成。
 {==+==}
 
 
@@ -269,8 +269,8 @@ String literals are enclosed in double-quotes; character literals in single
 quotes. Special characters are escaped with ``\``: ``\n`` means newline, ``\t``
 means tabulator, etc. There are also *raw* string literals:
 {==+==}
-字符串字面量被双引号括起来; 字符在单引号中。特殊字符可被 ``\`` 转义: 
-``\n`` 表示新的一行, ``\t`` 表示制表符，等等。同样，也有*原始*字符串字面量:
+字符串字面量是被双引号括起来的，而字符则在单引号中。特殊字符可被 ``\`` 转义: 
+``\n`` 表示新的一行, ``\t`` 为制表符，等等。同样，也有*原始*字符串字面量:
 {==+==}
 
 {==+==}
@@ -296,8 +296,8 @@ multiple lines and the ``\`` is not an escape character either. They are very
 useful for embedding HTML code templates for example.
 {==+==}
 第三种，也是最后一种书写字符串字面量的方法是通过*长字符串字面量*。
-它们通过三对双引号写出: `""" ... """`; 它们可以跨越多行且 ``\`` 也不是
-转义字符。例如，它们在嵌入 HTML 代码的时候非常有用。
+它们通过三对双引号写出: `""" ... """`，可跨越多行且 ``\`` 也不是
+转义字符。举个例子，它们在嵌入 HTML 代码的时候非常有用。
 {==+==}
 
 
@@ -325,9 +325,9 @@ hash character `#`. Documentation comments start with `##`:
   ```
 {==+==}
   ```nim  test = "nim c $1"
-  # A comment.
+  # 这是一条注释
 
-  var myVariable: int ## a documentation comment
+  var myVariable: int ## 这是一条文档注释
   ```
 {==+==}
 
@@ -337,8 +337,8 @@ Documentation comments are tokens; they are only allowed at certain places in
 the input file as they belong to the syntax tree! This feature enables simpler
 documentation generators.
 {==+==}
-文档注释是 tokens; 因为它们属于语法树，所以它们只被允许出现在输入文件的特定地方!
-此功能支持更简单的文档生成器。
+文档注释是 tokens; 因为它们属于语法树，所以它们只能出现在输入文本的特定地方!
+这种特性让文档生成器的实现变得简单。
 {==+==}
 
 {==+==}
@@ -362,11 +362,10 @@ comments can also be nested.
 {==+==}
   ```nim  test = "nim c $1"
   #[
-  You can have any Nim code text commented
-  out inside this with no indentation restrictions.
+    您可在其中无缩进限制地注释任何 Nim 代码文本。
         yes("May I ask a pointless question?")
     #[
-       Note: these can be nested!!
+       注意: 这些可以嵌套!!
     ]#
   ]#
   ```
@@ -389,10 +388,10 @@ A number that contains a dot (or 'e' or 'E') is a floating-point literal:
 binary literals with `0b` and octal literals with `0o`. A leading zero
 alone does not produce an octal.
 {==+==}
-数字字面量的书写和其他大多数语言一样。下划线，作为一种特殊的转折，被允许用以提高
-可读性: `1_000_000` (一百万)。包含小数点的 (或 'e' 或 'E') 是浮点数字面量:
-`1.0e9` (一亿)。十六进制的字面量以 `0x` 开头，二进制的字面量以 `0b` 开头，
-而八进制字面量以 `0o` 开头。只以一个零开头不会产生一个八进制数。
+数字字面量的书写和其他大多数语言一样。作为一种特殊的转折，下划线可用以提高
+可读性: `1_000_000` (一百万)。包含小数点的数 (或 'e' 或 'E') 是浮点数字面量:
+`1.0e9` (一亿)。十六进制数的字面量以 `0x` 开头，二进制数的字面量以 `0b` 开头，
+而八进制数字面量以 `0o` 开头。只以一个零开头不会产生一个八进制数。
 {==+==}
 
 
@@ -412,7 +411,7 @@ var 语句声明一个新的局部或全局变量:
   ```
 {==+==}
   ```nim
-  var x, y: int # declares x and y to have the type `int`
+  var x, y: int # 声明 `int` 类型的 x 和 y
   ```
 {==+==}
 
@@ -420,7 +419,7 @@ var 语句声明一个新的局部或全局变量:
 Indentation can be used after the `var` keyword to list a whole section of
 variables:
 {==+==}
-可以在关键字 `var` 后用缩进列出一整个部分的变量:
+可在关键字 `var` 后用缩进列出一整个部分的变量:
 {==+==}
 
 {==+==}
@@ -434,7 +433,7 @@ variables:
   ```nim  test = "nim c $1"
   var
     x, y: int
-    # a comment can occur here too
+    # 注释也可以出现在这里
     a, b, c: string
   ```
 {==+==}
@@ -462,7 +461,7 @@ constant declaration at compile time:
   ```
 {==+==}
   ```nim  test = "nim c $1"
-  const x = "abc" # the constant x contains the string "abc"
+  const x = "abc" # 常量 x 包含了一个字符串 "abc"
   ```
 {==+==}
 
@@ -485,9 +484,9 @@ constants:
   ```nim  test = "nim c $1"
   const
     x = 1
-    # a comment can occur here too
+    # 注释也可出现在这里
     y = 2
-    z = y + 5 # computations are possible
+    z = y + 5 # 计算也是可行的
   ```
 {==+==}
 
@@ -501,7 +500,7 @@ value cannot change:
 {==+==}
 let 语句
 ======================
-`let` 语句像 `var` 语句一样发挥作用，但其声明的符号是*一次性赋值*的变量:
+`let` 语句和 `var` 语句一样用来声明，但其声明的符号是*一次性赋值*的变量:
 初始化后它们的值不能被改变:
 {==+==}
 
@@ -512,8 +511,8 @@ let 语句
   ```
 {==+==}
   ```nim
-  let x = "abc" # introduces a new variable `x` and binds a value to it
-  x = "xyz"     # Illegal: assignment to `x`
+  let x = "abc" # 引入一个新变量 `x` 并给它绑定一个值
+  x = "xyz"     # 非法: 对 `x` 再赋值
   ```
 {==+==}
 
@@ -523,7 +522,7 @@ that can not be re-assigned, `const` means "enforce compile time evaluation
 and put it into a data section":
 {==+==}
 `let` 和 `const` 之间的不同: `let` 引入了一个不能被重新赋值的变量，
-`const` 意味着"强制编译时评估并把它放到数据段":
+`const` 意味着"强制编译时评估变量并将其放到数据段":
 {==+==}
 
 {==+==}
@@ -532,7 +531,7 @@ and put it into a data section":
   ```
 {==+==}
   ```nim
-  const input = readLine(stdin) # Error: constant expression expected
+  const input = readLine(stdin) # 错误: 需要常量表达式
   ```
 {==+==}
 
@@ -542,7 +541,7 @@ and put it into a data section":
   ```
 {==+==}
   ```nim  test = "nim c $1"
-  let input = readLine(stdin)   # works
+  let input = readLine(stdin)   # 可行
   ```
 {==+==}
 
@@ -559,7 +558,7 @@ The assignment statement
 The assignment statement assigns a new value to a variable or more generally
 to a storage location:
 {==+==}
-赋值语句将一个新值赋到一个变量，或更一般的，分配到一个存储位置:
+赋值语句会将一个新值赋到一个变量，或更通俗点，分配到一个内存地址:
 {==+==}
 
 {==+==}
@@ -569,8 +568,8 @@ to a storage location:
   ```
 {==+==}
   ```nim
-  var x = "abc" # introduces a new variable `x` and assigns a value to it
-  x = "xyz"     # assigns a new value to `x`
+  var x = "abc" # 引入一个新变量 `x` 并给它绑定一个值
+  x = "xyz"     # 给 `x` 赋一个新值
   ```
 {==+==}
 
@@ -594,12 +593,12 @@ statement and all the variables will have the same value:
   ```
 {==+==}
   ```nim  test = "nim c $1"
-  var x, y = 3  # assigns 3 to the variables `x` and `y`
-  echo "x ", x  # outputs "x 3"
-  echo "y ", y  # outputs "y 3"
-  x = 42        # changes `x` to 42 without changing `y`
-  echo "x ", x  # outputs "x 42"
-  echo "y ", y  # outputs "y 3"
+  var x, y = 3  # 将 3 赋给变量 `x` 和 `y`
+  echo "x ", x  # 输出 "x 3"
+  echo "y ", y  # 输出 "y 3"
+  x = 42        # 将 `x` 改为 42, 不改变 `y`
+  echo "x ", x  # 输出 "x 42"
+  echo "y ", y  # 输出 "y 3"
   ```
 {==+==}
 
@@ -617,8 +616,8 @@ The greetings program consists of 3 statements that are executed sequentially.
 Only the most primitive programs can get away with that: branching and looping
 are needed too.
 {==+==}
-欢迎程序由 3 条依次执行的语句组成。
-只有最原始的程序才能解决这个问题: 分支和循环也是需要的。
+"欢迎"程序由 3 条依次执行的语句组成。
+我们也需要分支与循环，除非是在写最原始的程序。
 {==+==}
 
 
@@ -682,7 +681,7 @@ Case 语句
 Another way to branch is provided by the case statement. A case statement allows
 for multiple branches:
 {==+==}
-另一种创建分支的方式是通过 case 语句提供的。一个 case 语句运行多个分支:
+另一种创建分支的方式是通过 case 语句。一个 case 语句允许有多个分支:
 {==+==}
 
 {==+==}
@@ -717,7 +716,7 @@ for multiple branches:
 As it can be seen, for an `of` branch a comma-separated list of values is also
 allowed.
 {==+==}
-可以看出，对于 `of` 分支，可以用逗号分隔值。
+可以看出，对于 `of` 分支，可以用逗号来分隔值。
 {==+==}
 
 {==+==}
@@ -727,7 +726,7 @@ For integers or other ordinal types value ranges are also possible:
 {==+==}
 case 语句可以处理整数，其他序数类型，以及字符串。
 (什么是序数类型马上解释。)
-整数和其他序数类型的值区间也是可以的:
+整数和其他序数类型的值区间也可以处理:
 {==+==}
 
 {==+==}
@@ -743,7 +742,7 @@ case 语句可以处理整数，其他序数类型，以及字符串。
   ```
 {==+==}
   ```nim
-  # this statement will be explained later:
+  # 这条语句将在之后解释
   from std/strutils import parseInt
 
   echo "A number please: "
@@ -762,7 +761,7 @@ every value that `n` may contain, but the code only handles the values
 the compiler that for every other value nothing should be done:
 {==+==}
 然而，上面的代码**不能编译**: 因为您需要考虑 `n` 可能取到的所有值，但代码只处理了 `0..8`。
-因为列出所有值并不十分现实(尽管多亏了范围表达式这有可能实现)，我们通过告诉编译器所有其他值
+通常列出所有整数是不现实的(尽管多亏了范围表达式这有可能实现)，我们通过告诉编译器对所有其他值将
 不做任何事来处理这个情况:
 {==+==}
 
@@ -791,8 +790,8 @@ cannot fail and thus the error disappears. Note that it is impossible to cover
 all possible string values: that is why string cases always need an `else`
 branch.
 {==+==}
-空[discard 语句]是一个*不做任何事*的语句。编译器知道含有 else 部分的 case 表达式
-不会失败因此错误消失了。注意，处理所有字符串值是不可能的: 这也是为什么字符串的 case 语句
+空 [discard 语句]是一个*不做任何事*的语句。编译器知道含 else 部分的 case 表达式
+不会失败，因此报错消失了。注意，处理所有字符串值是不可能的: 这也是为什么字符串的 case 语句
 总是需要一个 `else` 分支。
 {==+==}
 
@@ -833,7 +832,7 @@ while 语句是一个简单的循环结构:
   var name = readLine(stdin)
   while name == "":
     echo "Please tell me your name: "
-    name = readLine(stdin) # no `var`, because we do not declare a new variable here
+    name = readLine(stdin) # 没有 `var` 关键字, 因为我们没有在这声明一个新变量
   ```
 {==+==}
 
@@ -858,7 +857,7 @@ The `for` statement is a construct to loop over any element an *iterator*
 provides. The example uses the built-in [countup](
 system.html#countup.i,T,T,Positive) iterator:
 {==+==}
-`for` 语句是一个循环遍历*迭代器*提供元素的结构。该示例使用内置的 [countup](
+`for` 语句是一个遍历*迭代器*的返回值的结构。该示例使用内置的 [countup](
 system.html#countup.i,T,T,Positive) 迭代器:
 {==+==}
 
@@ -874,7 +873,7 @@ system.html#countup.i,T,T,Positive) 迭代器:
   echo "Counting to ten: "
   for i in countup(1, 10):
     echo i
-  # --> Outputs 1 2 3 4 5 6 7 8 9 10 on different lines
+  # --> 在不同行输出 1 2 3 4 5 6 7 8 9 10
   ```
 {==+==}
 
@@ -884,9 +883,9 @@ The variable `i` is implicitly declared by the
 system.html#countup.i,T,T,Positive) returns. `i` runs through the values
 1, 2, .., 10. Each value is `echo`-ed. This code does the same:
 {==+==}
-变量 `i` 由 `for` 循环隐式声明且类型为 `int`，因为这就是 [countup](
-system.html#countup.i,T,T,Positive) 返回的类型。`i` 遍历 1, 2, .., 10。
-每个值都被 `echo`-ed. 这段代码等效于:
+变量 `i` 由 `for` 循环隐式声明且因 [countup](
+system.html#countup.i,T,T,Positive) 的原因， `i` 的类型会和前者返回值的类型，
+`int`，一样。`i` 会遍历 1, 2, .., 10。每个值都回被 `echo`-ed. 这段代码等效于:
 {==+==}
 
 {==+==}
@@ -904,8 +903,8 @@ system.html#countup.i,T,T,Positive) 返回的类型。`i` 遍历 1, 2, .., 10。
   var i = 1
   while i <= 10:
     echo i
-    inc i # increment i by 1
-  # --> Outputs 1 2 3 4 5 6 7 8 9 10 on different lines
+    inc i # i 自增 1
+  # --> 在不同行输出 1 2 3 4 5 6 7 8 9 10
   ```
 {==+==}
 
@@ -932,7 +931,7 @@ system.html#...i,T,T) 迭代器来做相同的事情:
 {==+==}
 Counting down can be achieved as easily (but is less often needed):
 {==+==}
-实现倒计数也容易(但不太需要):
+实现倒序计数也容易(但通常不太需要):
 {==+==}
 
 {==+==}
@@ -947,7 +946,7 @@ Counting down can be achieved as easily (but is less often needed):
   echo "Counting down from 10 to 1: "
   for i in countdown(10, 1):
     echo i
-  # --> Outputs 10 9 8 7 6 5 4 3 2 1 on different lines
+  # --> 在不同行输出 1 2 3 4 5 6 7 8 9 10
   ```
 {==+==}
 
@@ -971,7 +970,7 @@ or
 {==+==}
   ```nim
   for i in 0 ..< 10:
-    ...  # the same as 0 .. 9
+    ...  # 这与 0 .. 9 等同
   ```
 
 或者
@@ -1006,7 +1005,7 @@ or
   ```nim
   var s = "some string"
   for idx, c in s[0 .. ^1]:
-    ... # ^1 is the last element, ^2 would be one before it, and so on
+    ... # ^1 表示最后一个元素, ^2 是倒数第二个, 以此类推
   ```
 {==+==}
 
@@ -1015,7 +1014,7 @@ Other useful iterators for collections (like arrays and sequences) are
 * `items` and `mitems`, which provides immutable and mutable elements respectively, and
 * `pairs` and `mpairs` which provides the element and an index number (immutable and mutable respectively)
 {==+==}
-其他有助力于集合(比如数组和切片)的迭代器是
+其他可让集合(比如数组和切片)的使用的更方便的迭代器是
 * `items` 和 `mitems`， 他们分别提供不可变和可变元素，而
 * `pairs` 和 `mpairs` 提供了配对的元素和它们下标(分别为不可变和可变)
 {==+==}
@@ -1063,7 +1062,7 @@ outside the loop:
   ```nim  test = "nim c $1"  status = 1
   while false:
     var x = "hi"
-  echo x # does not work
+  echo x # 此句报错
   ```
 {==+==}
 
@@ -1072,7 +1071,7 @@ A while (for) statement introduces an implicit block. Identifiers
 are only visible within the block they have been declared. The `block`
 statement can be used to open a new block explicitly:
 {==+==}
-while (for) 语句引入了一个隐式的块。变量只有在它们被声明的块中可见。
+while (for) 语句引入了一个隐式的块。变量只在它们被声明的块中可见。
 `block` 语句可以显式地打开一个新的块:
 {==+==}
 
@@ -1086,7 +1085,7 @@ while (for) 语句引入了一个隐式的块。变量只有在它们被声明�
   ```nim  test = "nim c $1"  status = 1
   block myblock:
     var x = "hi"
-  echo x # does not work either
+  echo x # 这里同样会报错
   ```
 {==+==}
 
@@ -1110,7 +1109,7 @@ A block can be left prematurely with a `break` statement. The break statement
 can leave a `while`, `for`, or a `block` statement. It leaves the
 innermost construct, unless a label of a block is given:
 {==+==}
-使用 `break` 语句可以提早离开一个块。break 语句可以离开 `while`, `for` 或一个 `block` 语句。
+使用 `break` 语句可提前离开一个块。break 语句可离开 `while`, `for` 或一个 `block` 语句。
 除非给出块的标签，否则它会离开最里面的结构:
 {==+==}
 
@@ -1138,7 +1137,7 @@ innermost construct, unless a label of a block is given:
     echo "entering block"
     while true:
       echo "looping"
-      break # leaves the loop, but not the block
+      break # 离开循环但不离开块
     echo "still in block"
   echo "outside the block"
 
@@ -1146,8 +1145,8 @@ innermost construct, unless a label of a block is given:
     echo "entering block"
     while true:
       echo "looping"
-      break myblock2 # leaves the block (and the loop)
-    echo "still in block" # it won't be printed
+      break myblock2 # 离开块(以及循环)
+    echo "still in block" # 这句不会被打印
   echo "outside the block"
   ```
 {==+==}
@@ -1178,7 +1177,7 @@ the next iteration immediately:
   ```nim  test = "nim c $1"
   for i in 1 .. 5:
     if i <= 3: continue
-    echo i # will only print 4 and 5
+    echo i # 将只打印 4 和 5
   ```
 {==+==}
 
@@ -1225,7 +1224,7 @@ Example:
 The `when` statement is almost identical to the `if` statement, but with these
 differences:
 {==+==}
-`when` 语句几乎和 `if` 语句相同，但在以下有所差异:
+`when` 语句几乎和 `if` 语句一样，但有以下不同:
 {==+==}
 
 {==+==}
@@ -1235,9 +1234,9 @@ differences:
 * The compiler checks the semantics and produces code *only* for the statements
   that belong to the first condition that evaluates to `true`.
 {==+==}
-* 因为每种情况都会被编译器评估，所以其必须是个常量表达式。
+* 每种情况都会被编译器评估，所以其必须是个常量表达式。
 * 分支中的语句不会开启新作用域。
-* 编译器会检查语义并且*只*为第一个评估为 `true` 的情况生成代码。
+* 编译器会检查语义并且*只*为第一个被评估为 `true` 的情况生成代码。
 {==+==}
 
 {==+==}
@@ -1271,7 +1270,7 @@ statements. *Complex statements* like `if`, `when`, `for`, `while` can
 contain other statements. To avoid ambiguities, complex statements must always
 be indented, but single simple statements do not:
 {==+==}
-在 Nim 中，*简单语句*与*复杂语句*有别。*简单语句*不能包含其他语句:
+在 Nim 中，*简单语句*有别于*复杂语句*。*简单语句*不能包含其他语句:
 赋值、过程调用或 `return` 语句都是简单语句。*复杂的语句*如 `if`, 
 `when`, `for`, `while` 可以包含其他语句。为避免歧义，复杂语句必须
 始终缩进，但单个简单语句不用:
@@ -1296,17 +1295,17 @@ be indented, but single simple statements do not:
   ```
 {==+==}
   ```nim
-  # no indentation needed for single-assignment statement:
+  # 单一的赋值语句不需要缩进:
   if x: x = false
 
-  # indentation needed for nested if statement:
+  # 嵌套的 if 语句需要缩进:
   if x:
     if y:
       y = false
     else:
       y = true
 
-  # indentation needed, because two statements follow the condition:
+  # 在这种有两条语句紧随的情况下，需要缩进:
   if x:
     x = false
     y = false
@@ -1319,7 +1318,7 @@ be indented, but single simple statements do not:
 condition in an if statement is an example of an expression. Expressions can
 contain indentation at certain places for better readability:
 {==+==}
-*表达式*是语句的一部分，通常会产生一个值。if 语句中的条件就是个例子。
+*表达式*是语句的一部分，其通常会产生一个值。if 语句中的条件就是个例子。
 表达式可以在某些位置包含缩进以提高可读性:
 {==+==}
 
@@ -1343,14 +1342,14 @@ contain indentation at certain places for better readability:
 As a rule of thumb, indentation within expressions is allowed after operators,
 an open parenthesis and after commas.
 {==+==}
-根据经验，允许在运算符、左括号和逗号之后表达式内缩进。
+根据经验，可以在表达式中运算符、左括号和逗号之后缩进。
 {==+==}
 
 {==+==}
 With parenthesis and semicolons `(;)` you can use statements where only
 an expression is allowed:
 {==+==}
-凭借括号和分号 `(;)`，您可使用只允许使用表达式的语句:
+通过使用括号和分号 `(;)`，您可在只允许使用表达式的地方使用语句:
 {==+==}
 
 {==+==}
@@ -1360,7 +1359,7 @@ an expression is allowed:
   ```
 {==+==}
   ```nim  test = "nim c $1"
-  # computes fac(4) at compile time:
+  # 在编译时计算 fac(4):
   const fac4 = (var x = 1; for i in 1..4: x *= i; x)
   ```
 {==+==}
@@ -1382,11 +1381,11 @@ and [readLine](syncio.html#readLine,File) in the examples, the concept of a
 [differentiates these concepts](tut1.html#procedures-funcs-and-methods). In
 Nim, new procedures are defined with the `proc` keyword:
 {==+==}
-要在示例中定义像 [echo](system.html#echo,varargs[typed,])
+为了在示例中定义像 [echo](system.html#echo,varargs[typed,])
 和 [readLine](syncio.html#readLine,File) 这样的新命令，需要*过程*的概念。 
 您可能习惯在其他语言中将它们称为*方法*或*函数*，但 Nim 将
 [区分这些概念](tut1.html#procedures-funcs-and-methods)。
-在 Nim 中，新过程是使用 `proc` 关键字定义的:
+在 Nim 中，新的过程是使用 `proc` 关键字定义的:
 {==+==}
 
 {==+==}
@@ -1433,10 +1432,10 @@ parameter named `question` of type `string` and returns a value of type
 The conditions in if or while statements must be of type `bool`.
 {==+==}
 这个例子展示了一个名为 `yes` 的过程，它询问用户一个 `question`，
-若他们回答 "yes" (或类似的东西)，返回 true，若他们回答 "no"
-(或类似的东西)，返回 false。 `return` 语句将立即离开过程(因此也离开了 while 循环)。
-`(question: string): bool` 语法表明过程需要一个名为 `question` 的 `string` 类型的参数
-并返回 `bool` 类型的值。`bool` 类型是内置的: `bool` 的唯一有效值是 `true` 和 `false`。
+若他们回答 "yes" (或类似的回答)，返回 true，若他们回答 "no"
+(或类似的)，则返回 false。 `return` 语句将立即离开过程(因此也离开了 while 循环)。
+`(question: string): bool` 语法表明，过程需要一个名为 `question` 的 `string` 类型的参数
+并返回 `bool` 类型的值。`bool` 类型是内置的: `bool` 的有效值只能是 `true` 和 `false`。
 if 和 while 语句中的条件必须是 `bool` 类型。
 {==+==}
 
@@ -1444,7 +1443,7 @@ if 和 while 语句中的条件必须是 `bool` 类型。
 Some terminology: in the example `question` is called a (formal) *parameter*,
 `"Should I..."` is called an *argument* that is passed to this parameter.
 {==+==}
-一些术语: 在示例中，`question` 被称为(正式的)*参数*， `"Should I..."`
+一些术语: 在示例中，`question` 被称为(形式上的)*参数*(形参)， `"Should I..."`
 被称为传递给此参数的*实参*。
 {==+==}
 
@@ -1464,8 +1463,8 @@ shorthand for `return result`. The `result` value is always returned
 automatically at the end of a procedure if there is no `return` statement at
 the exit.
 {==+==}
-有返回值过程有一个隐式声明，即代表返回值的 `result` 变量。没跟表达式的 `return` 语句
-是 `return result` 简写。过程结尾退出时如果没有 `return` 语句，`result` 值将被自动返回。
+有返回值的过程包含一个隐式声明，即代表返回值的 `result` 变量。没有携带表达式的 `return` 语句
+是 `return result` 的简写。过程结尾退出时若没有 `return` 语句，`result` 值将被自动返回。
 {==+==}
 
 {==+==}
@@ -1488,9 +1487,9 @@ the exit.
         return
       result = result + i
 
-  echo sumTillNegative() # echoes 0
-  echo sumTillNegative(3, 4, 5) # echoes 12
-  echo sumTillNegative(3, 4 , -1 , 6) # echoes 7
+  echo sumTillNegative() # 输出 0
+  echo sumTillNegative(3, 4, 5) # 输出 12
+  echo sumTillNegative(3, 4 , -1 , 6) # 输出 7
   ```
 {==+==}
 
@@ -1502,8 +1501,8 @@ initialized with the type's default value. Note that referential data types will
 be `nil` at the start of the procedure, and thus may require manual
 initialization.
 {==+==}
-`result` 变量已经在函数开头隐式声明，因此，例如，用 'var result' 再次声明会用同名的普通变量遮蔽它。
-result 变量也已经使用类型的默认值进行了初始化。注意，引用数据类型在过程开始时将是 "nil"，因此可能需要手动初始化。
+`result` 变量已经在函数开头隐式声明，因此，再次声明 'var result' 会用同名的普通变量遮蔽它。
+result 变量也已初始化成其类型的默认值。注意，引用数据类型在过程开始时为 "nil"，因此可能需要手动初始化。
 {==+==}
 
 {==+==}
@@ -1511,7 +1510,7 @@ A procedure that does not have any `return` statement and does not use the
 special `result` variable returns the value of its last expression. For example,
 this procedure
 {==+==}
-不使用 `return` 语句和不使用特殊变量 `result` 的过程将返回它最后一个表达式的值。
+不使用 `return` 语句和不使用特殊变量 `result` 的过程将返回其最后一个表达式的值。
 例如这个过程
 {==+==}
 
@@ -1548,9 +1547,9 @@ most efficient way. If a mutable variable is needed inside the procedure, it has
 to be declared with `var` in the procedure body. Shadowing the parameter name
 is possible, and actually an idiom:
 {==+==}
-参数在过程中是不可变的。默认情况下，他们的值不可改变，因为这允许编译器更高效地实现参数的传递。
+参数在过程中是不可变的。默认情况下，它们的值不可改变，因为这将允许编译器更高效地实现传参。
 如果在过程中需要一个可变的变量，它应该在过程中以 `var` 来声明。遮蔽参数名称是可能的，实际上
-这是惯用法:
+有经验的人会这么做:
 {==+==}
 
 {==+==}
@@ -1573,7 +1572,7 @@ is possible, and actually an idiom:
 If the procedure needs to modify the argument for the
 caller, a `var` parameter can be used:
 {==+==}
-如果过程需要修改调用者的参数，可使用 `var` 参数:
+若过程需要修改调用者传入的参数，可以使用 `var` 参数:
 {==+==}
 
 {==+==}
@@ -1591,12 +1590,12 @@ caller, a `var` parameter can be used:
 {==+==}
   ```nim  test = "nim c $1"
   proc divmod(a, b: int; res, remainder: var int) =
-    res = a div b        # integer division
-    remainder = a mod b  # integer modulo operation
+    res = a div b        # 整数的整除
+    remainder = a mod b  # 整数取模
 
   var
     x, y: int
-  divmod(8, 5, x, y) # modifies x and y
+  divmod(8, 5, x, y) # 对 x 和 y 取模
   echo x
   echo y
   ```
@@ -1609,7 +1608,8 @@ visible to the caller. Note that the above example would better make use of
 a tuple as a return value instead of using var parameters.
 {==+==}
 在这个例子中，`res` 和 `remainder` 是 `var parameters`。
-Var 参数可以被过程修改且该修改调用者可知。注意上面的例子最好用元组作为返回值而不是使用 var 参数。
+Var 参数可以被过程修改且该修改对调用者可知。注意上面的例子用元组作为
+返回值而不是使用 var 参数会更好。
 {==+==}
 
 
@@ -1626,8 +1626,8 @@ To call a procedure that returns a value just for its side effects and ignoring
 its return value, a `discard` statement **must** be used. Nim does not
 allow silently throwing away a return value:
 {==+==}
-调用仅需要其副作用而非返回值并忽略其返回值的过程，**必须**使用`discard`语句。
-Nim 不允许默默地丢弃返回值:
+调用仅需其副作用而不需要其返回值并忽略其返回值的过程，**必须**使用`discard`语句。
+Nim 不允许隐式丢弃返回值:
 {==+==}
 
 {==+==}
@@ -1645,7 +1645,7 @@ Nim 不允许默默地丢弃返回值:
 The return value can be ignored implicitly if the called proc/iterator has
 been declared with the `discardable` pragma:
 {==+==}
-如果调用的过程 / 迭代器通过 `discardable` 编译指示声明，返回值可以被隐式地忽略:
+如果调用的过程 / 迭代器通过 `discardable` 编译指示声明，则其返回值可被隐式地忽略:
 {==+==}
 
 {==+==}
@@ -1660,7 +1660,7 @@ been declared with the `discardable` pragma:
   proc p(x, y: int): int {.discardable.} =
     return x + y
 
-  p(3, 4) # now valid
+  p(3, 4) # 现在合法了
   ```
 {==+==}
 
@@ -1679,8 +1679,8 @@ parameters appear. This is especially true for procedures that construct a
 complex data type. Therefore, the arguments to a procedure can be named, so
 that it is clear which argument belongs to which parameter:
 {==+==}
-通常一个过程有许多参数，但参数出现的顺序是不清楚的。尤其是在构建一个复杂数据类型时。
-因此，传给过程的参数可以具名，由此参数属于哪个形参就清楚了:
+通常一个有许多参数的过程，其参数出现的顺序是不清楚的。尤其是在构建一个复杂数据类型时。
+因此，传给过程的参数可以具名，这样该参数属于哪个形参就明了了:
 {==+==}
 
 {==+==}
@@ -1708,7 +1708,7 @@ Now that we use named arguments to call `createWindow` the argument order
 does not matter anymore. Mixing named arguments with ordered arguments is
 also possible, but not very readable:
 {==+==}
-注意我们使用具名参数调用 `createWindow`，参数的顺序不再重要。混合使用具名参数和按顺序的参数
+注意我们使用具名参数调用 `createWindow`，参数的顺序不再重要。混合使用具名参数和遵循顺序的参数
 也是可能的，但可读性很差。
 {==+==}
 
@@ -1772,14 +1772,14 @@ specify them:
 Now the call to `createWindow` only needs to set the values that differ
 from the defaults.
 {==+==}
-现在调用 `createWindow` 只需要设置与默认值不同的参数即可。
+现在调用 `createWindow` 只需设置与默认值不同的参数即可。
 {==+==}
 
 {==+==}
 Note that type inference works for parameters with default values; there is
 no need to write `title: string = "unknown"`, for example.
 {==+==}
-注意，类型推断适用于具有默认值的参数; 例如，不需要写 `title: string = "unknown"`。
+注意，类型推断可用于赋予了默认值的参数; 比如，不需要这样写 `title: string = "unknown"`。
 {==+==}
 
 
@@ -1826,8 +1826,8 @@ Nim 提供了类似 C++ 的过程重载能力:
       if x: "yep"
       else: "nope"
 
-  assert toString(13) == "positive" # calls the toString(x: int) proc
-  assert toString(true) == "yep"    # calls the toString(x: bool) proc
+  assert toString(13) == "positive" # 调用 toString(x: int) 过程
+  assert toString(true) == "yep"    # 调用 toString(x: bool) 过程
   ```
 {==+==}
 
@@ -1837,9 +1837,9 @@ Nim.) The compiler chooses the most appropriate proc for the `toString`
 calls. How this overloading resolution algorithm works exactly is not
 discussed here -- see the manual for details. Ambiguous calls are reported as errors.
 {==+==}
-(注意在 Nim 中，`toString` 经常为 [$](dollars.html) 运算符)
-编译器选择最合适的过程来处理 `toString` 调用。在此不讨论这种重载解析算法是如何工作的 -- 详情请见手册。
-模棱两可的调用被报告为错误。
+(注意在 Nim 中，`toString` 通常以 [$](dollars.html) 运算符表示)
+编译器会选择最合适的过程来处理 `toString` 调用。在此不讨论这种重载解析算法是如何工作的 -- 详情请见手册。
+模棱两可的调用会被报告为错误。
 {==+==}
 
 
@@ -1873,7 +1873,7 @@ operators always consist of these characters:
 `+  -  *  \  /  <  >  =  @  $  ~  &  %  !  ?  ^  .  |`
 {==+==}
 除了一些内置的关键字运算符，如 `and`, `or`, `not`,
-运算符总是由这些字符组成:
+其他运算符总是由以下字符组成:
 `+  -  *  \  /  <  >  =  @  $  ~  &  %  !  ?  ^  .  |`
 {==+==}
 
@@ -1881,7 +1881,7 @@ operators always consist of these characters:
 User-defined operators are allowed. Nothing stops you from defining your own
 `@!?+~` operator, but doing so may reduce readability.
 {==+==}
-允许使用用户定义的运算符。没有什么能阻止您定义自己的 `@!?+~` 运算符，
+可以使用用户自定义的运算符。没有什么能阻止您定义自己的 `@!?+~` 运算符，
 但这样做可能会降低可读性。
 {==+==}
 
@@ -1907,8 +1907,8 @@ To define a new operator enclose the operator in backticks "`":
 {==+==}
   ```nim
   proc `$` (x: myDataType): string = ...
-  # now the $ operator also works with myDataType, overloading resolution
-  # ensures that $ works for built-in types just like before
+  # 注意，现在 $ 运算符也可作用于 myDataType，重载解析会
+  # 保证 $ 也可以像以前一样作用于内置类型
   ```
 {==+==}
 
@@ -1916,7 +1916,7 @@ To define a new operator enclose the operator in backticks "`":
 The "`" notation can also be used to call an operator just like any other
 procedure:
 {==+==}
-"`" 符号也可以像任何其他过程一样用于调用运算符:
+"`" 符号也可用于像任何其他过程一样调用运算符:
 {==+==}
 
 {==+==}
@@ -1945,7 +1945,7 @@ language that supports metaprogramming as extensively as Nim does.)
 However, this cannot be done for mutually recursive procedures:
 {==+==}
 每个变量、过程等都需要先声明才能使用。(这样做的原因是，在像 Nim 一样广泛支持元编程
-的语言中避免这种需求并非易事)但是，对于相互递归的过程不能这样做:
+的语言中避免这种需求并非易事)但是，对于相互递归的过程则不能这样做:
 {==+==}
 
 {==+==}
@@ -1955,7 +1955,7 @@ However, this cannot be done for mutually recursive procedures:
   ```
 {==+==}
   ```nim
-  # forward declaration:
+  # 前置声明:
   proc even(n: int): bool
   ```
 {==+==}
@@ -1977,13 +1977,13 @@ However, this cannot be done for mutually recursive procedures:
 {==+==}
   ```nim
   proc odd(n: int): bool =
-    assert(n >= 0) # makes sure we don't run into negative recursion
+    assert(n >= 0) # 确保我们不会进入由负数导致的递归
     if n == 0: false
     else:
       n == 1 or even(n-1)
 
   proc even(n: int): bool =
-    assert(n >= 0) # makes sure we don't run into negative recursion
+    assert(n >= 0) # 确保我们不会进入由负数导致的递归
     if n == 1: false
     else:
       n == 0 or odd(n-1)
@@ -1998,7 +1998,7 @@ procedure's body. The `assert` just adds border conditions, and will be
 covered later in [Modules] section.
 {==+==}
 这里的 `odd` 依赖 `even`，反之亦然。因此，在完全定义之前，需要将 `even` 引入编译器。
-这种前置声明的语法很简单: 只需省略 `=` 和过程的主体。 `assert` 只添加了边界条件，
+这种前置声明的语法很简单: 只需省略 `=` 和过程的主体。 `assert` 只是添加了边界条件，
 稍后会在[模块]部分介绍。
 {==+==}
 
@@ -2013,7 +2013,7 @@ declarations.
 The example also shows that a proc's body can consist of a single expression
 whose value is then returned implicitly.
 {==+==}
-该示例还表明，proc 的主体可以由单个表达式组成，然后隐式返回其值。
+该示例还表明，proc 的主体可以由单个表达式组成，并隐式返回其值。
 {==+==}
 
 
@@ -2047,7 +2047,7 @@ however, which are those marked as `var`, along with any `ref` objects.
 函数更接近于纯数学函数的概念，如果您曾进行过函数式编程，您可能对它很熟悉。
 本质上，它们是设置了额外限制的过程: 它们不能访问全局状态(`const` 除外)且不能产生副作用。
 `func` 关键字基本上是用 `{.noSideEffects.}` 标记的 `proc` 的别名。
-然而，函数仍然可以更改它们被标记为 `var` 的可变参数，以及任何 `ref` 对象。
+然而，函数仍然可以更改它们的被 `var` 标记的可变参数，以及任何 `ref` 对象。
 {==+==}
 
 {==+==}
@@ -2060,9 +2060,9 @@ the `RootObj`. This is something that is covered in much greater depth in
 the [second part of the tutorial](tut2.html#object-oriented-programming-dynamic-dispatch).
 {==+==}
 与过程不同，方法是动态分派的。这听起来有点复杂，但它是一个与继承和面向对象编程密切相关的概念。
-如果您重载一个过程(两个具有相同名称但类型不同或具有不同参数集的过程称为重载)，则要使用的过程在编译时确定。
+如果您重载一个过程(两个具有相同名称但类型不同或具有不同参数集的过程称为重载)，则要使用的过程会在编译时确定。
 另一方面，方法依赖于从 `RootObj` 继承的对象。
-这在[本教程的第二部分](tut2.html#object-orienting-programming-dynamic-dispatch) 中有更深入的介绍。
+这在[本教程的第二部分](tut2.html#object-orienting-programming-dynamic-dispatch) 中会有更深入的介绍。
 {==+==}
 
 
@@ -2098,7 +2098,7 @@ Let's return to the simple counting example:
 Can a [countup](system.html#countup.i,T,T,Positive) proc be written that
 supports this loop? Let's try:
 {==+==}
-[countup](system.html#countup.i,T,T,Positive) 过程可以写的支持循环吗?
+[countup](system.html#countup.i,T,T,Positive) 过程可以写得支持这种循环吗?
 让我们试试:
 {==+==}
 
@@ -2127,8 +2127,8 @@ finished. This *return and continue* is called a `yield` statement. Now
 the only thing left to do is to replace the `proc` keyword by `iterator`
 and here it is -- our first iterator:
 {==+==}
-但是，这不起作用。问题是该过程不应只 `return`，而应该在迭代完成后返回并**继续**。
-*返回并继续*的语句被称为 `yield`。现在剩下要做的就是用 `iterator` 替换 `proc` 关键字，
+然而，这不起作用。问题是该过程不应只 `return`，而应该在迭代完成后返回并**继续**。
+这种*返回并继续*的语句被称为一个 `yield`。现在剩下要做的就是用 `iterator` 替换 `proc` 关键字，
 这就是我们的第一个迭代器:
 {==+==}
 
@@ -2204,7 +2204,7 @@ Basic types
 This section deals with the basic built-in types and the operations
 that are available for them in detail.
 {==+==}
-本节详细介绍了基本的内置类型及它们的可用操作。
+本节详细介绍了基本内置类型及它们的可用操作。
 {==+==}
 
 {==+==}
@@ -2230,7 +2230,7 @@ for the bool type. The `and` and `or` operators perform short-circuit
 evaluation. For example:
 {==+==}
 运算符 `not, and, or, xor, <, <=, >, >=, !=, ==` 是为 bool 类型定义的。
-`and` 和 `or` 运算符执行短路评估。例如:
+`and` 和 `or` 运算符会执行短路评估。例如:
 {==+==}
 
 {==+==}
@@ -2242,7 +2242,7 @@ evaluation. For example:
 {==+==}
   ```nim
   while p != nil and p.name != "xyz":
-    # p.name is not evaluated if p == nil
+    # 当 p == nil 时，p.name 不会被评估
     p = p.next
   ```
 {==+==}
@@ -2265,8 +2265,8 @@ the resulting programs will still handle UTF-8 properly as UTF-8 was especially
 designed for this.
 Character literals are enclosed in single quotes.
 {==+==}
-*字符类型*称为 `char`。它的大小始终为一个字节，因此它不能表示大多数 UTF-8 字符，
-但它*可以*表示 UTF-8 字符中一个组成字节。这样做是为了效率: 对于绝大多数用例，
+*字符类型*被称作 `char`。其大小始终为一个字节，因此它不能够表示大多数 UTF-8 字符，
+但它*可以*表示组成 UTF-8 字符中的一个字节。这样做是为了效率: 对于绝大多数用例，
 产生的程序仍将正确处理 UTF-8，因为 UTF-8 是专门为此设计的。字符字面量用单引号括起来。
 {==+==}
 
@@ -2299,8 +2299,8 @@ terminating zero is an error, it only exists so that a Nim string can be convert
 to a `cstring` without doing a copy.
 {==+==}
 字符串变量是**可变的**，所以追加字符串是可能的，并且相当高效。
-字符串在 Nim 中既以零为结尾，也有长度字段。一个字符串的长度可通过内置的 `len` 过程来获取;
-长度永远不会计算结尾零。对结尾零的访问是个错误，它的存在只是为了 Nim 的字符串能够被零拷贝地
+Nim 中的字符串既以零为结尾，也包含长度字段。一个字符串的长度可通过内置的 `len` 过程来获取;
+长度永远不会计算上结尾零。对结尾零的访问是个错误，它的存在只是为了 Nim 的字符串能够被零拷贝地
 转换成 `cstring`。
 {==+==}
 
@@ -2308,7 +2308,7 @@ to a `cstring` without doing a copy.
 The assignment operator for strings copies the string. You can use the `&`
 operator to concatenate strings and `add` to append to a string.
 {==+==}
-字符串的赋值运算符将复制字符串。您可以使用 `&` 运算符连接字符串或使用 `add` 追加字符串。
+字符串的赋值操作将复制字符串。您可以使用 `&` 运算符连接字符串或使用 `add` 追加字符串。
 {==+==}
 
 {==+==}
@@ -2318,15 +2318,15 @@ enforced. For example, when reading strings from binary files, they are merely
 a sequence of bytes. The index operation `s[i]` means the i-th *char* of
 `s`, not the i-th *unichar*.
 {==+==}
-字符串使用其字典顺序进行比较。支持所有比较运算符。按照惯例，所有字符串都是 UTF-8 编码的，
-但这不是强制的。例如，从二进制文件中读取字符串时，它们只是一个字节序列。
-索引操作 `s[i]` 表示 `s` 的第 i 个 *char*，而不是第i个 *unichar*。
+字符串会使用其字典顺序进行比较且支持所有的比较运算符。按照惯例，所有字符串都是 UTF-8 编码的，
+但这不是强制的。例如，从二进制文件中读取字符串时，它们仅仅只是一个字节序列。
+索引操作 `s[i]` 表示获取 `s` 的第 i 个 *char*，而不是第i个 *unichar*。
 {==+==}
 
 {==+==}
 A string variable is initialized with the empty string `""`.
 {==+==}
-字符串变量被初始化为空字符串 `""`。
+字符串变量会被初始化为空字符串 `""`。
 {==+==}
 
 
@@ -2365,10 +2365,10 @@ to specify a non-default integer type:
 {==+==}
   ```nim  test = "nim c $1"
   let
-    x = 0     # x is of type `int`
-    y = 0'i8  # y is of type `int8`
-    z = 0'i32 # z is of type `int32`
-    u = 0'u   # u is of type `uint`
+    x = 0     # x 是 `int` 类型
+    y = 0'i8  # y 是 `int8` 类型
+    z = 0'i32 # z 是 `int32` 类型
+    u = 0'u   # u 是 `uint` 类型
   ```
 {==+==}
 
@@ -2376,7 +2376,7 @@ to specify a non-default integer type:
 Most often integers are used for counting objects that reside in memory, so
 `int` has the same size as a pointer.
 {==+==}
-大多数情况下，整数用于计数驻留在内存中的对象，因此 `int` 与指针具有相同的大小。
+大多数情况下，整数会被用于计数驻留在内存中的对象，因此 `int` 具有与指针相同的大小。
 {==+==}
 
 {==+==}
@@ -2387,8 +2387,8 @@ shifting with the `shr` operator. Bit shifting operators always treat their
 arguments as *unsigned*. For `arithmetic bit shifts`:idx: ordinary
 multiplication or division can be used.
 {==+==}
-常用运算符 `+ - * div mod < <= == != > >=` 是为整数定义的。 `and or xor not` 
-运算符也为整数定义并提供*按位*运算。 左移使用 `shl` 完成，右移使用 `shr` 操作符。
+已为整数定义了常用的运算符 `+ - * div mod < <= == != > >=`。 `and or xor not` 
+运算符也已为整数定义并提供*按位*运算。左移使用 `shl` 完成，右移使用 `shr` 运算符。
 位移位运算符始终将其参数视为 *unsigned*。 对于`算术位移`:idx: 可以使用普通的乘法或除法。
 {==+==}
 
@@ -2405,8 +2405,8 @@ kinds of integer types are used. However, if the type conversion
 would cause loss of information, the `RangeDefect`:idx: is raised (if the error
 cannot be detected at compile time).
 {==+==}
-无损 `Automatic type conversion`:idx: 在使用不同类型的整数类型表达式中执行。
-然而，如果类型转换会导致信息丢失，则会引发 `RangeDefect`:idx: (前提是在编译时无法检测到错误)。
+无损 `Automatic type conversion`:idx: 会在使用了不同类型的整数类型的表达式中执行。
+然而，如果类型转换会导致信息丢失，则会引发 `RangeDefect`:idx: (前提是在编译时无法检测到该错误)。
 {==+==}
 
 
@@ -2421,7 +2421,7 @@ Floats
 {==+==}
 Nim has these floating-point types built-in: `float float32 float64`.
 {==+==}
-Nim 内置浮点类型: `float float32 float64`。
+Nim 有这些内置的浮点类型: `float float32 float64`。
 {==+==}
 
 {==+==}
@@ -2448,9 +2448,9 @@ type:
 {==+==}
   ```nim  test = "nim c $1"
   var
-    x = 0.0      # x is of type `float`
-    y = 0.0'f32  # y is of type `float32`
-    z = 0.0'f64  # z is of type `float64`
+    x = 0.0      # x 是 `float` 类型
+    y = 0.0'f32  # y 是 `float32` 类型
+    z = 0.0'f64  # z 是 `float64` 类型
   ```
 {==+==}
 
@@ -2468,7 +2468,7 @@ versa. Use the [toInt](system.html#toInt,float) and
 [toFloat](system.html#toFloat,int) procs for these conversions.
 {==+==}
 在具有不同浮点类型的表达式中将自动执行类型转换: 较小的类型会转换为较大的类型。
-整数类型**不会**自动转换为浮点类型，反之亦然。进行这些转换可用 [toInt](system.html#toInt,float)
+整数类型**不会**自动转换为浮点类型，反之亦然。为进行这些转换可用 [toInt](system.html#toInt,float)
 和 [toFloat](system.html#toFloat,int) 过程。
 {==+==}
 
@@ -2499,9 +2499,9 @@ type as a function:
 {==+==}
   ```nim  test = "nim c $1"
   var
-    x: int32 = 1.int32   # same as calling int32(1)
+    x: int32 = 1.int32   # 与调用 int32(1) 相同
     y: int8  = int8('a') # 'a' == 97'i8
-    z: float = 2.5       # int(2.5) rounds down to 2
+    z: float = 2.5       # int(2.5) 将向下舍入到 2
     sum: int = int(x) + int(y) + int(z) # sum == 100
   ```
 {==+==}
@@ -2598,8 +2598,8 @@ In Nim new types can be defined within a `type` statement:
 {==+==}
   ```nim  test = "nim c $1"
   type
-    biggestInt = int64      # biggest integer type that is available
-    biggestFloat = float64  # biggest float type that is available
+    biggestInt = int64      # 可允许的最大整数类型
+    biggestFloat = float64  # 可允许的最大浮点数类型
   ```
 {==+==}
 
@@ -2625,7 +2625,7 @@ These values are a set of ordered symbols. Each symbol is mapped
 to an integer value internally. The first symbol is represented
 at runtime by 0, the second by 1, and so on. For example:
 {==+==}
-枚举类型的变量只能分配到其中某种枚举值。这些值是一组有序符号。每个符号在内部映射到一个整数值。
+枚举类型的变量只能被赋予其的某种枚举值。这些值是一组有序符号。每个符号在内部映射到一个整数值。
 第一个符号在运行时用 0 表示，第二个用 1 表示，以此类推。例如:
 {==+==}
 
@@ -2644,8 +2644,8 @@ at runtime by 0, the second by 1, and so on. For example:
     Direction = enum
       north, east, south, west
 
-  var x = south     # `x` is of type `Direction`; its value is `south`
-  echo x            # prints "south"
+  var x = south     # `x` 的类型是 `Direction`; 它的值是 `south`
+  echo x            # 打印 "south"
   ```
 {==+==}
 
@@ -2659,7 +2659,7 @@ All the comparison operators can be used with enumeration types.
 An enumeration's symbol can be qualified to avoid ambiguities:
 `Direction.south`.
 {==+==}
-可以限定枚举的符号以避免歧义: `Direction.south`。
+可通过限定枚举的符号以避免歧义: `Direction.south`。
 {==+==}
 
 {==+==}
@@ -2693,7 +2693,7 @@ subranges) are called ordinal types. Ordinal types have quite
 a few special operations:
 {==+==}
 枚举、整数类型、`char` 和 `bool` (以及子范围)称为序数类型。
-序数类型有很多特殊操作:
+序数类型有很多独特操作:
 {==+==}
 
 
@@ -2777,8 +2777,8 @@ compile-time or runtime error. Assignments from the base type to one of its
 subrange types (and vice versa) are allowed.
 {==+==}
 `MySubrange` 是 `int` 的子范围，它只能保存值 0 到 5。
-将任何其他值分配给 `MySubrange` 类型的变量是编译时或运行时错误。
-允许从基本类型分配到其某一子范围类型(反之亦然)。
+将任何其他值分配给 `MySubrange` 类型的变量是一个编译时或运行时错误。
+可将基本类型赋值给其某一子范围类型(反之亦然)。
 {==+==}
 
 {==+==}
@@ -2792,7 +2792,7 @@ Nim's `Natural` type helps to avoid this common programming error.
 `system` 模块将重要的 [Natural](system.html#Natural) 类型定义为
 `range[0..high(int)]` ([high](system.html#high,typedesc[T]) 返回 最大值)。
 其他编程语言可能建议对自然数使用无符号整数。这通常是**不明智的**: 
-您不希望仅仅因为数字不能为负数而用无符号(会产生回绕)运算。Nim 的 `Natural` 类型有助于避免这种常见的编程错误。
+您不希望仅仅因为数字不能为负数而用(会产生回绕的)无符号运算。Nim 的 `Natural` 类型有助于避免这种常见的编程错误。
 {==+==}
 
 
@@ -2860,8 +2860,8 @@ Array access is always bounds checked (at compile-time or at runtime). These
 checks can be disabled via pragmas or invoking the compiler with the
 ``--bound_checks:off`` command line switch.
 {==+==}
-符号 `x[i]` 用于访问 `x` 的第 i 个元素。数组访问总是进行边界检查(在编译时或运行时)。
-这些检查可以通过编译指示或使用 ``--bound_checks:off`` 命令行开关调用编译器来禁用。
+符号 `x[i]` 用于访问 `x` 的第 i 个元素。访问数组总是会进行边界检查(在编译时或运行时)。
+这些检查可通过编译指示或使用 ``--bound_checks:off`` 命令行开关唤起编译器来禁用。
 {==+==}
 
 {==+==}
@@ -2877,7 +2877,7 @@ length. [low(a)](system.html#low,openArray[T]) returns the lowest valid index
 for the array `a` and [high(a)](system.html#high,openArray[T]) the highest
 valid index.
 {==+==}
-内置的 [len] 过程返回数组的长度。[low(a)] 返回数组 `a` 最小的有效下标，而 [high(a)]
+内置的 [len] 过程会返回数组的长度。[low(a)] 返回数组 `a` 最小的有效下标，而 [high(a)]
 返回最大有效下标。
 {==+==}
 
@@ -2928,7 +2928,7 @@ the previous example where a level is defined as an array of enums indexed by
 yet another enum, we can add the following lines to add a light tower type
 subdivided into height levels accessed through their integer index:
 {==+==}
-其他语言中创建嵌套(多维)数组的语法是添加更多括号，因为通常每个维度的索引类型都被限制成
+在其他语言中创建嵌套(多维)数组的语法是添加更多括号，因为通常每个维度的索引类型都被限制成
 与其他维度相同。在 Nim 中，您可以有不同维度和不同的索引类型，因此嵌套语法略有不同。
 在上一个示例，level 被定义为一个把另一个枚举当做索引的枚举数组，我们可以添加以下行来
 添加一个 LightTower 类型，该类型细分为通过其整数索引访问其高度的 LevelSetting:
@@ -2960,7 +2960,7 @@ subdivided into height levels accessed through their integer index:
   echo len(tower)     # --> 10
   echo len(tower[1])  # --> 4
   echo tower          # --> [[slowBlink, mediumBlink, ...more output..
-  # The following lines don't compile due to type mismatch errors
+  # 下面这几行因为类型不匹配而不会被编译
   #tower[north][east] = on
   #tower[0][1] = on
   ```
@@ -3012,8 +3012,8 @@ to specify a range from zero to the specified index minus one:
 {==+==}
   ```nim  test = "nim c $1"
   type
-    IntArray = array[0..5, int] # an array that is indexed with 0..5
-    QuickArray = array[6, int]  # an array that is indexed with 0..5
+    IntArray = array[0..5, int] # 一个下标范围为 0..5 的数组
+    QuickArray = array[6, int]  # 一个下标范围为 0..5 的数组
   var
     x: IntArray
     y: QuickArray
@@ -3058,7 +3058,7 @@ Sequences can be constructed by the array constructor `[]` in conjunction
 with the array to sequence operator `@`. Another way to allocate space for
 a sequence is to call the built-in [newSeq](system.html#newSeq) procedure.
 {==+==}
-序列可由数组构造器 `[]` 与数组到序列运算符 `@` 一起构造。
+序列可用数组构造器 `[]` 和将数组转换到序列的运算符 `@` 来构造。
 为序列分配空间的另一种方法是调用内置的 [newSeq](system.html#newSeq) 过程。
 {==+==}
 
@@ -3084,7 +3084,7 @@ Example:
   ```nim  test = "nim c $1"
   var
     x: seq[int] # a reference to a sequence of integers
-  x = @[1, 2, 3, 4, 5, 6] # the @ turns the array into a sequence allocated on the heap
+  x = @[1, 2, 3, 4, 5, 6] # @ 将数组转换成分配在堆上的序列
   ```
 {==+==}
 
@@ -3105,7 +3105,7 @@ value. Here the `for` statement is looping over the results from the
 [pairs()](iterators.html#pairs.i,seq[T]) iterator from the [system](
 system.html) module.  Examples:
 {==+==}
-当与序列一起使用时，`for` 语句可以与一个或两个变量一起使用。当您使用单变量形式时，
+当与序列一起使用时，`for` 语句可以承接一个或两个变量。当您使用单变量形式时，
 变量将保存序列提供的值。`for` 语句循环遍历的结果来自 [system](system.html) 模块的
 [items()](iterators.html#items.i,seq[T]) 迭代器。但是如果使用双变量形式，
 第一个变量将保存索引位置，第二个变量将保存值。这里的 `for` 语句循环遍历结果来自
@@ -3155,7 +3155,7 @@ Open arrays
 {==+==}
 **Note**: Openarrays can only be used for parameters.
 {==+==}
-**注意**: 开放数组只能被用于参数。
+**注意**: 开放数组只能被用于形参。
 {==+==}
 
 {==+==}
@@ -3170,7 +3170,7 @@ openarray parameter, the index type does not matter.
 通常，固定大小的数组非常不灵活。程序应该能够处理不同大小的数组。 `openarray`:idx: 类型允许这样做。
 开放数组总是用从位置 0 到 `int` 进行索引。[len](system.html#len,TOpenArray), [low](
 system.html#low,openArray[T]) 和 [high](system. html#high,openArray[T]) 操作也可用于开放数组。
-任何具有兼容基类型的数组都可以传递给开放数组参数，索引类型无关紧要。
+任何具有兼容基类型的数组都可以传递给开放数组形参，索引的类型则无关紧要。
 {==+==}
 
 {==+==}
@@ -3192,18 +3192,18 @@ system.html#low,openArray[T]) 和 [high](system. html#high,openArray[T]) 操作�
 {==+==}
   ```nim  test = "nim c $1"
   var
-    fruits:   seq[string]       # reference to a sequence of strings that is initialized with '@[]'
-    capitals: array[3, string]  # array of strings with a fixed size
+    fruits:   seq[string]       # 引用一个由 '@[]' 初始化的 string 的切片
+    capitals: array[3, string]  # 拥有固定大小的 string 类型的数组
 
-  capitals = ["New York", "London", "Berlin"]   # array 'capitals' allows assignment of only three elements
-  fruits.add("Banana")          # sequence 'fruits' is dynamically expandable during runtime
+  capitals = ["New York", "London", "Berlin"]   # 数组 'capitals' 仅允许赋值三个元素
+  fruits.add("Banana")          # 切片 'fruits' 可在运行时动态扩容
   fruits.add("Mango")
 
   proc openArraySize(oa: openArray[string]): int =
     oa.len
 
-  assert openArraySize(fruits) == 2     # procedure accepts a sequence as parameter
-  assert openArraySize(capitals) == 3   # but also an array type
+  assert openArraySize(fruits) == 2     # 过程接收一个切片作为参数
+  assert openArraySize(capitals) == 3   # 但也可以是一个数组类型
   ```
 {==+==}
 
@@ -3211,7 +3211,7 @@ system.html#low,openArray[T]) 和 [high](system. html#high,openArray[T]) 操作�
 The openarray type cannot be nested: multidimensional openarrays are not
 supported because this is seldom needed and cannot be done efficiently.
 {==+==}
-开放数组类型不能嵌套: 不支持多维开放数组，因为这需求很少且不能有效完成。
+开放数组类型不能嵌套: 不支持多维开放数组，因为这种需求不常见而且不能被高效实现。
 {==+==}
 
 
@@ -3229,8 +3229,8 @@ also a means to implement passing a variable number of
 arguments to a procedure. The compiler converts the list of arguments
 to an array automatically:
 {==+==}
-`varargs` 参数类似于开放数组参数。但它也是一种将可变数量的参数传递给过程的方法。
-编译器自动将参数列表转换为数组:
+`varargs` 形参类似于开放数组形参。但它也是一种将可变数量的参数传递给过程的方法。
+编译器会自动将参数列表转换为数组:
 {==+==}
 
 {==+==}
@@ -3252,7 +3252,7 @@ to an array automatically:
     write(f, "\n")
 
   myWriteln(stdout, "abc", "def", "xyz")
-  # is transformed by the compiler to:
+  # 上面将被编译器转化成:
   myWriteln(stdout, ["abc", "def", "xyz"])
   ```
 {==+==}
@@ -3262,7 +3262,7 @@ This transformation is only done if the varargs parameter is the
 last parameter in the procedure header. It is also possible to perform
 type conversions in this context:
 {==+==}
-仅当 varargs 参数是过程标头中的最后一个参数时才进行此转换。在这种情况下也可执行类型转换:
+仅当 varargs 参数是过程的最后一个入参时这种转换才会进行。在这种情况下也可执行类型转换:
 {==+==}
 
 {==+==}
@@ -3284,7 +3284,7 @@ type conversions in this context:
     write(f, "\n")
 
   myWriteln(stdout, 123, "abc", 4.0)
-  # is transformed by the compiler to:
+  # 上面将被编译器转化成:
   myWriteln(stdout, [$123, $"abc", $4.0])
   ```
 {==+==}
@@ -3294,7 +3294,8 @@ In this example [$](dollars.html) is applied to any argument that is passed
 to the parameter `a`. Note that [$](dollars.html) applied to strings is a
 nop.
 {==+==}
-在此示例中，[$](dollars.html) 将应用于传递给参数 `a` 的任何参数。请注意，应用于字符串的 [$](dollars.html) 是 nop。
+在此示例中，[$](dollars.html) 将作用于传递给形参 `a` 的所以参数。请注意，将 [$](dollars.html) 
+作用于字符串是 nop。
 {==+==}
 
 
@@ -3312,8 +3313,8 @@ context. A slice is just an object of type Slice which contains two bounds,
 `a` and `b`. By itself a slice is not very useful, but other collection types
 define operators which accept Slice objects to define ranges.
 {==+==}
-切片在语法上看起来类似子范围类型，但被使用在不同的上下文中。切片只是一个切片类型的对象，
-它包含两个边界，`a` 和 `b`。切片本身并不是很有用，但其他集合类型定义了接受切片对象来定义范围的运算符。
+切片在语法上看起来与子范围类型相似，但被使用在不同的语境中。切片只是一个切片类型的对象，
+它包含两个边界，`a` 和 `b`。当只有切片时，它并不十分有用，但其他集合类型定义了接受切片对象来定义范围的运算符。
 {==+==}
 
 {==+==}
@@ -3344,8 +3345,8 @@ slice's bounds can hold any value supported by
 their type, but it is the proc using the slice object which defines what values
 are accepted.
 {==+==}
-在之前的示例中，切片用于修改字符串的一部分。切片的边界可以保存任何其类型支持的值，
-但其实是过程使用了定义了可接受值的切片对象。
+在之前的示例中，切片用于修改字符串其中一部分。切片的边界可以保存任何其类型支持的值，
+但这其实是能够接受该值的过程使用了切片对象。
 {==+==}
 
 {==+==}
@@ -3374,8 +3375,8 @@ indices are
   ```nim
   "Slices are useless."
    |          |     |
-   0         11    17   using indices
-  ^19        ^8    ^2   using ^ syntax
+   0         11    17   使用下标
+  ^19        ^8    ^2   使用 ^ 语法
   ```
 {==+==}
 
@@ -3488,7 +3489,7 @@ get their default value.
   echo person1.name # "Peter"
   echo person1.age  # 30
 
-  var person2 = person1 # copy of person 1
+  var person2 = person1 # 对 person 1 的拷贝
 
   person2.age += 14
 
@@ -3496,13 +3497,13 @@ get their default value.
   echo person2.age # 44
 
 
-  # the order may be changed
+  # 顺序可以改变
   let person3 = Person(age: 12, name: "Quentin")
 
-  # not every member needs to be specified
+  # 不需要指出所有字段
   let person4 = Person(age: 3)
-  # unspecified members will be initialized with their default
-  # values. In this case it is the empty string.
+  # 未指定的字段将被赋予其默认值。
+  # 在下面这中情况，默认值是一个空字符串。
   doAssert person4.name == ""
   ```
 {==+==}
@@ -3525,8 +3526,8 @@ be marked with `*`.
 {==+==}
   ```nim  test = "nim c $1"
   type
-    Person* = object # the type is visible from other modules
-      name*: string  # the field of this type is visible from other modules
+    Person* = object # 该类型对其他模块可见
+      name*: string  # 该字段对其他模块可见
       age*: int
   ```
 {==+==}
@@ -3627,16 +3628,16 @@ integer.
 {==+==}
   ```nim  test = "nim c $1"
   type
-    # type representing a person:
-    # A person consists of a name and an age.
+    # 该类型代表一个人:
+    # 一个人由姓名和年龄组成。
     Person = tuple
       name: string
       age: int
 
-    # Alternative syntax for an equivalent type.
+    # 另外一种可表示该类型的语法。
     PersonX = tuple[name: string, age: int]
 
-    # anonymous field syntax
+    # 匿名字段语法
     PersonY = (string, int)
 
   var
@@ -3645,18 +3646,17 @@ integer.
     personY: PersonY
 
   person = (name: "Peter", age: 30)
-  # Person and PersonX are equivalent
+  # Person 和 PersonX 是相等的
   personX = person
 
-  # Create a tuple with anonymous fields:
+  # 使用匿名字段创建一个新元组:
   personY = ("Peter", 30)
 
-  # A tuple with anonymous fields is compatible with a tuple that has
-  # field names.
+  # 由匿名字段构成的元组和由具名字段构成的元组是可比较的。
   person = personY
   personY = person
 
-  # Usually used for short tuple initialization syntax
+  # 通常用于短元组的初始化语法
   person = ("Peter", 30)
 
   echo person.name # "Peter"
@@ -3665,12 +3665,12 @@ integer.
   echo person[0] # "Peter"
   echo person[1] # 30
 
-  # You don't need to declare tuples in a separate type section.
+  # 您无需在单独的类型段中声明元组。
   var building: tuple[street: string, number: int]
   building = ("Rue del Percebe", 13)
   echo building.street
 
-  # The following line does not compile, they are different tuples!
+  # 下面这行不会编译，因为它们是不同的元组!
   #person = building
   # --> Error: type mismatch: got (tuple[street: string, number: int])
   #     but expected 'Person'
@@ -3730,7 +3730,7 @@ variables! For example:
   echo dir      # outputs "usr/local"
   echo name     # outputs "nimc"
   echo ext      # outputs ".html"
-  # All the following output the same line:
+  # 以下所有输出将打印下面这一行:
   # "(dir: usr/local, name: nimc, ext: .html)"
   echo baddir
   echo badname
@@ -3763,12 +3763,12 @@ for 循环也支持元组解包:
 
   for (x, c) in a:
     echo x
-  # This will output: 10; 20; 30
+  # 这将输出: 10; 20; 30
 
   # Accessing the index is also possible:
   for i, (x, c) in a:
     echo i, c
-  # This will output: 0a; 1b; 2c
+  # 这将输出: 0a; 1b; 2c
   ```
 {==+==}
 
@@ -3847,7 +3847,7 @@ operators perform implicit dereferencing operations for reference types:
 
   var n = Node(data: 9)
   echo n.data
-  # no need to write n[].data; in fact n[].data is highly discouraged!
+  # 不需要去写 n[].data; 实际上写 n[].data 是极其不建议的!
   ```
 {==+==}
 
@@ -4010,18 +4010,18 @@ Nim 支持使用*模块*概念将程序拆分为多个部分。每个模块都�
   ```
 {==+==}
   ```nim
-  # Module A
+  # 模块 A
   var
     x*, y: int
 
   proc `*` *(a, b: seq[int]): seq[int] =
-    # allocate a new sequence:
+    # 分配一个新切片:
     newSeq(result, len(a))
-    # multiply two int sequences:
+    # 两个 int 切片相乘:
     for i in 0 ..< len(a): result[i] = a[i] * b[i]
 
   when isMainModule:
-    # test the new `*` operator for sequences:
+    # 测试切片的新运算符 `*`:
     assert(@[1, 2, 3] * @[1, 2, 3] == @[1, 4, 9])
   ```
 {==+==}
@@ -4036,7 +4036,7 @@ The above module exports `x` and `*`, but not `y`.
 A module's top-level statements are executed at the start of the program.
 This can be used to initialize complex data structures for example.
 {==+==}
-模块的顶级语句在程序开始时执行。例如，这可用于初始化复杂的数据结构。
+模块的顶级语句会在程序开始时执行。例如，这可用于初始化复杂的数据结构。
 {==+==}
 
 {==+==}
@@ -4055,7 +4055,7 @@ if it is defined in two (or more) different modules and both modules are
 imported by a third one:
 {==+==}
 模块的符号*可以*使用 `module.symbol` 语法*限定*。如果一个符号是模棱两可的，
-那它*必须*合规。当符号在两个(或多个)不同的模块中定义并且这两个模块都由第三个模块导入时，
+则它*必须*能被明确指出。当符号在两个(或多个)不同的模块中定义并且这两个模块都由第三个模块导入时，
 该符号是模棱两可的:
 {==+==}
 
@@ -4066,7 +4066,7 @@ imported by a third one:
   ```
 {==+==}
   ```nim
-  # Module A
+  # 模块 A
   var x*: string
   ```
 {==+==}
@@ -4078,7 +4078,7 @@ imported by a third one:
   ```
 {==+==}
   ```nim
-  # Module B
+  # 模块 B
   var x*: int
   ```
 {==+==}
@@ -4095,13 +4095,13 @@ imported by a third one:
   ```
 {==+==}
   ```nim
-  # Module C
+  # 模块 C
   import A, B
-  write(stdout, x) # error: x is ambiguous
-  write(stdout, A.x) # okay: qualifier used
+  write(stdout, x) # 错误: 不知道是哪个 x
+  write(stdout, A.x) # 可以: 更明确地使用
 
   var x = 4
-  write(stdout, x) # not ambiguous: uses the module C's x
+  write(stdout, x) # 无语义不清: 会使用模块 C 的 x
   ```
 {==+==}
 
@@ -4110,7 +4110,7 @@ imported by a third one:
 But this rule does not apply to procedures or iterators. Here the overloading
 rules apply:
 {==+==}
-但这条规则不适用于过程或迭代器。这种情况适用重载规则:
+但这条规则不适用于过程或迭代器。这种情况适用于重载规则:
 {==+==}
 
 {==+==}
@@ -4120,7 +4120,7 @@ rules apply:
   ```
 {==+==}
   ```nim
-  # Module A
+  # 模块 A
   proc x*(a: int): string = $a
   ```
 {==+==}
@@ -4132,7 +4132,7 @@ rules apply:
   ```
 {==+==}
   ```nim
-  # Module B
+  # 模块 B
   proc x*(a: string): string = $a
   ```
 {==+==}
@@ -4149,13 +4149,13 @@ rules apply:
   ```
 {==+==}
   ```nim
-  # Module C
+  # 模块 C
   import A, B
-  write(stdout, x(3))   # no error: A.x is called
-  write(stdout, x(""))  # no error: B.x is called
+  write(stdout, x(3))   # 没有错误: A.x 被调用
+  write(stdout, x(""))  # 没有错误: B.x 被调用
 
   proc x*(a: int): string = discard
-  write(stdout, x(3))   # ambiguous: which `x` is to call?
+  write(stdout, x(3))   # 语义不清: 要调用哪个 `x` ?
   ```
 {==+==}
 
@@ -4173,8 +4173,8 @@ The normal `import` statement will bring in all exported symbols.
 These can be limited by naming symbols that should be excluded using
 the `except` qualifier.
 {==+==}
-正常的 `import` 语句将引入所有导出的符号。
-这些可用 `except` 标识符点名限制哪个符号应当被排除。
+一般的 `import` 语句将引入所有导出的符号。
+导入的符号可再用 `except` 标识符排除。
 {==+==}
 
 {==+==}
@@ -4202,7 +4202,7 @@ exported symbols. An alternative that only imports listed symbols is the
 `from import` statement:
 {==+==}
 我们已经见识了简单的 `import` 语句，它只导入所有导出的符号。
-若仅导入所列符号则可用 `from import` 语句代替:
+若仅想导入列出的符号则可用 `from import` 语句来代替:
 {==+==}
 
 {==+==}
@@ -4220,7 +4220,7 @@ The `from` statement can also force namespace qualification on
 symbols, thereby making symbols available, but needing to be qualified
 in order to be used.
 {==+==}
-`from` 语句还可以强制对符号进行命名空间限定，从而使符号经过限定后可用。
+`from` 语句还可以强制对符号进行命名空间限定，从而使符号必须经过限定后才可用。
 {==+==}
 
 {==+==}
@@ -4233,7 +4233,7 @@ in order to be used.
   ```nim
   from mymodule import x, y, z
 
-  x()           # use x without any qualification
+  x()           # 不指定模块名而直接使用 x
   ```
 {==+==}
 
@@ -4249,9 +4249,9 @@ in order to be used.
   ```nim
   from mymodule import nil
 
-  mymodule.x()  # must qualify x with the module name as prefix
+  mymodule.x()  # 必须通过将模块名作为前缀来明确指定 x
 
-  x()           # using x here without qualification is a compile error
+  x()           # 在这里不加限定地使用 x 是一个编译错误
   ```
 {==+==}
 
@@ -4259,7 +4259,7 @@ in order to be used.
 Since module names are generally long to be descriptive, you can also
 define a shorter alias to use when qualifying symbols.
 {==+==}
-通常模块名因方便描述而变得很长，因此您还可以定义一个较短的别名以在限定符号时使用。
+模块名通常会为了便于描述而写得很长，因此您还可以定义一个较短的别名以在限定符号时使用。
 {==+==}
 
 {==+==}
@@ -4272,7 +4272,7 @@ define a shorter alias to use when qualifying symbols.
   ```nim
   from mymodule as m import nil
 
-  m.x()         # m is aliasing mymodule
+  m.x()         # m 是 mymodule 的别名
   ```
 {==+==}
 
@@ -4291,7 +4291,7 @@ importing a module: it merely includes the contents of a file. The `include`
 statement is useful to split up a large module into several files:
 {==+==}
 `include` 语句做的事情和导入一个模块有着基本的不同: `include` 仅包含进一个文件。
-`include` 语句在将一个模块拆分成多个文件时有用:
+`include` 语句在将一个模块拆分成多个文件时很有用:
 {==+==}
 
 {==+==}
