@@ -90,7 +90,7 @@ program, not *the only* way. Often a procedural approach leads to simpler
 and more efficient code. In particular, preferring composition over inheritance
 is often the better design.
 {==+==}
-虽然 Nim 对面向对象编程 (OOP) 的支持很简单，但您仍可使用强大的 OOP 技术。
+虽然 Nim 对面向对象编程 (OOP) 的支持很简单，但你仍可使用强大的 OOP 技术。
 OOP 被视为设计程序的*一种*方式，而非*唯一*方式。通常，使用过程能写出更简单有效的代码。
 尤其是在设计上，首选组合比继承更好。
 {==+==}
@@ -166,7 +166,7 @@ in the GTK wrapper for instance.)
 {==+==}
 继承是使用 `object of` 语法完成的。当前不支持多重继承。如果一个对象类型没有合适的父类，
 可以选择 `RootObj` 作为它的父类，但这只是一个约定。没有父类的对象被隐式设置为 `final`。
-您可用 `inheritable` 编译指示来引入除 `system.RootObj` 之外的新对象根。
+你可用 `inheritable` 编译指示来引入除 `system.RootObj` 之外的新对象根。
 (例如，这在 GTK 包装器中使用)
 {==+==}
 
@@ -734,7 +734,7 @@ exception hierarchy that you might want to stick to. Exceptions derive from
 `system.Exception`, which provides the common interface.
 {==+==}
 在 Nim 中，异常是对象。按照惯例，异常类型以 'Error' 为后缀。
-[system](system.html) 模块定义了您可能想要依照的异常层次结构。
+[system](system.html) 模块定义了你可能想要依照的异常层次结构。
 异常从提供了公共接口的`system.Exception`派生。
 {==+==}
 
@@ -744,7 +744,7 @@ The compiler will prevent you from raising an exception created on the stack.
 All raised exceptions should at least specify the reason for being raised in
 the `msg` field.
 {==+==}
-异常必须在堆上分配，因为它们的生命周期是未知的。编译器将阻止您引发在栈上创建的异常。
+异常必须在堆上分配，因为它们的生命周期是未知的。编译器将阻止你引发在栈上创建的异常。
 所有引发的异常至少应在 `msg` 字段中指定引发的原因。
 {==+==}
 
@@ -910,7 +910,7 @@ system.html#getCurrentException) and [getCurrentExceptionMsg()](
 system.html#getCurrentExceptionMsg) procs from the [system](system.html)
 module. Example:
 {==+==}
-如果您需要*访问* `except` 分支中的实际异常对象或消息，您可以使用[系统](system.html）模块中的
+如果你需要*访问* `except` 分支中的实际异常对象或消息，你可以使用[系统](system.html）模块中的
 [getCurrentException()](system.html#getCurrentException) 和 [getCurrentExceptionMsg()](
   system.html#getCurrentExceptionMsg) 过程。例如:
 {==+==}
@@ -954,8 +954,8 @@ instance, if you specify that a proc raises `IOError`, and at some point it
 (or one of the procs it calls) starts raising a new exception the compiler will
 prevent that proc from compiling. Usage example:
 {==+==}
-通过使用可选的 `{.raises.}` 编译指示，您可指定过程旨在引发一组特定的异常，或者根本不引发异常。
-如果使用了 `{.raises.}` 编译指示，编译器将验证这是否为真。例如，如果您指定过程会引发 `IOError`，
+通过使用可选的 `{.raises.}` 编译指示，你可指定过程旨在引发一组特定的异常，或者根本不引发异常。
+如果使用了 `{.raises.}` 编译指示，编译器将验证这是否为真。例如，如果你指定过程会引发 `IOError`，
 并且在某个时候它(或它调用的其中一个过程)开始引发新异常，则编译器将阻止该过程编译。使用示例:
 {==+==}
 
@@ -985,7 +985,7 @@ with the file and line where the uncaught exception is being raised, which may
 help you locate the offending code which has changed.
 {==+==}
 一旦你有了这样的代码，如果引发的异常列表发生更改，编译器将停止并显示一个错误，指定停止验证编译指示
-的过程行和未捕获的可引发的异常，以及未捕获的已引发异常所在的文件和行，这可帮助您找到已更改的违规代码。
+的过程行和未捕获的可引发的异常，以及未捕获的已引发异常所在的文件和行，这可帮助你找到已更改的违规代码。
 {==+==}
 
 {==+==}
@@ -998,11 +998,11 @@ command which generates documentation for a whole module and decorates all
 procs with the list of raised exceptions. You can read more about Nim's
 [effect system and related pragmas in the manual](manual.html#effect-system).
 {==+==}
-如果您想将 `{.raises.}` 编译指示添加到现有代码中，编译器也可助您一臂之力。
-将 `{.effects.}` 编译指示语句添加到您的过程中，编译器将把所有的推断效果输出到该点
+如果你想将 `{.raises.}` 编译指示添加到现有代码中，编译器也可助你一臂之力。
+将 `{.effects.}` 编译指示语句添加到你的过程中，编译器将把所有的推断效果输出到该点
 (异常跟踪是 Nim effect 系统的一部分)。另一种查找过程引发的异常列表的更为隐晦的方法是使用
 Nim ``doc`` 命令，该命令为整个模块生成文档，并用异常引发列表装饰所有过程。
-您可[在手册中阅读更多关于 Nim 的 effect 系统和相关编译指示的信息](manual.html#effect-system)。
+你可[在手册中阅读更多关于 Nim 的 effect 系统和相关编译指示的信息](manual.html#effect-system)。
 {==+==}
 
 
@@ -1478,9 +1478,9 @@ JavaScript-compatible code you should remember the following:
   use `cstring` only when it is semantically appropriate. E.g. don't use
   `cstring` as a binary data buffer.
 {==+==}
-Nim 代码可编译成 JavaScript。但为了写出与 JavaScript 兼容的代码，您应遵循一下几条:
-- `addr` 和 `ptr` 在 JavaScript 中的语义略有不同。如果您不确定它们是如何转换为 JavaScript 的，
-  建议您避免使用它们。
+Nim 代码可编译成 JavaScript。但为了写出与 JavaScript 兼容的代码，你应遵循一下几条:
+- `addr` 和 `ptr` 在 JavaScript 中的语义略有不同。如果你不确定它们是如何转换为 JavaScript 的，
+  建议你避免使用它们。
 - JavaScript 中的 `cast[T](x)` 被翻译为 `(x)`，除了有符号 / 无符号整数之间的转换。在这种情况下，
   它的行为类似于 C 语言中的静态转换。
 - JavaScript 中的 `cstring` 表示 JavaScript 字符串。一种好的做法是在仅在语义合适时才使用 `cstring` 

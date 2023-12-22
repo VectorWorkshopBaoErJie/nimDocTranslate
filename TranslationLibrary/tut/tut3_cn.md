@@ -389,7 +389,7 @@ tree with calls to `newTree` and `newLit` the macro
 {==+==}
 有两种生成代码的方式。通过用含大量 `newTree` 和 `newLit` 调用的表达式创建语法树，
 或用 `quote do:` 表达式。第一种选项为语法树生成提供了最佳的低级控制，但第二种选项会简洁很多。
-若您选择通过调用 `newTree` 和 `newLit` 来创建语法树，`macros.dumpAstGen` 宏可帮助您避免冗长。
+若你选择通过调用 `newTree` 和 `newLit` 来创建语法树，`macros.dumpAstGen` 宏可帮助你避免冗长。
 {==+==}
 
 {==+==}
@@ -397,7 +397,7 @@ tree with calls to `newTree` and `newLit` the macro
 Backticks are used to insert code from `NimNode` symbols into the
 generated expression.
 {==+==}
-`quote do:` 允许您直接编写想要生成的代码。反引号用于将来自 `NimNode` 符号的代码插入到生成的表达式中。
+`quote do:` 允许你直接编写想要生成的代码。反引号用于将来自 `NimNode` 符号的代码插入到生成的表达式中。
 {==+==}
 
 {==+==}
@@ -478,7 +478,7 @@ tree. You can use `newLit` to convert arbitrary values into
 expressions trees of type `NimNode` so that it is safe to inject
 them into the tree.
 {==+==}
-请确保只将 `NimNode` 类型的符号注入到生成的语法树中。您可以使用 `newLit` 
+请确保只将 `NimNode` 类型的符号注入到生成的语法树中。你可以使用 `newLit` 
 将任意值转换为 `NimNode` 类型的表达式树，以便安全地注入到树中。
 {==+==}
 
