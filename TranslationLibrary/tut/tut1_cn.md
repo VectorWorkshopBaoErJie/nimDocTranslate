@@ -725,7 +725,7 @@ For integers or other ordinal types value ranges are also possible:
 {==+==}
 case 语句可以处理整数和其他序数类型，以及字符串。
 (稍后会解释什么是序数类型)
-也可以处理整数和其他序数类型值的区间:
+也可以处理整数和其他序数类型值的范围:
 {==+==}
 
 {==+==}
@@ -760,7 +760,7 @@ every value that `n` may contain, but the code only handles the values
 the compiler that for every other value nothing should be done:
 {==+==}
 然而，上面的代码**不能编译**: 因为需要考虑 `n` 所有可能取到的值，但以上代码只处理 `0..8` 。
-通常列出所有整数是不现实的(尽管区间表达式可以实现)，
+通常列出所有整数是不现实的(尽管范围表达式可以实现)，
 这时，可以明确告知编译器忽略其他值:
 {==+==}
 
@@ -800,7 +800,7 @@ In general, the case statement is used for subrange types or enumerations where
 it is of great help that the compiler checks that you covered any possible
 value.
 {==+==}
-通常，case 语句用于处理区间类型和枚举，因为编译器会检查语句是否考虑了所有可能值。
+通常，case 语句用于处理范围类型和枚举，因为编译器会检查语句是否考虑了所有可能值。
 {==+==}
 
 

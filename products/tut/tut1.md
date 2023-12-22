@@ -282,7 +282,7 @@ Case 语句
 
 case 语句可以处理整数，其他序数类型，以及字符串。
 (什么是序数类型马上解释。)
-整数和其他序数类型的值区间也是可以的:
+整数和其他序数类型的值范围也是可以的:
 
   ```nim
   # this statement will be explained later:

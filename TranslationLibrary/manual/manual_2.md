@@ -24,8 +24,8 @@ Ordinal types have the following characteristics:
   a static error.
 {==+==}
 - 序数类型是可数的和有序的。因而允许使用如 `inc`, `ord`, `dec` 等函数，来操作已定义的序数类型。
-- 序数类型具有最小可使用值，可以通过 `low(type)` 获取。尝试从最小值继续减小，会产生panic或静态错误。
-- 序数类型具有最大可使用值，可以通过 `high(type)` 获取。尝试从最大值继续增大，会产生panic或静态错误。
+- 序数类型具有最小可使用值，可以通过 `low(type)` 获取。尝试从最小值继续减小，会产生 panic 或静态错误。
+- 序数类型具有最大可使用值，可以通过 `high(type)` 获取。尝试从最大值继续增大，会产生 panic 或静态错误。
 {==+==}
 
 {==+==}
@@ -39,7 +39,7 @@ types) belong to ordinal types.
 {==+==}
 A distinct type is an ordinal type if its base type is an ordinal type.
 {==+==}
-如果基类型是序数类型，则distinct类型是序数类型。
+如果基类型是序数类型，则 distinct 类型是序数类型。
 {==+==}
 
 
@@ -77,8 +77,8 @@ These integer types are pre-defined:
   Literals of these types have the suffix 'iXX.
 {==+==}
 `int`\ XX
-  使用XX位额外标记的有符号整数使用这种命名。
-  (比如int16是16位宽整数)当前支持的实现有 `int8` , `int16` , `int32` , `int64` 。
+  使用 XX 位额外标记的有符号整数使用这种命名。
+  (比如 int16 是 16 位宽整数)当前支持的实现有 `int8` , `int16` , `int32` , `int64` 。
   这些类型的字面值后缀为'iXX。
 {==+==}
 
@@ -102,7 +102,8 @@ These integer types are pre-defined:
   underflow errors.
 {==+==}
 `uint`\ XX
-  使用XX位额外标记的无符号整数使用这种命名。(比如uint16是16位宽的无符号整数)当前支持的实现有 `uint8`, `uint16`, `uint32`, `uint64` 。这些类型的字面值具有 'uXX 后缀。 无符号运算会环绕，不会导致上溢或下溢错误。
+  使用 XX 位额外标记的无符号整数使用这种命名。(比如 uint16 是 16 位宽的无符号整数)当前支持的实现有 `uint8`, `uint16`, `uint32`, `uint64` 。
+  这些类型的字面值具有 'uXX 后缀。 无符号运算会环绕，不会导致上溢或下溢错误。
 {==+==}
 
 
@@ -114,7 +115,7 @@ for backwards compatibility with older versions of the language that lacked
 unsigned integer types. These unsigned operations for signed integers use
 the `%` suffix as convention:
 {==+==}
-除了有符号和无符号整数的常用算术运算符( `+ - *` 等)之外， 还有些运算符可以处理 *有符号* 整数，但将其参数视为 *无符号* ，主要用于之后的版本与缺少无符号整数类型的旧版本语言进行兼容。 有符号整数的这些无符号运算约定使用 `%` 作为后缀: 
+除了有符号和无符号整数的常用算术运算符( `+ - *` 等)之外， 还有些运算符可以处理 *有符号* 整数，但将其参数视为 *无符号* ，主要用于之后的版本与缺少无符号整数类型的旧版本语言进行兼容。有符号整数的这些无符号运算，约定使用 `%` 作为后缀: 
 {==+==}
 
 
@@ -153,9 +154,9 @@ operation                meaning
 `a <% b`                 无符号比较 `a` 与 `b` 
 `a <=% b`                无符号比较 `a` 与 `b` 
 `ze(a)`                  用零填充 `a` 的位，直到它具有 `int` 类型的宽度
-`toU8(a)`                将 `a` 视为无符号数值，并将它转成8位无符号整数(但仍是 `int8` 类型)
-`toU16(a)`               将 `a` 视为无符号数值，并将它转成8位无符号整数(但仍是 `int16` 类型)
-`toU32(a)`               将 `a` 视为无符号数值，并将它转成8位无符号整数(但仍是 `int32` 类型)
+`toU8(a)`                将 `a` 视为无符号数值，并将它转成 8 位无符号整数(但仍是 `int8` 类型)
+`toU16(a)`               将 `a` 视为无符号数值，并将它转成 8 位无符号整数(但仍是 `int16` 类型)
+`toU32(a)`               将 `a` 视为无符号数值，并将它转成 8 位无符号整数(但仍是 `int32` 类型)
 ======================   ===========================================================================================
 {==+==}
 
@@ -172,7 +173,7 @@ example `int32 -> int16`). A `widening type conversion`:idx: converts a
 smaller type to a larger type (for example `int16 -> int32`). In Nim only
 widening type conversions are *implicit*:
 {==+==}
-`Automatic type conversion`:idx: "自动类型转换" 将较大的类型转换为较小的类型(比如 `int32 -> int16` ) ， `widening type conversion`:idx: "扩大类型转换" 将较小的类型转换为较大的类型(比如`int16 -> int32`) ，Nim中仅有扩大类型转型是 *隐式的* :
+`Automatic type conversion`:idx: "自动类型转换" 将较大的类型转换为较小的类型(比如 `int32 -> int16` ) ， `widening type conversion`:idx: "扩大类型转换" 将较小的类型转换为较大的类型(比如`int16 -> int32`) ，Nim 中仅有扩大类型转型是 *隐式的* :
 {==+==}
 
 
@@ -254,8 +255,8 @@ panic (or a static error if it can be determined during
 semantic analysis). Assignments from the base type to one of its subrange types
 (and vice versa) are allowed.
 {==+==}
-`Subrange` 是整数的子范围，只能保存0到5的值。`PositiveFloat` 定义了包含所有正浮点数的子范围。
-NaN不属于任何浮点类型的子范围。将任何其他值赋值给 `Subrange` 类型产生panic(如果可以在语义分析期间确认，则为静态错误)。
+`Subrange` 是整数的子范围，只能保存 0 到 5 的值。`PositiveFloat` 定义了包含所有正浮点数的子范围。
+NaN 不属于任何浮点类型的子范围。将任何其他值赋值给 `Subrange` 类型会产生 panic (如果可以在语义分析期间确认，则为静态错误)。
 允许将基类型赋值给它的一个子范围类型(反之亦然)。
 {==+==}
 
@@ -299,7 +300,7 @@ The following floating-point types are pre-defined:
   have the suffix 'fXX.
 {==+==}
 `float`\ XX
-  使用XX位附加注解的浮点数可以使用这种命名(例如: `float64` 是64位宽的浮点数)，当前支持 `float32` 和 `float64` 。 这些类型的字面值具有 'fXX 后缀。
+  使用 XX 位附加注解的浮点数可以使用这种命名(例如: `float64` 是 64 位宽的浮点数)，当前支持 `float32` 和 `float64` 。这些类型的字面值具有 'fXX 后缀。
 {==+==}
 
 
@@ -311,13 +312,13 @@ performed on floating-point types follows the IEEE standard. Integer types are
 not converted to floating-point types automatically and vice versa.
 {==+==}
 可以在具有不同类型浮点数的表达式中执行自动类型转换: 详见 `转换关系 <#type-relations-convertible-relation>`_ 。 
-浮点类型执行的运算遵循IEEE标准。整数类型不会自动转换为浮点类型，反之亦然。
+浮点类型执行的运算遵循 IEEE 标准。整数类型不会自动转换为浮点类型，反之亦然。
 {==+==}
 
 {==+==}
 The IEEE standard defines five types of floating-point exceptions:
 {==+==}
-IEEE标准定义了五种类型的浮点运算异常:
+IEEE 标准定义了五种类型的浮点运算异常:
 {==+==}
 
 {==+==}
@@ -332,7 +333,7 @@ IEEE标准定义了五种类型的浮点运算异常:
 * Inexact: operation produces a result that cannot be represented with infinite
   precision, for example, 2.0 / 3.0, log(1.1) and 0.1 in input.
 {==+==}
-* 无效: 使用数学上无效的操作数运算, 例如 0.0/0.0, sqrt(-1.0), 和log(-37.8).
+* 无效: 使用数学上无效的操作数运算, 例如 0.0/0.0, sqrt(-1.0), 和 log(-37.8).
 * 除以零: 除数为零，且被除数是有限的非零数，例如 1.0 / 0.0 。
 * 溢出: 运算产生的结果超出范围，例如，MAXDOUBLE + 0.0000000000001e308。
 * 下溢: 运算产生的结果太小而无法表示为正常数字，例如，MINDOUBLE * MINDOUBLE。
@@ -346,14 +347,16 @@ Nim exceptions: `FloatInvalidOpDefect`:idx:, `FloatDivByZeroDefect`:idx:,
 and `FloatInexactDefect`:idx:.
 These exceptions inherit from the `FloatingPointDefect`:idx: base class.
 {==+==}
-IEEE异常在执行期被忽略或映射到Nim异常: `FloatInvalidOpDefect`:idx: "浮点数无效缺陷" , `FloatDivByZeroDefect`:idx: "浮点数除零缺陷" , `FloatOverflowDefect`:idx: "浮点数溢出缺陷" , `FloatUnderflowDefect`:idx: "浮点数下溢缺陷" , 和 `FloatInexactDefect`:idx: "浮点数不精确缺陷" 。 这些异常继承自 `FloatingPointDefect`:idx: "浮点数缺陷" 基类。
+IEEE 异常在执行期被忽略或映射到 Nim 异常: `FloatInvalidOpDefect`:idx: "浮点数无效缺陷" , `FloatDivByZeroDefect`:idx: "浮点数除零缺陷" , 
+`FloatOverflowDefect`:idx: "浮点数溢出缺陷" , `FloatUnderflowDefect`:idx: "浮点数下溢缺陷" ,
+和 `FloatInexactDefect`:idx: "浮点数不精确缺陷" 。 这些异常继承自 `FloatingPointDefect`:idx: "浮点数缺陷" 基类。
 {==+==}
 
 {==+==}
 Nim provides the pragmas `nanChecks`:idx: and `infChecks`:idx: to control
 whether the IEEE exceptions are ignored or trap a Nim exception:
 {==+==}
-Nim提供了编译指示 `nanChecks`:idx: 和 `infChecks`:idx: 控制是否忽略IEEE异常或捕获Nim异常:
+Nim 提供了编译指示 `nanChecks`:idx: 和 `infChecks`:idx: 控制是否忽略 IEEE 异常或捕获 Nim 异常:
 {==+==}
 
 {==+==}
@@ -416,7 +419,7 @@ The boolean type is named `bool`:idx: in Nim and can be one of the two
 pre-defined values `true` and `false`. Conditions in `while`,
 `if`, `elif`, `when`-statements need to be of type `bool`.
 {==+==}
-布尔类型在Nim中命名为 `bool`:idx: ，值为预定义( `true` 和 `false` )之一。 `while` , `if` , `elif` , `when` 中的状态需为 `bool` 类型.
+布尔类型在 Nim 中命名为 `bool`:idx: ，值为预定义( `true` 和 `false` )之一。 `while` , `if` , `elif` , `when` 中的状态需为 `bool` 类型.
 {==+==}
 
 {==+==}
@@ -458,7 +461,7 @@ evaluation. Example:
 {==+==}
 The size of the bool type is one byte.
 {==+==}
-bool类型的大小是一个字节。
+bool 类型的大小是一个字节。
 {==+==}
 
 
@@ -474,14 +477,14 @@ Character type
 The character type is named `char` in Nim. Its size is one byte.
 Thus, it cannot represent a UTF-8 character, but a part of it.
 {==+==}
-字符类型在Nim中被命名为 `char` 。它的大小为一个字节。因此，它不能表示UTF-8字符，而只能是UTF-8字符的一部分。
+字符类型在 Nim 中被命名为 `char` 。它的大小为一个字节。因此，不能表示 UTF-8 字符，而只能是 UTF-8 字符的一部分。
 {==+==}
 
 {==+==}
 The `Rune` type is used for Unicode characters, it can represent any Unicode
 character. `Rune` is declared in the `unicode module <unicode.html>`_.
 {==+==}
-`Rune` 类型用于Unicode字符，它可以表示任意Unicode字符。`Rune` 声明在 `unicode module <unicode.html>`_ 中。
+`Rune` 类型可以表示任意 Unicode 字符。 `Rune` 声明在 `unicode module <unicode.html>`_ 中。
 {==+==}
 
 {==+==}
@@ -516,7 +519,7 @@ specified. The values are ordered. Example:
 {==+==}
 Now the following holds::
 {==+==}
-那么以下是成立的:
+那么以下成立:
 {==+==}
 
 {==+==}
@@ -608,8 +611,8 @@ as the last attempt. Only non-ambiguous symbols are added to this scope.
 But one can always access these via type qualification written
 as `MyEnum.value`:
 {==+==}
-枚举可以使用 `pure` 编译指示进行标记，以便将其字段添加到特定模块特定的隐藏作用域，只在最终尝试时进行查询。 
-只有没有歧义的符号才会添加到此作用域。但总是可以通过 `MyEnum.value` 类型限定来访问:
+枚举可以使用 `pure` 编译指示进行标记，以便将其字段添加到特定模块特定的隐藏作用域，只在最终使用时进行查询。 
+只有不产生歧义的符号才会添加到此作用域。但总是可以通过 `MyEnum.value` 类型限定来获取:
 {==+==}
 
 {==+==}
@@ -637,7 +640,7 @@ as `MyEnum.value`:
 
 
   echo valueA # MyEnum.valueA
-  echo amb    # 错误: 不确定它是MyEnum.amb还是OtherEnum.amb
+  echo amb    # 错误: 不确定它是 MyEnum.amb 还是 OtherEnum.amb 
   echo MyEnum.amb # OK.
   ```
 {==+==}
@@ -663,7 +666,8 @@ similar to a sequence of characters. However, strings in Nim are both
 zero-terminated and have a length field. One can retrieve the length with the
 builtin `len` procedure; the length never counts the terminating zero.
 {==+==}
-所有字符串字面值都是 `string` 类型。Nim中的字符串与字符序列非常相似。但是，Nim中的字符串都是以零结尾，并且具有长度字段。 可以用内置的 `len` 过程检索长度，长度并不计算末尾的零。
+所有字符串字面值都是 `string` 类型。Nim 中的字符串与字符序列非常相似。但是，Nim 中的字符串都是以零结尾，并且具有长度字段。
+可以用内置的 `len` 过程检索长度，长度并不计算末尾的零。
 {==+==}
 
 {==+==}
@@ -686,7 +690,7 @@ Most native Nim types support conversion to strings with the special `$` proc.
 When calling the `echo` proc, for example, the built-in stringify operation
 for the parameter is called:
 {==+==}
-大多数原生Nim类型支持使用特殊的 `$` 过程转换为字符串。
+大多数原生 Nim 类型支持使用特殊的 `$` 过程转换为字符串。
 {==+==}
 
 {==+==}
@@ -729,7 +733,7 @@ provides for `string` representation.
 
   proc `$`(p: Person): string = # `$` 始终返回字符串
     result = p.name & " 已经 " &
-            $p.age & # 需要在p.age前添加`$`，因为它是整数类型，而我们要将其转换成字符串
+            $p.age & # 需要在 p.age 前添加 `$`，因为它是整数类型，而我们要将其转换成字符串
             "岁了。"
   ```
 {==+==}
@@ -747,7 +751,7 @@ Strings are compared by their lexicographical order. All comparison operators
 are available. Strings can be indexed like arrays (lower bound is 0). Unlike
 arrays, they can be used in case statements:
 {==+==}
-字符串按字典顺序进行比较，所有比较运算符都可用。字符串可以像数组一样索引(下限为0)。与数组不同的是，字符串可用于case语句:
+字符串按字典顺序进行比较，所有比较运算符都可用。字符串可以像数组一样索引(下限为 0)。与数组不同的是，字符串可用于 case 语句:
 {==+==}
 
 {==+==}
@@ -773,7 +777,8 @@ bytes. The index operation `s[i]` means the i-th *char* of `s`, not the
 i-th *unichar*. The iterator `runes` from the `unicode module
 <unicode.html>`_ can be used for iteration over all Unicode characters.
 {==+==}
-按照惯例，所有字符串都是UTF-8字符串，但不是强制的。例如，从二进制文件读取字符串时，它们只是字节序列。索引操作 `s[i]` 表示 s 的第i个 *char* ，而不是第i个 *unichar* 。 `unicode module <unicode.html>`_ 中的迭代器 `runes` ，可用于迭代所有Unicode字符。
+按照惯例，所有字符串都是 UTF-8 字符串，但不是强制的。例如，从二进制文件读取字符串时，它们只是字节序列。
+索引操作 `s[i]` 表示 s 的第 i 个 *char* ，而不是第 i 个 *unichar* 。 `unicode module <unicode.html>`_ 中的迭代器 `runes` ，可用于迭代所有 Unicode 字符。
 {==+==}
 
 
@@ -794,7 +799,7 @@ interfacing with C. The index operation `s[i]` means the i-th *char* of
 `s`; however no bounds checking for `cstring` is performed making the
 index operation unsafe.
 {==+==}
-`cstring` 类型意思是 `compatible string` "兼容字符串"，是编译后端字符串的原生表示。对于C后端， `cstring` 类型表示一个指向末尾为零的char数组的指针，该数组与ANSI C中的 `char*` 类型兼容。其主要目的在于与C轻松互通。索引操作 `s[i]` 表示 s 的第i个 *char* ;但是没有检查 cstring 的边界，导致索引操作并不安全。
+`cstring` 类型意思是 `compatible string` "兼容字符串"，是编译后端字符串的原生表示。对于 C 后端， `cstring` 类型表示一个指向末尾为零的 char 数组的指针，该数组与 ANSI C 中的 `char*` 类型兼容。其主要目的是与 C 轻松互通。索引操作 `s[i]` 表示 s 的第 i 个 *char* ，但是不检查 cstring 的边界，因而索引操作并不安全。
 {==+==}
 
 {==+==}
@@ -802,7 +807,7 @@ A Nim `string` is implicitly convertible
 to `cstring` for convenience. If a Nim string is passed to a C-style
 variadic proc, it is implicitly converted to `cstring` too:
 {==+==}
-为方便起见，Nim中的 `string` 可以隐式转换为 `cstring` 。如果将Nim字符串传递给C风格的可变参数过程，它也会隐式转换为 `cstring` :
+为方便起见，Nim 中的 `string` 可以隐式转换为 `cstring` 。如果将 Nim 字符串传递给 C 风格的可变参数过程，也会隐式转换为 `cstring` :
 {==+==}
 
 {==+==}
@@ -828,14 +833,15 @@ memory. For this reason, the implicit conversion will be removed in future
 releases of the Nim compiler. Certain idioms like conversion of a `const` string
 to `cstring` are safe and will remain to be allowed.
 {==+==}
-即使转换是隐式的，它也不是 *安全的* : 垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。因此，隐式转换将在Nim编译器的未来版本中删除。某些习语，例如将 `const` 字符串转换为 `cstring` 是安全的，并且仍将被允许。
+即使转换是隐式的，它也不是 *安全的* : 垃圾收集器不认为 `cstring` 是根，并且可能收集底层内存。因此，隐式转换将在 Nim 编译器的未来版本中删除。
+某些习语，例如将 `const` 字符串转换为 `cstring` 是安全的，并且仍将被允许。
 {==+==}
 
 {==+==}
 A `$` proc is defined for cstrings that returns a string. Thus, to get a nim
 string from a cstring:
 {==+==}
-为cstring定义的 `$` 过程能够返回string。因此，从cstring获得nim的string可以这样:
+为 cstring 定义的 `$` 过程能够返回 string 。因此，从 cstring 获得 nim 的 string 可以这样:
 {==+==}
 
 {==+==}
@@ -904,7 +910,7 @@ A variable of a structured type can hold multiple values at the same
 time. Structured types can be nested to unlimited levels. Arrays, sequences,
 tuples, objects, and sets belong to the structured types.
 {==+==}
-结构化类型的变量可以同时保存多个值。 结构化类型可以嵌套到无限级别。数组、序列、元组、对象和集合属于结构化类型。
+结构化类型的变量可以同时保存多个值。结构化类型可以嵌套到无限级别。数组、序列、元组、对象和集合属于结构化类型。
 {==+==}
 
 {==+==}
@@ -925,14 +931,16 @@ array constructor `[]`. The element type of this array expression is
 inferred from the type of the first element. All other elements need to be
 implicitly convertible to this type.
 {==+==}
-数组是同类型的，即数组中的每个元素都类型相同。数组总是具有指定为常量表达式的固定长度(开放数组除外)。它们可以按任意序数类型索引。若参数 `A` 是 *开放数组* ，那么它的索引为由0到 len(A)- 1 的整数。数组表达式可以由数组构造器 `[]` 构造。数组表达式的元素类型是从第一个元素的类型推断出来的。所有其他元素都需要隐式转换为此类型。
+数组是同类型的，即数组中的每个元素都类型相同。数组总是具有指定为常量表达式的固定长度(开放数组除外)。它们可以按任意序数类型索引。
+若参数 `A` 是 *开放数组* ，那么它的索引为由 0 到 len(A)- 1 的整数。数组表达式可以由数组构造器 `[]` 构造。
+数组表达式的元素类型是从第一个元素的类型推断出来的。所有其他元素都需要隐式转换为此类型。
 {==+==}
 
 {==+==}
 An array type can be defined using the `array[size, T]` syntax, or using
 `array[lo..hi, T]` for arrays that start at an index other than zero.
 {==+==}
-可以使用 `array[size, T]` 构造数组类型，也可以使用 `array[lo..hi, T]` 设置数组的起点，而不是默认的0。
+可以使用 `array[size, T]` 构造数组类型，也可以使用 `array[lo..hi, T]` 设置数组的起点，而不是默认的 0。
 {==+==}
 
 {==+==}
@@ -944,7 +952,9 @@ Sequences can be constructed by the array constructor `[]` in conjunction
 with the array to sequence operator `@`. Another way to allocate space for a
 sequence is to call the built-in `newSeq` procedure.
 {==+==}
-序列类似于数组，但有动态长度，其长度可能在运行时期间发生变化(如字符串)。序列为可增长的数组实现，在添加项目时分配内存块。序列 `S` 的索引为从0到 `len(S)-1` 的整数，并检查其边界。序列可以在序列运算符 `@` 的帮助下，结合数组构造器 `[]` 一起构造。为序列分配空间的另一种方法是调用内置的 `newSeq` 过程。
+序列类似于数组，但有动态长度，其长度可能在运行时期间发生变化(如字符串)。序列为可增长的数组实现，在添加项目时分配内存块。
+序列 `S` 的索引为从 0 到 `len(S)-1` 的整数，并检查其边界。序列可以在序列运算符 `@` 的帮助下，结合数组构造器 `[]` 一起构造。
+为序列分配空间的另一种方法是调用内置的 `newSeq` 过程。
 {==+==}
 
 {==+==}
@@ -983,7 +993,7 @@ Example:
   x = [1, 2, 3, 4, 5, 6]  # [] 是数组构造器
   y = @[1, 2, 3, 4, 5, 6] #  @ 会将数组转换成序列
 
-  let z = [1.0, 2, 3, 4] # z的类型是 array[0..3, float]
+  let z = [1.0, 2, 3, 4] # z 的类型是 array[0..3, float]
   ```
 {==+==}
 
@@ -996,13 +1006,15 @@ One can append elements to a sequence with the `add()` proc or the `&`
 operator, and remove (and get) the last element of a sequence with the
 `pop()` proc.
 {==+==}
-数组或序列的下限可以用内置的过程 `low()` 获取，上限用 `high()` 获取。 长度可以用 `len()` 获取。序列或开放数组的 `low()` 总是返回0，因为这是第一个有效索引。可以使用 `add()` 过程或 `&` 运算符将元素追加到序列中，并使用 `pop()` 过程删除(并获取)序列的最后一个元素。
+数组或序列的下限可以用内置的过程 `low()` 获取，上限用 `high()` 获取。长度可以用 `len()` 获取。
+序列或开放数组的 `low()` 总是返回 0，因为这是第一个有效索引。
+可以使用 `add()` 过程或 `&` 运算符将元素追加到序列中，并使用 `pop()` 过程删除(并获取)序列的最后一个元素。
 {==+==}
 
 {==+==}
 The notation `x[i]` can be used to access the i-th element of `x`.
 {==+==}
-符号 `x[i]` 可用于访问 `x` 的第i个元素。
+符号 `x[i]` 可用于访问 `x` 的第 i 个元素。
 {==+==}
 
 {==+==}
@@ -1103,7 +1115,8 @@ a compatible base type can be passed to an open array parameter, the index
 type does not matter. In addition to arrays, sequences can also be passed
 to an open array parameter.
 {==+==}
-通常，固定大小的数组不太灵活，程序应该能够处理不同大小的数组。 `openarray`:idx: "开放数组" 类型只能用于参数。开放数组总是从位置0开始用 `int` 索引。也可用 `len` ， `low` 和 `high` 操作。具有兼容基类型的任何数组都可以传递给开放数组的形参，不关乎索引类型。除了数组之外，还可以将序列传递给开放数组参数。
+通常，固定大小的数组不太灵活，程序应该能够处理不同大小的数组。 `openarray`:idx: "开放数组" 类型只能用于参数。开放数组总是从位置 0 开始用 `int` 索引。
+也可用 `len` ， `low` 和 `high` 操作。具有兼容基类型的任何数组都可以传递给开放数组的形参，不关乎索引类型。除了数组之外，还可以将序列传递给开放数组参数。
 {==+==}
 
 {==+==}
@@ -1226,7 +1239,7 @@ not wrapped in another implicit array construction:
   ```nim
   proc takeV[T](a: varargs[T]) = discard
 
-  takeV([123, 2, 1]) # takeV的T是"int", 不是"int数组"
+  takeV([123, 2, 1]) # takeV 的 T 是 "int" , 不是 "int 数组"
   ```
 {==+==}
 
@@ -1270,7 +1283,7 @@ are not checked. This is often useful to implement customized flexibly sized
 arrays. Additionally, an unchecked array is translated into a C array of
 undetermined size:
 {==+==}
-`UncheckedArray[T]` 类型是一种特殊的 `array` "数组"，编译器不检查它的边界。这对于实现定制灵活大小的数组通常很有用。另外，未检查数组可以这样转换为不确定大小的C数组:
+`UncheckedArray[T]` 类型是一种特殊的 `array` "数组"，编译器不检查它的边界。这对于实现定制灵活大小的数组通常很有用。另外，未检查数组可以转换为不确定大小的 C 数组:
 {==+==}
 
 {==+==}
@@ -1292,7 +1305,7 @@ undetermined size:
 {==+==}
 Produces roughly this C code:
 {==+==}
-生成的C代码大致是这样的:
+生成的 C 代码大致是这样的:
 {==+==}
 
 {==+==}
@@ -1317,7 +1330,7 @@ Produces roughly this C code:
 The base type of the unchecked array may not contain any GC'ed memory but this
 is currently not checked.
 {==+==}
-未检查数组的基本类型可能不包含任何GC内存，但目前尚未检查。
+未检查数组的基本类型可能不包含任何 GC内存，但目前尚未检查。
 {==+==}
 
 {==+==}
@@ -1325,7 +1338,7 @@ is currently not checked.
 there should be an explicit annotation of how the GC is to determine the
 runtime size of the array.
 {==+==}
-**未来方向**: 应该在未检查的数组中允许GC内存，并且应该有一个关于GC如何确定数组的运行时大小的显式注解。
+**未来方向**: 应该在未检查的数组中允许 GC内存，并且应该有一个关于 GC 如何确定数组的运行时大小的显式注解。
 {==+==}
 
 
@@ -1348,7 +1361,9 @@ must match the order of the tuple's definition. Different tuple-types are
 *equivalent* if they specify the same fields of the same type in the same
 order. The *names* of the fields also have to be the same.
 {==+==}
-元组或对象类型的变量是异构存储容器。元组或对象定义了一个类型的各类 *字段* 。元组还定义了字段的 *顺序* 。元组是有很少抽象可能性的异构存储类型。 `()` 可用于构造元组。构造函数中字段的顺序必须与元组定义的顺序相匹配。如果它们以相同的顺序指定相同类型的相同字段，则不同的元组类型 *等效* 。字段的 *名称* 也必须相同。
+元组或对象类型的变量是异构存储容器。元组或对象定义了一个类型的各类 *字段* 。元组还定义了字段的 *顺序* 。
+元组是有很少抽象可能性的异构存储类型。 `()` 可用于构造元组。构造函数中字段的顺序必须与元组定义的顺序相匹配。
+如果它们以相同的顺序指定相同类型的相同字段，则不同的元组类型 *等效* 。字段的 *名称* 也必须相同。
 {==+==}
 
 {==+==}
@@ -1416,7 +1431,7 @@ In fact, a trailing comma is allowed for every tuple construction.
 The implementation aligns the fields for the best access performance. The alignment
 is compatible with the way the C compiler does it.
 {==+==}
-字段将会对齐，以此获得最佳性能。对齐与C编译器的方式兼容。
+字段将会对齐，以此获得最佳性能。对齐与 C 编译器的方式兼容。
 {==+==}
 
 {==+==}
@@ -1438,7 +1453,7 @@ can also be defined with indentation instead of `[]`:
   type
     Person = tuple   # 代表人的类型
       name: string   # 人的名字
-      age: Natural   # 和年龄
+      age: Natural   # 以及年龄
   ```
 {==+==}
 
@@ -1449,7 +1464,8 @@ enabled have information about their type at runtime so that the `of` operator
 can be used to determine the object's type. The `of` operator is similar to
 the `instanceof` operator in Java.
 {==+==}
-对象提供了许多元组没有的特性。对象提供继承和隐藏其他模块字段的能力。启用继承的对象在运行时具有相关类型的信息，可以使用 `of` 运算符来确定对象的类型。`of` 运算符类似于 Java 中的 `instanceof` 运算符。
+对象提供了许多元组没有的特性。对象提供继承和隐藏其他模块字段的能力。启用继承的对象在运行时具有相关类型的信息，可以使用 `of` 运算符来确定对象的类型。
+`of` 运算符类似于 Java 中的 `instanceof` 运算符。
 {==+==}
 
 {==+==}
@@ -1473,10 +1489,10 @@ the `instanceof` operator in Java.
   type
     Person = object of RootObj
       name*: string   # *表示可以从其他模块访问 `name` 
-      age: int        # 没有*表示该字段已隐藏
+      age: int        # 没有 * 表示该字段已隐藏
 
     Student = ref object of Person # 学生是人
-      id: int                      # 有个id字段
+      id: int                      # 有个 id 字段
 
   var
     student: Student
@@ -1494,7 +1510,8 @@ Objects that have no ancestor are implicitly `final` and thus have no hidden
 type information. One can use the `inheritable` pragma to
 introduce new object roots apart from `system.RootObj`.
 {==+==}
-对模块外部可见的对象字段必须用 `*` 标记。与元组相反，不同的对象类型永远不会 *等价* 。没有祖先的对象是隐式的 `final` ，因此没有隐藏的类型字段。可以使用 `inheritable` 编译指示来引入除 `system.RootObj` 之外的新根对象。
+对模块外部可见的对象字段必须用 `*` 标记。与元组相反，不同的对象类型永远不会 *等价* 。没有祖先的对象是隐式的 `final` ，因此没有隐藏的类型字段。
+可以使用 `inheritable` 编译指示来引入除 `system.RootObj` 之外的新根对象。
 {==+==}
 
 {==+==}
@@ -1514,7 +1531,7 @@ introduce new object roots apart from `system.RootObj`.
       name* : string
       age: int
 
-    Student = ref object of Person # 错误: 继承只能用于非final对象
+    Student = ref object of Person # 错误: 继承只能用于非 final 对象
       id: int
   ```
 {==+==}
@@ -1569,7 +1586,7 @@ an `object` type or a `ref object` type:
   var a2 = PStudent(name: "Anton", age: 5)
   # 这样也可以直接构造:
   var a3 = (ref Student)(name: "Anton", age: 5)
-  # 不是所有字段都必须被提到，而且这些字段可以是乱序的:
+  # 不必提到所有字段，而且这些字段可以是乱序的:
   var a4 = Student(age: 5)
   ```
 {==+==}
@@ -1578,7 +1595,7 @@ an `object` type or a `ref object` type:
 Note that, unlike tuples, objects require the field names along with their values.
 For a `ref object` type `system.new` is invoked implicitly.
 {==+==}
-请注意，与元组不同，对象需要字段名称及其值。对于 `ref object` 类型， `system.new` 是隐式调用的。
+请注意，与元组不同，对象需要字段名称及其值。对于 `ref object` 类型，隐式调用 `system.new` 。
 {==+==}
 
 
@@ -1646,7 +1663,7 @@ An example:
   ```
 {==+==}
   ```nim
-  # 这是一个如何在Nim中建模抽象语法树的示例
+  # 这是一个如何在 Nim 中建模抽象语法树的示例
   type
     NodeKind = enum   # 不同的节点类型
       nkInt,          # 带有整数值的叶节点
@@ -1654,7 +1671,7 @@ An example:
       nkString,       # 带有字符串值的叶节点
       nkAdd,          # 加法
       nkSub,          # 减法
-      nkIf            # if语句
+      nkIf            # if 语句
     Node = ref NodeObj
     NodeObj = object
       case kind: NodeKind  # `kind` 字段是鉴别字段
@@ -1666,12 +1683,12 @@ An example:
       of nkIf:
         condition, thenPart, elsePart: Node
 
-  # 创建一个新case对象:
+  # 创建一个新 case 对象:
   var n = Node(kind: nkIf, condition: nil)
   # 访问 `n.thenPart` 是有效的，因为 `nkIf` 分支是活动的
   n.thenPart = Node(kind: nkFloat, floatVal: 2.0)
 
-  # 以下语句引发了一个 `FieldError` 异常，因为n.kind的值不合适且 `nkString` 分支未激活:
+  # 以下语句引发了一个 `FieldError` 异常，因为 n.kind 的值不合适且 `nkString` 分支未激活:
   n.strVal = ""
 
   # 无效:会更改活动对象分支:
@@ -1706,7 +1723,8 @@ new value must not lead to a change of the active object branch. Also, when the
 fields of a particular branch are specified during object construction, the
 corresponding discriminator value must be specified as a constant expression.
 {==+==}
-在示例中， `kind` 字段称为 `discriminator`:idx: "鉴别字段" ，为安全起见，不能对其进行地址限制，并且对其赋值进行限制: 新值不得导致活动对象分支发生变化。 此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
+在示例中， `kind` 字段称为 `discriminator`:idx: "鉴别字段" ，为安全起见，不能对其进行地址限制，并且对其赋值进行限制: 新值不得导致活动对象分支发生变化。
+此外，在对象构造期间指定特定分支的字段时，必须将相应的鉴别字段值指定为常量表达式。
 {==+==}
 
 {==+==}
@@ -1737,7 +1755,7 @@ with a new one completely:
 Starting with version 0.20 `system.reset` cannot be used anymore to support
 object branch changes as this never was completely memory safe.
 {==+==}
-从版本0.20开始 `system.reset` 不能再用于支持对象分支的更改，因为这始终不是完全内存安全的。
+从版本 0.20 开始 `system.reset` 不能再用于支持对象分支的更改，因为这始终不是完全内存安全的。
 {==+==}
 
 {==+==}
@@ -1750,7 +1768,8 @@ branches. For discriminator values with a `range` type, the compiler
 checks if the entire range of possible values for the discriminator value is
 valid for the chosen object branch.
 {==+==}
-作为一项特殊规则，鉴别字段类型也可以使用 `case` 语句来限制。如果 `case` 语句分支中的鉴别字段变量的可能值是所选对象分支的鉴别字段值的子集，则认为是有效的初始化。此分析仅适用于序数类型的不可变判别符，并忽略 `elif` 分支。对于具有 `range` 类型的鉴别器值，编译器会检查鉴别器值的整个可能值范围是否对所选对象分支有效。
+作为一项特殊规则，鉴别字段类型也可以使用 `case` 语句来限制。如果 `case` 语句分支中的鉴别字段变量的可能值是所选对象分支的鉴别字段值的子集，则认为是有效的初始化。
+此分析仅适用于序数类型的不可变判别符，并忽略 `elif` 分支。对于具有 `range` 类型的鉴别值，编译器会检查鉴别值的整个可能值范围是否对所选对象分支有效。
 {==+==}
 
 {==+==}
@@ -1788,7 +1807,7 @@ A small example:
   var z = Node()
   case unknownKind
   of nkAdd, nkSub:
-    # 有效:此分支的可能值是nkAdd / nkSub对象分支的子集:
+    # 有效:此分支的可能值是 nkAdd / nkSub 对象分支的子集:
     z = Node(kind: unknownKind, leftOp: Node(), rightOp: Node())
   else:
     echo "ignoring: ", unknownKind
@@ -1811,7 +1830,7 @@ cast uncheckedAssign
 {==+==}
 Some restrictions for case objects can be disabled via a `{.cast(uncheckedAssign).}` section:
 {==+==}
-case对象的一些限制可以通过 `{.cast(uncheckedAssign).}` 禁用:
+case 对象的一些限制可以通过 `{.cast(uncheckedAssign).}` 禁用:
 {==+==}
 
 {==+==}
@@ -1908,7 +1927,9 @@ manually allocated objects or objects somewhere else in memory. Thus,
 untraced references are *unsafe*. However, for certain low-level operations
 (accessing the hardware) untraced references are unavoidable.
 {==+==}
-Nim区分 `traced`:idx: "追踪"、`untraced`:idx: "未追踪" 引用。未追踪引用也叫 *指针* 。追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。因此，未追踪引用是 *不安全* 的。 然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
+Nim 区分 `traced`:idx: "追踪"、`untraced`:idx: "未追踪" 引用。未追踪引用也叫 *指针* 。
+追踪引用指向垃圾回收堆中的对象，未追踪引用指向手动分配对象或内存中其它位置的对象。
+因此，未追踪引用是 *不安全* 的。然而对于某些访问硬件的低级操作，未追踪引用是不可避免的。
 {==+==}
 
 {==+==}
@@ -1962,7 +1983,7 @@ dereferencing operations for reference types:
     n: Node
   new(n)
   n.data = 9
-  # 不必写n[].data; 非常不推荐 n[].data！
+  # 不必写 n[].data; 非常不推荐 n[].data！
   ```
 {==+==}
 
@@ -2046,13 +2067,14 @@ default value for all `ref` and `ptr` types. The `nil` value can also be
 used like any other literal value. For example, it can be used in an assignment
 like `myRef = nil`.
 {==+==}
-如果一个引用什么都不指向，那么它的值为 `nil` 。 `nil` 是所有 `ref` 和 `ptr` 类型的默认值。`nil` 值也可以像任何其他字面值一样使用。例如，它可以用在像 `my Ref = nil` 这样的赋值中。
+如果一个引用什么都不指向，那么它的值为 `nil` 。 `nil` 是所有 `ref` 和 `ptr` 类型的默认值。
+`nil` 值也可以像任何其他字面值一样使用。例如，它可以用在像 `my Ref = nil` 这样的赋值中。
 {==+==}
 
 {==+==}
 Dereferencing `nil` is an unrecoverable fatal runtime error (and not a panic).
 {==+==}
-解引用 `nil` 是一个不可恢复的运行时错误(而不是panic)。
+解引用 `nil` 是一个不可恢复的运行时错误(而不是 panic)。
 {==+==}
 
 {==+==}
@@ -2074,8 +2096,8 @@ can be exploited by the implementation to optimize code like:
   ```nim
   p[].field = 3
   if p != nil:
-    # 如果p是nil, 那么 `p[]` 会导致错误
-    # 所以我们知道这里`p`永远不会是nil
+    # 如果 p 是 nil , 那么 `p[]` 会导致错误
+    # 所以这里的 `p` 永远不会是 nil
     action()
   ```
 {==+==}
