@@ -88,7 +88,7 @@ Because case statements are checked for exhaustiveness during semantic analysis,
 the value in every `of` branch must be a constant expression.
 This restriction also allows the compiler to generate more performant code.
 {==+==}
-因为在语义分析期间检查case语句的穷尽性，所以每个 `of` 分支中的值必须是常量表达式。
+因为在语义分析期间检查 case 语句的穷尽性，所以每个 `of` 分支中的值必须是常量表达式。
 此限制可以让编译器生成更高性能的代码。
 {==+==}
 
@@ -97,7 +97,7 @@ As a special semantic extension, an expression in an `of` branch of a case
 statement may evaluate to a set or array constructor; the set or array is then
 expanded into a list of its elements:
 {==+==}
-一种特殊的语义扩展是, case语句 `of` 分支中的表达式可以为集合或数组构造器，
+一种特殊的语义扩展是, case 语句 `of` 分支中的表达式可以为集合或数组构造器，
 然后将集合或数组扩展为其元素的列表:
 {==+==}
 
@@ -262,7 +262,7 @@ exceptions:
 {==+==}
 * 每个条件 ( `expr` ) 必须是一个类型为 `bool` 的常量表达式。
 * 语句不产生新作用域。
-* 计算为true的表达式所属语句将由编译器翻译，而只检查每个条件的语义，不检查其他语句语义!
+* 计算为 true 的表达式所属语句将由编译器翻译，而只检查每个条件的语义，不检查其他语句语义!
 {==+==}
 
 {==+==}
@@ -396,7 +396,7 @@ the proc has a return type. The `result`:idx: variable is always the return
 value of the procedure. It is automatically declared by the compiler. As all
 variables, `result` is initialized to (binary) zero:
 {==+==}
-如果proc有返回类型，不带表达式的 `return` 是 `return result` 的简短表示.
+如果 proc 有返回类型，不带表达式的 `return` 是 `return result` 的简短表示.
 编译器自动声明的变量 `result`:idx: 始终是过程的返回值。与所有变量一样, `result` 会初始化为(二进制)0:
 {==+==}
 
@@ -444,8 +444,8 @@ process, but the execution is passed back to the iterator if the next iteration
 starts. See the section about iterators (`Iterators and the for statement`_)
 for further information.
 {==+==}
-在迭代器中使用 `yield` 语句，而不是 `return` 语句。它只在迭代器中生效。执行后返回给调用迭代器的for循环体。
-Yield不会结束迭代过程，但是如果下一次迭代开始，则执行会返回到迭代器。详情参阅 `迭代器和for语句`_ 部分。
+在迭代器中使用 `yield` 语句，而不是 `return` 语句。它只在迭代器中生效。执行后返回给调用迭代器的 for 循环体。
+Yield 不会结束迭代过程，但是如果下一次迭代开始，则执行会返回到迭代器。详情参阅 `迭代器和for语句`_ 部分。
 {==+==}
 
 {==+==}
@@ -481,7 +481,7 @@ Example:
       for j in 0..3:
         if a[j][i] == 7:
           found = true
-          break myblock # 跳出两个for循环块
+          break myblock # 跳出两个 for 循环块
   echo found
   ```
 {==+==}
@@ -492,7 +492,7 @@ Inside the block, the `break` statement is allowed to leave the block
 immediately. A `break` statement can contain a name of a surrounding
 block to specify which block is to be left.
 {==+==}
-block语句是一种将语句分组到命名的 `block` 的方法。在block语句内，允许用 `break` 语句立即跳出。 `break` 语句可以包含围绕的block的名称, 以指定要跳出的层级。
+block 语句是一种将语句分组到命名的 `block` 的方法。在 block 语句内，允许用 `break` 语句立即跳出。 `break` 语句可以包含围绕的block的名称, 以指定要跳出的层级。
 {==+==}
 
 {==+==}
@@ -524,7 +524,7 @@ The `break` statement is used to leave a block immediately. If `symbol`
 is given, it is the name of the enclosing block that is to be left. If it is
 absent, the innermost block is left.
 {==+==}
- `break` 语句用于立即跳出block块。如果给出 `symbol` "标识符", 是指定要跳出的闭合的block的名称。如果未给出，则跳出最里面的block。
+ `break` 语句用于立即跳出 block 块。如果给出 `symbol` "标识符", 是指定要跳出的闭合的 block 的名称。如果未给出，则跳出最内层的 block 。
 {==+==}
 
 {==+==}
@@ -564,7 +564,7 @@ The `while` statement is executed until the `expr` evaluates to false.
 Endless loops are no error. `while` statements open an `implicit block`
 so that they can be left with a `break` statement.
 {==+==}
-`while` 语句执行时直到 `expr` 计算结果为false。无尽的循环不会报告错误。 `while` 语句会打开一个 `implicit block` "隐式块"，因而可以用 `break` 语句跳出。
+`while` 语句执行时直到 `expr` 计算结果为 false。无尽的循环不会报告错误。 `while` 语句会打开一个 `implicit block` "隐式块"，因而可以用 `break` 语句跳出。
 {==+==}
 
 {==+==}
@@ -580,7 +580,7 @@ A `continue` statement leads to the immediate next iteration of the
 surrounding loop construct. It is only allowed within a loop. A continue
 statement is syntactic sugar for a nested block:
 {==+==}
- `continue` 语句会使循环结构进行下一次迭代，其只允许在循环中使用。continue语句是嵌套block的语法糖:
+ `continue` 语句会使循环结构进行下一次迭代，其只允许在循环中使用。continue 语句是嵌套 block 的语法糖:
 {==+==}
 
 {==+==}
@@ -637,7 +637,8 @@ by the unsafe `asm` statement. Identifiers in the assembler code that refer to
 Nim identifiers shall be enclosed in a special character which can be
 specified in the statement's pragmas. The default special character is `'\`'`:
 {==+==}
-不安全的 `asm` 语句支持将汇编代码直接嵌入到Nim代码中。在汇编代码中引用Nim的标识符需要包含在特定字符中，该字符可以在语句的编译指示中指定。默认特定字符是 `'\`'` :
+不安全的 `asm` 语句支持将汇编代码直接嵌入到 Nim 代码中。
+在汇编代码中引用 Nim 的标识符需要包含在特定字符中，该字符可以在语句的编译指示中指定。默认特定字符是 `'\`'` :
 {==+==}
 
 {==+==}
@@ -673,7 +674,7 @@ specified in the statement's pragmas. The default special character is `'\`'`:
 {==+==}
 If the GNU assembler is used, quotes and newlines are inserted automatically:
 {==+==}
-如果使用GNU汇编器，则会自动插入引号和换行符: 
+如果使用 GNU 汇编器，则会自动插入引号和换行符: 
 {==+==}
 
 {==+==}
@@ -816,7 +817,7 @@ a `var` or `let` section.
 Note that `using` is not applied for `template` since the untyped template
 parameters default to the type `system.untyped`.
 {==+==}
-注意, `using` 在 `template` 不适用，因为untyped模板参数默认是 `system.untyped` 类型。
+注意, `using` 在 `template` 不适用，因为 untyped 模板参数默认是 `system.untyped` 类型。
 {==+==}
 
 {==+==}
@@ -839,7 +840,7 @@ An `if` expression is almost like an if statement, but it is an expression.
 This feature is similar to *ternary operators* in other languages.
 Example:
 {==+==}
-`if` 表达式与if语句非常相似，但它是一个表达式。这个特性类似于其他语言中的 *三元操作符* 。
+`if` 表达式与 i f语句非常相似，但它是一个表达式。这个特性类似于其他语言中的 *三元操作符* 。
 示例: 
 {==+==}
 
@@ -857,14 +858,14 @@ Example:
 An if expression always results in a value, so the `else` part is
 required. `Elif` parts are also allowed.
 {==+==}
-if表达式总是会产生一个值，所以必需有 `else` 部分。也可以使用`Elif` 部分。
+if 表达式总是会产生一个值，所以必需有 `else` 部分。也可以使用 `Elif` 部分。
 {==+==}
 
 {==+==}
 When expression
 ---------------
 {==+==}
-When表达式
+When 表达式
 --------------------
 {==+==}
 
@@ -885,7 +886,7 @@ Case表达式
 {==+==}
 The `case` expression is again very similar to the case statement:
 {==+==}
- `case` 表达式与case语句非常相似:
+ `case` 表达式与 case 语句非常相似:
 {==+==}
 
 {==+==}
@@ -915,14 +916,14 @@ As seen in the above example, the case expression can also introduce side
 effects. When multiple statements are given for a branch, Nim will use
 the last expression as the result value.
 {==+==}
-如上例所示，case表达式也可以引入副作用。当分支给出多个语句时，Nim将使用最后一个表达式作为结果值。
+如上例所示，case 表达式也可以引入副作用。当分支给出多个语句时，Nim 将使用最后一个表达式作为结果值。
 {==+==}
 
 {==+==}
 Block expression
 ----------------
 {==+==}
-Block表达式
+Block 表达式
 ----------------------
 {==+==}
 
@@ -932,7 +933,8 @@ that uses the last expression under the block as the value.
 It is similar to the statement list expression, but the statement list expression
 does not open a new block scope.
 {==+==}
- `block` 表达式几乎和block语句相同，但它是一个表达式，它使用block的最后一个表达式作为值。它类似于语句列表表达式，但语句列表表达式不会创建新的block作用域。
+ `block` 表达式几乎和 block 语句相同，但它是一个表达式，它使用 block 的最后一个表达式作为值。
+ 它类似于语句列表表达式，但语句列表表达式不会创建新的 block 作用域。
 {==+==}
 
 {==+==}
@@ -1031,7 +1033,7 @@ Ordinary procs are often preferred over type conversions in Nim: For instance,
 `$` is the `toString` operator by convention and `toFloat` and `toInt`
 can be used to convert from floating-point to integer or vice versa.
 {==+==}
-普通的procs通常比Nim中的类型转换更友好: 例如, `$` 是 `toString` 运算符, 而 `toFloat` 和 `toInt` 可从浮点数转换为整数,反之亦然。
+普通的 proc 通常比 Nim 中的类型转换更友好: 例如, `$` 是 `toString` 运算符, 而 `toFloat` 和 `toInt` 可从浮点数转换为整数,反之亦然。
 {==+==}
 
 {==+==}
@@ -1065,7 +1067,7 @@ rationale for this is mostly better interoperability with the C Programming
 language when algorithms are ported from C to Nim.
 {==+==}
 由于对无符号数的操作会环绕，且不会检查，因而到无符号整数的类型转换以及无符号整数之间的类型转换也会这样。
-这样做的原因是，当算法从C移植到Nim时，可以更好地与C语言进行互操作。
+这样做的原因是，当算法从 C 移植到 Nim 时，可以更好地与 C 语言进行互操作。
 {==+==}
 
 {==+==}
@@ -1081,7 +1083,7 @@ were unchecked and the conversions were sometimes checked but starting with
 the revision 1.0.4 of this document and the language implementation the
 conversions too are now *always unchecked*.
 {==+==}
-**注意**: 历史版本中不检查运算，有时会检查转换，但从1.0.4语言版本实现开始，转换 *总是未检查* 。
+**注意**: 历史版本中不检查运算，有时会检查转换，但从 1.0.4 语言版本实现开始，转换 *总是未检查* 。
 {==+==}
 
 {==+==}
@@ -1136,14 +1138,15 @@ bit pattern of the data being cast (aside from that the size of the target type
 may differ from the source type). Casting resembles *type punning* in other
 languages or C++'s `reinterpret_cast`:cpp: and `bit_cast`:cpp: features.
 {==+==}
-类型强转不应与 *类型转换* 混淆, 如前所述，与类型转换不同，类型强转不能更改被转换数据的底层位模式(除了目标类型的大小可能与源类型不同之外)。强制转换类似于其他语言中的 *类型双关* 或c++的 `reinterpret_cast`:cpp: 和 `bit_cast`:cpp: 特性。
+类型强转不应与 *类型转换* 混淆, 如前所述，与类型转换不同，类型强转不能更改被转换数据的底层位模式(除了目标类型的大小可能与源类型不同之外)。
+强制转换类似于其他语言中的 *类型双关* 或 c++ 的 `reinterpret_cast`:cpp: 和 `bit_cast`:cpp: 特性。
 {==+==}
 
 {==+==}
 The addr operator
 -----------------
 {==+==}
-addr操作符
+addr 操作符
 --------------------
 {==+==}
 
@@ -1157,7 +1160,9 @@ the address of variables. For easier interoperability with other compiled langua
 such as C, retrieving the address of a `let` variable, a parameter,
 or a `for` loop variable can be accomplished too:
 {==+==}
- `addr` 运算符返回左值的地址。如果地址的类型是 `T`, 则 `addr` 运算符结果的类型为 `ptr T` 。地址总是一个未追踪引用的值。获取驻留在堆栈上的对象的地址是 **不安全的** , 因为指针可能比堆栈中的对象存在更久, 因此可以引用不存在的对象。我们得到变量的地址，是为了更容易与其他编译语言互操作(如C)，也可以做到检索 `let` 变量、参数或 `for` 循环变量的地址:
+ `addr` 运算符返回左值的地址。如果地址的类型是 `T`, 则 `addr` 运算符结果的类型为 `ptr T` 。
+地址总是一个未追踪引用的值。获取驻留在堆栈上的对象的地址是 **不安全的** , 因为指针可能比堆栈中的对象存在更久, 因此可以引用不存在的对象。
+我们得到变量的地址，是为了更容易与其他编译语言互操作(如C)，也可以做到检索 `let` 变量、参数或 `for` 循环变量的地址:
 {==+==}
 
 {==+==}
@@ -1233,7 +1238,9 @@ until either the beginning of the parameter list, a semicolon separator, or an
 already typed parameter, is reached. The semicolon can be used to make
 separation of types and subsequent identifiers more distinct.
 {==+==}
-大多数编程语言中称之为 `methods`:idx "方法"或 `functions`:idx "函数"，在Nim中则称为 `procedures`:idx "过程"。过程声明由标识符、零个或多个形参、返回值类型和代码块组成，形参声明为由逗号或分号分隔的标识符列表。形参由 `: typename` 给出一个类型。该类型适用于紧接其之前的所有参数，直到参数列表的开头的分号分隔符或已经键入的参数。
+大多数编程语言中称之为 `methods`:idx "方法"或 `functions`:idx "函数"，在 Nim 中则称为 `procedures`:idx "过程"。
+过程声明由标识符、零个或多个形参、返回值类型和代码块组成，形参声明为由逗号或分号分隔的标识符列表。形参由 `: typename` 给出一个类型。
+该类型适用于紧接其之前的所有参数，直到参数列表的开头的分号分隔符或已经键入的参数。
 分号可使类型和后续标识符的分隔更加清晰。
 {==+==}
 
@@ -1276,7 +1283,7 @@ every time the function is called.
   ```
 {==+==}
   ```nim
-  # b是可选的, 默认值为47。
+  # b是可选的, 默认值为 47 。
   proc foo(a: int, b: int = 47): int
   ```
 {==+==}
@@ -1297,7 +1304,7 @@ default value starting from the parameter declared with it.
   ```
 {==+==}
   ```nim
-  # a和b都是可选的，默认值为47。
+  # a 和 b 都是可选的，默认值为 47。
   proc foo(a, b: int = 47): int
   ```
 {==+==}
@@ -1319,7 +1326,7 @@ arguments, by using the type modifier `var`.
 {==+==}
   ```nim
   # 通过第二个参数 "返回" 一个值给调用者
-  # 请注意, 该函数实际没有使用真实的返回值(即void)
+  # 请注意, 该函数实际没有使用真实的返回值(即 void)
   proc foo(inp: int, outp: var int) =
     outp = inp + 47
   ```
@@ -1332,7 +1339,9 @@ variable named `result`:idx: that represents the return value. Procs can be
 overloaded. The overloading resolution algorithm determines which proc is the
 best match for the arguments. Example:
 {==+==}
-如果proc声明没有过程体, 则是 `forward`:idx: "前置"声明。如果proc返回一个值，那么过程体可以访问一个名为 `result`:idx: 的隐式变量。过程可能会重载，重载解析算法会确定哪个proc是参数的最佳匹配。
+如果 proc 声明没有过程体, 则是 `forward`:idx: "前置"声明。
+如果 proc 返回一个值，那么过程体可以访问一个名为 `result`:idx: 的隐式变量。
+过程可能会重载，重载解析算法会确定哪个 proc 是参数的最佳匹配。
 示例: 
 {==+==}
 
@@ -1360,7 +1369,7 @@ best match for the arguments. Example:
   proc toLower(s: string): string = # 字符串 toLower
     result = newString(len(s))
     for i in 0..len(s) - 1:
-      result[i] = toLower(s[i]) # 为字符调用toLower;不递归!
+      result[i] = toLower(s[i]) # 为字符调用 toLower ，不递归!
   ```
 {==+==}
 
@@ -1387,7 +1396,7 @@ Calling a procedure can be done in many ways:
   ```nim
   proc callme(x, y: int, s: string = "", c: char, b: bool = false) = ...
 
-  # 带位置参数的调用                   # 参数绑定:
+  # 带位置参数的调用                      # 参数绑定:
   callme(0, 1, "abc", '\t', true)       # (x=0, y=1, s="abc", c='\t', b=true)
   # 使用命名参数和位置参数调用:
   callme(y=1, x=0, "abd", '\t')         # (x=0, y=1, s="abd", c='\t', b=false)
@@ -1431,14 +1440,15 @@ the operator's position within an expression.) There is no way to declare
 postfix operators: all postfix operators are built-in and handled by the
 grammar explicitly.
 {==+==}
-具有一个参数的操作符是前缀操作符，有两个参数的运算符是中缀操作符。(但是, 解析器将这些与操作符在表达式中的位置区分开来。) 无法声明后缀运算符，所有后缀运算符都是内置的，由语法明确指出。
+具有一个参数的操作符是前缀操作符，有两个参数的运算符是中缀操作符。(但是, 解析器将这些与操作符在表达式中的位置区分开来。)
+无法声明后缀运算符，所有后缀运算符都是内置的，由语法明确指出。
 {==+==}
 
 {==+==}
 Any operator can be called like an ordinary proc with the \`opr\`
 notation. (Thus an operator can have more than two parameters):
 {==+==}
-任何操作符都可以像普通的proc一样用 \`opr\` 表示法调用。(因此操作符可以有两个以上的参数):
+任何操作符都可以像普通的 proc 一样用 \`opr\` 表示法调用。(因此操作符可以有两个以上的参数):
 {==+==}
 
 {==+==}
@@ -1570,7 +1580,8 @@ is rewritten by the parser to `p[T](x)`, `x.p[:T](y)` is rewritten to
 `p[T](x, y)`. Note that `[: ]` has no AST representation, the rewrite
 is performed directly in the parsing step.
 {==+==}
-`[: ]` 符号是为了缓解这个问题: `x.p[:T]` 由解析器重写为 `p[T](x)` , `x.p[:T](y)` 被重写为 `p[T](x, y)` . 注意 `[: ]` 没有AST表示, 直接在解析步骤中进行重写。
+`[: ]` 符号是为了缓解这个问题: `x.p[:T]` 由解析器重写为 `p[T](x)` , `x.p[:T](y)` 被重写为 `p[T](x, y)` 。
+注意 `[: ]` 没有 AST 表示, 直接在解析步骤中进行重写。
 {==+==}
 
 {==+==}
@@ -1586,7 +1597,7 @@ Nim has no need for *get-properties*: Ordinary get-procedures that are called
 with the *method call syntax* achieve the same. But setting a value is
 different; for this, a special setter syntax is needed:
 {==+==}
-Nim不需要 *get-properties* : 使用 *方法调用语法* 调用的普通get-procedure达到相同目的。但set值是不同的; 因而需要一个特殊的setter语法: 
+Nim 不需要 *get-properties* : 使用 *方法调用语法* 调用的普通 get-procedure 达到相同目的。但 set 值是不同的; 因而需要一个特殊的 setter 语法: 
 {==+==}
 
 {==+==}
@@ -1623,8 +1634,7 @@ Nim不需要 *get-properties* : 使用 *方法调用语法* 调用的普通get-p
     s.host = value
 
   proc host*(s: Socket): int {.inline.} =
-    ##hostAddr的getter
-    ## This accesses the 'host' field and is not a recursive call to
+    ## hostAddr 的 getter
     ## 它访问 'host' 字段并且不是对 `host` 的递归调用, 如果内置的点访问方法可用, 则首选点访问:
     s.host
   ```
@@ -1653,8 +1663,8 @@ A proc defined as `f=` (with the trailing `=`) is called
 a `setter`:idx:. A setter can be called explicitly via the common
 backticks notation:
 {==+==}
-定义为 `f=` 的proc(后面跟 `=` )被称为 `setter`:idx: 。
-可以通过常见的反引号表示法显式调用setter: 
+定义为 `f=` 的 proc(后面跟 `=` )被称为 `setter`:idx: 。
+可以通过常见的反引号表示法显式调用 setter: 
 {==+==}
 
 
@@ -1684,7 +1694,7 @@ module `x.f` is then always interpreted as field access and outside the
 module it is interpreted as an accessor proc call.
 {==+==}
  `f=` 可以在 `x.f = value` 模式中隐式调用，当且仅当 `x` 的类型没有名为 `f` 的字段或 `f` 在当前模块中不可见时。
- 此规则确保对象字段和访问器可以有相同的名字。在模块内 `x.f` 总是被解释为字段访问，在模块外则被解释为访问器过程调用。
+此规则确保对象字段和访问器可以有相同的名字。在模块内 `x.f` 总是被解释为字段访问，在模块外则被解释为访问器过程调用。
 {==+==}
 
 {==+==}
@@ -1727,7 +1737,7 @@ more argument in this case:
   echo optarg 1, " ", singlearg 2  # 打印 "1 40"
 
   let fail = optarg 1, optarg 8   # 错误。命令调用的参数太多
-  let x = optarg(1, optarg 8)     # 传统过程调用2个参数
+  let x = optarg(1, optarg 8)     # 传统过程调用 2 个参数
   let y = 1.optarg optarg 8       # 与上面相同, 没有括号
   assert x == y
   ```
@@ -1739,7 +1749,8 @@ For example: (`anonymous procs <#procedures-anonymous-procs>`_), `if`,
 `case` or `try`. Function calls with no arguments still need () to
 distinguish between a call and the function itself as a first-class value.
 {==+==}
-命令调用语法也不能将复杂表达式作为参数。例如: ( `anonymous procs <#procedures-anonymous-procs>`_ "匿名过程"), `if` , `case` 或 `try` 。没有参数的函数调用仍需要()来区分调用和函数本身，作为首先的类型值。
+命令调用语法也不能将复杂表达式作为参数。例如: ( `anonymous procs <#procedures-anonymous-procs>`_ "匿名过程"), `if` , `case` 或 `try` 。
+没有参数的函数调用仍需要()来区分调用和函数本身，作为首先的类型值。
 {==+==}
 
 {==+==}
@@ -1794,7 +1805,7 @@ Anonymous procedures
 Unnamed procedures can be used as lambda expressions to pass into other
 procedures:
 {==+==}
-未命名过程可以用lambda表达式传递给其他过程:
+未命名过程可以用 lambda 表达式传递给其他过程:
 {==+==}
 
 {==+==}
@@ -1819,7 +1830,8 @@ executable code. The  `sugar <sugar.html>`_ module contains the `=>` macro
 which enables a more succinct syntax for anonymous procedures resembling
 lambdas as they are in languages like JavaScript, C#, etc.
 {==+==}
-作为表达式的过程既可以作为嵌套过程出现，也可以出现在顶层可执行代码中。 `sugar <sugar.html>`_ 模块包含 `=>` 宏，该宏为类似lambdas的匿名过程提供了更简洁的语法，就像JavaScript、c#等语言中那样。
+作为表达式的过程既可以作为嵌套过程出现，也可以出现在顶层可执行代码中。
+ `sugar <sugar.html>`_ 模块包含 `=>` 宏，该宏为类似 lambdas 的匿名过程提供了更简洁的语法，就像 JavaScript、c# 等语言中那样。
 {==+==}
 
 {==+==}
@@ -1879,7 +1891,7 @@ list. This allows macros to receive both indented statement lists as an
 argument in inline calls, as well as a direct mirror of Nim's routine syntax.
 {==+==}
 带参数列表或编译指示列表的 `do` 对应于匿名的 `proc` ,但是不带参数或编译指示中的 `do` 被视为常规语句列表。
-这允许宏接收缩进语句列表作为内联调用的参数，以及Nim例程语法的直接镜像。
+这允许宏接收缩进语句列表作为内联调用的参数，以及 Nim 例程语法的直接镜像。
 {==+==}
 
 {==+==}
@@ -1976,7 +1988,7 @@ A type bound operator declared for a type applies to the type regardless of whet
 the operator is in scope (including if it is private).
 {==+==}
 类型绑定操作符是名称以 `=` 开始的 `proc` 或 `func` ， 但不是操作符(即只包含符号，如 `==` )。
-这些与 `=` 结尾的setter无关(参见 `properties <manual.html#procedures-properties>`_ )。
+这些与 `=` 结尾的 setter 无关(参见 `properties <manual.html#procedures-properties>`_ )。
 为类型声明的类型绑定操作符将应用于该类型，无论操作符是否在作用域中(包括是否私有)。
 {==+==}
 
@@ -2052,7 +2064,7 @@ This also means that one cannot override `deepCopy` for both `ptr T` and
 used for one pointer type.
 {==+==}
 由于这些操作被绑定到一个类型，为了实现的简单性，它们必须绑定到一个名义上的类型; 这意味着一个被重写的 `deepCopy` 的 `ref T` 是真正绑定到 `T` 而不是 `ref T` 。
-这也意味着，不能同时重写 `deepCopy` 的 `ptr T` 和 `ref T` ，相反，必须为一种指针类型使用distinct或object辅助类型。
+这也意味着，不能同时重写 `deepCopy` 的 `ptr T` 和 `ref T` ，相反，必须为一种指针类型使用 distinct 或 object 辅助类型。
 {==+==}
 
 {==+==}
@@ -2085,12 +2097,12 @@ to `f`::
 
   declared, defined, definedInScope, compiles, getAst, astToStr
 {==+==}
-出于实现简单性的原因, 以下内置procs不能重载(它们需要专门的语义检查)::
+出于实现上简单性的考虑, 以下内置 proc 不能重载(进行专门的语义检查)::
 
   declared, defined, definedInScope, compiles, sizeof,
   is, shallowCopy, getAst, astToStr, spawn, procCall
 
-因此，它们更像是关键字，而不是普通的标识符。然而，与关键字不同的是，重定义可能会 `shadow`:idx: system_ 模块中的定义。
+因此，这些更像是关键字，而不是普通的标识符。与关键字有所不同的是，重定义会 `shadow`:idx: system_ 隐藏模块中的定义。
 从这个列表中，以下内容不应该用句点法表示 `x` 。因为 `x` 在传递给 `F` 之前不能进行类型检查::
 
   declared, defined, definedInScope, compiles, getAst, astToStr
@@ -2146,8 +2158,8 @@ visible to the caller. The argument passed to a var parameter has to be
 an l-value. Var parameters are implemented as hidden pointers. The
 above example is equivalent to:
 {==+==}
-在示例中, `res` 和 `remainder` 是 `var parameters` 。可以通过过程修改Var形参，且调用者可以拿到更改。
-传递给var形参的实参必须是左值。Var形参的实现为隐藏指针。上面的例子相当于:
+在示例中, `res` 和 `remainder` 是 `var parameters` 。可以通过过程修改 Var 形参，且调用者可以拿到更改。
+传递给 var 形参的实参必须是左值。 Var 形参的实现为隐藏指针。上面的例子相当于:
 {==+==}
 
 {==+==}
@@ -2180,7 +2192,7 @@ above example is equivalent to:
 In the examples, var parameters or pointers are used to provide two
 return values. This can be done in a cleaner way by returning a tuple:
 {==+==}
-在示例中，var形参或指针用来提供两个返回值。这可以通过返回一个元组这种更简洁的方式来完成:
+在示例中，var 形参或指针用来提供两个返回值。这可以通过返回一个元组这种更简洁的方式来完成:
 {==+==}
 
 {==+==}
@@ -2219,7 +2231,7 @@ One can use `tuple unpacking`:idx: to access the tuple's fields:
   ```
 {==+==}
   ```nim
-  var (x, y) = divmod(8, 5) # tuple unpacking
+  var (x, y) = divmod(8, 5) # 元组解包
   assert x == 1
   assert y == 3
   ```
@@ -2231,5 +2243,5 @@ passing. Since non-var parameters cannot be modified the compiler is always
 free to pass arguments by reference if it considers it can speed up execution.
 {==+==}
 **注意**: 对于高效的参数传递来说， `var` 形参不是必需的。
-因为非var形参不能修改，所以编译器在认为可以加快执行速度的情况下，会更自由地通过引用传递参数。
+因为非 var 形参不能修改，所以编译器在认为可以加快执行速度的情况下，会更自由地通过引用传递参数。
 {==+==}

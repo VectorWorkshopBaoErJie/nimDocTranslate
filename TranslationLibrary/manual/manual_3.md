@@ -13,7 +13,7 @@ traced references, strings, or sequences: in order to free everything properly,
 the built-in procedure `reset` has to be called before freeing the untraced
 memory manually:
 {==+==}
-特别要注意的是，如果一个未被追踪的对象包含被追踪的对象，例如包含追踪的引用，字符串，或序列。为了正确释放所有对象，
+要特别注意的是，如果一个未被追踪的对象包含被追踪的对象，例如包含追踪的引用、字符串、序列。为了正确释放所有对象，
 在释放未被追踪的内存之前，需要手动调用内置过程 `reset` :
 {==+==}
 
@@ -39,13 +39,13 @@ memory manually:
   type
     Data = tuple[x, y: int, s: string]
 
-  # 在堆上为Data分配内存:
+  # 在堆上为 Data 分配内存:
   var d = cast[ptr Data](alloc0(sizeof(Data)))
 
   # 在垃圾回收(GC)堆上创建一个新的字符串:
   d.s = "abc"
 
-  # 告知GC不再需要这个字符串:
+  # 告知 GC 不再需要这个字符串:
   reset(d.s)
 
   # 释放内存:
@@ -63,8 +63,12 @@ pointer) as if it would have the type `ptr Data`. Casting should only be
 done if it is unavoidable: it breaks type safety and bugs can lead to
 mysterious crashes.
 {==+==}
-如果不调用 `reset` ，就绝不会释放分配给 `d.s` 字符串的内存。这个例子从程序底层来说，表现出两个重要的特性: `sizeof` 过程返回一个类型或值的字节大小。 `cast` 操作符可以避开类型系统:
-编译器强制将 `alloc0` (会返回一个未定义类型的指针)的结果认定为 `ptr Data` 类型。只有在不可避免的情况下才需要进行转换，因为它破坏了类型安全，未知的bug可能导致崩溃。
+如果不调用 `reset` ，就绝不会释放分配给 `d.s` 字符串的内存。
+这个例子对于程序底层来说，表现出两个重要的特性:
+ `sizeof` 过程返回一个类型或值的字节大小。
+ `cast` 操作符可以避开类型系统:
+编译器强制将 `alloc0` (会返回一个未定义类型的指针)的结果认定为 `ptr Data` 类型。
+只有在不可避免的情况下才应当进行转换，因为这会破坏类型安全，未知的 bug 可能导致崩溃。
 {==+==}
 
 {==+==}
@@ -73,7 +77,8 @@ mysterious crashes.
 binary zero which the string assignment can handle. One needs to know low-level
 details like this when mixing garbage-collected data with unmanaged memory.
 {==+==}
-**注意**: 当把垃圾收集的数据和非管理的内存混合在一起时，我们需要了解这样的低级细节。这个例子之所以有效，是因为 `alloc0` 将内存初始化为零，而 `alloc` 不会 。 `d.s` 被初始化为二进制的零，因而可以处理字符串赋值。
+**注意**: 当把垃圾收集的数据和非管理的内存混合使用时，需要了解这些低级细节。
+这个例子之所以有效，是因为 `alloc0` 将内存初始化为零，而 `alloc` 不会 。 `d.s` 被初始化为二进制的零，因而可以处理字符串赋值。
 {==+==}
 
 {==+==}
@@ -147,7 +152,7 @@ Examples:
 
   proc setOnMouseMove(mouseMoveEvent: OnMouseMove) = discard
 
-  # 'onMouseMove' 有默认的调用约定 可以兼容 'closure':
+  # 'onMouseMove' 有默认的调用约定，可以兼容 'closure':
   setOnMouseMove(onMouseMove)
   ```
 {==+==}
@@ -159,13 +164,14 @@ compatible if they have the same calling convention. As a special extension,
 a procedure of the calling convention `nimcall` can be passed to a parameter
 that expects a proc of the calling convention `closure`.
 {==+==}
-过程类型的一个底层细节问题是，过程的调用约定会影响类型的兼容性: 过程类型只有在调用约定相同的情况下才兼容。有个延伸的特例，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
+过程类型的一个底层细节问题是，过程的调用约定会影响类型的兼容性: 过程类型只有在调用约定相同的情况下才兼容。
+有个延伸的特例，调用约定为 `nimcall` 的过程可以被传递给期望调用约定为 `closure` 的过程参数。
 {==+==}
 
 {==+==}
 Nim supports these `calling conventions`:idx:\:
 {==+==}
-Nim支持下列 `calling conventions`:idx: "调用约定":
+Nim 支持下列 `calling conventions`:idx: "调用约定":
 {==+==}
 
 {==+==}
@@ -174,7 +180,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     same as `fastcall`, but only for C compilers that support `fastcall`.
 {==+==}
 `nimcall`:idx:
-    是Nim **proc** 的默认约定。它和 `fastcall` 一样，但是只有C编译器支持 `fastcall` 。
+    是 Nim **proc** 的默认约定。它和 `fastcall` 一样，但是只有 C 编译器支持 `fastcall` 。
 {==+==}
 
 {==+==}
@@ -186,7 +192,9 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     and another one for the pointer to implicitly passed environment.
 {==+==}
 `closure`:idx:
-    是没有任意编译指示注解过程类型 **procedural type** 的默认调用约定。它表明这个过程有一个隐式参数(一个 *environment* )。拥有调用约定 `closure` 的函数变量占两个机器字: 一个用于函数指针，另一个用于隐式传递环境指针。
+    是没有任意编译指示注解过程类型 **procedural type** 的默认调用约定。
+    它表明这个过程有一个隐式参数( *environment* )。
+    拥有调用约定 `closure` 的函数变量占两个机器字: 一个用于函数指针，另一个用于隐式传递环境指针。
 {==+==}
 
 {==+==}
@@ -195,7 +203,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     procedure is declared with the `__stdcall` keyword.
 {==+==}
 `stdcall`:idx:
-    这是微软指定的标准约定。声明 `__stdcall` 关键字生成C程序。
+    这是微软指定的标准约定。声明 `__stdcall` 关键字生成 C 程序。
 {==+==}
 
 {==+==}
@@ -205,7 +213,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     the `__cdecl` keyword.
 {==+==}
 `cdecl`:idx:
-    cdecl约定表示程序将使用和C编译器一样的约定。在Windows下生成C程序是 `__cdecl` 关键字声明。
+    cdecl 约定表示程序将使用和 C 编译器一样的约定。在 Windows 下生成 C 程序是 `__cdecl` 关键字声明。
 {==+==}
 
 {==+==}
@@ -216,7 +224,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     hardware stack.
 {==+==}
 `safecall`:idx:
-    微软指定的安全调用约定。生成C程序是 `__safecall` 关键字声明。 *safe* 这个词是指会将所有的硬件寄存器push到硬件堆栈。
+    微软指定的安全调用约定。生成 C 程序是 `__safecall` 关键字声明。 *safe* 这个词是指会将所有的硬件寄存器 push 到硬件堆栈。
 {==+==}
 
 {==+==}
@@ -228,7 +236,9 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     it may inline procedures that are not marked as `inline`.
 {==+==}
 `inline`:idx:
-    inline内联约定表示调用者不应该调用过程，而是直接内联其代码。请注意，Nim并不直接内联，而是把这个问题留给C编译器。它生成了 `__inline` 过程，这只是给编译器的一个提示: 编译器可以完全忽略它，也可以内联那些没有标记为 `inline` 的过程。
+    inline 内联约定表示调用者不应该调用过程，而是直接内联其代码。
+    请注意，Nim 并不直接内联，而是把这个问题留给 C 编译器。
+    它生成了 `__inline` 过程，这只是给编译器的一个提示: 编译器可以完全忽略它，也可以内联那些没有标记为 `inline` 的过程。
 {==+==}
 
 {==+==}
@@ -237,7 +247,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     the C `__fastcall` means.
 {==+==}
 `fastcall`:idx:
-    FastCall表示对于不同的C编译器有所不同。意味着获得C `__fastcall` 表示。
+    FastCall 表示对于不同的 C 编译器有所不同。意味着获得 C `__fastcall` 表示。
 {==+==}
 
 {==+==}
@@ -246,7 +256,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     C++ class member functions on the x86 architecture.
 {==+==}
 `thiscall`:idx:
-    这是微软指定的thiscall调用约定，用于X86架构C++类成员函数中。
+    这是微软指定的 thiscall 调用约定，用于 X86 架构 C++ 类成员函数中。
 {==+==}
 
 {==+==}
@@ -255,7 +265,7 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     interrupts.
 {==+==}
 `syscall`:idx:
-    在C中syscall约定和 `__syscall`:c: 相同，应用于中断。
+    在 C 中 syscall 约定和 `__syscall`:c: 相同，应用于中断。
 {==+==}
 
 {==+==}
@@ -266,13 +276,13 @@ Nim支持下列 `calling conventions`:idx: "调用约定":
     improve speed.
 {==+==}
 `noconv`:idx:
-    生成的C代码将不会有任意显示的调用约定，因而会使用C编译的默认调用约定。这有时需要，因为Nim默认会对过程使用 `falsecall` 调用约定来提升速度。
+    生成的 C 代码将不会有任意显示的调用约定，因而会使用 C 编译器的默认调用约定。这有时需要，因为 Nim 默认会对过程使用 `falsecall` 调用约定来提升速度。
 {==+==}
 
 {==+==}
 Most calling conventions exist only for the Windows 32-bit platform.
 {==+==}
-大多数调用约定只存在于32位Windows平台。
+大多数调用约定只存在于 32 位 Windows 平台。
 {==+==}
 
 {==+==}
@@ -300,13 +310,14 @@ and its base type. Explicit type conversions from a distinct type to its
 base type and vice versa are allowed. See also `distinctBase` to get the
 reverse operation.
 {==+==}
-`distinct` 类型是源于 `base type`:idx: "基类"的新类型，一个重要的特性是，它和它的基类型之间 **不** 是子类型关系。但允许显式将distinct类型转换到它的基类型，反之亦然。请参阅 `distinctBase` 以获得反向操作相关的信息。
+`distinct` 类型是源于 `base type`:idx: "基类"的新类型，一个重要的特性是，它和其基类型之间 **不** 是父子类型关系。
+但允许显式将 distinct 类型转换到基类型，反之亦然。请参阅 `distinctBase` 以获得反向操作的相关信息。
 {==+==}
 
 {==+==}
 A distinct type is an ordinal type if its base type is an ordinal type.
 {==+==}
-如果一个distinct类型的基类型是序数类型，则distinct类型也为序数类型。
+如果一个 distinct 类型的基类型是序数类型，则 distinct 类型也为序数类型。
 {==+==}
 
 {==+==}
@@ -319,14 +330,14 @@ A distinct type is an ordinal type if its base type is an ordinal type.
 A distinct type can be used to model different physical `units`:idx: with a
 numerical base type, for example. The following example models currencies.
 {==+==}
-distinct类型可用于模拟不同的物理 `units`:idx: "单位"，例如，数字基本类型。以下为模拟货币的示例。
+distinct 类型可用于模拟不同的物理 `units`:idx: "单位"，例如，数字基本类型。以下为模拟货币的示例。
 {==+==}
 
 {==+==}
 Different currencies should not be mixed in monetary calculations. Distinct
 types are a perfect tool to model different currencies:
 {==+==}
-在货币计算中不应混用不同的货币。Distinct类型是一个模拟不同货币的理想工具:
+在货币计算中不应混用不同的货币。distinct 类型是一个模拟不同货币的理想工具:
 {==+==}
 
 {==+==}
@@ -353,7 +364,7 @@ types are a perfect tool to model different currencies:
     e: Euro
 
   echo d + 12
-  # 错误: 一个无单位的数字不可以与 `Dollar` 相加
+  # 错误: 数字不可以与 `Dollar` 直接相加
   ```
 {==+==}
 
@@ -362,8 +373,8 @@ Unfortunately, `d + 12.Dollar` is not allowed either,
 because `+` is defined for `int` (among others), not for `Dollar`. So
 a `+` for dollars needs to be defined:
 {==+==}
-可惜, 不允许 `d + 12.Dollar` ，因为 `+` 已被 `int` (以及其他)定义，而非 `Dollat` 。
-所以用于 `Dollar` 的 `+` 需要被这样定义:
+可惜, 不允许 `d + 12.Dollar` ，因为 `+` 已被 `int` (以及其他)所定义。
+所以用于 `Dollar` 的 `+` 需要进行这样的定义:
 {==+==}
 
 {==+==}
@@ -382,7 +393,7 @@ a `+` for dollars needs to be defined:
 It does not make sense to multiply a dollar with a dollar, but with a
 number without unit; and the same holds for division:
 {==+==}
-将一美元乘以一美元是没有意义的，但是可以乘以一个没有单位的数字，除法也一样:
+将一美元乘以一美元是没有意义的，但是可以乘以或除法一个无符号数:
 {==+==}
 
 {==+==}
@@ -414,7 +425,7 @@ should not generate all this code only to optimize it away later - after all
 The pragma `borrow`:idx: has been designed to solve this problem; in principle,
 it generates the above trivial implementations:
 {==+==}
-这很快就会变得乏味。这些实现很细微而作用不明显，编译器不应该生成所有这些代码，而稍后又优化掉 —— 美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示 `borrow`:idx: "借用"旨在解决这个问题； 原则上，它会生成上述内容简单实现:
+这很快就会变得乏味。这些实现很细微而作用不明显，生成所有这些代码，而可能稍后又优化掉了 —— 美元的 `+` 应该产生与整数的 `+` 相同的二进制代码。编译指示 `borrow`:idx: "借用"旨在解决这个问题，理论上，能够简单实现上述所生成内容:
 {==+==}
 
 {==+==}
@@ -435,7 +446,7 @@ it generates the above trivial implementations:
 But it seems all this boilerplate code needs to be repeated for the `Euro`
 currency. This can be solved with templates_.
 {==+==}
-但似乎上述所有的样板要在 `Euro` 货币上重复一遍。这个可以使用 templates_ 来解决。
+但似乎上述所有的样板要在 `Euro` 货币上重复一遍。这时可以使用 templates_ 来解决。
 {==+==}
 
 {==+==}
@@ -506,7 +517,7 @@ currency. This can be solved with templates_.
 The borrow pragma can also be used to annotate the distinct type to allow
 certain builtin operations to be lifted:
 {==+==}
-borrow编译指示也可用于distinct类型注解，以提升某些内置操作:
+borrow 编译指示也可用于 distinct 类型注解，以提升某些内置操作:
 {==+==}
 
 {==+==}
@@ -544,7 +555,7 @@ borrow编译指示也可用于distinct类型注解，以提升某些内置操作
 {==+==}
 Currently, only the dot accessor can be borrowed in this way.
 {==+==}
-目前只有点访问器可以通过这个方式借用。
+目前仅点访问器可以通过这个方式借用。
 {==+==}
 
 {==+==}
@@ -558,7 +569,8 @@ An SQL statement that is passed from Nim to an SQL database might be
 modeled as a string. However, using string templates and filling in the
 values is vulnerable to the famous `SQL injection attack`:idx:\:
 {==+==}
-从Nim传递到SQL数据库的SQL语句可能转化为字符串。但是，使用字符串模板并填写值很容易受到著名的 `SQL injection attack`:idx: "SQL注入攻击" \:
+从 Nim 传递到 SQL 数据库的 SQL 语句可能转化为字符串。
+但是，使用字符串模板并填写值很容易受到著名的 `SQL injection attack`:idx: "SQL注入攻击" \:
 {==+==}
 
 {==+==}
@@ -592,7 +604,7 @@ This can be avoided by distinguishing strings that contain SQL from strings
 that don't. Distinct types provide a means to introduce a new string type
 `SQL` that is incompatible with `string`:
 {==+==}
-这可以通过区分包含 SQL 的字符串和不包含 SQL 的字符串来避免。Distinct类型提供了一种引入与 `string` 不兼容的新字符串类型 `SQL` 的方法:
+这可以通过区分包含 SQL 的字符串和不包含 SQL 的字符串来避免。distinct 类型提供了一种引入与 `string` 不兼容的新字符串类型 `SQL` 的方法:
 {==+==}
 
 {==+==}
@@ -619,7 +631,7 @@ that don't. Distinct types provide a means to introduce a new string type
     username: string
 
   db.query("SELECT FROM users WHERE name = '$1'" % username)
-  # 静态错误: `query` 期望一个SQL字符串
+  # 静态错误: `query` 期望一个 SQL 字符串
   ```
 {==+==}
 
@@ -654,13 +666,13 @@ conversions from `string` to `SQL` are allowed:
   import std/[strutils, sequtils]
 
   proc properQuote(s: string): SQL =
-    # 正确地为SQL语句引用字符串
+    # 正确地为 SQL 语句引用字符串
     return SQL(s)
 
   proc `%` (frmt: SQL, values: openarray[string]): SQL =
     # 引用每个参数:
     let v = values.mapIt(properQuote(it))
-    # 我们需要一个临时类型用到类型转换 :-(
+    # 需要一个临时类型用到类型转换 :-(
     type StrSeq = seq[string]
     # 调用 strutils.`%`:
     result = SQL(string(frmt) % StrSeq(v))
@@ -772,7 +784,7 @@ Type equality
 Nim uses structural type equivalence for most types. Only for objects,
 enumerations and distinct types and for generic types name equivalence is used.
 {==+==}
-Nim 对大多数类型使用结构类型相等。仅对对象、枚举和distinct类型以及泛型类型使用名称相等。
+Nim 对大多数类型使用结构类型相等。仅对对象、枚举和 distinct 类型以及泛型类型使用名称相等。
 {==+==}
 
 {==+==}
@@ -913,7 +925,7 @@ Nim 的 `range` 类型构造器也执行隐式转换。
 {==+==}
 Let `a0`, `b0` of type `T`.
 {==+==}
-Let `a0`, `b0`为类型`T`。
+让 `a0`, `b0` 为类型 `T` 。
 {==+==}
 
 {==+==}
@@ -929,7 +941,7 @@ are signed integers or if both are unsigned integers.
 A type `a` is **explicitly** convertible to type `b` iff the following
 algorithm returns true:
 {==+==}
-如果下列算法返回true，则类型 `a` 是显示转换为类型 `b` :
+如果下列算法返回 true，则类型 `a` 是显示转换为类型 `b` :
 {==+==}
 
 {==+==}
@@ -993,7 +1005,7 @@ The convertible relation can be relaxed by a user-defined type
     x: int
     chr: char = 'a'
 
-  # 隐式转换变化在这里发生
+  # 这里产生隐式转换
   x = chr
   echo x # => 97
   # 也可以使用显式形式
@@ -1264,8 +1276,8 @@ the argument is checked to be an `l-value`:idx:.
 
   proc sayHello(x: int) =
     var m = x # 一个x的可变版本
-    echo sayHi(x) # 匹配sayHi的非可变版本
-    echo sayHi(m) # 匹配sayHi的可变版本
+    echo sayHi(x) # 匹配 sayHi 的非可变版本
+    echo sayHi(m) # 匹配 sayHi 的可变版本
 
   sayHello(3) # 3
               # 13
@@ -1276,7 +1288,7 @@ the argument is checked to be an `l-value`:idx:.
 Lazy type resolution for untyped
 --------------------------------
 {==+==}
-untyped惰性类型解析
+untyped 惰性类型解析
 ----------------------------------------
 {==+==}
 
@@ -1326,7 +1338,6 @@ argument's resolution:
 {==+==}
 
 {==+==}
-
   ```nim
   template rem(x: untyped) = discard
   proc rem[T](x: T) = discard
@@ -1335,7 +1346,6 @@ argument's resolution:
   rem unresolvedExpression(undeclaredIdentifier)
   ```
 {==+==}
-
   ```nim
   template rem(x: untyped) = discard
   proc rem[T](x: T) = discard
@@ -1379,7 +1389,7 @@ A called `iterator` yielding type `T` can be passed to a template or macro via
 a parameter typed as `untyped` (for unresolved expressions) or the type class
 `iterable` or `iterable[T]` (after type checking and overload resolution).
 {==+==}
-yielding类型 `T` 的迭代器可以通过类型为 `untyped` (用于未解析的表达式)或类型类 `iterable` 或 `iterable[T]` (在类型检查和重载解析之后)的参数传递给模板或宏。
+yielding 类型 `T` 的迭代器可以通过类型为 `untyped` (用于未解析的表达式)或类型类 `iterable` 或 `iterable[T]` (在类型检查和重载解析之后)的参数传递给模板或宏。
 {==+==}
 
 {==+==}
@@ -1509,7 +1519,7 @@ Nim uses the common statement/expression paradigm: Statements do not
 produce a value in contrast to expressions. However, some expressions are
 statements.
 {==+==}
-Nim 使用通用的"语句/表达式"范式: 与表达式相比，语句不产生值。 但是，有些表达式是语句。
+Nim 使用通用的"语句/表达式"范式: 与表达式相比，语句不产生值。但是，有些表达式是语句。
 {==+==}
 
 {==+==}
@@ -1520,7 +1530,9 @@ assignments, calls, or the `return` statement; complex statements can
 contain other statements. To avoid the `dangling else problem`:idx:, complex
 statements always have to be indented. The details can be found in the grammar.
 {==+==}
-语句分成 `simple statements`:idx: "简单语句" 和 `complex statements`:idx: "复杂语句" 。简单语句是不能包含其他语句的语句，如赋值、调用或 `return` 语句；复杂语句包含其他语句。为了避免 `dangling else problem`:idx: "不确定性问题"，复杂语句必须缩进, 细节可以查看语法一节。
+语句分成 `simple statements`:idx: "简单语句" 和 `complex statements`:idx: "复杂语句" 。
+简单语句是不能包含其他语句的语句，如赋值、调用或 `return` 语句；复杂语句包含其他语句。
+为了避免 `dangling else problem`:idx: "不确定性问题"，复杂语句必须缩进, 细节可以查看语法一节。
 {==+==}
 
 {==+==}
@@ -1539,7 +1551,9 @@ of `(stmt1; stmt2; ...; ex)` is the type of `ex`. All the other statements
 must be of type `void`. (One can use `discard` to produce a `void` type.)
 `(;)` does not introduce a new scope.
 {==+==}
-语句也可以出现 `(stmt1; stmt2; ...; ex)` 这样的形式。这称为语句列表表达式或 `(;)` 。 `(stmt1; stmt2; ...; ex)` 的类型是 `ex` 类型。其他语句必须是 `void` 类型。(可以使用 `discard` 来生成 `void` 类型。) `(;)` 不会引入新的作用域。
+语句也可以出现 `(stmt1; stmt2; ...; ex)` 这样的形式。这称为语句列表表达式或 `(;)` 。
+ `(stmt1; stmt2; ...; ex)` 的类型是 `ex` 类型。
+其他语句必须是 `void` 类型。(可以使用 `discard` 来生成 `void` 类型。) `(;)` 不会引入新的作用域。
 {==+==}
 
 {==+==}
@@ -1677,7 +1691,8 @@ In a list of statements, every expression except the last one needs to have the
 type `void`. In addition to this rule an assignment to the builtin `result`
 symbol also triggers a mandatory `void` context for the subsequent expressions:
 {==+==}
-在语句列表中，除了最后一个表达式之外，每个表达式类型需要为 `void` 。除了这个规则，对内置 `result` 标识符的赋值也会为后续的表达式触发强制的 `void` 上下文:
+在语句列表中，除了最后一个表达式之外，每个表达式类型需要为 `void` 。
+除了这个规则，对内置 `result` 标识符的赋值也会为后续的表达式触发强制的 `void` 上下文:
 {==+==}
 
 {==+==}
@@ -1809,7 +1824,7 @@ The implicit initialization can be avoided for optimization reasons with the
 If a proc is annotated with the `noinit` pragma, this refers to its implicit
 `result` variable:
 {==+==}
-如果proc使用 `noinit` 编译指示，这指的是其隐式 `result` 变量:
+如果 proc 使用 `noinit` 编译指示，这指的是其隐式 `result` 变量:
 {==+==}
 
 {==+==}
@@ -1828,7 +1843,9 @@ type pragma. The compiler requires an explicit initialization for the object
 and all of its fields. However, it does a `control flow analysis`:idx: to prove
 the variable has been initialized and does not rely on syntactic properties:
 {==+==}
-`requiresInit`:idx: "需初始化"类型编译指示也可以防止隐式初始化。编译器需要对对象及其所有字段进行显式初始化。但是，它会进行 `control flow analysis`:idx: "控制流分析" 以验证变量已被初始化并且不依赖于语法属性:
+`requiresInit`:idx: "需初始化"类型编译指示也可以防止隐式初始化。
+编译器需要对对象及其所有字段进行显式初始化。
+但是，它会进行 `control flow analysis`:idx: "控制流分析" 以验证变量已被初始化并且不依赖于语法属性:
 {==+==}
 
 {==+==}
@@ -1870,7 +1887,7 @@ the variable has been initialized and does not rely on syntactic properties:
 {==+==}
 Given the following distinct type definitions:
 {==+==}
-给出以下distinct类型定义:
+给出以下 distinct 类型定义:
 {==+==}
 
 {==+==}
@@ -1970,7 +1987,9 @@ statement, except that the keyword `var` is replaced by the keyword `let`.
 Let variables are not l-values and can thus not be passed to `var` parameters
 nor can their address be taken. They cannot be assigned new values.
 {==+==}
-`let` 语句声明了新的局部和全局 `single assignment`:idx: "唯一赋值"变量并将值绑定到它们。语法与 `var` 语句的语法相同，只是关键字 `var` 被关键字 `let` 替换。let变量不是左值，因此不能传递给 `var` 参数也不能获取他们的地址。不能为它们分配新值。
+`let` 语句声明了新的局部和全局 `single assignment`:idx: "唯一赋值"变量并将值绑定到它们。
+语法与 `var` 语句的语法相同，只是关键字 `var` 被关键字 `let` 替换。
+let 变量不是左值，因此不能传递给 `var` 参数也不能获取他们的地址。不能为它们分配新值。
 {==+==}
 
 {==+==}
@@ -1985,7 +2004,8 @@ when they are declared. The only exception to this is if the `{.importc.}`
 pragma (or any of the other `importX` pragmas) is applied, in this case the
 value is expected to come from native code, typically a C/C++ `const`.
 {==+==}
-由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义值。唯一的例外是如果应用了 `{.importc.}` 编译指示(或任意其他 `importX` 编译指示)，在这种情况下，值应该来自本地代码，通常是 C/C++ `const` 。
+由于 `let` 语句在创建后是不可变的，因此它们需要在声明时定义值。
+唯一的例外是如果应用了 `{.importc.}` 编译指示(或任意其他 `importX` 编译指示)，在这种情况下，值应该来自本地代码，通常是 C/C++ `const` 。
 {==+==}
 
 {==+==}
@@ -2126,7 +2146,8 @@ see `Restrictions on Compile-Time Execution
 It's a static error if the compiler cannot execute the block at compile
 time.
 {==+==}
-在编译期可以执行哪些 Nim 代码是有限制的；详情参阅 `Restrictions on Compile-Time Execution <#restrictions-on-compileminustime-execution>`_ 。如果编译器无法在编译期执行该块，则会是静态错误。
+在编译期可以执行哪些 Nim 代码是有限制的；详情参阅 `Restrictions on Compile-Time Execution <#restrictions-on-compileminustime-execution>`_ 。
+如果编译器无法在编译期执行该块，则会是静态错误。
 {==+==}
 
 {==+==}
@@ -2177,7 +2198,8 @@ the `:` are executed. This goes on until the last `elif`. If all
 conditions fail, the `else` part is executed. If there is no `else`
 part, execution continues with the next statement.
 {==+==}
-`if` 语句是在控制流中创建分支的简单方法: 计算关键字 `if` 后的表达式，如果为真，则执行 `:` 后的相应语句。否则，计算 `elif` 之后的表达式(如果有 `elif` 分支)。如果所有条件都失败，则执行 `else` 部分。 如果没有 `else` 部分，则继续执行下一条语句。
+`if` 语句是在控制流中创建分支的简单方法: 计算关键字 `if` 后的表达式，如果为真，则执行 `:` 后的相应语句。
+否则，计算 `elif` 之后的表达式(如果有 `elif` 分支)。如果所有条件都失败，则执行 `else` 部分。 如果没有 `else` 部分，则继续执行下一条语句。
 {==+==}
 
 {==+==}
