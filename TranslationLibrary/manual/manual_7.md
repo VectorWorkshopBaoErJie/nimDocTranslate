@@ -106,7 +106,7 @@ type `system.ForLoopStmt` can rewrite the entirety of a `for` loop:
 {==+==}
 Expands to:
 {==+==}
-展开成:
+展开为:
 {==+==}
 
 {==+==}

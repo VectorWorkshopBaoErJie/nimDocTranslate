@@ -94,7 +94,7 @@ We call a proc `p` `GC safe`:idx: when it doesn't access any global variable
 that contains GC'ed memory (`string`, `seq`, `ref` or a closure) either
 directly or indirectly through a call to a GC unsafe proc.
 {==+==}
-当过程 `p` 不访问任何使用了 GC 内存的全局变量( `string` 、`seq` 、`ref` 或一个闭包)时 —— 无论是直接访问还是通过调用不是 GC 安全的过程进行间接访问 —— 我们就称 `p` 是 `GC safe`:idx: "GC 安全" 的。
+当过程 `p` 不访问任何使用了 GC 内存的全局变量( `string` `seq` `ref` 或一个闭包)时 —— 无论是直接访问还是通过调用不是 GC 安全的过程进行间接访问 —— 我们就称 `p` 是 `GC safe`:idx: "GC 安全" 的。
 {==+==}
 
 {==+==}
@@ -494,7 +494,9 @@ types in themselves but are instead a system of providing generic "checks" that
 ultimately *resolve* to some singular type. Type classes do not allow for
 runtime type dynamism, unlike object variants or methods.
 {==+==}
-虽然类型类在语法上接近于类 ML 语言中的代数数据类型 (ADT)，但应该知道，类型类只是实例化时所必须遵守的静态约束。类型类本身并非真的类型，只是一种检查系统，检查泛型是否最终被 *解析* 成某种单一类型。与对象、变量和方法不同，类型类不允许运行时的类型动态特性。
+虽然类型类在语法上接近于类 ML 语言中的代数数据类型 (ADT)，但应该知道，类型类只是实例化时所必须遵守的静态约束。
+类型类本身并非真的类型，只是一种检查系统，检查泛型是否最终被 *解析* 成某种单一类型。
+与对象、变量和方法不同，类型类不允许运行时的类型动态特性。
 {==+==}
 
 {==+==}
@@ -512,7 +514,7 @@ As an example, the following would not compile:
 {==+==}
   ```nim
   type TypeClass = int | string
-  var foo: TypeClass = 2 # foo的类型在这里被解释为 int 类型
+  var foo: TypeClass = 2 # foo 的类型在这里被解释为 int 类型
   foo = "this will fail" # 这里发生错误，因为 foo 是 int
   ```
 {==+==}
@@ -761,7 +763,7 @@ A parameter of type `typedesc` is itself usable as a type. If it is used
 as a type, it's the underlying type. (In other words, one level
 of "typedesc"-ness is stripped off:
 {==+==}
-`typedesc` 类型的参数本身可作为类型使用。如果将其作为类型使用，那么它代表的就是底下的 `typedesc` 所匹配的类型。换言之，这时会剥掉一层 `typedesc`:
+`typedesc` 类型的参数本身可作为类型使用。如果将其作为类型使用，那么它代表的就是下面的 `typedesc` 所匹配的类型。换言之，这时会剥掉一层 `typedesc`:
 {==+==}
 
 {==+==}
@@ -863,7 +865,9 @@ The symbol binding rules in generics are slightly subtle: There are "open" and
 context, an "open" symbol can. Per default, overloaded symbols are open
 and every other symbol is closed.
 {==+==}
-泛型中的符号绑定规则略显微妙: 存在开放和封闭两种符号。封闭的符号在实例化的上下文中无法被重新绑定，而开放的符号则可以。默认情况下，重载符号都是开放的，所有其他符号都是封闭的。
+泛型中的符号绑定规则略显微妙: 存在开放和封闭两种符号。
+封闭的符号在实例化的上下文中无法被重新绑定，而开放的符号则可以。
+默认情况下，重载符号都是开放的，所有其他符号都是封闭的。
 {==+==}
 
 {==+==}
@@ -906,7 +910,9 @@ the `Index` type is defined *after* the `==` for tuples; yet the example
 compiles as the instantiation takes the currently defined symbols into account
 too.
 {==+==}
-在这个例子中，针对元组的泛型 `==` (定义于 system 模块) 建立在元组各字段的 `==` 运算之上。然而，针对 `Index` 类型的 `==` 定义发生泛型 `==` 定义 *之后*；这个例子可以编译，因为实例化关于元组的 `==` 时，当前定义的关于 `Index` 的 `==` 也会考虑进来。
+在这个例子中，针对元组的泛型 `==` (定义于 system 模块) 建立在元组各字段的 `==` 运算之上。
+然而，针对 `Index` 类型的 `==` 定义发生泛型 `==` 定义 *之后*；
+这个例子可以编译，因为实例化关于元组的 `==` 时，当前定义的关于 `Index` 的 `==` 也会考虑进来。
 {==+==}
 
 {==+==}
@@ -1108,7 +1114,8 @@ taken into account when `genericB` is instantiated which leads to the
 instantiation of `genericA`. The solution is to `forward`:idx: these
 symbols by a `bind` statement inside `genericB`.
 {==+==}
-当由实例化 `genericB` 引发实例化 `genericA` 时，模块 B 的作用域中那个来自模块 C 的 `init` 过程未在考虑之中。解决方案是在 `genericB` 中通过 `bind` 语句 `forward`:idx: "转发" 这个符号。
+当由实例化 `genericB` 引发实例化 `genericA` 时，模块 B 的作用域中那个来自模块 C 的 `init` 过程未在考虑之中。
+解决方案是在 `genericB` 中通过 `bind` 语句 `forward`:idx: "转发" 这个符号。
 {==+==}
 
 {==+==}
@@ -1180,7 +1187,8 @@ The "types" of templates can be the symbols `untyped`,
 contexts. Regular types can be used too; this implies that `typed` expressions
 are expected.
 {==+==}
-模板中的 "类型" 可以使用 `untyped` 、`typed` 或 `typedesc` 等三个符号。这些都是 "元类型" ，它们仅用于特定上下文中。常规类型也可使用；这意味着会得到一个 `typed` 表达式。
+模板中的 "类型" 可以使用 `untyped` 、`typed` 或 `typedesc` 等三个符号。
+这些都是 "元类型" ，它们仅用于特定上下文中。常规类型也可使用；这意味着会得到一个 `typed` 表达式。
 {==+==}
 
 {==+==}
@@ -1240,7 +1248,8 @@ an `immediate` pragma and then these templates do not take part in
 overloading resolution and the parameters' types are *ignored* by the
 compiler. Explicit immediate templates are now deprecated.
 {==+==}
-如果一个模板的每个参数都是 `untyped` 的，则称它为 `immediate`:idx: 模板。由于历史原因，模板可以用 `immediate` 编译指示显式地标记，这类模板不参与重载解析，参数的类型也将被编译器 *忽略*。显式声明的即时模板现在已经弃用。
+如果一个模板的每个参数都是 `untyped` 的，则称它为 `immediate`:idx: 模板。
+由于历史原因，模板可以用 `immediate` 编译指示显式地标记，这类模板不参与重载解析，参数的类型也将被编译器 *忽略*。显式声明的即时模板现在已经弃用。
 {==+==}
 
 {==+==}
@@ -1343,7 +1352,8 @@ passed to the `body` parameter and type checking in Nim implies symbol lookups.
 The same code works with `untyped` as the passed body is not required to be
 type-checked:
 {==+==}
-以上代码错误信息为 `p` 未被声明。其原因是 `p()` 语句在传递到 `body` 参数前执行类型检查和符号查找。修改模板参数类型为 `untyped` 使得传递语句体时不做类型检查，同样的代码便可以通过:
+以上代码错误信息为 `p` 未被声明。其原因是 `p()` 语句在传递到 `body` 参数前执行类型检查和符号查找。
+修改模板参数类型为 `untyped` 使得传递语句体时不做类型检查，同样的代码便可以通过:
 {==+==}
 
 {==+==}
@@ -1416,7 +1426,7 @@ Symbol binding in templates
 A template is a `hygienic`:idx: macro and so opens a new scope. Most symbols are
 bound from the definition scope of the template:
 {==+==}
-模板是 `hygienic`:idx: "洁净" 宏，会新开作用域。大部分符号会在宏的定义作用域中绑定:
+模板是 `hygienic`:idx: "洁净"宏，会新开作用域。大部分符号会在宏的定义作用域中绑定:
 {==+==}
 
 {==+==}
@@ -1611,7 +1621,7 @@ Hygiene in templates
 Per default, templates are `hygienic`:idx:\: Local identifiers declared in a
 template cannot be accessed in the instantiation context:
 {==+==}
-默认情况下，模板是 `hygienic`:idx: "洁净" 的: 模板内局部声明的标识符，不能在实例化上下文中访问:
+默认情况下，模板是 `hygienic`:idx: "洁净"的: 模板内局部声明的标识符，不能在实例化上下文中访问:
 {==+==}
 
 {==+==}
@@ -1873,7 +1883,9 @@ tree (AST) of the code that is passed to it. The macro can then do
 transformations on it and return the transformed AST. This can be used to
 add custom language features and implement `domain-specific languages`:idx:.
 {==+==}
-宏是一种在编译时运行的特殊函数。通常，宏的输入是所传入的代码的抽象语法树(AST)。宏然后可以对其执行转换，并将转换后的 AST 结果返回。可以用来添加自定义的语言功能，实现 `domain-specific languages`:idx: "领域特定语言"。
+宏是一种在编译时运行的特殊函数。通常，宏的输入是所传入的代码的抽象语法树(AST)。
+宏然后可以对其执行转换，并将转换后的 AST 结果返回。
+可以用来添加自定义的语言功能，实现 `domain-specific languages`:idx: "领域特定语言"。
 {==+==}
 
 {==+==}
@@ -1903,7 +1915,7 @@ twice:
 While macros enable advanced compile-time code transformations, they
 cannot change Nim's syntax.
 {==+==}
-虽然宏支持高级的编译时代码转换，但它们无法更改 Nim 的语法。
+虽然宏支持高级的编译时代码转换，但无法更改 Nim 的语法。
 {==+==}
 
 {==+==}

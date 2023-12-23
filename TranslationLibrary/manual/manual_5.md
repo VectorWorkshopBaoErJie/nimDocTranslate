@@ -119,7 +119,7 @@ location is derived from the second parameter (called
 `varTy[T, 2]` which is incompatible with `varTy[T, 1]`.
 {==+==}
 这里的 `var T from contaner` 显式指定了返回值的地址必须源自第二个参数(本例的 'container')。
-`var T from p` 语句指定了类型 `varTy[T, 2]`，与 `varTy[T, 1]` 类型不兼容。
+`var T from p` 语句指明了类型 `varTy[T, 2]` 与 `varTy[T, 1]` 类型不兼容。
 {==+==}
 
 {==+==}
@@ -136,7 +136,7 @@ of the language specification will be changed.
 See https://github.com/nim-lang/RFCs/issues/230 for more information.
 {==+==}
 **注意**: 本节文档仅描述当前的实现。这部分语言规范将会有变动。
-详情请查看链接 https://github.com/nim-lang/RFCs/issues/230 。
+详情查看链接 https://github.com/nim-lang/RFCs/issues/230 。
 {==+==}
 
 {==+==}
@@ -204,7 +204,7 @@ in other words, it applies for "big" structures.
 If `p` can raise an exception, NRVO applies regardless. This can produce
 observable differences in behavior:
 {==+==}
-即使 `p` 可能抛出异常，依然会使用 NRVO。这会带来的显著的不同行为:
+即使 `p` 可能抛出异常，依然会使用 NRVO。这会带来显著的不同行为:
 {==+==}
 
 {==+==}
@@ -522,7 +522,8 @@ of a container. It relies on an `iterator`:idx: to do so. Like `while`
 statements, `for` statements open an `implicit block`:idx: so that they
 can be left with a `break` statement.
 {==+==}
-`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于 `iterator`:idx: "迭代器"来实现。与 `while` 语句类似，`for` 语句也开启了一个 `implicit block`:idx: "隐式代码块"，也就可以使用 `break` 语句。
+`for`:idx 语句是一种迭代容器中元素的抽象机制。它依赖于 `iterator`:idx: "迭代器"来实现。
+与 `while` 语句类似，`for` 语句也开启了一个 `implicit block`:idx: "隐式代码块"，也就可以使用 `break` 语句。
 {==+==}
 
 {==+==}
@@ -1001,7 +1002,8 @@ Because of full backend function call apparatus involvement, closure iterator
 invocation is typically higher cost than inline iterators. Adornment by
 a macro wrapper at the call site like this is a possibly useful reminder.
 {==+==}
-因为闭包迭代器需要以完整的函数调用机制作为支撑，所以代价比调用内联迭代器更高。像这样在使用闭包迭代器的地方用宏装饰一下，或许是一种有益的提醒。
+因为闭包迭代器需要以完整的函数调用机制作为支撑，所以代价比调用内联迭代器更高。
+像这样在使用闭包迭代器的地方用宏装饰一下，或许是一种有益的提醒。
 {==+==}
 
 {==+==}
@@ -1138,7 +1140,8 @@ can be recursive or even mutually recursive. Mutually recursive types are only
 possible within a single `type` section. Nominal types like `objects`
 or `enums` can only be defined in a `type` section.
 {==+==}
-类型段由 `type` 关键字开启。它包含多个类型定义。类型定义是给类型绑定一个名称。类型定义可以是递归的甚至是相互递归的。相互递归类型只能在同一个 `type` 段中出现。
+类型段由 `type` 关键字开启。它包含多个类型定义。类型定义是给类型绑定一个名称。
+类型定义可以是递归的甚至是相互递归的。相互递归类型只能在同一个 `type` 段中出现。
 像 `objects` 或者 `enums` 这样的名义类型仅能在 `type` 段中定义。
 {==+==}
 
@@ -1216,7 +1219,8 @@ listed in an `except` clause, the corresponding statements are executed.
 The statements following the `except` clauses are called
 `exception handlers`:idx:.
 {==+==}
-`try` 之后的语句顺序执行，直到有异常 `e` 抛出。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。 `except` 子句之后的代码被称为 `exception handlers`:idx: "异常处理程序"。
+`try` 之后的语句顺序执行，直到有异常 `e` 抛出。如果 `e` 的异常类型能够匹配 `except` 子句列出的异常类型，则执行对应的代码。
+ `except` 子句之后的代码被称为 `exception handlers`:idx: "异常处理程序"。
 {==+==}
 
 {==+==}
@@ -1240,7 +1244,8 @@ handled, it is propagated through the call stack. This means that often
 the rest of the procedure - that is not within a `finally` clause -
 is not executed (if an exception occurs).
 {==+==}
-异常处理程序会 *吃掉* 异常。然而异常处理程序也可能抛出新的异常。如果没有处理这个异常，则会通过调用栈传递出去。这种情况往往意味着，所在过程剩下的那些不属于 `finally` 子句的代码不被执行。
+异常处理程序会 *吃掉* 异常。然而异常处理程序也可能抛出新的异常。如果没有处理这个异常，则会通过调用栈传递出去。
+这种情况往往意味着，所在过程剩下的那些不属于 `finally` 子句的代码不被执行。
 {==+==}
 
 
@@ -1627,7 +1632,8 @@ If no exception name is given, the current exception is `re-raised`:idx:. The
 re-raise. It follows that the `raise` statement *always* raises an
 exception.
 {==+==}
-如果没有给出异常的名称，则 `re-raised`:idx: "重新抛出" 当前异常。如果当前没有异常可以重新抛出，则会抛出 `ReraiseDefect`:idx: 异常。这遵循 `raise` 语句 *总是* 抛出异常的规则。
+如果没有给出异常的名称，则 `re-raised`:idx: "重新抛出" 当前异常。
+如果当前没有异常可以重新抛出，则会抛出 `ReraiseDefect`:idx: 异常。这遵循 `raise` 语句 *总是* 抛出异常的规则。
 {==+==}
 
 
@@ -1750,7 +1756,8 @@ caught by reference. Example:
 for imported exceptions from C++. One needs to use the `except ImportedException as x:` syntax
 and rely on functionality of the `x` object to get exception details.
 {==+==}
-**注意** `getCurrentException()` 和 `getCurrentExceptionMsg()` 不能用于从 C++ 导入的异常。开发者需要使用 `except ImportedException as x:` 语句并且依靠对象 `x` 本身的功能获取异常的具体信息。
+**注意** `getCurrentException()` 和 `getCurrentExceptionMsg()` 不能用于从 C++ 导入的异常。
+开发者需要使用 `except ImportedException as x:` 语句并且依靠对象 `x` 本身的功能获取异常的具体信息。
 {==+==}
 
 
