@@ -2,21 +2,21 @@
 **Note**: The experimental features of Nim are
 covered [here](manual_experimental.html).
 {==+==}
-**注意**: Nim的实现性功能在[这里](manual_experimental.html)。
+**注意**: Nim的实验性功能在[这里](manual_experimental.html)。
 {==+==} 
 
 {==+==}
 **Note**: Assignments, moves, and destruction are specified in
 the [destructors](destructors.html) document.
 {==+==}
-**注意**: 赋值、移动和析构在特定的[析构](destructors.html)文档。
+**注意**: 赋值、移动和析构在文档特定的[析构](destructors.html)部分。
 {==+==}
 
 {==+==}
 To learn how to compile Nim programs and generate documentation see
 the [Compiler User Guide](nimc.html) and the [DocGen Tools Guide](docgen.html).
 {==+==}
-打算学习怎样编译Nim程序和生成文档，请阅读[用户编译指南](nimc.html)和[文档生成工具指南](docgen.html)。
+打算学习怎样编译 Nim 程序和生成文档，请阅读[用户编译指南](nimc.html)和[文档生成工具指南](docgen.html)。
 {==+==}
 
 {==+==}
@@ -29,7 +29,10 @@ on Compile-Time Execution] for
 details. We use the term `runtime`:idx: to cover both compile-time execution
 and code execution in the executable.
 {==+==}
-常规的Nim程序，大部分代码被编译至可执行文件，而有些代码可能会在 `compile-time`:idx: "编译期" 执行。包括常量表达式、宏定义和宏定义使用的Nim程序。编译期执行支持Nim语言的大部分，但有限制 -- 详情查看[编译期执行限制]。其术语`runtime`:idx: "运行时"涵盖了编译期执行和可执行文件中的代码执行。
+常规的 Nim 程序，大部分代码被编译至可执行文件，而有些代码可能会在 `compile-time`:idx: "编译期" 执行。
+包括常量表达式、宏定义和宏定义使用的 Nim 程序。
+编译期执行支持 Nim 语言的大部分，但有限制 -- 详情查看[编译期执行限制]。
+其术语 `runtime`:idx: "运行时"涵盖了编译期执行和可执行文件的代码执行。
 {==+==}
 
 {==+==}
@@ -39,28 +42,29 @@ and reports at runtime. The method for reporting such errors is via
 provides a means to disable these `runtime checks`:idx:. See the section
 [Pragmas] for details.
 {==+==}
-`panic`:idx: "恐慌"是在运行时执行检测和报告的错误。报告这种错误是通过 *引发异常* 或 *以致命错误* 结束的方式。也提供了一种方法来禁用这些 `runtime checks`:idx: "运行时检查"。详见[编译指示]一节。
+`panic`:idx: "恐慌"是在运行时执行检测和报告的错误。这种错误的报告，通过 *引发异常* 或 *以致命错误* 结束的方式。
+也提供了一种方法来禁用这些 `runtime checks`:idx: "运行时检查"。详见[编译指示]一节。
 {==+==}
 
 {==+==}
 The `Rune` type can represent any Unicode character.
 `Rune` is declared in the [unicode module](unicode.html).
 {==+==}
-`Rune` 类型可以代表任何Unicode字符。
-`Rune` 声明在[unicode模块](unicode.html)中。
+`Rune` 类型可以代表任何 Unicode 字符。
+`Rune` 声明在 [unicode 模块](unicode.html)中。
 {==+==}
 
 {==+==}
 See also [custom numeric literals].
 {==+==}
-参阅[自定义数值字面量]。
+参阅 [自定义数值字面量] 。
 {==+==}
 
 {==+==}
 This section lists Nim's standard syntax. How the parser handles
 the indentation is already described in the [Lexical Analysis] section.
 {==+==}
-本节列出了Nim的标准语法。语法分析器如何处理缩进问题，在[词法分析]一节有说明。
+本节列出了 Nim 的标准语法。语法分析器如何处理缩进问题，在[词法分析]一节有说明。
 {==+==}
 
 {==+==}
@@ -91,7 +95,9 @@ the indentation is already described in the [Lexical Analysis] section.
   `low(int32)..high(int32)` otherwise the literal's type is `int64`.
 {==+==}
 `int`
-: 常规有符号整数类型，其大小与平台有关，并与指针的大小相同。一般情况下应该使用这种类型。一个没有类型后缀的整数字面量，如果在 `low(int32)..high(int32)` 范围内，就属于这种类型，否则该字面量的类型是 `int64` 。
+: 常规有符号整数类型，其大小与平台有关，并与指针的大小相同。
+一般情况下应该使用这种类型。
+一个没有类型后缀的整数字面量，如果在 `low(int32)..high(int32)` 范围内，就属于这种类型，否则该字面量的类型是 `int64` 。
 {==+==}
 
 {==+==}
@@ -102,7 +108,8 @@ the indentation is already described in the [Lexical Analysis] section.
   Literals of these types have the suffix 'iXX.
 {==+==}
 `int`\ XX
-: 这种命名规则，是有符号整数类型附带XX表示位宽(例如：int16是16位宽的整数)。目前支持 `int8`, `int16`, `int32`, `int64` ，这些类型的字面值后缀为 'iXX 。
+: 这种命名规则，是有符号整数类型附带 XX 表示位宽(例如： int16 是 16 位宽的整数)。
+目前支持 `int8` `int16` `int32` `int64` ，这些类型的字面值后缀为 'iXX 。
 {==+==}
 
 {==+==}
@@ -112,7 +119,7 @@ the indentation is already described in the [Lexical Analysis] section.
   suffix `'u` is of this type.
 {==+==}
 `uint`
-: 常规的 `unsigned integer`:idx: "无符号整数"类型，它的大小与平台有关，与指针的大小相同，整数字面值后缀为 `'u` 。
+: 常规的 `unsigned integer`:idx: "无符号整数"类型的大小与平台有关，与指针的大小相同，整数字面值后缀为 `'u` 。
 {==+==}
 
 {==+==}
@@ -125,7 +132,7 @@ the indentation is already described in the [Lexical Analysis] section.
   underflow errors.
 {==+==}
 `uint`\ XX
-: 这种命名规则，是无符号整数类型附带XX，表示位宽(例如：uint16是16位宽的无符号整数)，目前支持 `uint8`, `uint16`, `uint32`, `uint64` ，字面值后缀为'uXX'。无符号运算会环绕，从而不会导致溢出或下溢的错误。
+: 这种命名规则，是无符号整数类型附带 XX ，表示位宽(例如： uint16 是 16 位宽的无符号整数)，目前支持 `uint8` `uint16` `uint32` `uint64` ，字面值后缀为 'uXX' 。无符号运算会环绕，不会导致溢出或下溢的错误。
 {==+==}
 
 {==+==}
@@ -141,7 +148,7 @@ For further details, see [Convertible relation].
   This type should be used in general.
 {==+==}
 `float`
-: 常规的浮点类型，其大小曾与平台有关，但现在总是被映射为 `float64` 。一般情况下应该使用这个类型。
+: 常规的浮点类型，其大小曾与平台有关，但现在总是映射为 `float64` 。一般情况下应该使用这个类型。
 {==+==}
 
 {==+==}
@@ -152,7 +159,8 @@ For further details, see [Convertible relation].
   have the suffix 'fXX.
 {==+==}
 `float`\ XX
-: 这种命名规则，是浮点类型附带XX位，表示位宽(例如： `float64` 是64位宽的浮点数)。目前支持 `float32` 和 `float64` ，字面值后缀为 'fXX 。
+: 这种命名规则，是浮点类型附带 XX 位，表示位宽(例如： `float64` 是 64 位宽的浮点数)。
+目前支持 `float32` 和 `float64` ，字面值后缀为 'fXX 。
 {==+==}
 
 {==+==}
@@ -161,14 +169,15 @@ types is performed: See [Convertible relation] for further details. Arithmetic
 performed on floating-point types follows the IEEE standard. Integer types are
 not converted to floating-point types automatically and vice versa.
 {==+==}
-在具有不同种类的浮点类型的表达式中，会进行自动类型转换，详情见[转换关系]。对于浮点类型进行的算术运算遵循IEEE标准。整数类型不会自动转换为浮点类型，反之亦然。
+在具有不同种类的浮点类型的表达式中，会进行自动类型转换，详情见[转换关系]。
+对于浮点类型进行的算术运算遵循 IEEE 标准。整数类型不会自动转换为浮点类型，反之亦然。
 {==+==}
 
 {==+==}
 The `Rune` type is used for Unicode characters, it can represent any Unicode
 character. `Rune` is declared in the [unicode module](unicode.html).
 {==+==}
-`Rune` 类型声明在[unicode模块](unicode.html)中，可以表示任意Unicode字符。
+`Rune` 类型声明在[unicode 模块](unicode.html)中，可以表示任意 Unicode 字符。
 {==+==}
 
 {==+==}
@@ -248,13 +257,16 @@ bytes. The index operation `s[i]` means the i-th *char* of `s`, not the
 i-th *unichar*. The iterator `runes` from the [unicode module](unicode.html)
 can be used for iteration over all Unicode characters.
 {==+==}
-按照约定，所有字符串都是UTF-8格式，但这不是强制的要求。例如，从二进制文件读取字符串时，得到的将是字节序列。索引运算 `s[i]` 表示 `s` 的第i个*char*，而不是第i个 *unichar* 。在[unicode模块](unicode.html)的迭代器 `runes` 可用来迭代所有unicode字符。 
+按照约定，所有字符串都是 UTF-8 格式，但这不是强制的要求。
+例如，从二进制文件读取字符串时，得到的将是字节序列。
+索引运算 `s[i]` 表示 `s` 的第 i 个 *char* ，而不是第 i 个 *unichar* 。
+在[unicode 模块](unicode.html)的迭代器 `runes` 可用来迭代所有 unicode 字符。 
 {==+==}
 
 {==+==}
 `cstring` values may also be used in case statements like strings.
 {==+==}
-`cstring` 值像字符串一样，也可用于case语句。
+`cstring` 值像字符串一样，也可用于 case 语句。
 {==+==}
 
 
@@ -281,7 +293,8 @@ To deal with untraced memory, the procedures `alloc`, `dealloc` and
 `realloc` can be used. The documentation of the [system](system.html) module
 contains further information.
 {==+==}
-要分配一个新的追踪对象，必须使用内置的过程 `new` 。可以使用过程 `alloc` ， `dealloc` 和 `realloc` 来处理未追踪的内存。更多信息，查看[系统](system.html)模块文档。
+要分配一个新的追踪对象，必须使用内置的过程 `new` 。可以使用过程 `alloc` ， `dealloc` 和 `realloc` 来处理未追踪的内存。
+更多信息，查看[系统](system.html)模块文档。
 {==+==}
 
 {==+==}
@@ -290,7 +303,7 @@ contains further information.
     same as `fastcall`, but only for C compilers that support `fastcall`.
 {==+==}
 `nimcall`:idx:
-:   是Nim **proc** 使用的默认约定。它与 `fastcall` 相同，但只适用于支持 `fastcall` 的C编译器。
+:   是Nim **proc** 使用的默认约定。它与 `fastcall` 相同，但只适用于支持 `fastcall` 的 C 编译器。
 {==+==}
 
 {==+==}
@@ -302,7 +315,8 @@ contains further information.
     and another one for the pointer to implicitly passed environment.
 {==+==}
 `closure`:idx:
-:   是 **程序类型** 没有任意编译指示注解的默认调用约定，该过程有一个隐藏参数( *environment* "环境")。具有 `closure` 调用约定的过程变体占用两个机器字。一个是过程的指针，另一个是指向隐藏参数环境的指针。
+:   是 **程序类型** 没有任意编译指示注解的默认调用约定，该过程有一个隐藏参数( *environment* "环境")。
+具有 `closure` 调用约定的过程变体占用两个机器字。一个是过程的指针，另一个是指向隐藏参数环境的指针。
 {==+==}
 
 {==+==}
@@ -311,7 +325,7 @@ contains further information.
     procedure is declared with the `__stdcall` keyword.
 {==+==}
 `stdcall`:idx:
-:   这是由微软指定的标准调用惯例，生成的C过程将用 `__stdcall` 关键字声明。
+:   这是由微软指定的标准调用惯例，生成的 C 过程将用 `__stdcall` 关键字声明。
 {==+==}
 
 {==+==}
@@ -321,7 +335,7 @@ contains further information.
     the `__cdecl` keyword.
 {==+==}
 `cdecl`:idx:
-:   其意味着一个过程应使用与C编译器相同的约定。在Windows中，将用 `__cdecl` 关键字声明生成的C过程。
+:   其意味着一个过程应使用与 C 编译器相同的约定。在 Windows 中，将用 `__cdecl` 关键字声明生成的 C 过程。
 {==+==}
 
 {==+==}
@@ -332,7 +346,8 @@ contains further information.
     hardware stack.
 {==+==}
 `safecall`:idx:
-:   这是由微软指定的安全调用约定，将用 `__safecall` 关键字声明生成的C程序。 *安全* 这个词是指所有的硬件寄存器都应被push到硬件堆栈中。
+:   这是由微软指定的安全调用约定，将用 `__safecall` 关键字声明生成的 C 程序。
+ *安全* 这个词是指所有的硬件寄存器都应被 push 到硬件堆栈中。
 {==+==}
 
 {==+==}
@@ -344,7 +359,8 @@ contains further information.
     it may inline procedures that are not marked as `inline`.
 {==+==}
 `inline`:idx:
-:   内联约定表示调用者不应该调用过程，而是直接内联其代码。需注意，Nim自身并不内联，而是留给C编译器，它将生成 `__inline` 过程，这只是给编译器的提示，编译器则可能忽略，也可能内联那些没有 `inline` 的过程。
+:   内联约定表示调用者不应该调用过程，而是直接内联其代码。
+需注意， Nim 自身并不内联，而是留给 C 编译器，它将生成 `__inline` 过程，这只是给编译器的提示，编译器则可能忽略，也有可能内联那些没有 `inline` 的过程。
 {==+==}
 
 {==+==}
@@ -353,7 +369,7 @@ contains further information.
     the C `__fastcall` means.
 {==+==}
 `fastcall`:idx:
-:   对于不同的C编译器其含义不同，有一种是表示C语言中的 `__fastcall` 。
+:   对于不同的 C 编译器其含义不同，有一种是表示 C 语言中的 `__fastcall` 。
 {==+==}
 
 {==+==}
@@ -362,7 +378,7 @@ contains further information.
     C++ class member functions on the x86 architecture.
 {==+==}
 `thiscall`:idx:
-:   这是微软指定的调用约定，应用于x86架构上C++类的成员函数。
+:   这是微软指定的调用约定，应用于 x86 架构上 C++ 类的成员函数。
 {==+==}
 
 {==+==}
@@ -371,7 +387,7 @@ contains further information.
     interrupts.
 {==+==}
 `syscall`:idx:
-:   其与C语言中的 `__syscall`:c: 相同，用于中断。
+:   其与 C 语言中的 `__syscall`:c: 相同，用于中断。
 {==+==}
 
 {==+==}
@@ -382,7 +398,8 @@ contains further information.
     improve speed.
 {==+==}
 `noconv`:idx:
-:   其生成的C代码将不会去明确调用约定，将使用C编译器自身的默认调用约定。这是有必要的，因为Nim过程的默认调用约定是 `fastcall` 以提高速度。
+:   其生成的 C 代码将不会去明确调用约定，将使用 C 编译器自身的默认调用约定。
+这是有必要的，因为 Nim 过程的默认调用约定是 `fastcall` 以提高速度。
 {==+==}
 
 {==+==}
@@ -399,7 +416,9 @@ looking `SQL` string literals. The hypothetical `SQL` type actually
 exists in the library as the [SqlQuery type](db_common.html#SqlQuery) of
 modules like [db_sqlite](db_sqlite.html).
 {==+==}
-现在我们有了针对SQL注入攻击的编译期检查。由于 `"".SQL` 被转换为 `SQL("")` ，所以不需要新的语法来实现简洁的 `SQL` 字符串字面值。假设 `SQL` 类型与 [db_sqlite](db_sqlite.html) 等类似，已经作为 [SqlQuery type](db_common.html#SqlQuery) 实际存在与库中。
+现在我们有了针对 SQL 注入攻击的编译期检查。
+由于 `"".SQL` 被转换为 `SQL("")` ，所以不需要新的语法来实现简洁的 `SQL` 字符串字面值。
+假设 `SQL` 类型与 [db_sqlite](db_sqlite.html) 等类似，已经作为 [SqlQuery type](db_common.html#SqlQuery) 实际存在与库中。
 {==+==}
 
 {==+==}
@@ -495,14 +514,15 @@ see [Restrictions on Compile-Time Execution] for details.
 It's a static error if the compiler cannot execute the block at compile
 time.
 {==+==}
-对于哪些Nim代码可以在编译期执行，是有限制的，详情参阅[编译期执行限制]。如果编译器不能在编译期执行该块，将是一个静态错误。
+对于哪些 Nim 代码可以在编译期执行，是有限制的，详情参阅[编译期执行限制]。
+如果编译器不能在编译期执行该块，将是一个静态错误。
 {==+==}
 
 {==+==}
 Only ordinal types, floats, strings and cstrings are allowed as values
 in case statements.
 {==+==}
-在case语句中，只允许使用序数类型、浮点数、字符串和cstring作为值。
+在 case 语句中，只允许使用序数类型、浮点数、字符串和 cstring 作为值。
 {==+==}
 
 {==+==}
@@ -513,7 +533,9 @@ process, but the execution is passed back to the iterator if the next iteration
 starts. See the section about iterators ([Iterators and the for statement])
 for further information.
 {==+==}
-在迭代器中使用 `yield` 语句代替 `return` 语句。它只在迭代器中有效。执行将被返回到调用该迭代器的for循环的主体。Yield并不会结束迭代过程，当下一次迭代开始，执行会被传回迭代器。更多信息请参阅关于迭代器的章节([迭代器和for语句])。
+在迭代器中使用 `yield` 语句代替 `return` 语句。它只在迭代器中有效。
+执行将被返回到调用该迭代器的for循环的主体。Yield并不会结束迭代过程，当下一次迭代开始，执行会被传回迭代器。
+更多信息请参阅关于迭代器的章节([迭代器和for语句])。
 {==+==}
 
 {==+==}
@@ -528,7 +550,8 @@ For example: [anonymous procedures], `if`,
 `case` or `try`. Function calls with no arguments still need () to
 distinguish between a call and the function itself as a first-class value.
 {==+==}
-命令调用的语法也不能有复杂的表达式作为参数。例如：[匿名过程]、`if`、`case`、`try`。没有参数的函数调用仍然需要 () 来区分调用和函数本身优先类的值。
+命令调用的语法也不能有复杂的表达式作为参数。例如：[匿名过程]、`if`、`case`、`try`。
+没有参数的函数调用仍然需要 () 来区分调用和函数本身优先类的值。
 {==+==}
 
 {==+==}
@@ -537,7 +560,8 @@ behavior inside loop bodies. See [closureScope](
 system.html#closureScope.t,untyped) and [capture](
 sugar.html#capture.m,varargs[typed],untyped) for details on how to change this behavior.
 {==+==}
-由于闭包通过引用来捕获局部变量，这种行为往往在循环体内部并不友好。参阅 [closureScope](system.html#closureScope.t,untyped) 和 [capture](sugar.html#capture.m,varargs[typed],untyped) 来了解如何改变这种行为。
+由于闭包通过引用来捕获局部变量，这种行为往往在循环体内部并不友好。
+参阅 [closureScope](system.html#closureScope.t,untyped) 和 [capture](sugar.html#capture.m,varargs[typed],untyped) 来了解如何改变这种行为。
 {==+==}
 
 {==+==}
@@ -546,7 +570,7 @@ executable code. The  [sugar](sugar.html) module contains the `=>` macro
 which enables a more succinct syntax for anonymous procedures resembling
 lambdas as they are in languages like JavaScript, C#, etc.
 {==+==}
-过程表达式既可以嵌套在过程中，也可以在上层可执行代码中。[sugar](sugar.html) 模块包含 `=>` 宏，它为匿名过程提供了更简洁的语法，类似于JavaScript、c#等语言中的lambda。
+过程表达式既可以嵌套在过程中，也可以在上层可执行代码中。[sugar](sugar.html) 模块包含 `=>` 宏，它为匿名过程提供了更简洁的语法，类似于 JavaScript 、 c# 等语言中的 lambda 。
 {==+==}
 
 {==+==}
@@ -591,7 +615,7 @@ A type bound operator is a `proc` or `func` whose name starts with `=` but isn't
 A type bound operator declared for a type applies to the type regardless of whether
 the operator is in scope (including if it is private).
 {==+==}
-类型绑定操作符是名称以 `=` 开头的 `proc` 或 `func` ，但不是运算符(即只是包含符号而矣，如 `==`)。它们与以 `=` 结尾的setter无关(参阅[属性])。为类型声明的类型绑定操作符，不论是否在作用域中(包括是否私有)，都将应用于该类型。
+类型绑定操作符是名称以 `=` 开头的 `proc` 或 `func` ，但不是运算符(即只是包含符号而矣，如 `==`)。它们与以 `=` 结尾的 setter无关(参阅[属性])。为类型声明的类型绑定操作符，不论是否在作用域中(包括是否私有)，都将应用于该类型。
 {==+==}
 
 {==+==}
@@ -679,7 +703,7 @@ to `f`::
 {==+==}
 See also [iterable] for passing iterators to templates and macros.
 {==+==}
-另请参阅[iterable]，将迭代器传递给模板和宏。
+另请参阅[iterable]将迭代器传递给模板和宏。
 {==+==}
 
 {==+==}
@@ -693,7 +717,7 @@ the "implicitly convertible" type relation (see [Convertible relation]):
 Any statements following the `defer` will be considered
 to be in an implicit try block in the current block:
 {==+==}
-在 `defer` 之后的任意语句，都认为处在当前块的隐式try块中:
+在 `defer` 之后的任意语句，都认为处在当前块的隐式 try 块中:
 {==+==}
 
 {==+==}
@@ -704,7 +728,9 @@ and are strictly speaking not catchable as they can also be mapped to an operati
 that terminates the whole process. If panics are turned into exceptions, these
 exceptions inherit from `Defect`.
 {==+==}
-异常树被定义在[system](system.html)模块中。每个异常都继承自 `system.Exception` 。表示程序错误的异常继承自 `system.Defect` (它是`Exception`的子类型)，因为它们可以被映射到终止整个进程的操作中，因此将不能捕捉。如果恐慌变为异常，则这些异常继承自 `Defect` 。
+异常树被定义在[system](system.html)模块中。每个异常都继承自 `system.Exception` 。
+表示程序错误的异常继承自 `system.Defect` (它是`Exception`的子类型)，因为它们可以被映射到终止整个进程的操作中，因此将不能捕捉。
+如果恐慌变为异常，则这些异常继承自 `Defect` 。
 {==+==}
 
 {==+==}
@@ -921,7 +947,8 @@ Procedures utilizing type classes in such a manner are considered to be
 `implicitly generic`:idx:. They will be instantiated once for each unique
 combination of parameter types used within the program.
 {==+==}
-以这种方式使用类型类的过程，被当成是 `implicitly generic`:idx: "隐式泛型"。在程序中，对于每个特定参数类型组合时被实例化一次。
+以这种方式使用类型类的过程，被当成是 `implicitly generic`:idx: "隐式泛型"。
+在程序中，对于每个特定参数类型组合时被实例化一次。
 {==+==}
 
 {==+==}
@@ -987,7 +1014,8 @@ In this version of `debug`, the symbols `write`, `writeLine` and `stdout`
 are already bound and are not looked up again. As the example shows, `bindSym`
 does work with overloaded symbols implicitly.
 {==+==}
-在这个版本的 `debug` 中，标识符 `write `， `writeLine` 和 `stdout` 已经绑定，不会重复查找。如示例所示， `bindSym` 确切可以隐式处理重载标识符。
+在这个版本的 `debug` 中，标识符 `write `， `writeLine` 和 `stdout` 已经绑定，不会重复查找。
+如示例所示， `bindSym` 确切可以隐式处理重载标识符。
 {==+==}
 
 {==+==}
@@ -1204,7 +1232,7 @@ and warning message is associated with a symbol. This is the message's
 identifier, which can be used to enable or disable the message by putting it
 in brackets following the pragma:
 {==+==}
-Nim会产生一些长行的警告和提示，可能会使用户烦恼。我们提供了一个禁用某些信息的机制。
+Nim 会产生一些长行的警告和提示，可能会使用户烦恼。我们提供了一个禁用某些信息的机制。
 每个提示和警告信息都与一个标识符相关联。可以通过把该信息标识符，放在编译指示后面的括号里，来启用或禁用该信息。
 {==+==}
 
@@ -1240,7 +1268,7 @@ can parse a large subset of C++ and knows
 about the `importcpp` pragma pattern language. It is not necessary
 to know all the details described here.
 {==+==}
-**注意**: [c2nim](https://github.com/nim-lang/c2nim/blob/master/doc/c2nim.rst)可以解析大量的C++子集，
+**注意**: [c2nim](https://github.com/nim-lang/c2nim/blob/master/doc/c2nim.rst)可以解析大量的 C++ 子集，
 关于 `importcpp` 编译指示模式语言，没有必要知道这里描述的所有细节。
 {==+==}
 
@@ -1251,8 +1279,9 @@ in general. The generated code then uses the C++ method calling
 syntax: `obj->method(arg)`:cpp:. In combination with the `header` and `emit`
 pragmas this allows *sloppy* interfacing with libraries written in C++:
 {==+==}
-与C语言的[importc 编译指示]类似，`importcpp` 编译指示可以用来导入 `C++`:idx: 方法或一般的C++标识符。
-生成的代码使用 C++ 的方法调用语法: `obj->method(arg)`:cpp: 。与 `header` 和 `emit` 编译指示相结合，可与用 C++ 编写的库 *宽松* 对接。
+与 C 语言的[importc 编译指示]类似，`importcpp` 编译指示可以用来导入 `C++`:idx: 方法或一般的 C++ 标识符。
+生成的代码使用 C++ 的方法调用语法: `obj->method(arg)`:cpp: 。
+与 `header` 和 `emit` 编译指示相结合，可与用 C++ 编写的库 *宽松* 对接。
 {==+==}
 
 {==+==}
@@ -1285,8 +1314,8 @@ the `importjs` pragma can be used to import Javascript methods or
 symbols in general. The generated code then uses the Javascript method
 calling syntax: ``obj.method(arg)``.
 {==+==}
-与C++的[importcpp 编译指示]类似，`importjs` 编译指示可以用来导入Javascript方法或一般的标识符。
-生成的代码使用Javascript方法的调用语法: ``obj.method(arg)`` 。
+与 C++ 的[importcpp 编译指示]类似，`importjs` 编译指示可以用来导入 Javascript 方法或一般的标识符。
+生成的代码使用 Javascript 方法的调用语法: ``obj.method(arg)`` 。
 {==+==}
 
 {==+==}
@@ -1304,9 +1333,9 @@ Objective C method calling syntax: ``[obj method param1: arg]``.
 In addition with the `header` and `emit` pragmas this
 allows *sloppy* interfacing with libraries written in Objective C:
 {==+==}
-类似于C语言的[importc 编译指示]，`importobjc` 编译指示可以用来导入 `Objective C`:idx: 方法。
-生成的代码使用Objective C的方法调用语法。 ``[obj method param1: arg]`` 。
-除了 `header` 和 `emit` 编译指示，允许*宽松*地与用Objective C编写的库对接。
+类似于 C 语言的[importc 编译指示]，`importobjc` 编译指示可以用来导入 `Objective C`:idx: 方法。
+生成的代码使用 Objective C 的方法调用语法。 ``[obj method param1: arg]`` 。
+除了 `header` 和 `emit` 编译指示，允许*宽松*地与用 Objective C 编写的库对接。
 {==+==}
 
 {==+==}
@@ -1317,7 +1346,7 @@ magic, everything they do can also be achieved by walking the AST of the object
 representation.
 {==+==}
 宏模块包含工具，可以用来简化自定义编译指示的访问 `hasCustomPragma` , `getCustomPragmaVal` 。
-详情参阅[宏](macros.html)模块文档。这些宏并不神奇，它们也可以通过逐步的对象表示的AST来实现。
+详情参阅[宏](macros.html)模块文档。这些宏并不神奇，它们也可以通过逐步的对象表示的 AST 来实现。
 {==+==}
 
 {==+==}
@@ -1380,7 +1409,7 @@ pragma should be used in addition to the `exportc` pragma. See
 [Dynlib pragma for export].
 {==+==}
 如果该标识符也应被导出到一个动态库中，除了使用 `exportc` 编译指示外，
-还应该使用 `dynlib` 编译指示。参阅[Dynlib编译指示应用于导出]。
+还应该使用 `dynlib` 编译指示。参阅[Dynlib 编译指示应用于导出]。
 {==+==}
 
 {==+==}

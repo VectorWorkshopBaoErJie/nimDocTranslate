@@ -8,8 +8,8 @@ Nim 是一种静态类型编译的系统编程语言。它结合了Python，Ada�
 
 在未来，也将进一步更新NIM其他相关资料的翻译，如有意愿参与共建，可加QQ群：908093953，目前只邀请翻译人员,非诚勿扰。
 
-[最新线上版本](http://file.godot.pro/nimdoc/nimdoc.html)
-
+[编译语言参考]](https://vectorworkshopbaoerjie.github.io/book/)
+[手册1.6.8版本]https://angluca.github.io/articles/nimdocs/nim1.6.8cn/nimdocs.html
 ## 在翻译时需要遵守的标点约束:
 
 - 1. 不使用全角的()，在冒号 : 为后缀时，不使用全角。
